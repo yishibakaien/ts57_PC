@@ -1,0 +1,22 @@
+'use strict';
+import homePage from './homePage/homePage';
+import findPage from './findPage/findPage';
+import threeDDressPage from './threeDDressPage/threeDDressPage';
+import stallsManagerPage from './stallsManagerPage/stallsManagerPage';
+import personalCenterPage from './personalCenterPage/personalCenterPage';
+
+// 注册、登录、修改密码等表单页面
+import loginPage from './formPages/loginPage/loginPage';
+import registerPage from './formPages/registerPage/registerPage';
+import forgotPasswordPage from './formPages/forgotPasswordPage/forgotPasswordPage';
+
+export {
+  homePage,
+  findPage,
+  threeDDressPage,
+  stallsManagerPage,
+  personalCenterPage,
+  loginPage,
+  registerPage,
+  forgotPasswordPage
+};

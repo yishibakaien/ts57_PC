@@ -1,0 +1,28 @@
+body,ol,ul,h1,h2,h3,h4,h5,h6,p,th,td,dl,dd,form,fieldset,legend,input,textarea,select{margin:0;padding:0}
+body{font:16px;background:#fff;-webkit-text-size-adjust:100%}
+a{color:#2d374b;text-decoration:none}
+a:hover{text-decoration:none}
+a:visited{color:#2d374b}
+em{font-style:normal}
+li{list-style:none}
+img{border:0;vertical-align:middle}
+table{border-collapse:collapse;border-spacing:0}
+p{word-wrap:break-word}
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+::-webkit-scrollbar-track-piece {
+  -webkit-border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:vertical {
+    height: 10px;
+    background-color: rgba(125, 125, 125, 0.4);
+    -webkit-border-radius: 5px;
+    border: 1px solid rgba(7, 17, 27, 0.1);
+}
+::-webkit-scrollbar-thumb:horizontal {
+    width: 5px;
+    background-color: rgba(125, 125, 125, 0.4);
+    -webkit-border-radius: 5px;
+}
