@@ -14,5 +14,14 @@ export default {};
 </script>
 
 <style lang="stylus" scoped>
-
+  .nav
+    display flex
+    height 40px
+    line-height 40px
+    text-align center
+    .nav-item
+      flex 1
+      &.active
+        color #fff
+        background #3385ff
 </style>
