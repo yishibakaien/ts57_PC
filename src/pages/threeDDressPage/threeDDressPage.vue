@@ -13,7 +13,7 @@
           </div>
         </div>
           <!-- {background: 'url(' + patterns + ')'} -->
-        <div class="modle-wrapper" :style="{background:'url('+ patterns + ')', backgroundSize: bgSize + '%'}" ref="modleBg">
+        <div class="modle-wrapper" :style="{background:'url('+ patterns + ')', backgroundSize: bgSize + '%'}">
           <img :src="modle" class="modle" width="100%">
         </div>
       </div>
@@ -71,6 +71,9 @@
 
 <script>
 import { header, nav } from '../../components';
+import uploadPicture from '../../common/js/uploadPicture';
+// import blackTip from '../../common/js/blackTip';
+
 let modlesPrototype = [
   { url: '/static/images/modles_prototype/modle1_all.jpg', isActive: true },
   { url: '/static/images/modles_prototype/modle1_back.jpg', isActive: false },
@@ -86,9 +89,19 @@ let modlesPrototype = [
   { url: '/static/images/modles_prototype/modle3_side.jpg', isActive: false }
 ];
 
+// 花纹放大或缩小的比例梯度 (%)
 const STEP = 10;
+
+// 花纹最大比例
 const MAX_SIZE = 180;
+
+// 花纹最小缩放比例
 const MIN_SIZE = 20;
+
+// 根据模特小图URL，生成模特大图URL
+function _createModleURL(url) {
+  return url.split('modles_prototype').join('modles').split('jpg').join('png');
+}
 
 export default {
   data() {
@@ -97,7 +110,7 @@ export default {
       modle: (function() {
         for (let i = 0; i < modlesPrototype.length; i++) {
           if (modlesPrototype[i].isActive) {
-            return modlesPrototype[i].url.split('modles_prototype').join('modles').split('jpg').join('png');
+            return _createModleURL(modlesPrototype[i].url);
           }
         }
       })(),
@@ -108,27 +121,17 @@ export default {
   },
   methods: {
     chooseModle(item, index) {
-      this.modle = item.url.split('modles_prototype').join('modles').split('jpg').join('png');
+      this.modle = _createModleURL(item.url);
       this.modlesPrototype.forEach((item) => {
         item.isActive = false;
       });
-      this.modlesPrototype[index].isActive = 'true';
+      this.modlesPrototype[index].isActive = true;
     },
     uploadPic(e) {
-      let files = e.target.files || e.dataTransfer.files;
-      if (!files.length) {
-        return;
-      }
-      this._createImage(files[0]);
-    },
-    _createImage(file) {
-      // let image = new Image();
-      let reader = new FileReader();
-      let _this = this;
-      reader.onload = (e) => {
-        _this.patterns = e.target.result;
-      };
-      reader.readAsDataURL(file);
+      const _this = this;
+      uploadPicture(e).then((result) => {
+        _this.patterns = result;
+      });
     },
     add() {
       if (this.bgSize < MAX_SIZE) {

@@ -6,7 +6,7 @@ html,body{
   color: #333;
 }
 
-html, body, body > div {
+html, body, body > div:first-child {
   height: 100% /*stickyfooter布局*/
 }
 
