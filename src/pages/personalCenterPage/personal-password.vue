@@ -1,14 +1,14 @@
 <template>
 	<div class="personal-password">
-		<div class="personal-password-wrap">
+		<div class="personal-password-wrap personal-form">
 			<label for="password">原密码</label>
 			<input type="password" name="password" id="password" placeholder="请输入账户原密码" />
 		</div>
-		<div class="personal-password-wrap">
+		<div class="personal-password-wrap personal-form">
 			<label for="passwordNew">新密码</label>
 			<input type="password" name="passwordNew" id="passwordNew" placeholder="请输入新密码" />
 		</div>
-		<div class="personal-password-wrap">
+		<div class="personal-password-wrap personal-form">
 			<label for="passwordNew1">确认密码</label>
 			<input type="password" name="passwordNew1" id="passwordNew1" placeholder="请确认新密码" />
 		</div>
@@ -26,20 +26,7 @@
 		.personal-password-wrap {
 			margin-top: 20px;
 			label {
-				display: inline-block;
 				padding-left: 120px;
-				width: 106px;
-				font-size: 16px;
-				line-height: 19px;
-				color: #333;
-			}
-			input {
-				padding: 0 10px;
-				width: 320px;
-				height: 30px;
-				border: 0;
-				border: 1px solid #d1d1d1;
-				border-radius: 3px;
 			}
 		}
 		.submitBtn {

@@ -1,6 +1,6 @@
 <template>
 	<div class="personal-message">
-		<div class="personal-message-info">
+		<div class="personal-message-info personal-info">
 			<p>系统在以下几种情况会发送业务短信给您：</p>
 			<p>1、<span>花价查询</span>：有买家对您店铺的某款花型发起询价时回发送短信；</p>
 			<p>2、<span>花型索样</span>：有买家对您店铺的某款花型发起寄样请求时会发送短信；</p>
@@ -48,23 +48,8 @@
 
 <style lang="scss" scoped="scoped">
 	.personal-message-info {
-		margin: 0 auto; 
-		padding-top: 20px;
-		width: 884px;
-		background: #FFF7E3;
-		border: 1px solid #d1d1d1;
-		border-top: 0;
-		p {
-			padding-left: 120px;
-			font-size: 14px;
-			color: #666;
-			line-height: 28px;
-			span {
-				color: #FF494F;
-			}
-			&:last-of-type {
-				padding-bottom: 20px;
-			}
+		span {
+			color: #FF494F;
 		}
 	}
 	

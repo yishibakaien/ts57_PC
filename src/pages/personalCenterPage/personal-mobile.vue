@@ -1,6 +1,6 @@
 <template>
 	<div class="personal-mobile">
-		<div class="personal-mobile-info">
+		<div class="personal-mobile-info personal-info">
 			<p>1、更换手机号码需要先做登录密码校验，请输入当前帐号登录密码；</p>
 			<p>2、更换号码后，下次登录使用新号码登录，当前手机号 <span>{{ mobile }}</span>。</p>
 		</div>
@@ -40,27 +40,7 @@
 </script>
 
 <style lang="scss" scoped="scoped">
-	.personal-mobile-info {
-		margin: 0 auto;
-		padding-top: 20px;
-		width: 884px;
-		background: #FFF7E3;
-		border: 1px solid #d1d1d1;
-		border-top: 0;
-		p {
-			padding-left: 120px;
-			font-size: 14px;
-			color: #666;
-			line-height: 28px;
-			span {
-				color: #ff8400;
-			}
-			&:last-of-type {
-				padding-bottom: 20px;
-			}
-		}
-	}
-	
+
 	.checkoutBtn {
 		margin-left: 30px !important;
 	}
@@ -68,21 +48,8 @@
 	.personal-mobile-wrap {
 		margin-top: 35px;
 		label {
-			/*display: inline-block;*/
 			padding-left: 120px;
-			/*width: 106px;
-			font-size: 16px;
-			line-height: 19px;
-			color: #333;*/
 		}
-		/*input {
-			padding: 4px 10px 0;
-			width: 320px;
-			height: 30px;
-			border: 0;
-			border: 1px solid #d1d1d1;
-			border-radius: 3px;
-		}*/
 		.personal-mobile-item {
 			margin-bottom: 20px;
 			button {

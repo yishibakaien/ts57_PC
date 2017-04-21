@@ -1,0 +1,238 @@
+@charset 'utf-8';
+
+/*按钮*/
+
+.personal-btn {
+	display: inline-block;
+	margin-left: 105px;
+	width: 96px;
+	height: 32px;
+	background: #4C93FD;
+	border: 0;
+	border-radius: 3px;
+	font-size: 16px;
+	line-height: 19px;
+	color: #fff;
+	cursor: pointer;
+}
+
+
+/*表单*/
+
+.personal-form label {
+	display: inline-block;
+	width: 100px;
+	font-size: 16px;
+	color: #333;
+	cursor: pointer;
+}
+
+.personal-form input[type='text'],
+.personal-form input[type='password'] {
+	padding: 0 10px;
+	width: 300px;
+	height: 32px;
+	border: 0;
+	border: 1px solid #D1D1D1;
+	border-radius: 3px;
+}
+
+
+/*提示信息*/
+
+.personal-info {
+	margin: 0 auto;
+	padding-top: 20px;
+	width: 884px;
+	background: #FFF7E3;
+	border: 1px solid #d1d1d1;
+	border-top: 0;
+	p {
+		padding-left: 120px;
+		font-size: 14px;
+		color: #666;
+		line-height: 28px;
+		span {
+			color: #ff8400;
+		}
+		&:last-of-type {
+			padding-bottom: 20px;
+		}
+	}
+}
+
+.personal-info p {
+	padding-left: 120px;
+	font-size: 14px;
+	color: #666;
+	line-height: 28px;
+}
+
+.personal-info p span {
+	color: #ff8400;
+}
+
+.personal-info p span:last-of-type {
+	padding-bottom: 20px;
+}
+
+
+/*分类*/
+
+.personal-class .title {
+	float: left;
+	width: 130px;
+	height: 46px;
+	background: #f8f8f8;
+	font-size: 14px;
+	color: #666;
+	text-align: center;
+	line-height: 46px;
+}
+
+.personal-class p {
+	float: left;
+	height: 46px;
+	font-size: 14px;
+	color: #333;
+	line-height: 46px;
+	border-left: 1px solid #d1d1d1;
+}
+
+.personal-class p span {
+	margin-left: 20px;
+	padding: 3px 8px;
+	cursor: pointer;
+}
+
+.personal-class p .selected {
+	border: 1px solid #4c93FD;
+	color: #4C93FD;
+}
+
+.personal-class {
+	border: 1px solid #d1d1d1;
+}
+
+div.personal-class:nth-child(2) {
+	border-top: 0;
+}
+
+
+/*item*/
+
+.personal-goods-item {
+	float: left;
+	margin-bottom: 20px;
+	margin-right: 30px;
+	width: 204px;
+	height: 280px;
+	border: 1px solid #d1d1d1;
+	cursor: pointer;
+}
+
+.personal-goods-item:hover {
+	border: 1px solid #4C93FD;
+}
+
+.personal-goods-item-img {
+	position: relative;
+	overflow: hidden;
+}
+
+.personal-goods-item-img:hover p {
+	bottom: 0;
+}
+
+.personal-goods-item-img img {
+	width: 204px;
+	height: 204px;
+}
+
+.personal-goods-item-img .states {
+	position: absolute;
+	top: 10px;
+	left: 15px;
+	width: 56px;
+	height: 20px;
+	line-height: 20px;
+	text-align: center;
+	font-size: 12px;
+	color: #fff;
+}
+
+.personal-goods-item-img .green {
+	background: #4BD663;
+}
+
+.personal-goods-item-img .yellow {
+	background: #FF8400;
+}
+
+.personal-goods-item-img .gray {
+	background: #999999;
+}
+.personal-goods-item-img span {
+	display: inline-block;
+	width: 50%;
+	height: 100%;
+	text-align: center;
+}
+.personal-goods-item-img .spanL {
+	background: #5296fd;
+}
+
+.personal-goods-item-img .spanR {
+	background: #666;
+}
+
+.personal-goods-item-img .blue {
+	background: #2776EB;
+	opacity: .8;
+}
+
+.personal-goods-item-img p {
+	position: absolute;
+	bottom: -28px;
+	padding: 0 !important;
+	width: 100%;
+	height: 28px;
+	line-height: 28px;
+	font-size: 12px;
+	color: #fff;
+	text-align: center;
+	background: #000;
+	opacity: 0.4;
+	transition: .3s;
+}
+
+.personal-goods-item .info {
+	font-size: 14px;
+	line-height: 24px;
+	color: #333;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.personal-goods-item p {
+	padding: 6px 4px;
+}
+
+.personal-goods-item span {
+	font-size: 12px;
+	color: #666;
+}
+
+.personal-goods-item span i {
+	font-style: normal;
+	color: #4C93FD;
+}
+
+.personal-goods-item .time {
+	float: right;
+}
+
+div.personal-goods-item:nth-child(4n) {
+	margin-right: 0 !important;
+}

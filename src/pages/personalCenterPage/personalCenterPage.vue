@@ -121,7 +121,9 @@
 	};
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped="scoped">
+	@import '../../common/css/personal.css';
+	
 	.personal-container {
 		margin-top: 50px;
 	}
@@ -207,36 +209,4 @@
 		}
 	}
 	
-	/*personal public*/
-	.personal-btn {
-		display: inline-block;
-		margin-left: 105px;
-		width: 96px;
-		height: 32px;
-		background: #4C93FD;
-		border: 0;
-		border-radius: 3px;
-		font-size: 16px;
-		line-height: 19px;
-		color: #fff;
-		cursor: pointer;
-	}
-	.personal-form {
-		label {
-			display: inline-block;
-			width: 100px;
-			font-size: 16px;
-			color: #333;
-			cursor: pointer;
-		}
-		input[type='text'],
-		input[type='password'] {
-			padding: 0 10px;
-			width: 300px;
-			height: 32px;
-			border: 0;
-			border: 1px solid #D1D1D1;
-			border-radius: 3px;
-		}
-	}
 </style>
