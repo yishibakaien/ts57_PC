@@ -12,7 +12,7 @@
 			<label for="passwordNew1">确认密码</label>
 			<input type="password" name="passwordNew1" id="passwordNew1" placeholder="请确认新密码" />
 		</div>
-		<button>保存</button>
+		<button class="submitBtn personal-btn">保存</button>
 	</div>
 </template>
 
@@ -42,17 +42,9 @@
 				border-radius: 3px;
 			}
 		}
-		button {
+		.submitBtn {
 			margin-top: 20px;
 			margin-left: 230px;
-			width: 88px;
-			height: 32px;
-			background: #4C93FD;
-			color: #fff;
-			border: 0;
-			border: 1px solid #4C93FD;
-			border-radius: 3px;
-			cursor: pointer;
 		}
 	}
 </style>

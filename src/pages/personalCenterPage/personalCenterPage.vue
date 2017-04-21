@@ -121,87 +121,122 @@
 	};
 </script>
 
-<style lang="scss" scoped="scoped">
+<style lang="scss">
 	.personal-container {
 		margin-top: 50px;
-		.personal-nav {
-			float: left;
-			width: 256px;
-			min-height: 728px;
-			background: #f8f8f8;
-			text-align: center;
-			h1 {
-				margin: 50px 0;
-				font-size: 24px;
-				font-weight: 400;
-				color: #333;
-				&::after {
-					content: '';
-					display: block;
-					margin: 15px auto 30px;
-					width: 85%;
-					height: 1px;
-					background: #d1d1d1;
-				}
+	}
+	
+	.personal-nav {
+		float: left;
+		width: 256px;
+		min-height: 728px;
+		background: #f8f8f8;
+		text-align: center;
+		h1 {
+			margin: 50px 0;
+			font-size: 24px;
+			font-weight: 400;
+			color: #333;
+			&::after {
+				content: '';
+				display: block;
+				margin: 15px auto 30px;
+				width: 85%;
+				height: 1px;
+				background: #d1d1d1;
 			}
-			li {
-				margin-bottom: 20px;
-				font-size: 16px;
-				color: #333;
-				cursor: pointer;
-				text-align: left;
-				&.personal-nav-b {
+		}
+		li {
+			margin-bottom: 20px;
+			font-size: 16px;
+			color: #333;
+			cursor: pointer;
+			text-align: left;
+			span {
+				margin-left: 86px;
+				&.active {
+					position: relative;
+					color: #5296fd;
 					&::after {
 						content: '';
 						display: block;
-						margin: 28px auto;
-						height: 2px;
-						width: 112px;
-						background: #d1d1d1;
+						position: absolute;
+						left: -16px;
+						top: -2px;
+						width: 4px;
+						height: 20px;
+						background: #5296fd;
 					}
 				}
-				span {
-					margin-left: 86px;
-					&.active {
-						position: relative;
-						color: #5296fd;
-						&::after {
-							content: '';
-							display: block;
-							position: absolute;
-							left: -16px;
-							top: -2px;
-							width: 4px;
-							height: 20px;
-							background: #5296fd;
-						}
-					}
-					&:hover {
-						color: #5296fd;
-					}
+				&:hover {
+					color: #5296fd;
 				}
 			}
 		}
-		.personal-item {
-			float: left;
-			width: 914px;
-			min-height: 728px;
-			background: #fff;
-			h2 {
-				padding: 0 15px;
-				margin-top: 35px;
-				font-size: 24px;
-				font-weight: 400;
-				color: #333;
-				&::after {
-					content: '';
-					display: block;
-					margin: 30px auto 0;
-					width: 100%;
-					height: 1px;
-					background: #d1d1d1;
-				}
+		.personal-nav-b {
+			&::after {
+				content: '';
+				display: block;
+				margin: 28px auto;
+				height: 2px;
+				width: 112px;
+				background: #d1d1d1;
 			}
+		}
+	}
+	
+	.personal-item {
+		float: left;
+		width: 944px;
+		min-height: 728px;
+		background: #fff;
+		h2 {
+			padding: 0 15px;
+			margin-top: 35px;
+			font-size: 24px;
+			font-weight: 400;
+			color: #333;
+			&::after {
+				content: '';
+				display: block;
+				margin: 30px auto 0;
+				width: 100%;
+				height: 1px;
+				background: #d1d1d1;
+			}
+		}
+	}
+	
+	/*personal public*/
+	.personal-btn {
+		display: inline-block;
+		margin-left: 105px;
+		width: 96px;
+		height: 32px;
+		background: #4C93FD;
+		border: 0;
+		border-radius: 3px;
+		font-size: 16px;
+		line-height: 19px;
+		color: #fff;
+		cursor: pointer;
+	}
+	.personal-form {
+		label {
+			display: inline-block;
+			width: 100px;
+			font-size: 16px;
+			color: #333;
+			cursor: pointer;
+		}
+		input[type='text'],
+		input[type='password'] {
+			padding: 0 10px;
+			width: 300px;
+			height: 32px;
+			border: 0;
+			border: 1px solid #D1D1D1;
+			border-radius: 3px;
 		}
 	}
 </style>
