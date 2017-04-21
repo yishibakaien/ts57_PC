@@ -2,7 +2,7 @@
 html,body{
   line-height: 1;
   font-weight: 200;
-  font-family: 'Microsoft YaHei', arial, sans-serif;
+  font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB";
   color: #333;
 }
 
@@ -14,6 +14,7 @@ html, body, body > div:first-child {
   height: auto;
   min-height: 100%;
   width: 100%;
+  background: #F2F2F2;
 }
 
 .main-wrapper .main {
@@ -35,7 +36,7 @@ html, body, body > div:first-child {
   display: block
 }
 .clearfix::after {
-  display: inline-block;
+  display: block;
   visibility: hidden;
   clear: both;
   height: 0;
