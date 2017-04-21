@@ -23,12 +23,12 @@
 					<img src="../../../static/timg.jpg" alt="求购" />
 					<!--<span class="states green">有库存</span>-->
 					<span class="states gray">没库存</span>
-					<p class="p3"><span>找相似</span><span>试衣</span></p>
+					<p class="p3"><span class="borderS">找相似</span><span>试衣</span></p>
 				</div>
 				<p class="info">大量求购，有多少要多少大量求购，有多少要多少大量求购，有多少要多少</p>
 				<p><span>求购 <i>200</i> 码</span><span class="time">1小时前</span></p>
 			</div>
-			
+
 		</div>
 	</div>
 </template>
@@ -52,10 +52,24 @@
 			margin-top: 20px;
 		}
 	}
+	
 	.p3 {
-		opacity: .7;
+		opacity: .4;
 		span {
 			color: #fff;
+		}
+		.borderS {
+			position: rrelative;
+			&::after {
+				content: '';
+				position: absolute;
+				left: 50%;
+				top: 3px;
+				width: 2px;
+				height: 22px;
+				background: #fff;
+				opacity: .7;
+			}
 		}
 	}
 </style>
