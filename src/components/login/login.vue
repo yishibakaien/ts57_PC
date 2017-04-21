@@ -16,12 +16,12 @@
 
           <div class="input-wrapper">
             <div class="input-phone">
-              <span class="text">手机号码</span>
-              <input type="text" placeholder="请输入手机号码">
+              <span class="text">手机号码{{ userData.userMobile }}</span>
+              <input type="tel" placeholder="请输入手机号码" maxlength="11" v-model="userData.userMobile" @input="userMobileIpt">
             </div>
             <div class="input-password">
-              <span class="text">密码</span>
-              <input type="password" placeholder="请输入密码">
+              <span class="text">密码 {{ userData.userPWD }}</span>
+              <input type="password" placeholder="请输入密码" v-model="userData.userPWD" @input="userPWDIpt">
             </div>
           </div>
 
@@ -36,7 +36,7 @@
           </div>
 
           <div class="btn-wrapper">
-            <button class="btn btn-blue">登录</button>
+            <button class="btn btn-blue" @click="login">登录</button>
           </div>
 
           <div class="register-wrapper">
@@ -53,7 +53,46 @@
 </template>
 
 <script>
-export default {};
+import * as reg from '../../common/js/regExp';
+// import axios from 'axios';
+import {login} from '../../common/api/api';
+export default {
+  data() {
+    return {
+      userData: {
+        userMobile: '',
+        userPWD: '',
+        picCode: ''
+      }
+    };
+  },
+  methods: {
+    userMobileIpt() {
+      if (reg.testMobile(this.userData.userMobile)) {
+        console.log(1);
+      }
+    },
+    userPWDIpt() {
+      if (reg.testPWD(this.userData.userPWD)) {
+        console.log(2);
+      }
+    },
+    login() {
+      if (!reg.testMobile(this.userData.userMobile) || !reg.testPWD(this.userData.userPWD)) {
+        console.log(this.userData);
+        alert('账号或密码格式错误，请重试！');
+        return;
+      }
+      // let data = JSON.stringify(this.userData);
+      // console.log('userData', this.userData);
+      login(this.userData).then((res) => {
+          console.log('success', res);
+        }).catch((res) => {
+          console.info('error', res);
+        });
+    }
+  }
+};
 </script>
 
 <style lang="stylus" scoped>
