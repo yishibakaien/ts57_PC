@@ -28,7 +28,7 @@
           <div class="tools-wrapper">
             <div class="remember">
               <i class="iconfont">字</i>
-              <span class="text">记住密码</span>
+              <span class="text">记住密码2</span>
             </div>
             <div class="forget">
               <router-link to="/forgotPasswordPage">忘记密码?</router-link>
