@@ -27,6 +27,14 @@ const METHODS = {
     post: 'POST'
 };
 
+/**
+ * 将data 中的 x-token 删去，并根据 请求类型，格式化data，
+ * 根据目前的接口 调试情况，接口的 POST 方法 不能直接在ajax 中传递一个data对象，需要将data
+ * 对象 JSON.stringify 之后再进行 POST 传递
+ * @param  {string} method 请求方法 GET || POST
+ * @param  {object} data   请求的数据，其中包含了 x-token
+ * @return {object || string}        格式化后的data
+ */
 function _formatData(method, data) {
     let _data = Object.assign({}, data);
     try {
@@ -39,6 +47,13 @@ function _formatData(method, data) {
     }
 }
 
+/**
+ * 请求时，可直接将 x-token 放在data 中，这里会判断 x-token 并存入header
+ * @param  {string} method 请求方法 GET || POST
+ * @param  {object} data   请求参数 data
+ * @param  {string} url    api 地址
+ * @return {promise}        Promise 对象
+ */
 function fetch(method = METHODS.get, data, url) {
     return new Promise((resolve, reject) => {
         axios({
@@ -54,10 +69,18 @@ function fetch(method = METHODS.get, data, url) {
     });
 }
 
+/**
+ * 具体请求方法
+ * @param  {object} data 请求参数， 将 x-token 放入data中即可
+ * @return {promise}      Promise 对象
+ */
+
+// 登录
 export function login(data) {
     return fetch(METHODS.post, data, API.user.login);
 };
 
-export function regiter(data) {
-    return fetch(METHODS.post, data, API.user.login);
+// 注册
+export function register(data) {
+    return fetch(METHODS.post, data, API.user.register);
 };

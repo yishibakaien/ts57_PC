@@ -23,5 +23,5 @@ export default {
   .login-page
     .login-wrapper
       background #f1f1f1
-      padding: 16px;
+      padding: 16px 0;
 </style>

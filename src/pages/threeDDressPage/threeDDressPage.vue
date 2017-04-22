@@ -154,7 +154,7 @@ export default {
 <style lang="stylus" scoped>
   .dress-ccontainer
     display flex
-    padding 16px
+    padding 16px 0
     & .title
       height 48px
       line-height 48px
