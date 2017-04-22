@@ -42,7 +42,7 @@
 
 .personal-info {
 	margin: 0 auto;
-	padding-top: 20px;
+	padding: 20px 0;
 	width: 884px;
 	background: #FFF7E3;
 	border: 1px solid #d1d1d1;
@@ -207,7 +207,7 @@ div.personal-class:nth-child(2) {
 }
 
 .personal-goods-item .info {
-	font-size: 14px;
+	font-size: 15px;
 	line-height: 24px;
 	color: #333;
 	overflow: hidden;
@@ -234,5 +234,5 @@ div.personal-class:nth-child(2) {
 }
 
 div.personal-goods-item:nth-child(4n) {
-	margin-right: 0 !important;
+	margin-right: 0;
 }
