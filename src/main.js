@@ -4,7 +4,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import App from './App';
 import router from './router/router';
-import axios from 'axios';
+// import axios from 'axios';
 
 import '!style-loader!css-loader!sass-loader!./common/css/index.css';
 
@@ -12,17 +12,17 @@ Vue.config.productionTip = false;
 Vue.use(Vuex);
 
 // 状态检查，未登陆时路由至登陆/注册 界面
-axios.interceptors.response.use(response => {
-    switch (response.status) {
-      case 200:
-        router.push({
-          path: '/login'
-        });
-      break;
-    }
-    return response;
-  }, (error) => {
-    console.log(error);
+// axios.interceptors.response.use(response => {
+//     switch (response.status) {
+//       case 200:
+//         router.push({
+//           path: '/login'
+//         });
+//       break;
+//     }
+//     return response;
+//   }, (error) => {
+//     console.log(error);
     // if (error.response) {
     //     switch (error.response.status) {
     //         case 401:
@@ -35,16 +35,16 @@ axios.interceptors.response.use(response => {
     //     }
     // }
     // return Promise.reject(error.response.data)   // 返回接口返回的错误信息
-});
+// });
 
 // 使用axios request
-Vue.prototype.$http = axios;
+// Vue.prototype.$http = axios;
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-  axios,
+  // axios,
   render: h => h(App)
 });
 

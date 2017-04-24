@@ -3,10 +3,10 @@
     <div class="login-content">
 
       <div class="header">
-        <div class="header-item active">
+        <div class="header-item" :class="{active: showLogin}" @click="showLoginfunc">
           <span class="text">密码登录</span>
         </div>
-        <div class="header-item">
+        <div class="header-item" :class="{active: !showLogin}" @click="hideLoginFunc">
           <span class="text">下载APP</span>
         </div>
       </div>
@@ -31,7 +31,7 @@
           <div class="tools-wrapper">
             <div class="remember">
               <i class="iconfont">字</i>
-              <span class="text">记住密码2</span>
+              <span class="text">记住密码</span>
             </div>
             <div class="forget">
               <router-link to="/forgotPasswordPage">忘记密码?</router-link>
@@ -39,17 +39,17 @@
           </div>
 
           <div class="btn-wrapper">
-            <button class="btn btn-blue" @click="loginMethod">登录</button>
+            <button class="button button-blue button-block" @click="loginMethod">登录</button>
           </div>
 
           <div class="register-wrapper">
-            没有账号? <router-link to="/registerPage">立即注册</router-link>
+            没有账号? <router-link class="text" to="/registerPage">立即注册</router-link>
           </div>
 
         </div>
 
-        <div class="download-main">
-
+        <div class="download-main" v-if="!showLogin">
+          我是二维码
         </div>
       </div>
     </div>
@@ -58,7 +58,7 @@
 
 <script>
 import * as reg from '../../common/js/regExp';
-import Router from 'vue-router';
+// import Router from 'vue-router';
 // import axios from 'axios';
 import {login} from '../../common/api/api';
 export default {
@@ -89,16 +89,17 @@ export default {
         alert('账号或密码格式错误，请重试！');
         return;
       }
-      // alert('登录成功');
       login(this.userData).then((res) => {
           console.log('success', res);
-          alert('登录成功');
-          Router.push({
-            path: '/homePage'
-          });
-        }).catch((res) => {
-          console.info('error', res);
+        }, (res) => {
+          console.log('出现错误', res);
         });
+    },
+    showLoginfunc() {
+      this.showLogin = true;
+    },
+    hideLoginFunc() {
+      this.showLogin = false;
     }
   }
 };
@@ -146,10 +147,18 @@ export default {
                 border 0
                 border-bottom 1px solid #d8d8d8
           .tools-wrapper
-            height 40px
-            line-height 40px
+            height 32px
+            line-height 32px
+            padding-top 8px
+            font-size 14px
             .remember
               float left
             .forget
               float right
+          .btn-wrapper
+            padding 8px 0 16px 0
+          .register-wrapper
+            font-size 14px
+            .text
+              color #3385ff
 </style>

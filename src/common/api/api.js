@@ -54,16 +54,18 @@ function _formatData(method, data) {
  * @param  {string} url    api 地址
  * @return {promise}        Promise 对象
  */
-function fetch(method = METHODS.get, data, url) {
+function _fetch(method = METHODS.get, data, url) {
+    // alert('开始获取数据');
     return new Promise((resolve, reject) => {
         axios({
             method: method,
             url: baseURL + url,
             headers: Object.assign({ 'x-token': data[X_TOKEN] || '' }, headers),
             data: _formatData(method, data)
-        }).then(res => {
+        }).then((res) => {
             resolve(res);
-        }).catch(res => {
+        }).catch((res) => {
+            console.log('进入了catch');
             reject(res);
         });
     });
@@ -77,10 +79,11 @@ function fetch(method = METHODS.get, data, url) {
 
 // 登录
 export function login(data) {
-    return fetch(METHODS.post, data, API.user.login);
+    // alert('调用fetch');
+    return _fetch(METHODS.post, data, API.user.login);
 };
 
 // 注册
 export function register(data) {
-    return fetch(METHODS.post, data, API.user.register);
+    return _fetch(METHODS.post, data, API.user.register);
 };

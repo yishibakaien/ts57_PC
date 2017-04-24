@@ -114,7 +114,7 @@ export default {
           }
         }
       })(),
-      isActive: false,
+      // isActive: false,
       patterns: '',
       bgSize: 100
     };
@@ -134,12 +134,14 @@ export default {
       });
     },
     add() {
+      console.log(this.bgSize);
       if (this.bgSize < MAX_SIZE) {
         this.bgSize += STEP;
       }
     },
     decrease() {
       if (this.bgSize >= MIN_SIZE) {
+        console.log(this.bgSize);
         this.bgSize -= STEP;
       }
     }
@@ -172,6 +174,7 @@ export default {
       flex 1
       padding 8px
       border 1px solid #d8d8d8
+      background #fff
       .modle-wrapper
         text-align center
         background #f1f1f1
@@ -183,6 +186,7 @@ export default {
       .patterns-preview, .choose-modles
         padding 8px
         border 1px solid #d8d8d8
+        background #fff
       .patterns-preview .patterns-wrapper
         display flex
         .btn
