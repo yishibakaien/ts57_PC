@@ -17,11 +17,12 @@
     <div class="footer-wrapper">
       <v-footer :message="message"></v-footer>
     </div>
+    <login-mask></login-mask>
   </div>
 </template>
 
 <script>
-import {topbar, header, nav, footer} from './components';
+import {topbar, footer, loginMask} from './components';
 
 export default {
   data() {
@@ -34,8 +35,7 @@ export default {
   },
   components: {
     topbar,
-    'vHeader': header,
-    'vNav': nav,
+    loginMask,
     'vFooter': footer
   }
 };

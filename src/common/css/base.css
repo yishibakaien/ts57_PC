@@ -79,14 +79,26 @@ html, body, body > div:first-child {
     padding: 12px 0;
 }
 .button.button-blue {
-    background: rgb(76, 147, 253);
+    background-color: rgb(76, 147, 253);
     color: #fff;
+}
+
+.button.button-red {
+    background-color: #E64340;
+    color: #fff;
+}
+
+.button.button-red:active {
+    background-color: #CE3C39;
 }
 .button.button-blue:active {
     opacity: 0.7
 }
 .button.button-blue[disabled] {
-    background: rgba(7, 17, 27, 0.2);
+    background-color: rgba(7, 17, 27, 0.2);
     color: rgba(255, 255, 255, 0.7);
 }
-
+.button.button-red[disabled]{
+    background-color: #EC8B89;
+    color: #fff;
+}

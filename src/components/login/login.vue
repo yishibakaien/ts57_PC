@@ -58,8 +58,7 @@
 
 <script>
 import * as reg from '../../common/js/regExp';
-// import Router from 'vue-router';
-// import axios from 'axios';
+import * as types from '../../store/types';
 import {login} from '../../common/api/api';
 export default {
   data() {
@@ -71,6 +70,9 @@ export default {
       },
       showLogin: true
     };
+  },
+  computed: {
+
   },
   methods: {
     userMobileIpt() {
@@ -84,13 +86,25 @@ export default {
       }
     },
     loginMethod() {
+      let _this = this;
       if (!reg.testMobile(this.userData.userMobile) || !reg.testPWD(this.userData.userPWD)) {
-        console.log(this.userData);
         alert('账号或密码格式错误，请重试！');
         return;
       }
       login(this.userData).then((res) => {
-          console.log('success', res);
+          if (res.data.code === 0) {
+            // 由于token 获取存在一些问题，暂时写死token
+            _this.$store.commit(types.LOGIN, '139b9dac520a41c5a5fcb9a5ac41e54f');
+
+            _this.$store.commit(types.LOGIN_MASK, false);
+            let redirect = decodeURIComponent(this.$route.query.redirect || '/');
+
+            _this.$router.push({
+              path: redirect
+            });
+          } else {
+            alert('请求错误');
+          }
         }, (res) => {
           console.log('出现错误', res);
         });
@@ -132,7 +146,6 @@ export default {
           .input-wrapper
             .input-phone,.input-password
               padding 16px 0 8px 0
-
               .text,.input
                 display inline-block
                 vertical-align bottom

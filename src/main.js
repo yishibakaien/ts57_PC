@@ -1,15 +1,16 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
-import Vuex from 'vuex';
+// import Vuex from 'vuex';
 import App from './App';
 import router from './router/router';
+import store from './store/store';
 // import axios from 'axios';
 
 import '!style-loader!css-loader!sass-loader!./common/css/index.css';
 
 Vue.config.productionTip = false;
-Vue.use(Vuex);
+// Vue.use(Vuex);
 
 // 状态检查，未登陆时路由至登陆/注册 界面
 // axios.interceptors.response.use(response => {
@@ -44,6 +45,7 @@ Vue.use(Vuex);
 new Vue({
   el: '#app',
   router,
+  store,
   // axios,
   render: h => h(App)
 });

@@ -3,12 +3,12 @@
     <div class="content">
       <div class="left">
         <span class="welcome">欢迎来到统搜57！</span>
-        <router-link to="/loginPage" class="link">登录</router-link>
-        <router-link to="/registerPage" class="link">免费注册</router-link>
+        <router-link v-if="!isLogin" to="/loginPage" class="link">登录</router-link>
+        <router-link v-if="!isLogin" to="/registerPage" class="link">免费注册</router-link>
       </div>
 
       <div class="right">
-        <router-link to="/loginPage" class="link">个人中心</router-link>
+        <a @click="gowhere" class="link">个人中心</a>
         <div class="app-qrcode">
           <i class="iconfont">字</i>
           <span>手机坐视布管</span>
@@ -53,7 +53,20 @@
 </template>
 
 <script>
-export default {};
+export default {
+  computed: {
+    isLogin() {
+      return this.$store.state.token;
+    }
+  },
+  methods: {
+    gowhere() {
+      this.$router.push({
+        path: this.isLogin ? '/personalCenterPage' : '/loginPage'
+      });
+    }
+  }
+};
 </script>
 
 <style lang="stylus" scoped>
@@ -94,6 +107,7 @@ export default {};
           .qrcode-content
             display none
             position absolute
+            z-index 1
             line-height 1
             padding 0 12px
             right 0

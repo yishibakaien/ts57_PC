@@ -1,22 +1,61 @@
 <template>
-  <div class="index">
+  <div class="homePage">
     <v-header></v-header>
     <v-nav></v-nav>
+    <div class="swiper">
+      banner-zone
+    </div>
+    <div class="homePage-container">
+      <button class="button button-block button-blue" @click="seeDetail">花型详情(需要登录才能浏览)</button>
+      <button @click="logout" class="button button-block button-red" v-if="showBtn">退出登录</button>
+    </div>
   </div>
 </template>
 
 <script>
 import {header, nav} from '../../components';
+import * as types from '../../store/types';
 export default {
   components: {
     'vHeader': header,
     'vNav': nav
+  },
+  computed: {
+    showBtn() {
+      return this.$store.state.token;
+    }
+  },
+  methods: {
+    seeDetail() {
+      if (this.$store.state.token) {
+        alert('这是花型详情页面');
+      } else {
+        this.$store.commit(types.LOGIN_MASK, true);
+      }
+    },
+    logout() {
+      this.$store.commit(types.LOGOUT);
+    }
   }
 };
 </script>
 
 <style lang="stylus" scoped>
-  .index
+  .homePage
     height 1200px
-    background #f1f1f1
+    background #fff
+    .swiper
+      position absolute
+      left 0
+      width 100%
+      height 300px
+      text-align center
+      background #d8d8d8
+
+    .homePage-container
+      margin-top 300px
+      padding 16px 0
+      .button
+        width 20%
+        margin-top 20px
 </style>

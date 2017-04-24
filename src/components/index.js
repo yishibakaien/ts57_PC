@@ -8,6 +8,8 @@ import header from './header/header';
 import footer from './footer/footer';
 
 import login from './login/login';
+
+import loginMask from './loginMask/loginMask';
 // import search from './search/search';
 
 export {
@@ -15,6 +17,7 @@ export {
 	header,
 	footer,
 	nav,
-  login
+  login,
+  loginMask
 	// search
 };
