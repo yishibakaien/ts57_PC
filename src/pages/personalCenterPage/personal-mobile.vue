@@ -6,8 +6,8 @@
 		</div>
 		<div class="personal-mobile-wrap personal-form" v-if="isShow">
 			<label for="password">登录密码</label>
-			<input type="password" name="password" id="password" placeholder="请输入登录密码" />
-			<button class="checkoutBtn personal-btn">校验</button>
+			<input type="password" name="password" id="password" placeholder="请输入登录密码" v-model="param.userPasswd"/>
+			<button class="checkoutBtn personal-btn" @click="checkPasswdMethod()">校验</button>
 		</div>
 		<div class="personal-mobile-wrap" v-if="!isShow">
 			<div class="personal-mobile-item personal-form">
@@ -28,13 +28,32 @@
 </template>
 
 <script>
+	import { checkPasswd } from '../../common/api/api';
 	export default {
 		data() {
 			return {
+				param: {
+					'x-token': '',
+					userPasswd: ''
+				},
 				mobile: 18333604006,
 				alertShow: false,
 				isShow: true
 			};
+		},
+		created() {
+			let _ = this;
+			_.param['x-token'] = localStorage.getItem('x-token');
+		},
+		methods: {
+			checkPasswdMethod() {
+				checkPasswd(this.param).then((res) => {
+					console.log('检验成功');
+					this.isShow = false;
+				}, (res) => {
+					console.log('检验失败');
+				});
+			}
 		}
 	};
 </script>

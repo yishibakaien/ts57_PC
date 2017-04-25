@@ -4,8 +4,8 @@ import {
     homePage,
     findPage,
     threeDDressPage,
-    stallsManagerPage,
     personalCenterPage,
+    shopManagePage,
     loginPage,
     registerPage,
     forgotPasswordPage
@@ -18,8 +18,8 @@ const routes = [
     { path: '/homePage', component: homePage },
     { path: '/findPage', component: findPage },
     { path: '/threeDDressPage', component: threeDDressPage },
-    { path: '/stallsManagerPage', component: stallsManagerPage },
     { path: '/personalCenterPage', component: personalCenterPage },
+    { path: '/shopManagePage', component: shopManagePage },
 
     { path: '/loginPage', component: loginPage },
     { path: '/registerPage', component: registerPage },

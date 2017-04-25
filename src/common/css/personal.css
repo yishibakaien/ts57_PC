@@ -43,15 +43,11 @@
 .personal-info {
 	margin: 0 auto;
 	padding: 20px 0;
-	width: 884px;
+	width: 912px;
 	background: #FFF7E3;
 	border: 1px solid #d1d1d1;
 	border-top: 0;
 	p {
-		padding-left: 120px;
-		font-size: 14px;
-		color: #666;
-		line-height: 28px;
 		span {
 			color: #ff8400;
 		}
@@ -62,7 +58,7 @@
 }
 
 .personal-info p {
-	padding-left: 120px;
+	padding-left: 104px;
 	font-size: 14px;
 	color: #666;
 	line-height: 28px;

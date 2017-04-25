@@ -58,8 +58,6 @@
 
 <script>
 import * as reg from '../../common/js/regExp';
-// import Router from 'vue-router';
-// import axios from 'axios';
 import {login} from '../../common/api/api';
 export default {
   data() {
@@ -90,7 +88,9 @@ export default {
         return;
       }
       login(this.userData).then((res) => {
-          console.log('success', res);
+          console.log('success', this.userData);
+          localStorage.setItem('x-token', '18c2d046b3264cb89a28bb28fe902957');
+          this.$router.push('/personalCenterPage');
         }, (res) => {
           console.log('出现错误', res);
         });

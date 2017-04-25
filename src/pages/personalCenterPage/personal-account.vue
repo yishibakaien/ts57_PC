@@ -2,15 +2,15 @@
 	<div class="personal-account">
 		<div class="personal-account-item headImg personal-form">
 			<label>头像</label>
-			<input type="file" name="headImg" id="headImg" />
+			<input type="file" name="headImg" id="headImg"  @change="uploadImg"/>
 			<div class="headImgSee">
 				<label for="headImg" class="lb">重新上传</label>
-				<img src="../../../static/timg.jpg" alt="头像" />
+				<img :src="param.userHeadIcon" alt="头像" />
 			</div>
 		</div>
 		<div class="personal-account-item personal-form">
 			<label for="fullName">姓名</label>
-			<input type="text" name="fullName" id="fullName" placeholder="请填写您的姓名" />
+			<input type="text" name="fullName" id="fullName" placeholder="请填写您的姓名" v-model="param.userName" />
 		</div>
 		<div class="personal-account-item personal-form">
 			<label for="QQ">QQ</label>
@@ -20,12 +20,44 @@
 			<label for="email">邮箱</label>
 			<input type="text" name="email" id="email" placeholder="请填写您的邮箱地址" />
 		</div>
-		<button class="personal-btn">保存</button>
+		<button class="personal-btn" @click="updateUserMethod">保存</button>
 	</div>
 </template>
 
 <script>
-	export default {};
+	import { updateUser } from '../../common/api/api';
+	import uploadPicture from '../../common/js/uploadPicture';
+
+	export default {
+		data() {
+			return {
+				param: {
+					userHeadIcon: '',
+					userName: '',
+					'x-token': ''
+				}
+			};
+		},
+		created() {
+			this.param['x-token'] = localStorage.getItem('x-token');
+		},
+		methods: {
+			uploadImg(e) {
+				let _ = this;
+				uploadPicture(e).then((result) => {
+					_.param.userHeadIcon = result;
+				});
+			},
+			updateUserMethod() {
+				updateUser(this.param).then((res) => {
+					console.log('成功');
+				}, (res) => {
+					console.log(this.param);
+					console.log('失败');
+				});
+			}
+		}
+	};
 </script>
 
 <style lang="scss" scoped="scoped">
