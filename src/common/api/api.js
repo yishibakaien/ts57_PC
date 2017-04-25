@@ -3,6 +3,8 @@
 import { baseURL, headers } from '../config/config';
 import axios from 'axios';
 
+axios.defaults.baseURL = '/api';
+
 const API = {
 	// 用户模块API
 	user: {
@@ -18,7 +20,11 @@ const API = {
 		getFindSMSCode: '/front/user/getFindSMSCode', // 获取找回短信
 		getRegSMSCode: '/front/user/getRegSMSCode', // 获取注册短信
 		getUserInfo: '/user/getUserInfo' // 获取用户最新信息
-	}
+	},
+  // 首页
+  home: {
+    listHomeBanners: '/homeBanner/listHomeBanners' // 首页banner
+  }
 };
 
 const X_TOKEN = 'x-token';
@@ -99,3 +105,8 @@ export function checkPasswd(data) {
 export function updateUser(data) {
 	return _fetch(METHODS.post, data, API.user.updateUser);
 };
+
+// 获取首页banner
+export function listHomeBanners(data) {
+  return _fetch(METHODS.get, data, API.home.listHomeBanners);
+}

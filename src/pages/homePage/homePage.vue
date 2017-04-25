@@ -10,18 +10,30 @@
       <button @click="logout" class="button button-block button-red" v-if="showBtn">退出登录</button>
     </div>
     <pic-upload class="file-upload" ref="fileUpload"></pic-upload>
+    <!-- <fixed-topbar></fixed-topbar> -->
   </div>
 </template>
 
 <script>
-import {header, nav, picUpload} from '../../components';
+import { header, nav, picUpload, fixedTopbar } from '../../components';
+import { listHomeBanners } from '../../common/api/api';
 import * as types from '../../store/types';
 
 export default {
   components: {
     'vHeader': header,
     'vNav': nav,
-    picUpload
+    picUpload,
+    fixedTopbar
+  },
+  created() {
+    listHomeBanners({
+      'x-token': this.$store.state.token
+    }).then(res => {
+      console.log(res);
+    }).catch(res => {
+      console.log('error', res);
+    });
   },
   computed: {
     showBtn() {
