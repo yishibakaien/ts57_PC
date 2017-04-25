@@ -59,6 +59,7 @@
 <script>
 import * as reg from '../../common/js/regExp';
 import * as types from '../../store/types';
+
 import {login} from '../../common/api/api';
 export default {
   data() {

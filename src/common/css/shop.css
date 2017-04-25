@@ -1,0 +1,54 @@
+@charset 'utf-8';
+/*类别*/
+.shop-classify .title {
+	float: left;
+	width: 130px;
+	height: 46px;
+	background: #f8f8f8;
+	font-size: 14px;
+	color: #666;
+	text-align: center;
+	line-height: 46px;
+}
+
+.shop-classify p {
+	float: left;
+	height: 46px;
+	font-size: 14px;
+	color: #333;
+	line-height: 46px;
+	border-left: 1px solid #d1d1d1;
+}
+
+.shop-classify p span {
+	margin-left: 20px;
+	padding: 3px 8px;
+	cursor: pointer;
+}
+
+.shop-classify p .selected {
+	border: 1px solid #4c93FD;
+	color: #4C93FD;
+}
+
+.shop-classify {
+	border: 1px solid #d1d1d1;
+}
+
+div.shop-classify:nth-child(2) {
+	border-top: 0;
+}
+
+/*按钮*/
+.shop-btn {
+	display: inline-block;
+	width: 96px;
+	height: 32px;
+	background: #4C93FD;
+	border: 0;
+	border-radius: 3px;
+	font-size: 16px;
+	line-height: 19px;
+	color: #fff;
+	cursor: pointer;
+}
