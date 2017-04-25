@@ -1,11 +1,18 @@
 <template>
   <div class="header">
-  I am header
+      <div class="search-wrapper">
+          <search></search>
+      </div>
   </div>
 </template>
 
 <script>
-export default {};
+import search from '../search/search';
+export default {
+    components: {
+        search
+    }
+};
 </script>
 
 <style lang="stylus" scoped>

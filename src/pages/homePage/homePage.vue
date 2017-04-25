@@ -9,16 +9,19 @@
       <button class="button button-block button-blue" @click="seeDetail">花型详情(需要登录才能浏览)</button>
       <button @click="logout" class="button button-block button-red" v-if="showBtn">退出登录</button>
     </div>
+    <pic-upload class="file-upload" ref="fileUpload"></pic-upload>
   </div>
 </template>
 
 <script>
-import {header, nav} from '../../components';
+import {header, nav, picUpload} from '../../components';
 import * as types from '../../store/types';
+
 export default {
   components: {
     'vHeader': header,
-    'vNav': nav
+    'vNav': nav,
+    picUpload
   },
   computed: {
     showBtn() {
@@ -58,4 +61,9 @@ export default {
       .button
         width 20%
         margin-top 20px
+    .file-upload {
+      display: block;
+      height: 80px;
+      width: 80px;
+    }
 </style>
