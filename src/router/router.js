@@ -36,14 +36,14 @@ const routes = [{
 		path: '/personalCenterPage',
 		component: personalCenterPage,
 		meta: {
-			needAuth: true
+//			needAuth: true
 		}
 	},
 	{
 		path: '/shopManagePage',
 		component: shopManagePage,
 		meta: {
-			needAuth: true
+//			needAuth: true
 		}
 	},
 	{
