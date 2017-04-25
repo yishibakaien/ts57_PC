@@ -2,8 +2,9 @@
   <div class="search">
     <input class="search-input" type="text" placeholder="请输入花型编号或厂名">
     <div class="choose-pic">
-      <i class="iconfont">字</i>
-      <input class="choose-input" type="file" title="上传图片搜图">
+      <!-- <i class="iconfont">字</i> -->
+      <pic-upload class="choose-input" ref="fileUpload"></pic-upload>
+      <!-- <input class="choose-input" type="file" title="上传图片搜图"> -->
     </div>
     <div class="search-btn" title="搜索">
         <i class="iconfont">字</i>
@@ -12,7 +13,12 @@
 </template>
 
 <script>
-export default {};
+import picUpload from '../picUpload/picUpload';
+export default {
+  components: {
+    picUpload
+  }
+};
 </script>
 
 <style lang="stylus" scoped>
@@ -62,8 +68,8 @@ export default {};
         height 40px
         width 40px
         padding 0 4px
-        opacity 0
-        background transparent
+        // opacity 0
+        // background transparent
         cursor pointer
     .search-btn
       display inline-block

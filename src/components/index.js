@@ -12,14 +12,17 @@ import login from './login/login';
 import loginMask from './loginMask/loginMask';
 
 import search from './search/search';
+
+import picUpload from './picUpload/picUpload';
 // import search from './search/search';
 
 export {
     topbar,
-	header,
-	footer,
-	nav,
+    header,
+    footer,
+    nav,
     login,
     loginMask,
-    search
+    search,
+    picUpload
 };
