@@ -11,3 +11,5 @@ export const LOGOUT = 'logout';
 export const LOADING = 'loading';
 
 export const LOGIN_MASK = 'loginMask';
+
+export const USER_INFO = 'userInfo';

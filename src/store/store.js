@@ -10,7 +10,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        user: {},
+        userInfo: {},
         token: null,
         showLoading: false,
         showLoginMask: false
@@ -29,6 +29,9 @@ export default new Vuex.Store({
         },
         [types.LOGIN_MASK]: (state, data) => {
             state.showLoginMask = data;
+        },
+        [types.USER_INFO]: (state, data) => {
+            state.userInfo = data;
         }
     }
 });
