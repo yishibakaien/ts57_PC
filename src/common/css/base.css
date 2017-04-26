@@ -19,7 +19,7 @@ html, body, body > div:first-child {
 
 .main-wrapper .main {
   box-sizing: border-box;
-  width: 1200px;
+  /*width: 1200px;*/
   margin: 0 auto;
   padding-bottom: 80px;
 }

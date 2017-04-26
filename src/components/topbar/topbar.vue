@@ -56,15 +56,24 @@
 
 <script>
 import * as types from '../../store/types';
+import {getUserInfo} from '../../common/api/api';
 export default {
-  data() {
-    return {
-      userName: this.$store.state.userInfo.userName
-    };
+  created() {
+    if (this.$store.state.accessToken) {
+      getUserInfo().then(res => {
+        this.$store.commit(types.USER_INFO, res.data.data);
+      }).catch(res => {
+        console.log(res);
+      });
+    }
   },
   computed: {
     isLogin() {
-      return this.$store.state.token;
+      return this.$store.state.accessToken;
+    },
+    userName() {
+      var userInfo = this.$store.state.userInfo;
+      return userInfo;
     }
   },
   methods: {
@@ -87,6 +96,8 @@ export default {
   .topbar
     height 33px
     line-height 33px
+    box-sizing border-box
+    border-bottom 1px solid #d8d8d8
     font-size 12px
     color #999
     background #f2f2f2

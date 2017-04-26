@@ -63,9 +63,10 @@ const routes = [{
 	}
 ];
 
-// 进入页面，赋值token
-if (window.localStorage.getItem('token')) {
-	store.commit(types.LOGIN, window.localStorage.getItem('token'));
+// 进入页面，判断、赋值token userInfo
+if (localStorage.accessToken) {
+    store.commit(types.LOGIN, localStorage.accessToken);
+    store.commit(types.USER_INFO, localStorage.userInfo);
 }
 
 const router = new Router({
@@ -76,7 +77,7 @@ const router = new Router({
 // 路由钩子，判断进入的页面是否需要登录 (needAuth)
 router.beforeEach((to, from, next) => {
 	if (to.matched.some(record => record.meta.needAuth)) {
-		if (store.state.token) {
+		if (store.state.accessToken) {
 			next();
 		} else {
 			next({

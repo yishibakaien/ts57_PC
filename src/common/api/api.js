@@ -29,7 +29,6 @@ const API = {
   }
 };
 
-const X_TOKEN = 'x-token';
 const METHODS = {
 	get: 'GET',
 	post: 'POST'
@@ -45,9 +44,6 @@ const METHODS = {
  */
 function _formatData(method, data) {
 	let _data = Object.assign({}, data);
-	try {
-		delete _data[X_TOKEN];
-	} catch (e) {}
 	if (method === METHODS.get) {
 		return _data;
 	} else if (method === METHODS.post) {
@@ -64,20 +60,27 @@ function _formatData(method, data) {
  */
 function _fetch(method = METHODS.get, data, url) {
 	// alert('开始获取数据');
-  let _headers = Object.assign({'x-token': store.state.token || ''}, headers);
-
+  let _headers = Object.assign({'x-token': store.state.ajaxToken || ''}, headers);
+  if (url === API.user.login) {
+    try {
+      delete _headers['x-token'];
+    } catch (e) {}
+  }
 	let param = {
 		method: method,
 		url: baseURL + url,
 		headers: _headers,
 		data: _formatData(method, data)
 	};
-	// console.log(param);
 	return new Promise((resolve, reject) => {
 		axios(param).then((res) => {
-      console.log('api', res);
-      if (res.headers['x-token']) {
-        store.commit(types.LOGOUT);
+      let token = res.headers['x-token'];
+      if (token) {
+        store.commit(types.AJAX, token);
+        // 让ajaxToken 和 accessToken 保持一致
+        if (store.state.accessToken) {
+          store.commit(types.LOGIN, token);
+        }
       }
 			resolve(res);
 		}).catch((res) => {
@@ -113,6 +116,11 @@ export function checkPasswd(data) {
 export function updateUser(data) {
 	return _fetch(METHODS.post, data, API.user.updateUser);
 };
+
+// 获取用户信息
+export function getUserInfo() {
+  return _fetch(METHODS.post, API.user.getUserInfo);
+}
 
 // 获取首页banner
 export function listHomeBanners(data) {
