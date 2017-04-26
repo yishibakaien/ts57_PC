@@ -31,7 +31,8 @@ html, body, body > div:first-child {
   background: #f1f1f1;
 }
 
-
+.fl {float: left;}
+.fr {float: right;}
 .clearfix {
   display: block
 }

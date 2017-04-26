@@ -2,9 +2,11 @@
   <div class="topbar">
     <div class="content">
       <div class="left">
-        <span class="welcome">欢迎来到统搜57！</span>
+        <span class="welcome">坐视布管欢迎你!</span>
         <router-link v-if="!isLogin" to="/loginPage" class="link">登录</router-link>
         <router-link v-if="!isLogin" to="/registerPage" class="link">免费注册</router-link>
+        <span v-if="isLogin" class="username">{{userName}}</span>
+        <span v-if="isLogin" class="logout" @click="logoutMethod">[退出]</span>
       </div>
 
       <div class="right">
@@ -53,7 +55,13 @@
 </template>
 
 <script>
+import * as types from '../../store/types';
 export default {
+  data() {
+    return {
+      userName: this.$store.state.userInfo.userName
+    };
+  },
   computed: {
     isLogin() {
       return this.$store.state.token;
@@ -64,6 +72,12 @@ export default {
       this.$router.push({
         path: this.isLogin ? '/personalCenterPage' : '/loginPage'
       });
+    },
+    logoutMethod() {
+      this.$store.commit(types.LOGOUT);
+      this.$router.push({
+        path: '/homePage'
+      });
     }
   }
 };
@@ -71,18 +85,16 @@ export default {
 
 <style lang="stylus" scoped>
   .topbar
-    height 40px
-    line-height 40px
-    font-size 13px
-    color #353535
-    background #f1f1f1
-    .link:hover
-      color #3385ff
+    height 33px
+    line-height 33px
+    font-size 12px
+    color #999
+    background #f2f2f2
     .content
       width 1200px
       margin 0 auto
       .left
-        height 40px
+        height 33px
         float left
         .welcome
           display inline-block
@@ -94,9 +106,13 @@ export default {
           padding 0 8px
           &:last-child
             border-left 1px solid #ddd
+        .logout
+          cursor pointer
+          &:hover
+            color #3385ff
       .right
         float right
-        height 40px
+        height 33px
         .app-qrcode
           display inline-block
           position relative

@@ -5,16 +5,16 @@ function testMobile(tel) {
 }
 // 密码
 function testPWD(pwd) {
-    return /.{6,}/.test(pwd || '');
+    return /.{6,16}/.test(pwd || '');
 }
 // 用户名
 function testName(name) {
-    return /^[\u4E00-\u9FA5]{2,4}$/.test(name);
+    return /^[\u4E00-\u9FA5]{2,8}$/.test(name);
 }
 
 // 企业名字
 function testCompanyName(str) {
-    return /.{3,}/.test(str || '');
+    return /.{4,15}/.test(str || '');
 }
 // 短信验证码
 function testSMSCode(str) {
