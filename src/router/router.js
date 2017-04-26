@@ -26,7 +26,10 @@ const routes = [{
 	},
 	{
 		path: '/findPage',
-		component: findPage
+		component: findPage,
+    meta: {
+      needAuth: true
+    }
 	},
 	{
 		path: '/threeDDressPage',
