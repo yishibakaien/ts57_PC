@@ -98,7 +98,6 @@ export default {
             this.$store.commit(types.USER_INFO, res.data.data);
             this.$store.commit(types.LOGIN, res.headers['x-token']);
             this.$store.commit(types.LOGIN_MASK, false);
-
             // 路由重定向
             let redirect = decodeURIComponent(this.$route.query.redirect || '/');
             this.$router.push({

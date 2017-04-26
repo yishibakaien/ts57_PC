@@ -10,9 +10,9 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        userInfo: null,
-        ajaxToken: null,    // 发起ajax请求时的携带的token 始终存在
-        accessToken: null,   // 当用户登录之后，才存入缓存中(退出时清除) 保持与ajaxToken 一致
+        userName: '',
+        ajaxToken: '',    // 发起ajax请求时的携带的token 始终存在
+        accessToken: '',   // 当用户登录之后，才存入缓存中(退出时清除) 保持与ajaxToken 一致
         showLoading: false,
         showLoginMask: false
     },
@@ -40,15 +40,13 @@ export default new Vuex.Store({
             state.showLoginMask = data;
         },
         [types.USER_INFO]: (state, data) => {
-            let _data;
-            if (typeof data === 'string') {
-                _data = JSON.parse(data);
-                state.userInfo = _data;
-                localStorage.userInfo = data;
-            } else {
-                state.userInfo = data;
-                localStorage.userInfo = JSON.stringify(data);
+            // userInfo state 与 localStorage 中统一存为string
+            let _data = data;
+            if (typeof data === 'object') {
+                _data = JSON.stringify(data);
             }
+            localStorage.userInfo = _data;
+            state.userInfo = _data;
         }
     }
 });

@@ -74,9 +74,9 @@ export default {
       .button
         width 20%
         margin-top 20px
-    .file-upload {
-      display: block;
-      height: 80px;
-      width: 80px;
-    }
+    .file-upload 
+      display block
+      height 80px
+      width 80px
+    
 </style>
