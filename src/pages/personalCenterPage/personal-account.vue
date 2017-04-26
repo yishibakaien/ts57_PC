@@ -2,7 +2,7 @@
 	<div class="personal-account">
 		<div class="personal-account-item headImg personal-form">
 			<label>头像</label>
-			<input type="file" name="headImg" id="headImg"  @change="uploadImg"/>
+			<input type="file" name="headImg" id="headImg" @change="uploadImg" />
 			<div class="headImgSee">
 				<label for="headImg" class="lb">重新上传</label>
 				<img :src="param.userHeadIcon" alt="头像" />
@@ -25,6 +25,7 @@
 </template>
 
 <script>
+//	import * as types from '../../store/types';
 	import { updateUser } from '../../common/api/api';
 	import uploadPicture from '../../common/js/uploadPicture';
 
@@ -39,7 +40,10 @@
 			};
 		},
 		created() {
-			this.param['x-token'] = localStorage.getItem('x-token');
+			console.log(this.$store.state.userInfo);
+			this.param['x-token'] = this.$store.state.token;
+			this.param['userHeadIcon'] = this.$store.state.userInfo.userHeadIcon;
+			this.param['userName'] = this.$store.state.userInfo.userName;
 		},
 		methods: {
 			uploadImg(e) {

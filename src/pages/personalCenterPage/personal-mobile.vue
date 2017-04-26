@@ -6,14 +6,14 @@
 		</div>
 		<div class="personal-mobile-wrap personal-form" v-if="isShow">
 			<label for="password">登录密码</label>
-			<input type="password" name="password" id="password" placeholder="请输入登录密码" v-model="param.userPasswd"/>
+			<input type="password" name="password" id="password" placeholder="请输入登录密码" v-model="param.userPasswd" />
 			<button class="checkoutBtn personal-btn" @click="checkPasswdMethod()">校验</button>
 		</div>
 		<div class="personal-mobile-wrap" v-if="!isShow">
 			<div class="personal-mobile-item personal-form">
 				<label for="newMobile">新手机号</label>
-				<input type="text" name="newMobile" id="newMobile" placeholder="请输入您的新手机号" />
-				<button>获取验证码</button>
+				<input type="text" name="newMobile" id="newMobile" placeholder="请输入您的新手机号" v-model="mobile" />
+				<button @click="changeSMSCodeMethod">获取验证码</button>
 			</div>
 			<div class="personal-mobile-item personal-form">
 				<label for="sbCode">验证码</label>
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-	import { checkPasswd } from '../../common/api/api';
+	import { checkPasswd, changeSMSCode } from '../../common/api/api';
 	export default {
 		data() {
 			return {
@@ -43,15 +43,30 @@
 		},
 		created() {
 			let _ = this;
-			_.param['x-token'] = localStorage.getItem('x-token');
+			_.param['x-token'] = this.$store.state.token;
 		},
 		methods: {
 			checkPasswdMethod() {
 				checkPasswd(this.param).then((res) => {
-					console.log('检验成功');
-					this.isShow = false;
+					if (res.data.code === 0) {
+						console.log('成功', res.data);
+						this.isShow = false;
+					} else {
+						console.log('失败', res.data);
+					}
 				}, (res) => {
 					console.log('检验失败');
+				});
+			},
+			changeSMSCodeMethod() {
+				changeSMSCode(this.mobile).then((res) => {
+					if (res.data.code === 0) {
+						console.log('success', res.data);
+					} else {
+						console.log('error');
+					}
+				}, (res) => {
+					console.log('异常');
 				});
 			}
 		}
@@ -59,7 +74,6 @@
 </script>
 
 <style lang="scss" scoped="scoped">
-
 	.checkoutBtn {
 		margin-left: 30px !important;
 	}

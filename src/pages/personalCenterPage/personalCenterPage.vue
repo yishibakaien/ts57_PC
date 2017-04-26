@@ -108,7 +108,6 @@
 			personalSupply
 		},
 		created() {
-            console.log(localStorage.getItem('x-token'));
 		},
 		methods: {
 			personalTab(index) {

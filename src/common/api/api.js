@@ -110,3 +110,8 @@ export function updateUser(data) {
 export function listHomeBanners(data) {
   return _fetch(METHODS.get, data, API.home.listHomeBanners);
 }
+
+// 获取修改手机短信
+export function changeSMSCode(data) {
+  return _fetch(METHODS.get, data, API.user.changeSMSCode);
+}
