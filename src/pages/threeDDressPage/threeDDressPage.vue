@@ -2,7 +2,7 @@
   <div class="threeDDress">
     <v-header></v-header>
     <v-nav></v-nav>
-    <div class="dress-ccontainer">
+    <div class="dress-box">
 
       <div class="left-side">
         <div class="title">
@@ -154,8 +154,12 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-  .dress-ccontainer
+.threeDDress
+  background #f2f2f2
+  .dress-box
     display flex
+    width 1200px
+    margin 0 auto
     padding 16px 0
     & .title
       height 48px

@@ -87,22 +87,20 @@ export default {
       }
     },
     loginMethod() {
-      let _this = this;
       if (!reg.testMobile(this.userData.userMobile) || !reg.testPWD(this.userData.userPWD)) {
         alert('账号或密码格式错误，请重试！');
         return;
       }
       login(this.userData).then((res) => {
           console.log('返回的用户信息', res);
+          console.info('返回的用户信息的x-token', res.headers['x-token']);
           if (res.data.code === 0) {
-            // 由于token 获取存在一些问题，暂时写死token
-            _this.$store.commit(types.LOGIN, '139b9dac520a41c5a5fcb9a5ac41e54f');
-            _this.$store.commit(types.USER_INFO, res.data.data);
-            console.info('用户信息', _this.$store.state.userInfo);
-            _this.$store.commit(types.LOGIN_MASK, false);
+            this.$store.commit(types.USER_NAME, res.data.data.userName);
+            this.$store.commit(types.LOGIN, res.headers['x-token']);
+            this.$store.commit(types.LOGIN_MASK, false);
+            // 路由重定向
             let redirect = decodeURIComponent(this.$route.query.redirect || '/');
-
-            _this.$router.push({
+            this.$router.push({
               path: redirect
             });
           } else {

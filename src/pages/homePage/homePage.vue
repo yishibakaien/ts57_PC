@@ -5,11 +5,12 @@
     <div class="swiper">
       banner-zone
     </div>
-    <div class="homePage-container">
+    <div class="homePage-box">
       <button class="button button-block button-blue" @click="seeDetail">花型详情(需要登录才能浏览)</button>
       <button @click="logout" class="button button-block button-red" v-if="showBtn">退出登录</button>
+      <pic-upload class="file-upload" ref="fileUpload"></pic-upload>
     </div>
-    <pic-upload class="file-upload" ref="fileUpload"></pic-upload>
+
     <!-- <fixed-topbar></fixed-topbar> -->
   </div>
 </template>
@@ -27,10 +28,8 @@ export default {
     fixedTopbar
   },
   created() {
-    listHomeBanners({
-      'x-token': this.$store.state.token
-    }).then(res => {
-      console.log(res);
+    listHomeBanners().then(res => {
+      console.log('首页banner', res);
     }).catch(res => {
       console.log('error', res);
     });
@@ -42,7 +41,7 @@ export default {
   },
   methods: {
     seeDetail() {
-      if (this.$store.state.token) {
+      if (this.$store.state.accessToken) {
         alert('这是花型详情页面');
       } else {
         this.$store.commit(types.LOGIN_MASK, true);
@@ -57,25 +56,28 @@ export default {
 
 <style lang="stylus" scoped>
   .homePage
-    height 1200px
-    background #fff
+    background #f2f2f2
     .swiper
       position absolute
+      z-index 1
       left 0
       width 100%
       height 300px
       text-align center
       background #d8d8d8
 
-    .homePage-container
+    .homePage-box
+      width 1200px
+      margin 0 auto
       margin-top 300px
       padding 16px 0
+      background #fff
       .button
         width 20%
         margin-top 20px
-    .file-upload {
-      display: block;
-      height: 80px;
-      width: 80px;
-    }
+    .file-upload
+      display block
+      height 80px
+      width 80px
+
 </style>

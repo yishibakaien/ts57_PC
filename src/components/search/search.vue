@@ -1,13 +1,13 @@
 <template>
   <div class="search">
-    <input class="search-input" type="text" placeholder="请输入花型编号或厂名">
+    <input class="search-input" type="text" placeholder="可输入厂名或花型编号查找">
     <div class="choose-pic">
       <!-- <i class="iconfont">字</i> -->
       <pic-upload class="choose-input" ref="fileUpload"></pic-upload>
       <!-- <input class="choose-input" type="file" title="上传图片搜图"> -->
     </div>
     <div class="search-btn" title="搜索">
-        <i class="iconfont">字</i>
+        搜索
     </div>
   </div>
 </template>
@@ -24,16 +24,17 @@ export default {
 <style lang="stylus" scoped>
   .search
     position relative
-    width 400px
+    width 590px
     height 40px
-    border 2px solid #3385ff
+    box-sizing border-box
+    border 2px solid #4c93fd
     font-size 0
     .search-input
       display inline-block
-      width 324px
+      width 442px
       height 24px
       line-height 24px
-      padding 8px
+      padding 6px 0 6px 12px
       vertical-align top
       font-size 16px
       border 0
@@ -42,9 +43,9 @@ export default {
         line-height 24px
     .choose-pic
       position absolute
-      right 60px
+      right 134px
       top 0
-      height 40px
+      height 36px
       width 40px
       padding 0 4px
       overflow hidden
@@ -54,8 +55,8 @@ export default {
         z-index 1
         right 0
         width 40px
-        height 40px
-        line-height 40px
+        height 36px
+        line-height 36px
         padding 0 4px
         font-size 18px
         color #3385ff
@@ -65,7 +66,7 @@ export default {
         z-index 2
         right 0
         top 0
-        height 40px
+        height 36px
         width 40px
         padding 0 4px
         // opacity 0
@@ -73,13 +74,13 @@ export default {
         cursor pointer
     .search-btn
       display inline-block
-      height 40px
-      line-height 40px
-      width 60px
+      height 36px
+      line-height 36px
+      width 132px
       vertical-align top
       font-size 20px
       text-align center
-      background #3385ff
+      background #4c93fd
       color #fff
       cursor pointer
 </style>
