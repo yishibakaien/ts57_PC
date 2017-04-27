@@ -56,15 +56,25 @@
 
 <script>
 import * as types from '../../store/types';
+import {getUserInfo} from '../../common/api/api';
 export default {
-  data() {
-    return {
-      userName: this.$store.state.userInfo.userName
-    };
+  created() {
+    console.log('topbar-accessToken', this.$store.state.accessToken);
+    if (this.$store.state.accessToken) {
+      getUserInfo().then(res => {
+        console.info(res);
+        this.$store.commit(types.USER_NAME, res.data.data.userName);
+      }).catch(res => {
+        console.log(res);
+      });
+    }
   },
   computed: {
     isLogin() {
-      return this.$store.state.token;
+      return this.$store.state.accessToken;
+    },
+    userName() {
+      return this.$store.state.userName;
     }
   },
   methods: {
@@ -87,6 +97,8 @@ export default {
   .topbar
     height 33px
     line-height 33px
+    box-sizing border-box
+    border-bottom 1px solid #d8d8d8
     font-size 12px
     color #999
     background #f2f2f2
