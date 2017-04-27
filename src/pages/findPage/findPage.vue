@@ -14,6 +14,9 @@ export default {
   components: {
     'vHeader': header,
     'vNav': nav
+  },
+  created() {
+    console.log('I am findPage and created');
   }
 };
 </script>

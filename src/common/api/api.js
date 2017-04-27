@@ -43,6 +43,9 @@ const METHODS = {
  * @return {object || string}         格式化后的data
  */
 function _formatData(method, data) {
+    if (!data) {
+      return '';
+    }
     let _data = Object.assign({}, data);
     if (method === METHODS.get) {
         return _data;
@@ -59,6 +62,7 @@ function _formatData(method, data) {
  * @return {promise}        Promise 对象
  */
 function _fetch(method = METHODS.get, data, url) {
+    console.info('api-ajaxToken', store.state.ajaxToken);
     let _headers = Object.assign({'x-token': store.state.ajaxToken || ''}, headers);
     if (url === API.user.login) {
         // 如果是登录的请求则删除掉请求头中的x-token
@@ -118,11 +122,11 @@ export function updateUser(data) {
 };
 
 // 获取用户信息
-export function getUserInfo() {
-    return _fetch(METHODS.post, API.user.getUserInfo);
+export function getUserInfo(data) {
+    return _fetch(METHODS.post, data, API.user.getUserInfo);
 }
 
 // 获取首页banner
-export function listHomeBanners() {
-    return _fetch(METHODS.get, API.home.listHomeBanners);
+export function listHomeBanners(data) {
+    return _fetch(METHODS.get, data, API.home.listHomeBanners);
 }

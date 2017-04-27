@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     seeDetail() {
-      if (this.$store.state.token) {
+      if (this.$store.state.accessToken) {
         alert('这是花型详情页面');
       } else {
         this.$store.commit(types.LOGIN_MASK, true);
@@ -59,6 +59,7 @@ export default {
     background #f2f2f2
     .swiper
       position absolute
+      z-index 1
       left 0
       width 100%
       height 300px
@@ -74,9 +75,9 @@ export default {
       .button
         width 20%
         margin-top 20px
-    .file-upload 
+    .file-upload
       display block
       height 80px
       width 80px
-    
+
 </style>

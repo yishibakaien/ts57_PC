@@ -67,7 +67,8 @@ const routes = [
 // 进入页面，判断、赋值token userInfo
 if (localStorage.accessToken) {
     store.commit(types.LOGIN, localStorage.accessToken);
-    store.commit(types.USER_INFO, localStorage.userInfo);
+    store.commit(types.AJAX, localStorage.ajaxToken);
+    store.commit(types.USER_NAME, localStorage.userName);
 }
 
 const router = new Router({
