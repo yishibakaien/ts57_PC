@@ -1,6 +1,11 @@
+<!-- created：HZC 4.27 -->
 <template>
 	<div class="shop-material">
-		我是素材库
+		<div class="shop-material-content">
+			<div class="shop-ma">
+
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -8,5 +13,13 @@
 	export default {};
 </script>
 
-<style>
+<style lang="css" scoped>
+	@component-namespace shop{
+  		@component material{
+  			margin-top:40px;
+    		@descendent content{
+
+    		}
+  }
+}
 </style>
