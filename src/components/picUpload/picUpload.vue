@@ -1,10 +1,65 @@
 <template lang="html">
 <div class="file-upload-container">
   <img class="dest-image" :src="destImg" v-show="destImg !== null" @click="openFile" />
-  <a class="file-upload-icon" v-show="destImg === null">
+  <!-- <a class="file-upload-icon" v-show="destImg === null"> 备注了前辈的内容-->
+  <a class="file-upload-icon" v-show="true">
     <input ref="input" type="file" accept="image/png,image/jpeg,image/gif" @change="change" v-show="!openCrop">
   </a>
+  <div class="picHistory-box">
+    <h2 class="history-text">
+      <span class="history-title">搜索历史</span>
+      <span class="history-desc">(显示最近的5条)</span>
+    </h2>
+    <div class="localPic-list">
+      <ul class="clearfix">
+        <li class="pic-li">
+          <img width="80" height="80">
+        </li>
+        <li class="pic-li">
+          <img width="80" height="80">
+        </li>
+        <li class="pic-li">
+          <img width="80" height="80">
+        </li>
+        <li class="pic-li">
+          <img width="80" height="80">
+        </li>
+        <li class="pic-li">
+          <img width="80" height="80">
+        </li>
+        <li class="pic-li">
+          <img width="80" height="80">
+        </li>
+        <li class="pic-li">
+          <img width="80" height="80">
+        </li>
+        <li class="pic-li">
+          <img width="80" height="80">
+        </li>
+        <li class="pic-li">
+          <img width="80" height="80">
+        </li>
+        <li class="pic-li">
+          <img width="80" height="80">
+        </li>
+        <li class="pic-li">
+          <img width="80" height="80">
+        </li>
+        <li class="pic-li">
+          <img width="80" height="80">
+        </li>
+      </ul>
+    </div>
+    <div class="history-btn-wrapper">
+      <span class="history-btn">关闭</span>
+      <span class="history-btn">清空历史</span>
+    </div>
+  </div>
   <div class="crop-container" v-show="openCrop">
+    <!-- new -->
+    <div class="crop-title">请框选途中要识别的区域</div>
+    <div class="close-btn" @click="closeCrop">&times;</div>
+    <!-- new -->
     <div class="crop-container__source" @mouseup="mouseup" @mousemove="mousemove">
       <img class="crop-container__source__image" :src="imgSrc" ref="img"/>
       <div class="crop-box" :style="cropBoxStyle" @mousedown="mousedown" ref="cropbox">
@@ -29,8 +84,17 @@
       </div>
     </div>
     <canvas class="crop-canvas" ref="canvas" width="200" height="200"></canvas>
+    <div style="font-size: 14px;line-height: 32px;color: #666">图片预览</div>
+    <!-- 关闭图片切割窗口 -->
     <div @click="closeCrop" class="crop-btn crop-cancel">取消</div>
-    <div @click="clip" class="crop-btn crop-yes">确定</div>
+    <!-- 确认选取图片窗口 -->
+    <!-- <div @click="clip" class="crop-btn crop-yes">确定</div> -->
+    <div class="buttons-box">
+      <div @click="clip" class="search-btn">搜面料</div>
+      <div @click="clip" class="search-btn">搜大边</div>
+      <div @click="clip" class="search-btn">搜小边</div>
+      <div @click="clip" class="search-btn">搜睫毛</div>
+    </div>
   </div>
 </div>
 </template>
@@ -52,6 +116,9 @@ var on = (function () {
     };
   }
 })();
+
+// 本地缓存图片前缀;
+const PICNAME_PREFIX = 'localPic';
 
 var slice = {
   h: 200,
@@ -143,8 +210,43 @@ export default {
       this.canvas.ctx.clearRect(0, 0, slice.w, slice.h);
       this.canvas.ctx.drawImage(this.image, source.x, source.y, source.width, source.height, dest.x, dest.y, dest.width, dest.height);
     },
+    // 2017年4月27日15:31:22 cloud_cb 添加图片本地缓存功能;
+    // 缓存图片搜索记录
+    saveSearchHistory: function(data) {
+      var localKeys = Object.keys(localStorage);
+      var picCount = 0;
+
+      localKeys.forEach(function(item, index) {
+        if (item.indexOf(PICNAME_PREFIX) !== -1) {
+          picCount++;
+        }
+      });
+      var picName = PICNAME_PREFIX + picCount;
+      localStorage[picName] = data;
+    },
+    // 获取本地缓存图片
+    getSearchHistory: function() {
+      var localKeys = Object.keys(localStorage);
+      var picHistoryArr = [];
+      localKeys.forEach(function(item, index) {
+        if (item.indexOf(PICNAME_PREFIX) !== -1) {
+          // 获取到缓存的图片的名称
+          picHistoryArr.push(item);
+        }
+      });
+    },
+    // 清空本地缓存图片
+    clearSearchHistory: function() {
+      var localKeys = Object.keys(localStorage);
+      localKeys.forEach(function(item, index) {
+        if (item.indexOf(PICNAME_PREFIX) !== -1) {
+          localStorage.removeItem(item);
+        }
+      });
+    },
     clip: function () {
       this.destImg = this.$refs.canvas.toDataURL();
+      this.saveSearchHistory(this.destImg);
       this.closeCrop();
     },
     openFile: function () {
@@ -176,7 +278,7 @@ export default {
         var height = this.image.naturalHeight;
         var width = this.image.naturalWidth;
         if (height / width !== this.ratio) {
-          console.log('比例不对啊:' + height / width);
+          // console.log('比例不对啊:' + height / width);
         }
         this.draw();
       };
@@ -275,7 +377,7 @@ export default {
         var offsetX = px - this.enterPoint.x;
         var offsetY = py - this.enterPoint.y;
         if (this.target === this.$refs.rightBottom || this.MoveType.current === this.MoveType.moveRightBottom) {
-          console.log('offsetX, offsetY');
+          // console.log('offsetX, offsetY');
           this.moveRightBottom(offsetX, offsetY);
           this.MoveType.current = this.MoveType.moveRightBottom;
         } else if (this.target === this.$refs.rightTop || this.MoveType.current === this.MoveType.moveRightTop) {
@@ -298,7 +400,7 @@ export default {
       }
     },
     moveRightBottom: function (offsetX, offsetY) {
-      console.log(offsetX, offsetY);
+      // console.log(offsetX, offsetY);
       var minHeight = baseWidth;
       var maxHeight = box.h;
       var curW = this.cropBox.width + offsetX;
@@ -430,11 +532,12 @@ $height = 400px
   }
   .dest-image {
     display: block;
-    height: 100%;
-    width: 100%;
-    position: relative;
+    height: 32px;
+    width: 36px;
+    position: absolute;
+    left: -45px !important;
     z-index: 1;
-    top: 0;
+    top: 2px;
     left: 0;
     z-index: 2;
   }
@@ -442,6 +545,7 @@ $height = 400px
     display: inline-block;
     border: 1px solid #000000;
     position: relative;
+    // position: absolute;
     z-index: 1;
     cursor: pointer;
     height: 100%;
@@ -480,10 +584,11 @@ $height = 400px
 .crop-container {
   position: fixed;
   width: $height + ($height / 2) + 10 + 20 * 2;
+  height: $height + 160; // 这里是新增的高度，为花型选择以及 title 预留
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  padding: 20px;
+  padding: 80px 20px 20px 20px;  // 这里的padding top 80 为title 预留
   background-color: #ffffff;
   box-shadow: 0 0 0 1000px rgba(0, 0, 0, .7);
   text-align: center;
@@ -625,7 +730,7 @@ $height = 400px
 .crop-canvas {
   box-sizing: border-box;
   display: block;
-  float: left;
+  float: right;
   background-color: #eeeeee;
   width: $height / 2;
   height: $height / 2;
@@ -663,4 +768,91 @@ $height = 400px
     }
   }
 }
+
+// 新增的内容
+.crop-title {
+  position absolute
+  top 30px
+  height 28px
+  width $height + 200
+  line-height 28px
+  font-size 20px
+  color #666
+  text-align center
+}
+.close-btn {
+  display inline-block
+  position absolute
+  right 0
+  top 0
+  height 60px
+  line-height 60px
+  width 60px
+  font-size 50px
+  color #666
+  font-weight 200
+
+}
+.buttons-box{
+  position: absolute;
+  bottom: 0;
+  width: $height;
+  height: 120px;
+  // background: red;
+}
+.search-btn {
+  display: inline-block;
+  height: 40px;
+  line-height 40px;
+  width: 80px;
+  margin: 60px 0 0 10px;
+  color: #000;
+  font-size: 16px;
+  border: 1px solid #d8d8d8;
+}
+.search-btn:first-child {
+  margin-left: 0;
+}
+.picHistory-box
+  position relative
+  padding 24px 60px
+  height auto
+  width 590px
+  left -410px
+  top 20px
+  background #fff
+  box-shadow 0 0 20px rgba(0, 0, 0, 0.5)
+  .history-text
+    font-weight 200
+    line-height 30px
+    .history-title
+      display inline-block
+      vertical-align middle
+      font-size 20px
+      color #666
+    .history-desc
+      display inline-block
+      vertical-align middle
+      margin-left 8px
+      font-size 14px
+      color #666
+  .localPic-list
+    margin-top 24px
+    text-align center
+    .pic-li
+      display inline-block
+      margin 6px
+  .history-btn-wrapper
+    height 40px
+    margin-top 20px
+    font-size 16px
+    .history-btn
+      text-align center
+      display inline-block
+      float right
+      height 40px
+      line-height 40px
+      width 120px
+      margin-left 20px
+      border 1px solid #d8d8d8
 </style>

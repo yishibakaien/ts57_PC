@@ -48,7 +48,7 @@ export default {
       height 36px
       width 40px
       padding 0 4px
-      overflow hidden
+      // overflow hidden
       .iconfont
         display inline-block
         position absolute
