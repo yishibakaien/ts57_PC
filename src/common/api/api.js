@@ -8,27 +8,6 @@ import axios from 'axios';
 axios.defaults.baseURL = '/api';
 
 const API = {
-<<<<<<< HEAD
-    // 用户模块API
-    user: {
-        reg: '/front/user/reg', // 注册
-        login: '/front/user/login', // 登录
-        checkPhone: '/front/user/checkPhone', // 检查手机号码
-        changeMobile: '/user/changeMobile', // 修改手机号码
-        updateUser: '/user/updateUser', // 修改用户信息
-        restPasswd: '/user/restPasswd', // 修改密码
-        checkPasswd: '/user/checkPasswd', // 校验密码
-        changeSMSCode: '/user/changeSMSCode', // 获取修改手机短信
-        getVerifyCode: '/front/user/getVerifyCode', // 获取图片验证码
-        getFindSMSCode: '/front/user/getFindSMSCode', // 获取找回短信
-        getRegSMSCode: '/front/user/getRegSMSCode', // 获取注册短信
-        getUserInfo: '/user/getUserInfo' // 获取用户最新信息
-    },
-    // 首页
-    home: {
-        listHomeBanners: '/homeBanner/listHomeBanners' // 首页banner
-    }
-=======
 	// 用户模块API
 	user: {
 		reg: '/front/user/reg', // 注册
@@ -75,7 +54,6 @@ const API = {
 		listCompany: '/favorite/listCompany', // 获取收藏厂家列表
 		listProduct: '/favorite/listProduct' // 获取收藏花型列表
 	}
->>>>>>> all_lyf
 };
 
 const METHODS = {
@@ -180,21 +158,12 @@ export function getUserInfo(data) {
 
 // 获取首页banner
 export function listHomeBanners(data) {
-<<<<<<< HEAD
     return _fetch(METHODS.get, data, API.home.listHomeBanners);
-=======
-	return _fetch(METHODS.get, data, API.home.listHomeBanners);
->>>>>>> all_lyf
 }
 
 // 获取修改手机短信
 export function changeSMSCode(data) {
 	return _fetch(METHODS.post, data, API.user.changeSMSCode);
-}
-
-// 获取用户信息
-export function getUserInfo(data) {
-	return _fetch(METHODS.post, data, API.user.getUserInfo);
 }
 
 // 修改手机号
