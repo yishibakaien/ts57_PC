@@ -36,11 +36,6 @@ module.exports = {
 				}
 			}
 		},
-		context: [
-			'/user',
-			'/ingredient'
-		],
-		proxypath: 'http://192.168.1.11:8080',
 		// CSS Sourcemaps off by default because relative paths are "buggy"
 		// with this option, according to the CSS-Loader README
 		// (https://github.com/webpack/css-loader#sourcemaps)

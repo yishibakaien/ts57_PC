@@ -25,7 +25,6 @@
 </template>
 
 <script>
-//	import * as types from '../../store/types';
 	import { updateUser } from '../../common/api/api';
 	import uploadPicture from '../../common/js/uploadPicture';
 
@@ -40,10 +39,9 @@
 			};
 		},
 		created() {
-			console.log(this.$store.state.userInfo);
-			this.param['x-token'] = this.$store.state.token;
-			this.param['userHeadIcon'] = this.$store.state.userInfo.userHeadIcon;
-			this.param['userName'] = this.$store.state.userInfo.userName;
+			this.param.userHeadIcon = localStorage.getItem('userHeadIcon');
+			this.param.userName = localStorage.getItem('userName');
+			console.log(this.param);
 		},
 		methods: {
 			uploadImg(e) {

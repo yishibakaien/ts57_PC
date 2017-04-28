@@ -2,7 +2,7 @@
 	<div class="personal-mobile">
 		<div class="personal-mobile-info personal-info">
 			<p>1、更换手机号码需要先做登录密码校验，请输入当前帐号登录密码；</p>
-			<p>2、更换号码后，下次登录使用新号码登录，当前手机号 <span>{{ mobile }}</span>。</p>
+			<p>2、更换号码后，下次登录使用新号码登录，当前手机号 <span>{{ mobile.mobile }}</span>。</p>
 		</div>
 		<div class="personal-mobile-wrap personal-form" v-if="isShow">
 			<label for="password">登录密码</label>
@@ -12,14 +12,14 @@
 		<div class="personal-mobile-wrap" v-if="!isShow">
 			<div class="personal-mobile-item personal-form">
 				<label for="newMobile">新手机号</label>
-				<input type="text" name="newMobile" id="newMobile" placeholder="请输入您的新手机号" v-model="mobile" />
+				<input type="text" name="newMobile" id="newMobile" placeholder="请输入您的新手机号" v-model="mobile.mobile" />
 				<button @click="changeSMSCodeMethod">获取验证码</button>
 			</div>
 			<div class="personal-mobile-item personal-form">
 				<label for="sbCode">验证码</label>
-				<input type="text" name="sbCode" id="sbCode" placeholder="请输入4位验证码" />
+				<input type="text" name="sbCode" id="sbCode" placeholder="请输入4位验证码" v-model="mobile.smsCode" />
 			</div>
-			<button class="submitBtn personal-btn">保存</button>
+			<button class="submitBtn personal-btn" @click="changeMobileMethod">保存</button>
 		</div>
 		<div class="personal-mobile-alert" v-if="alertShow">
 			<i>—</i>登录密码检验失败
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-	import { checkPasswd, changeSMSCode } from '../../common/api/api';
+	import { checkPasswd, changeSMSCode, changeMobile } from '../../common/api/api';
 	export default {
 		data() {
 			return {
@@ -36,36 +36,49 @@
 					'x-token': '',
 					userPasswd: ''
 				},
-				mobile: 18333604006,
+				mobile: {
+					mobile: '',
+					smsCode: ''
+				},
 				alertShow: false,
 				isShow: true
 			};
 		},
 		created() {
 			let _ = this;
-			_.param['x-token'] = this.$store.state.token;
+			_.mobile.mobile = localStorage.getItem('userMobile');
 		},
 		methods: {
 			checkPasswdMethod() {
 				checkPasswd(this.param).then((res) => {
 					if (res.data.code === 0) {
-						console.log('成功', res.data);
-						this.isShow = false;
-					} else {
-						console.log('失败', res.data);
-					}
-				}, (res) => {
+						if (res.data.data) {
+							this.isShow = false;
+						} else {
+							alert('登录密码校验失败');
+						}
+					};
+				}).catch((res) => {
 					console.log('检验失败');
 				});
 			},
 			changeSMSCodeMethod() {
 				changeSMSCode(this.mobile).then((res) => {
 					if (res.data.code === 0) {
-						console.log('success', res.data);
+						alert('发送成功');
 					} else {
 						console.log('error');
 					}
-				}, (res) => {
+				}).catch((res) => {
+					console.log('异常');
+				});
+			},
+			changeMobileMethod() {
+				changeMobile(this.mobile).then((res) => {
+					if (res.data.code === 0) {
+						alert('修改成功');
+					}
+				}).catch((res) => {
 					console.log('异常');
 				});
 			}
