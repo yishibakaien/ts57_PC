@@ -8,7 +8,6 @@
     <div class="homePage-box">
       <button class="button button-block button-blue" @click="seeDetail">花型详情(需要登录才能浏览)</button>
       <button @click="logout" class="button button-block button-red" v-if="showBtn">退出登录</button>
-      <pic-upload class="file-upload" ref="fileUpload"></pic-upload>
     </div>
 
     <!-- <fixed-topbar></fixed-topbar> -->
@@ -16,7 +15,7 @@
 </template>
 
 <script>
-import { header, nav, picUpload, fixedTopbar } from '../../components';
+import { header, nav, fixedTopbar } from '../../components';
 import { listHomeBanners } from '../../common/api/api';
 import * as types from '../../store/types';
 
@@ -24,7 +23,6 @@ export default {
   components: {
     'vHeader': header,
     'vNav': nav,
-    picUpload,
     fixedTopbar
   },
   created() {

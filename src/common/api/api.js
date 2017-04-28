@@ -114,8 +114,8 @@ function _fetch(method = METHODS.get, data, url) {
                 }
             }
             if (res.data.code !== 0 && res.data.message) {
-				alert(res.data.message);
-			}
+                alert(res.data.message);
+            }
             resolve(res);
         }).catch((res) => {
             console.log('进入了catch');
