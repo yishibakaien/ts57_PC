@@ -71,7 +71,7 @@ const METHODS = {
  */
 function _formatData(method, data) {
     if (!data) {
-      return '';
+        return '';
     }
     let _data = Object.assign({}, data);
     if (method === METHODS.get) {
@@ -90,7 +90,7 @@ function _formatData(method, data) {
  */
 function _fetch(method = METHODS.get, data, url) {
     console.info('api-ajaxToken', store.state.ajaxToken);
-    let _headers = Object.assign({'x-token': store.state.ajaxToken || ''}, headers);
+    let _headers = Object.assign({ 'x-token': store.state.ajaxToken || '' }, headers);
     if (url === API.user.login) {
         // 如果是登录的请求则删除掉请求头中的x-token
         try {
