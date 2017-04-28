@@ -95,8 +95,6 @@ export default {
       login(this.userData).then((res) => {
           console.log('返回的用户信息', res);
           if (res.data.code === 0) {
-            // 由于token 获取存在一些问题，暂时写死token
-            _this.$store.commit(types.LOGIN, '139b9dac520a41c5a5fcb9a5ac41e54f');
             _this.$store.commit(types.USER_INFO, res.data.data);
             console.info('用户信息', _this.$store.state.userInfo);
             _this.$store.commit(types.LOGIN_MASK, false);

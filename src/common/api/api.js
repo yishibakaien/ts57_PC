@@ -23,10 +23,37 @@ const API = {
 		getRegSMSCode: '/front/user/getRegSMSCode', // 获取注册短信
 		getUserInfo: '/user/getUserInfo' // 获取用户最新信息
 	},
-  // 首页
-  home: {
-    listHomeBanners: '/homeBanner/listHomeBanners' // 首页banner
-  }
+	// 首页
+	home: {
+		listHomeBanners: '/homeBanner/listHomeBanners' // 首页banner
+	},
+	// 供应求购
+	buy: {
+		listProductBuys: '/productBuy/listProductBuys', // 获取求购列表
+		getCompanySupply: '/companySupply/getCompanySupply', // 供应详情
+		closeProductBuy: '/productBuy/closeProductBuy', // 关闭求购
+		deleteCompanySupply: '/companySupply/deleteCompanySupply', // 删除供应
+		deleteBuyTask: '/buyTask/deleteBuyTask', // 删除接单
+		deleteProductBuy: '/productBuy/deleteProductBuy', // 删除求购
+		releaseCompanySupply: '/companySupply/releaseCompanySupply', // 发布供应
+		releaseProductBuy: '/productBuy/releaseProductBuy', // 发布求购
+		cancelBuyTask: '/buyTask/cancelBuyTask', // 取消接单
+		finishProductBuy: '/productBuy/finishProductBuy', // 完成接单
+		orderBuyTask: '/buyTask/orderBuyTask', // 接单
+		getBuyTask: '/buyTask/getBuyTask', // 接单详情
+		getProductBuy: '/productBuy/getProductBuy', // 求购详情
+		listCompanySupplys: '/companySupply/listCompanySupplys', // 获取供应列表
+		listBuyTask: '/buyTask/listBuyTask', // 获取接单列表
+		listBuyTaskByBuyId: '/buyTask/listBuyTaskByBuyId' // 获取求购单接单列表
+	},
+	// 收藏管理
+	collection: {
+		batchCancel: '/favorite/batchCancel', // 批量取消收藏
+		favoriteBus: '/favorite/favoriteBus', // 收藏或取消
+		listSupply: 'favorite/listSupply', // 获取收藏供应列表
+		listCompany: '/favorite/listCompany', // 获取收藏厂家列表
+		listProduct: '/favorite/listProduct' // 获取收藏花型列表
+	}
 };
 
 const X_TOKEN = 'x-token';
@@ -63,8 +90,7 @@ function _formatData(method, data) {
  * @return {promise}        Promise 对象
  */
 function _fetch(method = METHODS.get, data, url) {
-	// alert('开始获取数据');
-  let _headers = Object.assign({'x-token': store.state.token || ''}, headers);
+	let _headers = Object.assign({ 'x-token': store.state.token || '' }, headers);
 
 	let param = {
 		method: method,
@@ -72,17 +98,18 @@ function _fetch(method = METHODS.get, data, url) {
 		headers: _headers,
 		data: _formatData(method, data)
 	};
-	// console.log(param);
 	return new Promise((resolve, reject) => {
 		axios(param).then((res) => {
-      console.log('api', res);
-      if (res.headers['x-token']) {
-        store.commit(types.LOGOUT);
-      }
+			if (res.headers['x-token']) {
+				store.commit(types.LOGIN, res.headers['x-token']);
+			};
+			if (res.data.code !== 0 && res.data.message) {
+				alert(res.data.message);
+			}
 			resolve(res);
-		}).catch((res) => {
-			console.log('进入了catch');
-			reject(res);
+		}).catch((error) => {
+			console.log(error);
+			reject(error);
 		});
 	});
 }
@@ -116,10 +143,45 @@ export function updateUser(data) {
 
 // 获取首页banner
 export function listHomeBanners(data) {
-  return _fetch(METHODS.get, data, API.home.listHomeBanners);
+	return _fetch(METHODS.get, data, API.home.listHomeBanners);
 }
 
 // 获取修改手机短信
 export function changeSMSCode(data) {
-  return _fetch(METHODS.get, data, API.user.changeSMSCode);
+	return _fetch(METHODS.post, data, API.user.changeSMSCode);
+}
+
+// 获取用户信息
+export function getUserInfo(data) {
+	return _fetch(METHODS.post, data, API.user.getUserInfo);
+}
+
+// 修改手机号
+export function changeMobile(data) {
+	return _fetch(METHODS.post, data, API.user.changeMobile);
+}
+
+// 修改密码
+export function restPasswd(data) {
+	return _fetch(METHODS.post, data, API.user.restPasswd);
+}
+
+// 获取求购列表
+export function listProductBuys(data) {
+	return _fetch(METHODS.get, data, API.buy.listProductBuys);
+}
+
+// 获取接单列表
+export function listBuyTask(data) {
+	return _fetch(METHODS.post, data, API.buy.listBuyTask);
+}
+
+// 获取收藏花型列表
+export function listProduct(data) {
+	return _fetch(METHODS.post, data, API.collection.listProduct);
+}
+
+// 关闭求购
+export function closeProductBuy(data) {
+	return _fetch(METHODS.post, data, API.buy.closeProductBuy);
 }
