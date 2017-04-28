@@ -1,64 +1,32 @@
 <template lang="html">
 <div class="file-upload-container">
-  <img class="dest-image" :src="destImg" v-show="destImg !== null" @click="openFile" />
+  <img class="dest-image" :src="destImg" v-show="destImg !== null" @click="toggleHistoryBox" />
   <!-- <a class="file-upload-icon" v-show="destImg === null"> 备注了前辈的内容-->
   <a class="file-upload-icon" v-show="true">
     <input ref="input" type="file" accept="image/png,image/jpeg,image/gif" @change="change" v-show="!openCrop">
   </a>
-  <div class="picHistory-box">
+  <div class="picHistory-box" v-if="isShowHistoryBox"> <!---->
     <h2 class="history-text">
       <span class="history-title">搜索历史</span>
       <span class="history-desc">(显示最近的5条)</span>
     </h2>
     <div class="localPic-list">
       <ul class="clearfix">
-        <li class="pic-li">
-          <img width="80" height="80">
-        </li>
-        <li class="pic-li">
-          <img width="80" height="80">
-        </li>
-        <li class="pic-li">
-          <img width="80" height="80">
-        </li>
-        <li class="pic-li">
-          <img width="80" height="80">
-        </li>
-        <li class="pic-li">
-          <img width="80" height="80">
-        </li>
-        <li class="pic-li">
-          <img width="80" height="80">
-        </li>
-        <li class="pic-li">
-          <img width="80" height="80">
-        </li>
-        <li class="pic-li">
-          <img width="80" height="80">
-        </li>
-        <li class="pic-li">
-          <img width="80" height="80">
-        </li>
-        <li class="pic-li">
-          <img width="80" height="80">
-        </li>
-        <li class="pic-li">
-          <img width="80" height="80">
-        </li>
-        <li class="pic-li">
-          <img width="80" height="80">
+        <li class="pic-li" v-for="(item,index) in historyPicArr" ref="picLi" @mouseover="addActive(item, index)" @mouseout="removeActive(item, index)">
+          <img width="100%" height="100%" :src="item.localPicSrc">
+          <span class="blue-close" @click="deleteCurrentPic($event, item, index)" title="删除此条记录">&times;</span>
         </li>
       </ul>
     </div>
     <div class="history-btn-wrapper">
-      <span class="history-btn">关闭</span>
+      <span class="history-btn" @click="toggleHistoryBox">关闭</span>
       <span class="history-btn">清空历史</span>
     </div>
   </div>
   <div class="crop-container" v-show="openCrop">
     <!-- new -->
     <div class="crop-title">请框选途中要识别的区域</div>
-    <div class="close-btn" @click="closeCrop">&times;</div>
+    <div class="close-btn" @click="closeCrop" title="关闭">&times;</div>
     <!-- new -->
     <div class="crop-container__source" @mouseup="mouseup" @mousemove="mousemove">
       <img class="crop-container__source__image" :src="imgSrc" ref="img"/>
@@ -138,6 +106,8 @@ export default {
   },
   data: function () {
     return {
+      isShowHistoryBox: false,
+      historyPicArr: [],
       openCrop: false,
       image: new Image(),
       imgSrc: null,
@@ -177,6 +147,16 @@ export default {
   mounted () {
     on(document, 'mouseup', () => this.mouseup());
     this.canvas.ctx = this.$refs.canvas.getContext('2d');
+    var arr = [];
+    Object.keys(localStorage).forEach(function(item) {
+      if (item.indexOf('localPic') !== -1) {
+        var obj = {};
+        obj['localPicSrc'] = localStorage[item];
+        obj['itemKey'] = item;
+        arr.push(obj);
+      }
+    });
+    this.historyPicArr = arr;
   },
   computed: {
     cropBoxStyle: function () {
@@ -194,6 +174,10 @@ export default {
         'top': this.selectPic.top + 'px',
         'left': this.selectPic.left + 'px'
       };
+    },
+    // 历史搜索记录图片数组
+    loacalImgSrc: function(index, item) {
+      return '';
     }
   },
   methods: {
@@ -512,6 +496,24 @@ export default {
         this.selectPic.marginTop -= offsetY;
       }
       this.draw();
+    },
+
+    // 新增的历史搜索记录模块方法
+    toggleHistoryBox: function() {
+      this.isShowHistoryBox = !this.isShowHistoryBox;
+    },
+    addActive: function(item, index) {
+      this.$refs.picLi[index].className += ' active';
+    },
+    removeActive: function(item, index) {
+      this.$refs.picLi[index].className = this.$refs.picLi[index].className.split('active').join('');
+    },
+    deleteCurrentPic: function(e, item, index) {
+      console.log(e);
+      console.log(item);
+      console.log(index);
+      this.historyPicArr.splice(index, index);
+      localStorage.removeItem(item.itemKey);
     }
   }
 };
@@ -791,7 +793,6 @@ $height = 400px
   font-size 50px
   color #666
   font-weight 200
-
 }
 .buttons-box{
   position: absolute;
@@ -841,7 +842,25 @@ $height = 400px
     text-align center
     .pic-li
       display inline-block
+      width 80px
+      height 80px
+      position relative
+      box-sizing border-box
       margin 6px
+      &.active
+        border 1px solid #4c93fd
+        .blue-close
+          position absolute
+          top -10px
+          right -10px
+          width 20px
+          height 20px
+          line-height 20px
+          text-align center
+          border-radius 50%
+          font-size 20px
+          color #fff
+          background #4c93fd
   .history-btn-wrapper
     height 40px
     margin-top 20px
