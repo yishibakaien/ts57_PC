@@ -28,6 +28,28 @@ function formatDate(date, fmt) {
         return ('00' + str).substr(str.length);
     }
 }
+// 对象字符串转成对象
+export const parseText = (str) => {
+  if (str.startsWith('{') || str.startsWith('[')) {
+    str = str.replace(/'/g, '"');
+    str = str.replace(/(\s?\{\s?)(\S)/g, '$1' + '"' + '$2');
+    str = str.replace(/(\s?,\s?)(\S)/g, '$1' + '' + '$2');
+    str = str.replace(/(\S\s?):(\s?\S)/g, '$1' + '":' + '$2');
+    str = str.replace(/,'\{/g, ',{');
+    str = str.replace(/""/g, '"');
+    str = str.replace(/\s/g, '');
+    try {
+      str = JSON.parse(str);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  return str;
+};
+// 判断是否对象
+export const isObject = (arg) => {
+  return typeof arg === 'object' && arg !== null;
+};
 
 export default {
   formatDate

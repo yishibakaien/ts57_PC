@@ -1,0 +1,39 @@
+:root {
+  /*checkbox*/
+  --checkboxBg: rgba(0, 0, 0, 0.4);
+  --checkboxdisabledbg: rgba(155, 155, 155, 0.5);
+  --checkboxColor: rgba(255, 255, 255, 1);
+  --checkboxDisabled: rgba(255, 255, 255, 1);
+  --checkedBg: #4C93FD;
+  /*nav*/
+  --navHoverColor: #4C93FD;
+  --navHoverBg: #FFF;
+  /*Image*/
+  --imageColor: #fff;
+  --imageBtBg: rgba(0, 0, 0, 0.4);
+  /*Radio*/
+  --radioColor: #4C93FD;
+  /*Filter*/
+  --filterTitileBg: #F8F8F8;
+  --filterBorder: 1px solid #D1D1D1;
+  /*menuTable*/
+  --menuTableHeaderBg: #F8F8F8;
+  --menuTableHeaderBorder: 1px solid #D1D1D1;
+  /*Dialog*/
+  --dialogFooterBg: #F8F8F8;
+  --dialogRightButton: #D1D1D1;
+  --dialogConfirmButton: #666666;
+  --dialogConfirmButton: #4C93FD;
+  /*Input*/
+  --input-border: 1px solid #D1D1D1;
+  --input-border-radius: 2px;
+  --input-fill: #fff;
+  --input-color: #666666;
+  --input-height: 32px;
+  --border-transition-base: border-color .2s cubic-bezier(.645, .045, .355, 1);
+  --input-placeholder-color: #b0b0b0;
+  --input-hover-border: #b0b0b0;
+  --input-disabled-fill: #F8F8F8;
+   --input-disabled-border: #D1D1D1;
+   --input-disabled-color: grey;
+}

@@ -2,8 +2,8 @@
 <template>
 	<div class="shop-material">
 		<div class="shop-material-content">
-			<div class="shop-ma">
-
+			<div name="menu">
+				<button class="button button-blue"></button>
 			</div>
 		</div>
 	</div>
