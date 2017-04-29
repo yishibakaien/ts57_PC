@@ -8,7 +8,7 @@
   <div class="picHistory-box" v-if="isShowHistoryBox"> <!---->
     <h2 class="history-text">
       <span class="history-title">搜索历史</span>
-      <span class="history-desc">(显示最近的5条)</span>
+      <span class="history-desc">(显示最近的10条)</span>
     </h2>
     <div class="localPic-list">
       <ul class="clearfix">
@@ -68,7 +68,6 @@
 </template>
 
 <script>
-// import { on } from '../utils'
 var on = (function () {
   if (document.addEventListener) {
     return function (element, event, handler) {
@@ -106,7 +105,9 @@ export default {
   },
   data: function () {
     return {
+      // 历史图片搜索记录盒子
       isShowHistoryBox: false,
+      // 历史图片搜索记录数组
       historyPicArr: [],
       openCrop: false,
       image: new Image(),
@@ -147,6 +148,7 @@ export default {
   mounted () {
     on(document, 'mouseup', () => this.mouseup());
     this.canvas.ctx = this.$refs.canvas.getContext('2d');
+    // 获取历史图片检索记录本地缓存
     var arr = [];
     Object.keys(localStorage).forEach(function(item) {
       if (item.indexOf('localPic') !== -1) {
@@ -156,7 +158,12 @@ export default {
         arr.push(obj);
       }
     });
+    // 填充历史图片搜索记录数组
     this.historyPicArr = arr;
+    // 填充预览小图
+    if (this.historyPicArr.length) {
+      this.destImg = this.historyPicArr[this.historyPicArr.length - 1].localPicSrc;
+    }
   },
   computed: {
     cropBoxStyle: function () {
@@ -174,10 +181,6 @@ export default {
         'top': this.selectPic.top + 'px',
         'left': this.selectPic.left + 'px'
       };
-    },
-    // 历史搜索记录图片数组
-    loacalImgSrc: function(index, item) {
-      return '';
     }
   },
   methods: {
@@ -198,28 +201,37 @@ export default {
     // 缓存图片搜索记录
     saveSearchHistory: function(data) {
       var localKeys = Object.keys(localStorage);
+      var picNameNumber = [];
       var picCount = 0;
-
       localKeys.forEach(function(item, index) {
         if (item.indexOf(PICNAME_PREFIX) !== -1) {
           picCount++;
+          var _item = item + '';
+          picNameNumber.push(Number(_item.replace(PICNAME_PREFIX)));
         }
       });
+      picNameNumber.sort(function(a, b) {
+        return a - b;
+      });
+      picCount = (picNameNumber[picNameNumber.length - 1] + 1) || 0;
       var picName = PICNAME_PREFIX + picCount;
+      console.log('picName', picName);
       localStorage[picName] = data;
+      this.historyPicArr.push({localPicSrc: data, itemkey: picName});
     },
     // 获取本地缓存图片
-    getSearchHistory: function() {
-      var localKeys = Object.keys(localStorage);
-      var picHistoryArr = [];
-      localKeys.forEach(function(item, index) {
-        if (item.indexOf(PICNAME_PREFIX) !== -1) {
-          // 获取到缓存的图片的名称
-          picHistoryArr.push(item);
-        }
-      });
-    },
-    // 清空本地缓存图片
+    // getSearchHistory: function() {
+    //   var localKeys = Object.keys(localStorage);
+    //   var picHistoryArr = [];
+    //   var _this = this;
+    //   localKeys.forEach(function(item, index) {
+    //     if (item.indexOf(PICNAME_PREFIX) !== -1) {
+    //       // 获取到缓存的图片的名称
+    //       picHistoryArr.push(item);
+    //     }
+    //   });
+    // },
+    // 清空所有本地缓存图片
     clearSearchHistory: function() {
       var localKeys = Object.keys(localStorage);
       localKeys.forEach(function(item, index) {
@@ -514,6 +526,7 @@ export default {
       console.log(index);
       this.historyPicArr.splice(index, index);
       localStorage.removeItem(item.itemKey);
+      this.destImg = this.historyPicArr[this.historyPicArr.length - 1].localPicSrc;
     }
   }
 };
