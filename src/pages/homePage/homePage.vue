@@ -8,7 +8,6 @@
     <div class="homePage-box">
       <button class="button button-block button-blue" @click="seeDetail">花型详情(需要登录才能浏览)</button>
       <button @click="logout" class="button button-block button-red" v-if="showBtn">退出登录</button>
-      <pic-upload class="file-upload" ref="fileUpload"></pic-upload>
     </div>
 
     <!-- <fixed-topbar></fixed-topbar> -->
@@ -16,7 +15,7 @@
 </template>
 
 <script>
-import { header, nav, picUpload, fixedTopbar } from '../../components';
+import { header, nav, fixedTopbar } from '../../components';
 import { listHomeBanners } from '../../common/api/api';
 import * as types from '../../store/types';
 
@@ -24,7 +23,6 @@ export default {
   components: {
     'vHeader': header,
     'vNav': nav,
-    picUpload,
     fixedTopbar
   },
   created() {
@@ -41,7 +39,7 @@ export default {
   },
   methods: {
     seeDetail() {
-      if (this.$store.state.token) {
+      if (this.$store.state.accessToken) {
         alert('这是花型详情页面');
       } else {
         this.$store.commit(types.LOGIN_MASK, true);
@@ -59,6 +57,7 @@ export default {
     background #f2f2f2
     .swiper
       position absolute
+      z-index 1
       left 0
       width 100%
       height 300px
@@ -74,9 +73,9 @@ export default {
       .button
         width 20%
         margin-top 20px
-    .file-upload 
+    .file-upload
       display block
       height 80px
       width 80px
-    
+
 </style>

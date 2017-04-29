@@ -27,9 +27,9 @@ export default new Vuex.Store({
         },
         [types.LOGOUT]: (state) => {
             localStorage.removeItem('accessToken');
-            localStorage.removeItem('userInfo');
+            localStorage.removeItem('userName');
             localStorage.removeItem('ajaxToken');
-            state.userInfo = null;
+            state.userName = null;
             state.ajaxToken = null;
             state.accessToken = null;
         },
@@ -39,14 +39,14 @@ export default new Vuex.Store({
         [types.LOGIN_MASK]: (state, data) => {
             state.showLoginMask = data;
         },
-        [types.USER_INFO]: (state, data) => {
-            // userInfo state 与 localStorage 中统一存为string
-            let _data = data;
-            if (typeof data === 'object') {
-                _data = JSON.stringify(data);
-            }
-            localStorage.userInfo = _data;
-            state.userInfo = _data;
+        [types.USER_NAME]: (state, data) => {
+            state.userName = data;
+            localStorage.userName = data;
+        }
+    },
+    getters: {
+        getUserName: state => {
+            return state.userName;
         }
     }
 });

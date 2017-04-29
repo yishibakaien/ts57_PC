@@ -2,8 +2,10 @@
   <div class="login-page">
     <v-header></v-header>
     <v-nav></v-nav>
-    <div class="login-wrapper">
-      <login></login>
+    <div class="loginPage-box">
+      <div class="login-wrapper">
+        <login></login>
+      </div>
     </div>
   </div>
 </template>
@@ -21,7 +23,13 @@ export default {
 
 <style lang="stylus" scoped>
   .login-page
-    .login-wrapper
-      background #f1f1f1
-      padding: 16px 0;
+    .loginPage-box
+      position relative
+      width 100%
+      height 731px
+      background #ff7011
+      .login-wrapper
+        position absolute
+        right 357px
+        top 113px
 </style>

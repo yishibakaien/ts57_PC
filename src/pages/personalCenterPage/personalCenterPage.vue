@@ -7,7 +7,7 @@
 			<div class="personal-nav">
 				<h1>个人中心</h1>
 				<ul>
-					<li v-for="(navItem,index) in navItems" @click="personalTab(index)" :class="{ 'personal-nav-b':navItem.isBorder }">
+					<li v-for="(navItem,index) in navItems" @click="personalTab(index)" :class="{ 'personal-nav-b':navItem.isBorder }" v-if="!navItem.isShow"> 
 						<span :class="{ 'active': navItem.isActive }">
 							{{ navItem.context }}
 						</span>
@@ -27,6 +27,8 @@
 
 <script>
 	import { header, nav } from '../../components';
+	import { getUserInfo } from '../../common/api/api';
+	
 	import {
 		personalAccount,
 		personalMobile,
@@ -67,12 +69,15 @@
 					{
 						context: '我的求购',
 						itemName: 'personalBuy',
-						isActive: false
+						isActive: false,
+						isShow: false,
+						isBorder: 'ok'
 					},
 					{
 						context: '我的接单',
 						itemName: 'personalList',
 						isActive: false,
+						isShow: false,
 						isBorder: 'ok'
 					},
 					{
@@ -108,7 +113,19 @@
 			personalSupply
 		},
 		created() {
-            console.log(localStorage.getItem('x-token'));
+			getUserInfo().then((res) => {
+				console.log('个人中心-userinfo', res.data.data);
+				localStorage.setItem('userHeadIcon', res.data.data.userHeadIcon);
+				localStorage.setItem('userMobile', res.data.data.userMobile);
+				localStorage.setItem('userName', res.data.data.userName);
+//				if (res.data.data.userType === 1) {
+//					this.navItems[5].isShow = true;
+//				} else {
+//					this.navItems[4].isShow = true;
+//				}
+			}).catch((res) => {
+				console.log(res.data.data);
+			});
 		},
 		methods: {
 			personalTab(index) {

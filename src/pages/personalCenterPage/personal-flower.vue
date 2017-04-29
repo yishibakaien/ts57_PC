@@ -21,7 +21,7 @@
 			<div class="personal-goods-item">
 				<div class="personal-goods-item-img">
 					<img src="../../../static/timg.jpg" alt="求购" />
-					<!--<span class="states green">有库存</span>-->
+					<span class="states green">有库存</span>
 					<span class="states gray">没库存</span>
 					<p class="p3"><span class="borderS">找相似</span><span>试衣</span></p>
 				</div>
@@ -34,12 +34,31 @@
 </template>
 
 <script>
+	import { listProduct } from '@/common/api/api';
 	export default {
 		data() {
 			return {
+				param: {
+					pageNo: 1,
+					pageSize: 8
+				},
+				items: [],
 				a: 1,
 				b: 2
 			};
+		},
+		created() {
+			this.listProductMethod();
+		},
+		methods: {
+			listProductMethod() {
+				listProduct(this.param).then((res) => {
+					this.items = res.data.list;
+					console.log(res.data);
+				}).catch((res) => {
+					console.log(res.data);
+				});
+			}
 		}
 	};
 </script>

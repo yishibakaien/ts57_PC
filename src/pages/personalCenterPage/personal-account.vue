@@ -2,7 +2,7 @@
 	<div class="personal-account">
 		<div class="personal-account-item headImg personal-form">
 			<label>头像</label>
-			<input type="file" name="headImg" id="headImg"  @change="uploadImg"/>
+			<input type="file" name="headImg" id="headImg" @change="uploadImg" />
 			<div class="headImgSee">
 				<label for="headImg" class="lb">重新上传</label>
 				<img :src="param.userHeadIcon" alt="头像" />
@@ -39,7 +39,9 @@
 			};
 		},
 		created() {
-			this.param['x-token'] = localStorage.getItem('x-token');
+			this.param.userHeadIcon = localStorage.getItem('userHeadIcon');
+			this.param.userName = localStorage.getItem('userName');
+			console.log(this.param);
 		},
 		methods: {
 			uploadImg(e) {

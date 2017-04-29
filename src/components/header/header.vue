@@ -52,9 +52,8 @@ export default {
           color #999
       .search-wrapper
         position absolute
-        top 50%
-        left 50%
-        transform translate(-50%, -50%)
+        margin-left 300px
+        margin-top 40px
       .concat
         float right
         height 120px
