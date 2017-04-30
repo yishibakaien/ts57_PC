@@ -7,7 +7,7 @@
   </a>
   <div class="picHistory-box" v-if="isShowHistoryBox"> <!---->
     <h2 class="history-text">
-      <span class="history-title">搜索历史</span>
+      <span class="history-title">图片搜索历史</span>
       <span class="history-desc">(显示最近的10条)</span>
     </h2>
     <div class="localPic-list">
@@ -17,10 +17,11 @@
           <span class="blue-close" @click="deleteCurrentPic($event, item, index)" title="删除此条记录">&times;</span>
         </li>
       </ul>
+      <div class="no-history-text" v-if="historyPicArr.length === 0">暂无图片搜索历史</div>
     </div>
     <div class="history-btn-wrapper">
-      <span class="history-btn" @click="toggleHistoryBox">关闭</span>
-      <span class="history-btn">清空历史</span>
+      <span class="history-btn" @click="toggleHistoryBox" title="关闭">关闭</span>
+      <span class="history-btn" @click="clearSearchHistory" title="清空图片搜索历史">清空历史</span>
     </div>
   </div>
   <div class="crop-container" v-show="openCrop">
@@ -86,7 +87,8 @@ var on = (function () {
 
 // 本地缓存图片前缀;
 const PICNAME_PREFIX = 'localPic';
-
+// 本地最大图片缓存数；
+const MAX_LOCALPIC_NUM = 10;
 var slice = {
   h: 200,
   w: 200
@@ -151,15 +153,30 @@ export default {
     // 获取历史图片检索记录本地缓存
     var arr = [];
     Object.keys(localStorage).forEach(function(item) {
-      if (item.indexOf('localPic') !== -1) {
+      if (item.indexOf(PICNAME_PREFIX) !== -1) {
         var obj = {};
-        obj['localPicSrc'] = localStorage[item];
-        obj['itemKey'] = item;
+        // obj.localPicSrc = localStorage[item];
+        obj.num = Number(item.replace(PICNAME_PREFIX, ''));
         arr.push(obj);
       }
     });
+    // console.info('before sort arr', arr);
+    // 处理排序
+    arr.sort(function(a, b) {
+      return a.num - b.num;
+    });
+    // console.info('after sort arr', arr);
+    var _arr = arr.map(function(item) {
+      item.itemkey = PICNAME_PREFIX + item.num;
+      return item;
+    });
+    // 赋值缓存图片
+    _arr.forEach(function(item) {
+      item.localPicSrc = localStorage[item.itemkey];
+    });
+    // console.log('_arr', _arr);
     // 填充历史图片搜索记录数组
-    this.historyPicArr = arr;
+    this.historyPicArr = _arr;
     // 填充预览小图
     if (this.historyPicArr.length) {
       this.destImg = this.historyPicArr[this.historyPicArr.length - 1].localPicSrc;
@@ -196,49 +213,6 @@ export default {
       }
       this.canvas.ctx.clearRect(0, 0, slice.w, slice.h);
       this.canvas.ctx.drawImage(this.image, source.x, source.y, source.width, source.height, dest.x, dest.y, dest.width, dest.height);
-    },
-    // 2017年4月27日15:31:22 cloud_cb 添加图片本地缓存功能;
-    // 缓存图片搜索记录
-    saveSearchHistory: function(data) {
-      var localKeys = Object.keys(localStorage);
-      var picNameNumber = [];
-      var picCount = 0;
-      localKeys.forEach(function(item, index) {
-        if (item.indexOf(PICNAME_PREFIX) !== -1) {
-          picCount++;
-          var _item = item + '';
-          picNameNumber.push(Number(_item.replace(PICNAME_PREFIX)));
-        }
-      });
-      picNameNumber.sort(function(a, b) {
-        return a - b;
-      });
-      picCount = (picNameNumber[picNameNumber.length - 1] + 1) || 0;
-      var picName = PICNAME_PREFIX + picCount;
-      console.log('picName', picName);
-      localStorage[picName] = data;
-      this.historyPicArr.push({localPicSrc: data, itemkey: picName});
-    },
-    // 获取本地缓存图片
-    // getSearchHistory: function() {
-    //   var localKeys = Object.keys(localStorage);
-    //   var picHistoryArr = [];
-    //   var _this = this;
-    //   localKeys.forEach(function(item, index) {
-    //     if (item.indexOf(PICNAME_PREFIX) !== -1) {
-    //       // 获取到缓存的图片的名称
-    //       picHistoryArr.push(item);
-    //     }
-    //   });
-    // },
-    // 清空所有本地缓存图片
-    clearSearchHistory: function() {
-      var localKeys = Object.keys(localStorage);
-      localKeys.forEach(function(item, index) {
-        if (item.indexOf(PICNAME_PREFIX) !== -1) {
-          localStorage.removeItem(item);
-        }
-      });
     },
     clip: function () {
       this.destImg = this.$refs.canvas.toDataURL();
@@ -509,7 +483,47 @@ export default {
       }
       this.draw();
     },
-
+    // 2017年4月27日15:31:22 cloud_cb 添加图片本地缓存功能;
+    // 缓存图片搜索记录
+    saveSearchHistory: function(data) {
+      var localKeys = Object.keys(localStorage);
+      var picNameNumber = [];
+      var picCount = 0;
+      localKeys.forEach(function(item, index) {
+        if (item.indexOf(PICNAME_PREFIX) !== -1) {
+          picCount++;
+          var _item = item + '';
+          picNameNumber.push(Number(_item.replace(PICNAME_PREFIX, '')));
+        }
+      });
+      picNameNumber.sort(function(a, b) {
+        return a - b;
+      });
+      console.log('picNameNumber', picNameNumber);
+      if (picNameNumber.length > 0) {
+        picCount = (picNameNumber[picNameNumber.length - 1] + 1) || 0;
+      }
+      var picName = PICNAME_PREFIX + picCount;
+      console.log('picName', picName);
+      localStorage[picName] = data;
+      // 限制最大缓存图片数
+      if (this.historyPicArr.length === MAX_LOCALPIC_NUM) {
+        this.historyPicArr.shift();
+        localStorage.removeItem(PICNAME_PREFIX + picNameNumber[0]);
+      }
+      this.historyPicArr.push({localPicSrc: data, itemkey: picName});
+    },
+    // 清空所有本地缓存图片
+    clearSearchHistory: function() {
+      var localKeys = Object.keys(localStorage);
+      localKeys.forEach(function(item, index) {
+        if (item.indexOf(PICNAME_PREFIX) !== -1) {
+          localStorage.removeItem(item);
+        }
+      });
+      this.historyPicArr = [];
+      this.destImg = null;
+    },
     // 新增的历史搜索记录模块方法
     toggleHistoryBox: function() {
       this.isShowHistoryBox = !this.isShowHistoryBox;
@@ -520,13 +534,25 @@ export default {
     removeActive: function(item, index) {
       this.$refs.picLi[index].className = this.$refs.picLi[index].className.split('active').join('');
     },
+    // 删除选中图片
     deleteCurrentPic: function(e, item, index) {
-      console.log(e);
-      console.log(item);
-      console.log(index);
-      this.historyPicArr.splice(index, index);
-      localStorage.removeItem(item.itemKey);
-      this.destImg = this.historyPicArr[this.historyPicArr.length - 1].localPicSrc;
+      // console.log(e);
+      // console.log(item);
+      // console.log(index);
+      this.historyPicArr.splice(index, 1);
+      // console.log('historyArr_index', index);
+      // console.log('historyArr', this.historyPicArr.length);
+      // console.log('item', item);
+      // console.log('item.itemkey', item.itemkey);
+      localStorage.removeItem(item.itemkey);
+
+      if (this.historyPicArr.length >= 1) {
+        this.destImg = this.historyPicArr[this.historyPicArr.length - 1].localPicSrc;
+      } else {
+        // 暂时解决当数组长度为0 时，无法删除数组项的问题，方法待优化
+        this.historyPicArr = [];
+        this.destImg = null;
+      }
     }
   }
 };
@@ -874,6 +900,10 @@ $height = 400px
           font-size 20px
           color #fff
           background #4c93fd
+    .no-history-text
+      padding 16px 0
+      font-size 14px
+      color #999
   .history-btn-wrapper
     height 40px
     margin-top 20px
