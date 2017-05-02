@@ -26,6 +26,8 @@
 </template>
 
 <script>
+	import '../../common/css/personal.css';
+	
 	import { header, nav } from '../../components';
 	import { getUserInfo } from '../../common/api/api';
 	
@@ -142,8 +144,7 @@
 </script>
 
 <style lang="scss" scoped="scoped">
-	@import '../../common/css/personal.css';
-	
+
 	.personal-container {
 		margin-top: 50px;
 	}
