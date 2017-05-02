@@ -29,7 +29,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
-@import '../../../common/css/var.css';
+@import '../../common/css/var.css';
 @component-namespace ts{
   @component menutable-box{
     border-right: var(--menuTableHeaderBorder);
