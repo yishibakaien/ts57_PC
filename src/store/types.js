@@ -1,7 +1,3 @@
-/**
- * Created by superman on 17/2/16.
- * vuex types
- */
 'use strict';
 
 export const AJAX = 'ajax';   // 用于设置ajax 请求携带的ajaxToken
