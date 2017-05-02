@@ -124,7 +124,7 @@
 //					this.navItems[4].isShow = true;
 //				}
 			}).catch((res) => {
-				console.log(res.data.data);
+//				console.log(res.data.data);
 			});
 		},
 		methods: {

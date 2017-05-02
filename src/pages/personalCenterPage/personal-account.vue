@@ -25,7 +25,8 @@
 </template>
 
 <script>
-	import { updateUser } from '../../common/api/api';
+	import { updateUser } from '@/common/api/api';
+//	import { upPicOSS } from '@/common/api/aliOSS_upPic';
 	import uploadPicture from '../../common/js/uploadPicture';
 
 	export default {
@@ -49,6 +50,7 @@
 				uploadPicture(e).then((result) => {
 					_.param.userHeadIcon = result;
 				});
+//				upPicOSS();
 			},
 			updateUserMethod() {
 				updateUser(this.param).then((res) => {

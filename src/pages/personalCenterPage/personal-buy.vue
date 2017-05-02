@@ -80,7 +80,6 @@
 					}); */
 					console.log(res.data.list);
 				}).catch((res) => {
-					console.log(res.data.data);
 				});
 			},
 			closeProductBuyMethod() {

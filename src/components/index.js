@@ -16,6 +16,8 @@ import search from './search/search';
 import picUpload from './picUpload/picUpload';
 
 import fixedTopbar from './fixedTopbar/fixedTopbar';
+
+import models from './models/models';
 // import search from './search/search';
 
 export {
@@ -27,5 +29,6 @@ export {
     loginMask,
     search,
     picUpload,
-    fixedTopbar
+    fixedTopbar,
+    models
 };

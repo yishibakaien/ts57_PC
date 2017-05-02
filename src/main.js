@@ -5,6 +5,7 @@ import Vue from 'vue';
 import App from './App';
 import router from './router/router';
 import store from './store/store';
+// import models from '@/common/js/tipsModels';
 // import axios from 'axios';
 
 import '!style-loader!css-loader!sass-loader!./common/css/index.css';
