@@ -94,6 +94,7 @@
 </script>
 
 <style lang="scss" scoped="scoped">
+@import "../../common/css/shop.css";
 .shop-table-wrap {
 	margin-top: 30px;
 }
@@ -161,7 +162,7 @@
 			}
 		}
 	}
-	
+
 	.shop-repertory {
 		margin-top: 50px;
 		padding: 0 15px;

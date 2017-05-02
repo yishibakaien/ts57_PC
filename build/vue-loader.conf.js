@@ -8,5 +8,8 @@ module.exports = {
       ? config.build.productionSourceMap
       : config.dev.cssSourceMap,
     extract: isProduction
-  })
+  }),
+  postcss: function () {
+          	return [require('postcss-salad')]
+  }
 }

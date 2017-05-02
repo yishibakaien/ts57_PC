@@ -8,8 +8,11 @@ import store from './store/store';
 // import axios from 'axios';
 
 import '!style-loader!css-loader!sass-loader!./common/css/index.css';
-
+// HZC公共组件
+import jhComponents from '@/Components/common/index.js';
+Vue.use(jhComponents);
 Vue.config.productionTip = false;
+
 // Vue.use(Vuex);
 
 // 状态检查，未登陆时路由至登陆/注册 界面
@@ -24,32 +27,30 @@ Vue.config.productionTip = false;
 //     return response;
 //   }, (error) => {
 //     console.log(error);
-    // if (error.response) {
-    //     switch (error.response.status) {
-    //         case 401:
-    //             // 返回 401 清除token信息并跳转到登录页面
-    //             store.commit(types.LOGOUT);
-    //             router.replace({
-    //                 path: 'login',
-    //                 query: {redirect: router.currentRoute.fullPath}
-    //             })
-    //     }
-    // }
-    // return Promise.reject(error.response.data)   // 返回接口返回的错误信息
+// if (error.response) {
+//     switch (error.response.status) {
+//         case 401:
+//             // 返回 401 清除token信息并跳转到登录页面
+//             store.commit(types.LOGOUT);
+//             router.replace({
+//                 path: 'login',
+//                 query: {redirect: router.currentRoute.fullPath}
+//             })
+//     }
+// }
+// return Promise.reject(error.response.data)   // 返回接口返回的错误信息
 // });
 
 // 使用axios request
 // Vue.prototype.$http = axios;
-
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-  store,
+   store,
   // axios,
   render: h => h(App)
 });
-
 // Vue.http.interceptors.push((request, next) => {
 //   vue.showLoading = true;
 //   next((response) => {
