@@ -11,12 +11,14 @@ import tsTable from './tsTable.vue';
 import tsColumn from './tsColumn.vue';
 import tsInput from './tsInput.vue';
 import tsSelect from './tsSelect.vue';
+import tsButton from './tsButton.vue';
 const Components = {
   tsSection,
   tsRadioGroup,
   tsRadio,
   tsImage,
   tsFilter,
+  tsButton,
   tsCheck,
   tsMenuTable,
   tsMenuTableBox,

@@ -9,11 +9,7 @@ import store from './store/store';
 
 import '!style-loader!css-loader!sass-loader!./common/css/index.css';
 // HZC公共组件
-<<<<<<< HEAD
 import jhComponents from '@/Components/common/index.js';
-=======
-import jhComponents from '@/components/common/';
->>>>>>> all_hzc
 Vue.use(jhComponents);
 Vue.config.productionTip = false;
 

@@ -14,6 +14,7 @@
       <ts-column slot data-key="time"  align="center" name="询价时间"></ts-column>
       <ts-column slot  align="center"  name="操作" action="[{'text':'查看花型','func':'view'},{'text':'询价人信息','func':'mess'}]"></ts-column>
     </ts-table>
+    <ts-button type="primary">das</ts-button>
     <ts-select label="person" placeholder="Select your team" :options="data" @change="choose"></ts-select>
     </div>
     <div slot="footer">
