@@ -14,6 +14,7 @@
       <ts-column slot data-key="time"  align="center" name="询价时间"></ts-column>
       <ts-column slot  align="center"  name="操作" action="[{'text':'查看花型','func':'view'},{'text':'询价人信息','func':'mess'}]"></ts-column>
     </ts-table>
+    <ts-select label="person" placeholder="Select your team" :options="data" @change="choose"></ts-select>
     </div>
     <div slot="footer">
       一共
@@ -37,7 +38,7 @@ export default {
       }, {
         id: 1,
         img: 'http://avatar.csdn.net/E/4/6/1_wangxiaohu__.jpg',
-        person: '张三',
+        person: '张四',
         iden: '厂家',
         type: '建扬',
         num: '1000码',
@@ -49,6 +50,9 @@ export default {
   methods: {
     mess(data) {
       console.log(data);
+    },
+    choose(item) {
+      console.log(item);
     },
     view(data) {
       console.log(data);

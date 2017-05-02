@@ -10,6 +10,7 @@ import tsDialog from './tsDialog.vue';
 import tsTable from './tsTable.vue';
 import tsColumn from './tsColumn.vue';
 import tsInput from './tsInput.vue';
+import tsSelect from './tsSelect.vue';
 const Components = {
   tsSection,
   tsRadioGroup,
@@ -22,7 +23,8 @@ const Components = {
   tsDialog,
   tsTable,
   tsColumn,
-  tsInput
+  tsInput,
+  tsSelect
 };
 const install = function(Vue) {
   for (let i in Components) {
