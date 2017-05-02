@@ -5,11 +5,13 @@ import Vue from 'vue';
 import App from './App';
 import router from './router/router';
 import store from './store/store';
+// import models from '@/common/js/tipsModels';
 // import axios from 'axios';
 
 import '!style-loader!css-loader!sass-loader!./common/css/index.css';
 
 Vue.config.productionTip = false;
+// Vue.use(models);
 // Vue.use(Vuex);
 
 // 状态检查，未登陆时路由至登陆/注册 界面
