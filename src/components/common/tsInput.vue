@@ -3,8 +3,12 @@
   <!-- input -->
   <input v-if="type !== 'textarea'" class="ts-input--inner" :type="type" :name="name" :placeholder="placeholder" :disabled="disabled" :readonly="readonly" :maxlength="maxlength" :minlength="minlength" :autocomplete="autoComplete" :autofocus="autofocus"
     :min="min" :max="max" :step="step" :value="currentValue" ref="input" @input="handleInput" @focus="handleFocus" @blur="handleBlur">
+    <div class="ts-input--append">
+     <span>O</span>
+       <!-- <slot name="append"></slot> -->
+   </div>
   <!-- textarea -->
-  <textarea v-else class="ts-textarea--inner" :value="currentValue" @input="handleInput" ref="textarea" :name="name" :placeholder="placeholder" :disabled="disabled" :readonly="readonly" :rows="rows" :autofocus="autofocus"
+  <textarea v-if="type === 'textarea'" class="ts-textarea--inner" :value="currentValue" @input="handleInput" ref="textarea" :name="name" :placeholder="placeholder" :disabled="disabled" :readonly="readonly" :rows="rows" :autofocus="autofocus"
     :maxlength="maxlength" :minlength="minlength" @focus="handleFocus" @blur="handleBlur">
    </textarea>
  </div>
@@ -73,17 +77,17 @@ export default {
 @component-namespace ts{
   @component input {
     position: relative;
-    display: inline-block;
+    display: inline-table;
     width: 100%;
+    margin:2px 0;
     @modifier inner{
       appearance: none;
       background-color: var(--input-fill);
       background-image: none;
-      border-radius: var(--input-border-radius);
       border: var(--input-border);
       box-sizing: border-box;
       color: var(--input-color);
-      display: block;
+      display: table-cell;
       font-size: inherit;
       height: var(--input-height);
       line-height: 1;
@@ -99,6 +103,21 @@ export default {
       }
       &:focus {
         outline: none;
+      }
+    }
+    @modifier append{
+      color:var(--input-append-color);
+      vertical-align: middle;
+      display: table-cell;
+      position: relative;
+      border: var(--input-border);
+      border-left: none;
+      padding: 0 10px;
+      width: 1%;
+      white-space: nowrap;
+      cursor: pointer;
+      &:hover{
+        color:var(--input-append-hover-color);
       }
     }
     @when disabled {

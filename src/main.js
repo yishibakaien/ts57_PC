@@ -11,7 +11,6 @@ import store from './store/store';
 import '!style-loader!css-loader!sass-loader!./common/css/index.css';
 // HZC公共组件
 import jhComponents from '@/Components/common/index.js';
-
 Vue.use(jhComponents);
 Vue.config.productionTip = false;
 

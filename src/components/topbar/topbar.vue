@@ -135,7 +135,7 @@ export default {
           .qrcode-content
             display none
             position absolute
-            z-index 1
+            z-index 2
             line-height 1
             padding 0 12px
             right 0

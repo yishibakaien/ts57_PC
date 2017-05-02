@@ -34,9 +34,24 @@
   --input-placeholder-color: #b0b0b0;
   --input-hover-border: #b0b0b0;
   --input-disabled-fill: #F8F8F8;
-   --input-disabled-border: #D1D1D1;
-   --input-disabled-color: grey;
-   /*select*/
-   --selectHeight:30px;
-   --selectBorder:1px solid #dbdbdb;
+  --input-disabled-border: #D1D1D1;
+  --input-disabled-color: grey;
+  --input-append-color: #666666;
+  --input-append-hover-color: #4C93FD;
+  /*select*/
+  --select-height: 32px;
+  --select-border: 1px solid #dbdbdb;
+  --select-option-hover-color: #4C93FD;
+  /*button*/
+  --button-default-color:#666666;
+  --button-default-background-color:#fff;
+  --button-primary-color:#fff;
+  --button-primary-background-color:#4C93FD;
+  --button-cancel-background-color:#D1D1D1;
+  --button-cancel-color:#fff;
+  --button-warning-background-color:#FF8400;
+  --button-warning-color:#fff;
+  --button-height:32px;
+  --button-width:80px;
+  --button-border-background:#b8bbbf;
 }
