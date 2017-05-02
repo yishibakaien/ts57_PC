@@ -158,16 +158,19 @@ export default {
   @component select{
     @descendent option{
     width: 100%;
-    line-height:var(--selectHeight);
+    line-height:var(--select-height);
     appearance: none;
     position: relative;
-    border: var(--selectBorder);
+    border: var(--select-border);
     border-top:none;
     cursor: pointer;
     text-align: center;
     white-space: nowrap;
     background: #fff;
     padding: 0;
+    &:hover{
+      color:var(--select-option-hover-color)
+    }
     }
     @descendent placeholder{
       appearance: none;
@@ -175,7 +178,7 @@ export default {
       padding-left: .75em;
       padding-right: 2.5em;
       position: relative;
-      border: var(--selectBorder);
+      border: var(--select-border);
       display: block;
       outline: none;
     }
@@ -184,6 +187,7 @@ export default {
       width: 100%;
       cursor: pointer;
       transition: 0.5s;
+      margin-top: 2px;
       &:hover{
         border-color:#D1D1D1;
       }
@@ -195,7 +199,7 @@ export default {
       }
       &:after {
         transition: all 0.2s ease;
-        border: 1px solid #4C93FD;
+        border: var(--select-border);
         border-right: 0;
         border-top: 0;
         content: " ";
@@ -214,7 +218,7 @@ export default {
         appearance:none;
         line-height: 1.5;
         position: relative;
-        border-bottom: var(--selectBorder);
+        border-bottom: var(--select-border);
         display: block;
         overflow: auto;
         width: 100%;
@@ -224,7 +228,7 @@ export default {
     @descendent placeholder {
       box-sizing: border-box;
       width: 100%;
-      height:var(--selectHeight);
+      height:var(--select-height);
     }
 }
 }
