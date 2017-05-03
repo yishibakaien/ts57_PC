@@ -26,10 +26,10 @@
 </template>
 
 <script>
-	import '../../common/css/personal.css';
+	import '@/common/css/personal.css';
 	
-	import { header, nav } from '../../components';
-	import { getUserInfo } from '../../common/api/api';
+	import { header, nav } from '@/components';
+	import { getUserInfo } from '@/common/api/api';
 	
 	import {
 		personalAccount,

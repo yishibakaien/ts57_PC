@@ -37,18 +37,19 @@
 				</div>
 			</div>
 		</div>
-		<pageBar :pageNum="pageNum" :pageMax="pageMax"  ></pageBar>
+		<pageBar :pageNum="pageNum" :pageMax="pageMax" :number="number" v-on:upPage="upPage" v-on:downPage="downPage" v-on:selectFirstPage="selectFirstPage" v-on:selectLastPage="selectLastPage" v-on:selectNumber="selectNumber($event)"></pageBar>
 	</div>
 </template>
 
 <script>
 	import { pageBar } from '@/components';
-	import { listProductBuys } from '../../common/api/api';
+	import { listProductBuys } from '@/common/api/api';
 	export default {
 		data() {
 			return {
 				pageNum: 1,
-				pageMax: 10,
+				pageMax: 20,
+				'number': 50,
 				param: {
 					buyStatus: '',
 					buyType: '',
@@ -86,15 +87,20 @@
 						console.log(_.classes.large);
 					}); */
 					console.log(res.data.list);
-				}).catch((res) => {});
+				}).catch();
 			},
 			closeProductBuyMethod() {
 				let _ = this;
 				_.tipShow = true;
 			},
-			selectPageNum(num) {
+			selectFirstPage() {
 				let _ = this;
-				_.pageNum = num;
+				_.pageNum = 1;
+				console.log(_.pageNum);
+			},
+			selectLastPage() {
+				let _ = this;
+				_.pageNum = _.pageMax;
 				console.log(_.pageNum);
 			},
 			upPage() {
@@ -112,6 +118,9 @@
 				};
 				++_.pageNum;
 				console.log(_.pageNum);
+			},
+			selectNumber(num) {
+				console.log(num);
 			}
 		}
 	};

@@ -1,16 +1,14 @@
 <template>
 	<div class="page-bar fr">
-		<a href="javascript:;" @click="selectPageNum(1)">首页</a>
+		<a href="javascript:;" @click="selectFirstPage()">首页</a>
 		<a href="javascript:;" @click="upPage()">上一页</a>
-		<span><em>1</em>/3</span>
+		<span><em>{{pageNum1}}</em>/{{pageMax1}}</span>
 		<a href="javascript:;" @click="downPage()">下一页</a>
-		<a href="javascript:;" @click="selectPageNum(pageMax)">尾页</a>
+		<a href="javascript:;" @click="selectLastPage()">尾页</a>
 		
 		<span>每页显示
-			<select>
-				<option>10</option>
-				<option>20</option>
-				<option>50</option>
+			<select v-model="number1"  @change="selectNumber()">
+				<option v-for="(option, index) in options" :value="option.num">{{option.num}}</option>
 			</select>
 			条
 		</span>
@@ -19,37 +17,49 @@
 
 <script>
 	export default {
-//		data() {
-//			return {
-//				pageNum: 1,  // 当前页
-//				pageMax: 10  // 总共页码
-//			};
-//		},
-		props: [ 'pageNum', 'pageMax' ],
+		data() {
+			return {
+				options: [
+					{num: 10},
+					{num: 20},
+					{num: 50}
+				],
+				pageNum1: this.pageNum,
+				pageMax1: this.pageMax,
+				'number1': this.number
+			};
+		},
+		props: [ 'pageNum', 'pageMax', 'number' ],
 		methods: {
-			selectPageNum(num) {
+			selectFirstPage() {
 				let _ = this;
-				_.pageNum = num;
-				console.log(_.pageNum);
-				_.$emit('selectPageNum');
+				_.pageNum1 = 1;
+				_.$emit('selectFirstPage');
+			},
+			selectLastPage() {
+				let _ = this;
+				_.pageNum1 = _.pageMax1;
+				_.$emit('selectLastPage');
 			},
 			upPage() {
 				let _ = this;
-				if (_.pageNum <= 1) {
+				if (_.pageNum1 <= 1) {
 					return;
 				};
-				--_.pageNum;
-				console.log(_.pageNum);
+				--_.pageNum1;
 				_.$emit('upPage');
 			},
 			downPage() {
 				let _ = this;
-				if (_.pageNum >= _.pageMax) {
+				if (_.pageNum1 >= _.pageMax1) {
 					return;
 				};
-				++_.pageNum;
-				console.log(_.pageNum);
+				++_.pageNum1;
 				_.$emit('downPage');
+			},
+			selectNumber() {
+				let _ = this;
+				_.$emit('selectNumber', _.number1);
 			}
 		}
 	};
