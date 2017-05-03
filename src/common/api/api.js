@@ -12,7 +12,7 @@ const API = {
 	user: {
 		reg: '/front/user/reg', // 注册
 		login: '/front/user/login', // 登录
-		checkPhone: '/front/user/checkPhone', // 检查手机号码
+		checkPhone: '/front/user/checkPhone', // 检查手机号码是否存在
 		changeMobile: '/user/changeMobile', // 修改手机号码
 		updateUser: '/user/updateUser', // 修改用户信息
 		restPasswd: '/user/restPasswd', // 修改密码
@@ -73,11 +73,14 @@ const METHODS = {
  * @return {object || string}         格式化后的data
  */
 function _formatData(method, data) {
+    console.log('请求data', data);
     if (!data) {
+        console.log('请求data为空', data);
         return '';
     }
     let _data = Object.assign({}, data);
     if (method === METHODS.get) {
+        console.log('get请求data', _data);
         return _data;
     } else if (method === METHODS.post) {
         return JSON.stringify(_data);
@@ -92,7 +95,7 @@ function _formatData(method, data) {
  * @return {promise}        Promise 对象
  */
 function _fetch(method = METHODS.get, data, url) {
-	console.info('api-ajaxToken', store.state.ajaxToken);
+	// console.info('api-ajaxToken', store.state.ajaxToken);
 	let _headers = Object.assign({ 'x-token': store.state.ajaxToken || '' }, headers);
 	if (url === API.user.login) {
 		// 如果是登录的请求则删除掉请求头中的x-token
@@ -100,13 +103,23 @@ function _fetch(method = METHODS.get, data, url) {
 			delete _headers['x-token'];
 		} catch (e) {}
 	}
-	let param = {
-		method: method,
-		url: baseURL + url,
-		headers: _headers,
-		data: _formatData(method, data),
-		timeout: 1500
-	};
+	let param;
+    if (method === METHODS.get) {
+        param = {
+            method: method,
+            url: baseURL + url,
+            headers: _headers,
+            params: _formatData(method, data)
+        };
+    }
+    if (method === METHODS.post) {
+        param = {
+            method: method,
+            url: baseURL + url,
+            headers: _headers,
+            data: _formatData(method, data)
+        };
+    }
 	return new Promise((resolve, reject) => {
 		axios(param).then((res) => {
 			let token = res.headers['x-token'];
@@ -134,7 +147,7 @@ function _fetch(method = METHODS.get, data, url) {
  * @param  {object} data  请求参数， 将 x-token 放入data中即可
  * @return {promise}      Promise 对象
  */
-
+// 用户模块api
 // 登录
 export function login(data) {
 	// alert('调用fetch');
@@ -142,8 +155,8 @@ export function login(data) {
 };
 
 // 注册
-export function register(data) {
-	return _fetch(METHODS.post, data, API.user.register);
+export function reg(data) {
+    return _fetch(METHODS.post, data, API.user.reg);
 };
 
 // 校验密码
@@ -159,42 +172,52 @@ export function updateUser(data) {
 // 获取用户信息
 export function getUserInfo(data) {
 	return _fetch(METHODS.post, data, API.user.getUserInfo);
-}
+};
 
 // 获取首页banner
 export function listHomeBanners(data) {
 	return _fetch(METHODS.get, data, API.home.listHomeBanners);
-}
+};
+
+// 检验手机号码是否存在
+export function checkPhone(data) {
+    return _fetch(METHODS.get, data, API.user.checkPhone);
+};
+
+// 获取注册短信验证码
+export function getRegSMSCode(data) {
+    return _fetch(METHODS.post, data, API.user.getRegSMSCode);
+};
 
 // 获取修改手机短信
 export function changeSMSCode(data) {
 	return _fetch(METHODS.post, data, API.user.changeSMSCode);
-}
+};
 
 // 修改手机号
 export function changeMobile(data) {
 	return _fetch(METHODS.post, data, API.user.changeMobile);
-}
+};
 
 // 修改密码
 export function restPasswd(data) {
 	return _fetch(METHODS.post, data, API.user.restPasswd);
-}
+};
 
 // 获取求购列表
 export function listProductBuys(data) {
 	return _fetch(METHODS.get, data, API.buy.listProductBuys);
-}
+};
 
 // 获取接单列表
 export function listBuyTask(data) {
 	return _fetch(METHODS.post, data, API.buy.listBuyTask);
-}
+};
 
 // 获取收藏花型列表
 export function listProduct(data) {
 	return _fetch(METHODS.post, data, API.collection.listProduct);
-}
+};
 
 // 关闭求购
 export function closeProductBuy(data) {
@@ -204,4 +227,4 @@ export function closeProductBuy(data) {
 // 获取oss_token
 export function token() {
 	return _fetch(METHODS.post, { fileType: 1 }, API.oss.token);
-}
+};

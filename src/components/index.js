@@ -18,6 +18,8 @@ import picUpload from './picUpload/picUpload';
 import fixedTopbar from './fixedTopbar/fixedTopbar';
 
 import models from './models/models';
+
+import pageBar from './pageBar/pageBar';
 // import search from './search/search';
 
 export {
@@ -30,5 +32,6 @@ export {
     search,
     picUpload,
     fixedTopbar,
-    models
+    models,
+    pageBar
 };

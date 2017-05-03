@@ -28,6 +28,6 @@ p{word-wrap:break-word}
     -webkit-border-radius: 5px;
 }
 
-a,input,button { outline: 0; }
+a,input,button,select { outline: 0; }
 i {font-style: normal;}
 button, a { cursor: pointer; } 
