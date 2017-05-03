@@ -29,7 +29,8 @@ export default {
           'default',
           'cancel',
           'primary',
-          'warning'
+          'warning',
+          'plain'
         ].indexOf(val) > -1;
       }
     },
@@ -83,6 +84,10 @@ export default {
     @modifier default {
       color: var(--button-default-color);
       background-color: var(--button-default-background-color);
+    }
+    @modifier plain {
+      color: var(--button-plain-color);
+      background-color: var(--button-plain-background-color);
     }
     @modifier primary {
       color: var(--button-primary-color);

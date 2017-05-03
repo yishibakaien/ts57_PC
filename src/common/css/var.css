@@ -45,6 +45,8 @@
   /*button*/
   --button-default-color:#666666;
   --button-default-background-color:#fff;
+  --button-plain-color:#4C93FD;
+  --button-plain-background-color:#fff;
   --button-primary-color:#fff;
   --button-primary-background-color:#4C93FD;
   --button-cancel-background-color:#D1D1D1;
