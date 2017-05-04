@@ -21,7 +21,9 @@ const API = {
 		getVerifyCode: '/front/user/getVerifyCode', // 获取图片验证码
 		getFindSMSCode: '/front/user/getFindSMSCode', // 获取找回短信
 		getRegSMSCode: '/front/user/getRegSMSCode', // 获取注册短信
-		getUserInfo: '/user/getUserInfo' // 获取用户最新信息
+		getUserInfo: '/user/getUserInfo', // 获取用户最新信息
+		getMsgSetting: '/msg/getMsgSetting', // 获取短信设置
+		setMsg: '/msg/setMsg' // 设置短信开关
 	},
 	// 首页
 	home: {
@@ -195,6 +197,16 @@ export function changeSMSCode(data) {
 	return _fetch(METHODS.post, data, API.user.changeSMSCode);
 };
 
+// 设置短信
+export function setMsg(data) {
+	return _fetch(METHODS.post, data, API.user.setMsg);
+};
+
+// 获取短信设置
+export function getMsgSetting(data) {
+	return _fetch(METHODS.get, data, API.user.getMsgSetting);
+};
+
 // 修改手机号
 export function changeMobile(data) {
 	return _fetch(METHODS.post, data, API.user.changeMobile);
@@ -223,6 +235,11 @@ export function listProduct(data) {
 // 获取收藏厂家列表
 export function listCompany(data) {
 	return _fetch(METHODS.post, data, API.collection.listCompany);
+};
+
+// 获取收藏供应列表
+export function listSupply(data) {
+	return _fetch(METHODS.post, data, API.collection.listSupply);
 };
 
 // 关闭求购

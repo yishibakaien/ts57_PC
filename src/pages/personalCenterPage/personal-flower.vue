@@ -25,8 +25,8 @@
 					<span class="states gray" v-else>需要开机</span>
 					<p class="p3"><span class="borderS">找相似</span><span>试衣</span></p>
 				</div>
-				<p class="info">{{item.companyInfoBO.companyName}}</p>
-				<p><span>#{{item.id}}</span><span class="time">1小时前</span></p>
+				<p class="info">{{item.companyName}}</p>
+				<p><span>#{{item.productNo}}</span><span class="time">1小时前</span></p>
 			</div>
 
 		</div>
