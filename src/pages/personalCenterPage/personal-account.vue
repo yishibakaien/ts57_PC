@@ -14,11 +14,11 @@
 		</div>
 		<div class="personal-account-item personal-form">
 			<label for="QQ">QQ</label>
-			<input type="text" name="QQ" id="QQ" placeholder="请填写您的QQ号码" />
+			<input type="text" name="QQ" id="QQ" placeholder="请填写您的QQ号码" v-model="param.qq"/>
 		</div>
 		<div class="personal-account-item personal-form">
 			<label for="email">邮箱</label>
-			<input type="text" name="email" id="email" placeholder="请填写您的邮箱地址" />
+			<input type="text" name="email" id="email" placeholder="请填写您的邮箱地址" v-model="param.email"/>
 		</div>
 		<button class="personal-btn" @click="updateUserMethod">保存</button>
 	</div>
@@ -33,15 +33,18 @@
 		data() {
 			return {
 				param: {
+					qq: '',
+					email: '',
 					userHeadIcon: '',
-					userName: '',
-					'x-token': ''
+					userName: ''
 				}
 			};
 		},
 		created() {
 			this.param.userHeadIcon = localStorage.getItem('userHeadIcon');
 			this.param.userName = localStorage.getItem('userName');
+			this.param.qq = localStorage.getItem('qq');
+			this.param.email = localStorage.getItem('email');
 			console.log(this.param);
 		},
 		methods: {
@@ -50,15 +53,25 @@
 				uploadPicture(e).then((result) => {
 					_.param.userHeadIcon = result;
 				});
-//				upPicOSS();
 			},
 			updateUserMethod() {
+				let _ = this;
 				updateUser(this.param).then((res) => {
-					console.log('成功');
-				}, (res) => {
-					console.log(this.param);
-					console.log('失败');
-				});
+					if (res.data.code === 0) {
+						if (_.param.qq) {
+							localStorage.setItem('qq', _.param.qq);
+						};
+						if (_.param.email) {
+							localStorage.setItem('email', _.param.email);
+						}
+						if (_.param.userHeadIcon) {
+							localStorage.setItem('userMobile', _.param.userHeadIcon);
+						}
+						if (_.param.userName) {
+							localStorage.setItem('userName', _.param.userName);
+						}
+					}
+				}).catch();
 			}
 		}
 	};

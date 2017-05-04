@@ -1,6 +1,6 @@
 <template>
 	<div class="personal-business">
-		<div class="personal-business-wrap clearfix">
+		<div class="personal-business-wrap clearfix" v-for="item in items">
 			<div class="personal-business-Info">
 				<div class="logo">
 					<img src="../../../static/timg.jpg" alt="logo" />
@@ -12,9 +12,9 @@
 			<div class="personal-business-content">
 				<div class="top">
 					<span class="companyName">
-						<i class="facory">厂</i>
-						<!--<i class="trade">贸</i>-->
-						恒鑫实业恒鑫
+						<i class="facory" v-if="item.companyType === 1">厂</i>
+						<i class="trade"  v-if="item.companyType === 2">贸</i>
+						{{item.companyName}}
 					</span>
 					<a>查看全部{{ '(' +a+ ')' }} > </a>
 				</div>
@@ -55,11 +55,29 @@
 </template>
 
 <script>
+	import { listCompany } from '@/common/api/api';
 	export default {
 		data() {
 			return {
+				param: {
+					pageNo: 1,
+					pageSize: 8
+				},
+				items: [],
 				a: 5
 			};
+		},
+		created() {
+			this.listCompanyMethod();
+		},
+		methods: {
+			listCompanyMethod() {
+				let _ = this;
+				listCompany(_.param).then((res) => {
+					_.items = res.data.list;
+					console.log('商家收藏', res);
+				}).catch();
+			}
 		}
 	};
 </script>
