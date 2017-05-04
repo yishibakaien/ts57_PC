@@ -30,6 +30,10 @@ import purchaseList from './homePageLists/purchase-list';
 
 import supplyList from './homePageLists/supply-list';
 
+import entryList from './homePageLists/entry-list';
+
+import qualityCompanyList from './homePageLists/quality-company-list';
+
 export {
     topbar,
     header,
@@ -45,5 +49,7 @@ export {
     banner,
     baseItem,
     purchaseList,
-    supplyList
+    supplyList,
+    entryList,
+    qualityCompanyList
 };
