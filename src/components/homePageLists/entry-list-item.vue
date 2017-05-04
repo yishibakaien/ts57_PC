@@ -1,19 +1,16 @@
 <template>
   <div class="entry-list-item">
-    <div class="entry-base-item">
+    <div class="entry-base-item" :companyId="item.id" title="查看厂家详情">
       <div class="img-container">
-        <div class="img-wrapper">
-          <img class="item-image" src="/static/images/pattern.jpg">
-        </div>
-        <div class="img-wrapper">
-          <img class="item-image" src="/static/images/pattern.jpg">
+        <div class="img-wrapper" v-for="pic in item.productPics">
+          <img class="item-image" :src="pic">
         </div>
       </div>
       <div class="item-desc">
         <div class="company-avatar">
           <img src="/static/images/pattern.jpg" width="31" height="31">
         </div>
-        <h2 class="desc-title">福建坐视布管蕾丝厂呵呵呵呵呵</h2>
+        <h2 class="desc-title">{{item.companyName}}</h2>
       </div>
     </div>
   </div>
@@ -22,7 +19,7 @@
 <script>
 export default {
   props: {
-    message: {
+    item: {
       type: Object
     }
   }
@@ -38,6 +35,7 @@ export default {
   background #fff
   border-left 1px solid #d8d8d8
   border-bottom 1px  solid #d8d8d8
+  cursor pointer
   &:hover
     position relative
     border 1px solid rgba(76, 147, 253, 0.8)
@@ -50,11 +48,11 @@ export default {
       width 278px
       height 127.5px
       overflow hidden
-      background #f2f2f2
       .img-wrapper
         width 132px
         height 127.5px
         overflow hidden
+        background #f2f2f2
         &:first-child
           float left
         &:last-child
