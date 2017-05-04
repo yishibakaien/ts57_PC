@@ -1,31 +1,32 @@
 <template>
 <transition name="dialog-fade">
-<div class="ts-dialog--wrapper" v-show="visible" @click.self="handleWrapperClick">
-  <div class="ts-dialog" ref="dialog" :style="{width:boxWidth}">
-    <!-- 头部 -->
-    <div class="ts-dialog--header onepx-b" :style="{textAlign:titleNeedCenter?'center':''}">
-      <span class="ts-dialog--title">{{title}}</span>
-      <slot name="title">
-      </slot>
-      <div class="ts-dialog--headerbtn" v-if="!titleNeedCenter">
-        <i v-if="showClose" class="ts-dialog--close" @click="close">&times</i>
+  <div class="ts-dialog--wrapper" v-show="visible" @click.self="handleWrapperClick">
+    <div class="ts-dialog" ref="dialog" :style="{width:boxWidth}">
+      <!-- 头部 -->
+      <div class="ts-dialog--header onepx-b" :style="{textAlign:titleNeedCenter?'center':''}">
+        <span class="ts-dialog--title">{{title}}</span>
+        <slot name="title">
+        </slot>
+        <div class="ts-dialog--headerbtn" v-if="!titleNeedCenter">
+          <i v-if="showClose" class="ts-dialog--close" @click="close">&times</i>
+        </div>
+      </div>
+      <!-- 正文内容 -->
+      <div class="ts-dialog--body" v-if="rendered">
+        <slot></slot>
+      </div>
+      <!-- 底部 -->
+      <div class="ts-dialog--footer onepx-t">
+        <template v-if="!$slots.footer">
+        <button type="button" class="ts-dialog--button is-cancel" v-if="type==='confirm'" @click="handleClose">取消</button>
+        <button type="button" class="ts-dialog--button is-confirm" v-if="type==='confirm'" @click="handleConfirm">{{alertText}}</button>
+        <button type="button" class="ts-dialog--button is-confirm" v-if="type==='alert'" @click="handleConfirm">{{alertText}}</button>
+      </template>
+        <!-- {{$slots.default}} -->
+        <slot name="footer"></slot>
       </div>
     </div>
-    <!-- 正文内容 -->
-    <div class="ts-dialog--body" v-if="rendered">
-      <slot></slot>
-    </div>
-    <!-- 底部 -->
-    <div class="ts-dialog--footer onepx-t">
-      <template v-if="!$slots.footer">
-        <button type="button" class="ts-dialog--button is-cancel" @click="close">取消</button>
-        <button type="button" class="ts-dialog--button is-confirm">确定</button>
-      </template>
-      <!-- {{$slots.default}} -->
-      <slot name="footer"></slot>
-    </div>
   </div>
-</div>
 </transition>
 </template>
 
@@ -54,10 +55,26 @@ export default {
     // showClose----显示关闭按钮
     // titleNeedCenter----标题需要居中？（居中：关闭按钮会隐藏）
     // width--默认宽度是160px
+    // alertText--底部框按钮确定的文字
     width: {
       type: String,
       default: '50%'
     },
+    type: {
+      type: String,
+      default: 'confirm',
+      validator(value) {
+        return [
+          'alert',
+          'confirm'
+        ].indexOf(value) > -1;
+      }
+    },
+    alertText: {
+      type: String,
+      default: '确定'
+    },
+
     title: {
       type: String
     },
@@ -112,6 +129,13 @@ export default {
       if (this.closeOnClickModal) {
         this.close();
       }
+    },
+    handleConfirm() {
+      this.$emit('confirm');
+    },
+    handleClose() {
+      this.handleWrapperClick();
+      this.$emit('close');
     }
   },
   mounted() {

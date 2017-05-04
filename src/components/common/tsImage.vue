@@ -1,5 +1,5 @@
 <template lang="html">
-  <div @mouseover="isSHow=true" @mouseout="isSHow=false" class="ts-image onepx" :style="{width:width+'px',height:height+'px'}" @click="handleImg">
+  <div @mouseover="isSHow=true" @mouseout="isSHow=false" class="ts-image" :style="{width:width+'px',height:height+'px'}" @click="handleImg">
     <img :src="src"  class="ts-image-img">
     <ts-check class="ts-image-check--side" v-if="needChoose"></ts-check>
     <p class="ts-image-bottom" v-show="isSHow" v-if="!needChoose">
@@ -67,9 +67,11 @@ export default {
     overflow: hidden;
     display: inline-block;
     position: relative;
+    border:1px solid rgba(155,155,155,0.1);
     box-sizing: border-box;
     @descendent img{
       max-width: 100%;
+      min-height: 100%;
       vertical-align: middle;
     }
     @descendent check{

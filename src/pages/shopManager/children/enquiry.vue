@@ -2,7 +2,6 @@
   <ts-section>
     <div slot="menu">
     </div>
-    <div slot="body">
       <ts-table :data="data" @th-col-click="thColClick" @body-tr-click="trClick">
         <ts-column slot data-key="img"  align="center" image name="花型图片">
         </ts-column>
@@ -14,9 +13,8 @@
       <ts-column slot data-key="time"  align="center" name="询价时间"></ts-column>
       <ts-column slot  align="center"  name="操作" action="[{'text':'查看花型','func':'view'},{'text':'询价人信息','func':'mess'}]"></ts-column>
     </ts-table>
-    <ts-button>das</ts-button>
+    <ts-button></ts-button>
     <ts-select label="person" placeholder="Select your team" :options="data" @change="choose"></ts-select>
-    </div>
     <div slot="footer">
       一共
     </div>

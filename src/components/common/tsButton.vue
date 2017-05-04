@@ -1,14 +1,14 @@
 <template>
 <button class="ts-button" @click="handleClick" :disabled="disabled" :class="['ts-button--'+type,'ts-button--'+size,{'is-disabled':disabled}]">
-    <span class="ts-button-icon" v-if="icon || $slots.icon">
+    <!-- <span class="ts-button-icon" v-if="icon || $slots.icon">
       <slot name="icon">
         <i v-if="icon" class="iconfont" :class={"iconfont-"+icon}></i>
       </slot>
-    </span>
+    </span> -->
     <label class="ts-button-text">
       <slot></slot>
     </label>
-  </button>
+</button>
 </template>
 
 <script>
@@ -30,7 +30,8 @@ export default {
           'cancel',
           'primary',
           'warning',
-          'plain'
+          'plain',
+          'text'
         ].indexOf(val) > -1;
       }
     },
@@ -55,19 +56,15 @@ export default {
 @component-namespace ts {
   @component button {
     appearance: none;
-    border-radius: 2px;
-    border: 0;
     box-sizing: border-box;
     color: inherit;
     display: block;
-    font-size: 14px;
     height:var(--button-height);
     outline: 0;
     overflow: hidden;
     position: relative;
     text-align: center;
-    width:var(--button-width);
-    box-shadow: 0 0 1px #b8bbbf;
+    min-width:var(--button-width);
     &::after {
       background-color: #000;
       content: " ";
@@ -81,24 +78,34 @@ export default {
       vertical-align: middle;
       display: inline-block;
     }
+    @modifier text {
+      color: var(--button-plain-color);
+      border:none;
+      background-color: var(--button-plain-background-color);
+    }
     @modifier default {
       color: var(--button-default-color);
+      border:1px solid var(--button-cancel-color);
       background-color: var(--button-default-background-color);
     }
     @modifier plain {
       color: var(--button-plain-color);
+      border:1px solid var(--button-plain-color);
       background-color: var(--button-plain-background-color);
     }
     @modifier primary {
       color: var(--button-primary-color);
+      border:none;
       background-color: var(--button-primary-background-color);
     }
     @modifier warning {
       color: var(--button-warning-color);
+      border:none;
       background-color: var(--button-warning-background-color);
     }
     @modifier cancel {
       color: var(--button-cancel-color);
+      border:none;
       background-color: var(--button-cancel-background-color);
     }
     @modifier large {

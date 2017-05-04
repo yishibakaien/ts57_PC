@@ -13,6 +13,8 @@
   --imageBtBg: rgba(0, 0, 0, 0.4);
   /*Radio*/
   --radioColor: #4C93FD;
+  --radio-bordered-color:1px solid #D1D1D1;
+  --radio-checked-color:1px solid #4C93FD;
   /*Filter*/
   --filterTitileBg: #F8F8F8;
   --filterBorder: 1px solid #D1D1D1;
@@ -43,6 +45,7 @@
   --select-border: 1px solid #dbdbdb;
   --select-option-hover-color: #4C93FD;
   /*button*/
+  --button-border:1px solid #D1D1D1;
   --button-default-color:#666666;
   --button-default-background-color:#fff;
   --button-plain-color:#4C93FD;

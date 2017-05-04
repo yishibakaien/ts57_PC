@@ -41,6 +41,9 @@ export default {
     display: table-cell;
     vertical-align: middle;
     text-align: center;
+    .ts-image{
+      float: left;
+    }
     &:last-child{
       border-right:none;
     }

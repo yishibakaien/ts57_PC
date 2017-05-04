@@ -1,12 +1,11 @@
 <template>
 <div :class="[type === 'textarea' ? 'ts-textarea' : 'ts-input',{'is-disabled': disabled}]">
   <!-- input -->
-  <input v-if="type !== 'textarea'" class="ts-input--inner" :type="type" :name="name" :placeholder="placeholder" :disabled="disabled" :readonly="readonly" :maxlength="maxlength" :minlength="minlength" :autocomplete="autoComplete" :autofocus="autofocus"
+  <input class="ts-input--inner" :placeholder="placeholder" :disabled="disabled" :readonly="readonly" :maxlength="maxlength" :minlength="minlength" :autocomplete="autoComplete" :autofocus="autofocus"
     :min="min" :max="max" :step="step" :value="currentValue" ref="input" @input="handleInput" @focus="handleFocus" @blur="handleBlur">
-    <div class="ts-input--append">
-     <span>O</span>
-       <!-- <slot name="append"></slot> -->
-   </div>
+    <div class="ts-input--append" v-if="$slots.append">
+       <slot name="append"></slot>
+     </div>
   <!-- textarea -->
   <textarea v-if="type === 'textarea'" class="ts-textarea--inner" :value="currentValue" @input="handleInput" ref="textarea" :name="name" :placeholder="placeholder" :disabled="disabled" :readonly="readonly" :rows="rows" :autofocus="autofocus"
     :maxlength="maxlength" :minlength="minlength" @focus="handleFocus" @blur="handleBlur">
@@ -14,12 +13,14 @@
  </div>
  </template>
 <script>
+import emitter from '@/common/js/mixins/emitter';
 export default {
   data() {
     return {
       currentValue: this.value
     };
   },
+  mixins: [emitter],
   props: {
     value: [String, Number],
     placeholder: String,
@@ -43,11 +44,20 @@ export default {
     minlength: Number,
     max: {},
     min: {},
-    step: {}
+    step: {},
+    validateEvent: {
+      type: Boolean,
+      default: true
+    }
   },
   watch: {
     'value' (val, oldValue) {
       this.setCurrentValue(val);
+    }
+  },
+  computed: {
+    validating() {
+      return this.$parent.validateState === 'validating';
     }
   },
   methods: {
@@ -56,12 +66,18 @@ export default {
         return;
       }
       this.currentValue = value;
+      if (this.validateEvent) {
+        this.dispatch('tsFormItem', 'ts.form.change', [value]);
+      }
     },
     handleFocus(event) {
       this.$emit('focus', event);
     },
     handleBlur(event) {
       this.$emit('blur', event);
+      if (this.validateEvent) {
+        this.dispatch('tsFormItem', 'ts.form.blur', [this.currentValue]);
+      }
     },
     handleInput(event) {
       const value = event.target.value;
@@ -88,7 +104,6 @@ export default {
       box-sizing: border-box;
       color: var(--input-color);
       display: table-cell;
-      font-size: inherit;
       height: var(--input-height);
       line-height: 1;
       outline: none;
@@ -166,5 +181,11 @@ export default {
       }
     }
     }
+}
+.is-error{
+  .ts-input--inner,.ts-textarea--inner{
+    transition: 0.3s;
+    border-color: red;
+  }
 }
 </style>

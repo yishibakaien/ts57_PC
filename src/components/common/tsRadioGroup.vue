@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="ts-raido-group">
+  <div class="ts-raido-group" :class="{'is-bordered':bordered}">
     <slot></slot>
   </div>
 </template>
@@ -12,7 +12,11 @@ export default {
     value: {},
     fill: String,
     textColor: String,
-    disabled: Boolean
+    disabled: Boolean,
+    bordered: {
+      type: Boolean,
+      default: false
+    }
   },
   watch: {
     value(val) {
@@ -21,3 +25,15 @@ export default {
   }
 };
 </script>
+<style lang="css" scoped>
+@import '../../common/css/var.css';
+  .is-bordered{
+    .ts-radio{
+      &:before{
+        position:absolute 0 0 0 0;
+        content: ' ';
+        border:var(--radio-bordered-color);
+      }
+    }
+  }
+</style>
