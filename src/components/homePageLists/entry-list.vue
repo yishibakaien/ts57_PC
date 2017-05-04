@@ -80,9 +80,9 @@ basecolor = #ff7478
   box-sizing border-box
   width 100%
   .left-brand
-    flex 0 0 267px
+    flex 0 0 267px 164 +322
     width 267px
-    height 384px
+    height 486px
     .brand-header
       height 132px
       padding 16px
