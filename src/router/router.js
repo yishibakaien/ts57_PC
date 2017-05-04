@@ -19,8 +19,10 @@ Vue.use(Router);
 const shopManager = r => require.ensure([], () => r(require('@/pages/shopManager/')), 'shopManager');
 const shopManagerMaterial = r => require.ensure([], () => r(require('@/pages/shopManager/children/material')), 'shopManagerMaterial');
 const shopManagerWareHouse = r => require.ensure([], () => r(require('@/pages/shopManager/children/warehouse')), 'shopManagerWareHouse');
+const WareHouseAdd = r => require.ensure([], () => r(require('@/pages/shopManager/children/warehouse/add')), 'shopManagerWareHouse');
 const shopManagerSupply = r => require.ensure([], () => r(require('@/pages/shopManager/children/supply')), 'shopManagerSupply');
 const shopManagerEnquiry = r => require.ensure([], () => r(require('@/pages/shopManager/children/enquiry')), 'shopManagerEnquiry');
+const shopManagerSetting = r => require.ensure([], () => r(require('@/pages/shopManager/children/setting')), 'shopManagerSetting');
 const routes = [
     {
         path: '/',
@@ -80,6 +82,10 @@ const routes = [
         component: shopManagerWareHouse,
         name: '仓库管理'
       }, {
+        path: 'addwarehouse',
+        component: WareHouseAdd,
+        name: '新增花型'
+      }, {
         path: 'supply',
         component: shopManagerSupply,
         name: '厂家供应'
@@ -87,6 +93,10 @@ const routes = [
         path: 'enquiry',
         component: shopManagerEnquiry,
         name: '询价列表'
+      }, {
+        path: 'setting',
+        component: shopManagerSetting,
+        name: '店铺设置'
       }]
     }
 ];

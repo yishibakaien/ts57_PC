@@ -188,6 +188,7 @@ export default {
       cursor: pointer;
       transition: 0.5s;
       margin-top: 2px;
+      display: inline-block;
       &:hover{
         border-color:#D1D1D1;
       }

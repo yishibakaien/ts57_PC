@@ -12,6 +12,8 @@ import tsColumn from './tsColumn.vue';
 import tsInput from './tsInput.vue';
 import tsSelect from './tsSelect.vue';
 import tsButton from './tsButton.vue';
+import tsForm from './tsForm.vue';
+import tsFormItem from './tsFormItem.vue';
 const Components = {
   tsSection,
   tsRadioGroup,
@@ -26,7 +28,9 @@ const Components = {
   tsTable,
   tsColumn,
   tsInput,
-  tsSelect
+  tsSelect,
+  tsForm,
+  tsFormItem
 };
 const install = function(Vue) {
   for (let i in Components) {

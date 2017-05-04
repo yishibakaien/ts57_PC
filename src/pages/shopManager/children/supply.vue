@@ -4,7 +4,6 @@
     <div slot="menu">
       <button class="button button-blue">发布供应</button>
     </div>
-    <div slot="body">
       <!-- 过滤器 -->
       <div class="supply-filter">
         <ts-filter title="分类">
@@ -53,7 +52,6 @@
           </ts-menu-table-box>
         </ts-menu-table>
       </div>
-    </div>
     <div slot="footer">
     </div>
   </ts-section>

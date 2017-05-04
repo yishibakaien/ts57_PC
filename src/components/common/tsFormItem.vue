@@ -12,13 +12,14 @@
       {{validateMessage}}
     </div>
   </div>
+</div>
 </template>
 
 <script>
 import AsyncValidator from 'async-validator';
-import emitter from '@/common/js/mixins/emitter'
+import emitter from '@/common/js/mixins/emitter';
 
-function noop() {};
+function noop() {}
 
 function getPropByPath(obj, path) {
   let tempObj = obj;
@@ -41,8 +42,10 @@ function getPropByPath(obj, path) {
     k: keyArr[i],
     v: tempObj[keyArr[i]]
   };
-};
+}
+
 export default {
+  name: 'tsFormItem',
   componentName: 'tsFormItem',
   mixins: [emitter],
   props: {
@@ -50,53 +53,79 @@ export default {
     labelWidth: String,
     prop: String,
     required: Boolean,
-    rules: Array,
+    rules: [Object, Array],
     error: String,
+    validateStatus: String,
     showMessage: {
       type: Boolean,
       default: true
     }
   },
-  mounted() {
-    if (this.prop) {
-      this.dispatch('tsForm', 'el.form.addField', [this]);
+  watch: {
+    error(value) {
+      this.validateMessage = value;
+      this.validateState = value ? 'error' : '';
+    },
+    validateStatus(value) {
+      this.validateState = value;
     }
-    let initialValue = this.fieldValue;
-    if (Array.isArray(initialValue)) {
-      initialValue = [].concat(initialValue);
-    }
-    Object.defineProperty(this, 'initialValue', {
-      value: initialValue
-    });
-    let rules = this.getRules();
-    if (rules.length) {
-      rules.every(rule => {
-        if (rule.required) {
-          this.isRequired = true;
+  },
+  computed: {
+    // 标签的样式
+    labelStyle() {
+      var ret = {};
+      if (this.form.labelPosition === 'top') return ret;
+      var labelWidth = this.labelWidth || this.form.labelWidth;
+      if (labelWidth) {
+        ret.width = labelWidth;
+      }
+      return ret;
+    },
+    // 标签距离Input的距离
+    contentStyle() {
+      var ret = {};
+      if (this.form.labelPosition === 'top') return ret;
+      var labelWidth = this.labelWidth || this.form.labelWidth;
+      if (labelWidth) {
+        ret.marginLeft = labelWidth;
+      }
+      return ret;
+    },
+    form() {
+      var parent = this.$parent;
+      while (parent.$options.componentName !== 'tsForm') {
+        parent = parent.$parent;
+      }
+      return parent;
+    },
+    fieldValue: {
+      cache: false,
+      get() {
+        var model = this.form.model;
+        if (!model || !this.prop) {
           return;
         }
-      })
+
+        var path = this.prop;
+        if (path.indexOf(':') !== -1) {
+          path = path.replace(/:/, '.');
+        }
+        return getPropByPath(model, path).v;
+      }
     }
-    this.$on('ts.form.blur', this.onFieldBlur);
-    this.$on('ts.form.change', this.onFieldChange);
+  },
+  data() {
+    return {
+      validateState: '',
+      validateMessage: '',
+      validateDisabled: false,
+      validator: {},
+      isRequired: false
+    };
   },
   methods: {
-    // 获取Rules
-    getRules() {
-      var formRules = this.form.rules;
-      var selfRuels = this.rules;
-      formRules = formRules ? formRules[this.prop] : [];
-      return [].concat(selfRuels || formRules || []);
-    },
-    getFilteredRule(trigger) {
-      var rules = this.getRules();
-      return rules.filter(rule => {
-        return !rule.trigger || rule.trigger.indexOf(trigger) !== -1;
-      });
-    },
-    // 验证
     validate(trigger, callback = noop) {
-      var rules = this.getFilterdRule(trigger);
+      var rules = this.getFilteredRule(trigger);
       if (!rules || rules.length === 0) {
         callback();
         return true;
@@ -109,132 +138,99 @@ export default {
       validator.validate(model, {
         firstFields: true
       }, (errors, fields) => {
+        this.validateState = !errors ? 'success' : 'error';
         this.validateMessage = errors ? errors[0].message : '';
+
         callback(this.validateMessage);
       });
     },
-    // 当文本域发生变化
+    getRules() {
+      var formRules = this.form.rules;
+      var selfRuels = this.rules;
+      formRules = formRules ? formRules[this.prop] : [];
+      return [].concat(selfRuels || formRules || []);
+    },
+    getFilteredRule(trigger) {
+      var rules = this.getRules();
+      return rules.filter(rule => {
+        return !rule.trigger || rule.trigger.indexOf(trigger) !== -1;
+      });
+    },
+    onFieldBlur() {
+      console.log(0);
+      this.validate('blur');
+    },
     onFieldChange() {
       if (this.validateDisabled) {
         this.validateDisabled = false;
         return;
       }
+
       this.validate('change');
-    },
-    // 当文本域失去焦点
-    onFieldBlur() {
-      this.validate('blur')
-    },
+    }
   },
-  watch: {
-    error(val) {
-      this.validateMessage = value;
+  mounted() {
+    if (this.prop) {
+      this.dispatch('tsForm', 'ts.form.addField', [this]);
+      let initialValue = this.fieldValue;
+      if (Array.isArray(initialValue)) {
+        initialValue = [].concat(initialValue);
+      }
+      Object.defineProperty(this, 'initialValue', {
+        value: initialValue
+      });
+      let rules = this.getRules();
+      if (rules.length) {
+        rules.every(rule => {
+          if (rule.required) {
+            this.isRequired = true;
+            return false;
+          }
+        });
+        this.$on('ts.form.blur', this.onFieldBlur);
+        this.$on('ts.form.change', this.onFieldChange);
+      }
     }
   },
   beforeDestroy() {
-    this.dispatch('tsForm', 'el.form.removeField', [this]);
-  },
-  data() {
-    return {
-      // 验证消息
-      validateMessage: '',
-      // 是否禁用验证
-      validateDisabled: false,
-      validator: {},
-      isRequired: false
-    }
-  },
-  computed: {
-    // 标签的样式
-    labelStyle() {
-      var style = {};
-      var labelWidth = this.labelWidth || this.form.labelWidth;
-      if (this.form.lablePosition === 'top') {
-        return style;
-      }
-      if (labelWidth) {
-        style.width = labelWidth;
-      }
-      return style;
-    },
-    // 内容的样式
-    contentStyle() {
-      var style = {};
-      var labelWidth = this.labelWidth || this.form.labelWidth;
-      if (this.form.lablePosition === 'top' || this.form.inline) {
-        return style;
-      }
-      if (labelWidth) {
-        style.marginLeft = labelWidth;
-      }
-      return style;
-    },
-    // ?????
-    form() {
-      var parent = this.$parent;
-      while (parent.$options.componentName) {
-        parent = parent.$parent;
-      }
-    },
-    // 区域的值
-    fieldValue: {
-      cache: false,
-      get() {
-        var model = this.form.model;
-        if (!model || !this.prop) {
-          return;
-        }
-        var path = this.prop;
-        if (path.indexOf(':') !== -1) {
-          path = path.replace(/:/, '.');
-        }
-        return getPropByPath(model, path).v;
-      }
-    }
+    this.dispatch('tsForm', 'ts.form.removeField', [this]);
   }
 };
 </script>
-
 <style lang="css" scoped>
 @component-namespace ts{
-  @component form-item{
-    margin-bottom: 22px;
+@component form-item{
+  margin-bottom: 22px;
+  @utils-clearfix;
+  @modifier label{
+    text-align: left;
+    vertical-align: middle;
+    float: left;
+    line-height: 1;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+  @modifier content{
+    position: relative;
     @utils-clearfix;
-    @modifier label{
-      text-align: right;
-      vertical-align: middle;
-      float: left;
-      line-height: 1;
-      padding: 10px;
-      box-sizing: border-box;
-    }
-    @modifier content{
-      line-height: 36px;
-      position: relative;
-      @utils-clearfix;
-    }
-    @modifier err{
-      color:red;
-      font-size: 12px;
-      line-height: 1;
-      padding-top: 4px;
-      position: absolute;
-      top: 100%;
-      left: 0;
-    }
-    @when required{
-      .ts-form-item--label:before{
-        content:'*';
-        color: red;
-        margin-right: 4px;
-      }
-    }
-    @when error{
-    & .ts-input--inner,
-    & .ts-textarea--inner {
-      border-color: var(--color-danger);
-    }
+  }
+  @modifier error{
+    color:red;
+    font-size: 12px;
+    line-height: 1;
+    padding-top: 4px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    transition: 0.3s;
+  }
+  @when required{
+  .ts-form-item--label:before{
+    content:'*';
+    color: red;
+    margin-right: 4px;
     }
   }
-}
+    }
+  }
 </style>

@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "ali-oss": "^4.8.0",
+    "async-validator": "^1.6.9",
     "autoprefixer": "^6.7.2",
     "babel-core": "^6.22.1",
     "babel-eslint": "^7.1.1",

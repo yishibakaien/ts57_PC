@@ -35,8 +35,6 @@ export default {
       margin-top: 1em;
       display: flex;
       max-width: 1200px;
-      max-height: 100vh;
-      height: calc(100% - 50px);
       margin: 1em auto 0;
       @descendent left{
         background: var(--navBg);

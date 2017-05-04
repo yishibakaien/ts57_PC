@@ -1,18 +1,38 @@
 <template>
-<label :class="[{'is-active':value===label},{'is-disbaled':isDisabled}]" class="ts-radio">
+<label :class="[{'is-active':value===label},{'is-disbaled':isDisabled},{'origin':type==='origin'}]" class="ts-radio" v-if="type!=='origin'">
     <input type="radio" :value="label" :name="name" v-model="value" :disabled="isDisabled" class="ts-radio-input">
     <span :style="value===label?activeStyle:null" class="ts-radio--inner">
       <slot></slot>
     </span>
-  </label>
+</label>
+<span v-else>
+  <input type="radio" :value="label" :name="name" v-model="value" :disabled="isDisabled">
+  <span>
+    <slot></slot>
+  </span>
+</span>
 </template>
 
 <script>
 export default {
   props: {
+    // label---标签
+    // name---原生属性：name
+    // disabled---disabled
+    // type---'block'/'origin' block就是方块型 origin就是原始状态
     label: {},
     name: String,
-    disabled: Boolean
+    disabled: Boolean,
+    type: {
+      type: String,
+      default: 'block',
+      validator(value) {
+        return [
+          'block',
+          'origin'
+        ].indexOf(value) > -1;
+      }
+    }
   },
   computed: {
     // 设置值
@@ -59,26 +79,25 @@ export default {
   @component radio{
     position: relative;
     display: inline-block;
-    width: 90px;
+    height:34px;
+    padding:10px;
+    box-sizing: border-box;
+    margin-right: 20px;
     text-align: center;
-    line-height: 32px;
+    cursor: pointer;
     @modifier inner{
       display: inline-block;
-      white-space: nowrap;
-      vertical-align: middle;
-      cursor: pointer;
+    }
+    @when active{
+      color:var(--radioColor);
+    &:after{
+      position:absolute 0 0 0 0;
+      content: ' ';
+      border: var(--radio-checked-color);
+    }
     }
     @descendent input{
       display: none;
-      &:checked{
-        & + .ts-radio--inner{
-          width: 90px;
-          color:var(--radioColor);
-          border: 1px solid;
-          box-sizing: border-box;
-          background: var(--radioBg);
-        }
-      }
     }
   }
 }

@@ -3,7 +3,14 @@
   <!-- 头部 -->
   <div class="ts-section-header onepx-b">
     <!-- 头部——标题 -->
-    <p class="ts-section-header--title">{{$route.name}}</p>
+
+    <p class="ts-section-header--title" v-if="!$slots.title">
+      <span v-if="!pageTitle" v-text="$route.name"></span>
+      <span v-else>{{pageTitle}}</span>
+    </p>
+    <p class="ts-section-header--title" v-else>
+      <slot name="title"></slot>
+    </p>
     <div class="ts-section-header--menu">
       <!-- 头部——菜单 -->
       <slot name="menu">
@@ -12,7 +19,7 @@
   </div>
   <!--  内容-->
   <div class="ts-section-content">
-    <slot name="body"></slot>
+    <slot></slot>
   </div>
   <!-- 尾部 -->
   <div class="ts-section-footer">

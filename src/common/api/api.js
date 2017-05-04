@@ -54,6 +54,10 @@ const API = {
 		listCompany: '/favorite/listCompany', // 获取收藏厂家列表
 		listProduct: '/favorite/listProduct' // 获取收藏花型列表
 	},
+	// 店铺管理
+	shopManagement: {
+		listProducts: '/product/listProducts' // 获取花型列表
+	},
 	oss: {
 		token: '/file/token' // OSS_token
 	}
