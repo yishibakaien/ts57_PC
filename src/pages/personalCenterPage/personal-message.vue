@@ -9,38 +9,81 @@
 			<p>您可以对应设置是否接受以上几类短信</p>
 		</div>
 		<div class="personal-message-conten">
-			<p v-for="(item,index) of messageItems"><span>{{item.title}}</span><i @click="messageOnOff(index)"><img src="./yunxu.png" v-show="item.onOff" /><img src="./jujue.png" v-show="!item.onOff"/></i></p>
+			<p>
+				<span>花型询价短信</span>
+				<i @click="messageOnOff(1)">
+					<img src="./yunxu.png" v-show="param.isReceiveMsg" />
+					<img src="./jujue.png" v-show="!param.isReceiveMsg"/>
+				</i>
+			</p>
+			<p>
+				<span>花型索样短信</span>
+				<i @click="messageOnOff(2)">
+					<img src="./yunxu.png" v-show="param.isSyMsg" />
+					<img src="./jujue.png" v-show="!param.isSyMsg""/>
+				</i>
+			</p>
+			<p>
+				<span>求购接单短信</span>
+				<i @click="messageOnOff(3)">
+					<img src="./yunxu.png" v-show="param.isBuyMsg" />
+					<img src="./jujue.png" v-show="!param.isBuyMsg"/>
+				</i>
+			</p>
+			<p>
+				<span>搜花查看花型短信</span>
+				<i @click="messageOnOff(4)">
+					<img src="./yunxu.png" v-show="param.isLookMsg" />
+					<img src="./jujue.png" v-show="!param.isLookMsg"/>
+				</i>
+			</p>
 		</div>
 	</div>
 </template>
 
 <script>
+	import { getMsgSetting, setMsg } from '@/common/api/api';
 	export default {
 		data() {
 			return {
-				messageItems: [{
-						title: '花型询价短信',
-						onOff: true
-					},
-					{
-						title: '花型索样短信',
-						onOff: false
-					},
-					{
-						title: '求购接单短信',
-						onOff: true
-					},
-					{
-						title: '搜花查看花型短信',
-						onOff: true
-					}
-				]
+				param: {
+					isBuyMsg: '',
+					isLookMsg: '',
+					isReceiveMsg: '',
+					isSyMsg: ''
+				}
 			};
+		},
+		created() {
+			this.getMsgSettingMethod();
 		},
 		methods: {
 			messageOnOff(index) {
 				let _ = this;
-				_.messageItems[index].onOff = !_.messageItems[index].onOff;
+				if (index === 1) {
+					_.param.isReceiveMsg = !_.param.isReceiveMsg;
+				} else if (index === 2) {
+					_.param.isSyMsg = !_.param.isSyMsg;
+				} else if (index === 3) {
+					_.param.isBuyMsg = !_.param.isBuyMsg;
+				} else if (index === 4) {
+					_.param.isLookMsg = !_.param.isLookMsg;
+				}
+				_.setMsgMethod();
+			},
+			getMsgSettingMethod() {
+				let _ = this;
+				getMsgSetting().then((res) => {
+					_.param.isBuyMsg = res.data.data.isBuyMsg;
+					_.param.isLookMsg = res.data.data.isLookMsg;
+					_.param.isReceiveMsg = res.data.data.isReceiveMsg;
+					_.param.isSyMsg = res.data.data.isSyMsg;
+				}).catch();
+			},
+			setMsgMethod() {
+				let _ = this;
+				setMsg(_.param).then((res) => {
+				}).catch();
 			}
 		}
 	};

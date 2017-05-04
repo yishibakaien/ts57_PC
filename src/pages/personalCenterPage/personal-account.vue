@@ -25,9 +25,10 @@
 </template>
 
 <script>
+//  import * as reg from '@/common/js/regExp';
 	import { updateUser } from '@/common/api/api';
 //	import { upPicOSS } from '@/common/api/aliOSS_upPic';
-	import uploadPicture from '../../common/js/uploadPicture';
+	import uploadPicture from '@/common/js/uploadPicture';
 
 	export default {
 		data() {

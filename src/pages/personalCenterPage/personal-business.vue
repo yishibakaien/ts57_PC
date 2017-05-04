@@ -6,8 +6,8 @@
 					<img src="../../../static/timg.jpg" alt="logo" />
 					<p class="cancel">取消收藏</p>
 				</div>
-				<p><span class="address">地址：</span><span class="addressInfo">福建省长乐市文武砂镇数字创意园福建省长乐市文武砂</span></p>
-				<p><span class="address">电话：</span>18333333333</p>
+				<p><span class="address">地址：</span><span class="addressInfo">{{item.address}}</span></p>
+				<p><span class="address">电话：</span>{{item.contactTel}}</p>
 			</div>
 			<div class="personal-business-content">
 				<div class="top">
@@ -16,24 +16,24 @@
 						<i class="trade"  v-if="item.companyType === 2">贸</i>
 						{{item.companyName}}
 					</span>
-					<a>查看全部{{ '(' +a+ ')' }} > </a>
+					<a>查看全部{{ '(' + item.productCount + ')' }} > </a>
 				</div>
 				<div class="hotSell clearfix">
-					<div class="hotSellItem">
-						<img src="../../../static/timg.jpg" alt="hotSell" />
-						<p class="goodsName">#2001</p>
+					<div class="hotSellItem" v-for="hotSellItem in item.productBOS">
+						<img src="hotSellItem.defaultPicUrl" alt="hotSell" />
+						<p class="goodsName">#{{hotSellItem.id}}</p>
 						<p>
-							<span class="red">$10/码</span>
-							<!--<span class="gray">需要开机</span>-->
+							<span class="red">¥{{hotSellItem.priceUnit}}/码</span>
+							<span class="gray">需要开机</span>
 							<span class="green">有库存</span>
 						</p>
 					</div>
-					<div class="hotSellItem">
+					<!--<div class="hotSellItem">
 						<img src="../../../static/timg.jpg" alt="hotSell" />
 						<p class="goodsName">#2001</p>
 						<p>
-							<span class="red">$10/码</span>
-							<!--<span class="green">有库存</span>-->
+							<span class="red">{{item.priceUnit}}/码</span>
+							<span class="green">有库存</span>
 							<span class="gray">需要开机</span>
 						</p>
 					</div>
@@ -42,10 +42,10 @@
 						<p class="goodsName">#2001</p>
 						<p>
 							<span class="red">$10/码</span>
-							<!--<span class="green">有库存</span>-->
+							<span class="green">有库存</span>
 							<span class="gray">需要开机</span>
 						</p>
-					</div>
+					</div>-->
 
 				</div>
 
@@ -63,8 +63,8 @@
 					pageNo: 1,
 					pageSize: 8
 				},
-				items: [],
-				a: 5
+				items: []
+//				totalNum: 5
 			};
 		},
 		created() {

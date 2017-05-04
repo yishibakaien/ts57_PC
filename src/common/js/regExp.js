@@ -20,11 +20,21 @@ function testCompanyName(str) {
 function testSMSCode(str) {
     return /\d{4}/.test(str || '');
 }
+// email
+function testEmail(str) {
+	return /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/.test(str || '');
+}
+// qq
+function testQQ(str) {
+	return /^[1-9][0-9]{4,9}/.test(str || '');
+}
 
 export {
   testMobile,
   testPWD,
   testName,
   testCompanyName,
-  testSMSCode
+  testSMSCode,
+  testEmail,
+  testQQ
 };
