@@ -13,6 +13,12 @@
       <div class="list">
         <supply-list></supply-list>
       </div>
+      <div class="list">
+        <entry-list></entry-list>
+      </div>
+      <div class="list">
+        <quality-company-list></quality-company-list>
+      </div>
       <button class="button button-block button-blue" @click="seeDetail">花型详情(需要登录才能浏览)</button>
       <button @click="logout" class="button button-block button-red" v-if="showBtn">退出登录</button>
 
@@ -22,7 +28,7 @@
 </template>
 
 <script>
-import { header, nav, fixedTopbar, banner, purchaseList, supplyList } from '../../components';
+import { header, nav, fixedTopbar, banner, purchaseList, supplyList, entryList, qualityCompanyList } from '../../components';
 import { listHomeBanners } from '../../common/api/api';
 import * as types from '../../store/types';
 
@@ -57,7 +63,9 @@ export default {
     fixedTopbar,
     banner,
     purchaseList,
-    supplyList
+    supplyList,
+    entryList,
+    qualityCompanyList
   },
   created() {
     listHomeBanners().then(res => {
@@ -110,6 +118,6 @@ export default {
         margin 32px 0
       .button
         width 20%
-        // margin-top 20px
+        margin-top 20px
 
 </style>

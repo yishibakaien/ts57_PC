@@ -1,9 +1,9 @@
 <template>
   <div class="list-title">
-    <span class="title-name" :style="{color: titleColor}">最新求购</span>
+    <span class="title-name" :style="{color: titleText.color}">{{titleText.title}}</span>
     <div class="right-nav">
-      <span class="right-nav-text">更多求购</span>
-      <i class="iconfont" :style="{background: titleColor}">字</i>
+      <span class="right-nav-text">{{titleText.extend}}</span>
+      <i class="iconfont" :style="{background: titleText.color}">字</i>
     </div>
   </div>
 </template>
@@ -11,8 +11,8 @@
 <script>
 export default {
   props: {
-    titleColor: {
-      type: String
+    titleText: {
+      type: Object
     }
   }
 };
