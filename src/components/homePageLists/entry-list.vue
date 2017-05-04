@@ -41,8 +41,8 @@
     </div>
     <div class="right-list">
       <list-tile :title-text="titleText"></list-tile>
-      <div class="item-wrapper"  v-for="item in [1,2,3,4,5,6]">
-        <entry-list-item></entry-list-item>
+      <div class="item-wrapper"  v-for="item in newCompanyList">
+        <entry-list-item :item="item"></entry-list-item>
       </div>
     </div>
   </div>
@@ -52,6 +52,11 @@
 import listTile from './list-title';
 import entryListItem from './entry-list-item';
 export default {
+  props: {
+    newCompanyList: {
+      type: Array
+    }
+  },
   data() {
     return {
       titleText: {
@@ -64,11 +69,6 @@ export default {
   components: {
     listTile,
     entryListItem
-  },
-  props: {
-    message: {
-      type: Object
-    }
   }
 };
 </script>

@@ -20,8 +20,8 @@
     </div>
     <div class="right-list">
       <list-tile :title-text="titleText"></list-tile>
-      <div class="item-wrapper"  v-for="item in [1,2,3,4]">
-        <base-item></base-item>
+      <div class="item-wrapper"  v-for="item in supplyListObj.data">
+        <base-item :item="item" :type="supplyListObj.type"></base-item>
       </div>
     </div>
   </div>
@@ -45,7 +45,7 @@ export default {
     listTile
   },
   props: {
-    message: {
+    supplyListObj: {
       type: Object
     }
   }

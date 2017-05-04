@@ -25,7 +25,8 @@ const API = {
 	},
 	// 首页
 	home: {
-		listHomeBanners: '/homeBanner/listHomeBanners' // 首页banner
+		listHomeBanners: '/homeBanner/listHomeBanners', // 首页banner
+    findNewCompanyByIndex: '/company/findNewCompanyByIndex' // 获取最新入驻厂家列表
 	},
 	// 供应求购
 	buy: {
@@ -148,7 +149,9 @@ function _fetch(method = METHODS.get, data, url) {
  * @param  {object} data  请求参数， 将 x-token 放入data中即可
  * @return {promise}      Promise 对象
  */
-// 用户模块api
+/**
+ * 用户部分
+ */
 // 登录
 export function login(data) {
 	// alert('调用fetch');
@@ -175,11 +178,6 @@ export function getUserInfo(data) {
 	return _fetch(METHODS.post, data, API.user.getUserInfo);
 };
 
-// 获取首页banner
-export function listHomeBanners(data) {
-	return _fetch(METHODS.get, data, API.home.listHomeBanners);
-};
-
 // 检验手机号码是否存在
 export function checkPhone(data) {
     return _fetch(METHODS.get, data, API.user.checkPhone);
@@ -190,6 +188,30 @@ export function getRegSMSCode(data) {
     return _fetch(METHODS.post, data, API.user.getRegSMSCode);
 };
 
+/**
+ * 首页部分
+ */
+// 获取首页banner
+export function listHomeBanners(data) {
+	return _fetch(METHODS.get, data, API.home.listHomeBanners);
+};
+
+// 获取求购列表
+export function listProductBuys(data) {
+  return _fetch(METHODS.get, data, API.buy.listProductBuys);
+}
+
+// 获取供应列表
+export function listCompanySupplys(data) {
+  return _fetch(METHODS.get, data, API.buy.listCompanySupplys);
+}
+
+export function findNewCompanyByIndex(data) {
+  return _fetch(METHODS.post, data, API.home.findNewCompanyByIndex);
+}
+/**
+ * 个人中心部分
+ */
 // 获取修改手机短信
 export function changeSMSCode(data) {
 	return _fetch(METHODS.post, data, API.user.changeSMSCode);
@@ -203,11 +225,6 @@ export function changeMobile(data) {
 // 修改密码
 export function restPasswd(data) {
 	return _fetch(METHODS.post, data, API.user.restPasswd);
-};
-
-// 获取求购列表
-export function listProductBuys(data) {
-	return _fetch(METHODS.get, data, API.buy.listProductBuys);
 };
 
 // 获取接单列表

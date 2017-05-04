@@ -1,3 +1,4 @@
+<!-- 借鉴自 github -->
 <template>
   <div class="vue-only-slider">
     <ul :style="{width:`${scaleW}px`,height:`${height}px`}">
@@ -269,6 +270,7 @@ export default {
 <style lang="stylus">
 .vue-only-slider{
   width: 100%;
+  min-width 1200px;
   position: relative;
   text-align: center;
   overflow: hidden;

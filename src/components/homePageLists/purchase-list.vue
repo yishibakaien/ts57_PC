@@ -20,8 +20,8 @@
     </div>
     <div class="right-list">
       <list-tile :title-text="titleText"></list-tile>
-      <div class="item-wrapper"  v-for="item in [1,2,3,4]">
-        <base-item></base-item>
+      <div class="item-wrapper"  v-for="item in purchaseListObj.data">
+        <base-item :item="item" :type="purchaseListObj.type"></base-item>
       </div>
     </div>
   </div>
@@ -31,6 +31,14 @@
 import baseItem from '../baseItem/baseItem';
 import listTile from './list-title';
 export default {
+  props: {
+    purchaseListObj: {
+      type: Object,
+      default: function() {
+        return {};
+      }
+    }
+  },
   data() {
     return {
       titleText: {
@@ -43,11 +51,6 @@ export default {
   components: {
     baseItem,
     listTile
-  },
-  props: {
-    message: {
-      type: Object
-    }
   }
 };
 </script>
