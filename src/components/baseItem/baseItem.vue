@@ -6,7 +6,7 @@
       </div>
       <div class="item-desc">
         <h2 class="desc-title">供应 200码</h2>
-        <p class="desc-text">急需这款面料，有货的</p>
+        <p class="desc-text">急需这款面料，有货的快来联系</p>
       </div>
     </div>
   </div>
@@ -56,5 +56,8 @@ export default {
     .desc-text
       height 36px
       line-height 36px
+      overflow hidden
+      text-overflow ellipsis
+      white-space nowrap
       color #999
 </style>

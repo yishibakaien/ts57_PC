@@ -3,29 +3,30 @@
 		<div class="personal-class clearfix">
 			<span class="title">分类</span>
 			<p>
-				<span class="selected">全部 {{'(' +classes.totalNum+ ')' }}</span>
-				<span>大边 {{'(' +a+ ')' }}</span>
-				<span>小边 {{'(' +a+ ')' }}</span>
-				<span>睫毛 {{'(' +a+ ')' }}</span>
+				<span class="selected">全部 {{'(' + classes.totalNum + ')' }}</span>
+				<span @click="classMianliao">面料 {{'(' + classes.mianliao + ')' }}</span>
+				<span @click="classDabian">大边 {{'(' + classes.large + ')' }}</span>
+				<span @click="classXiaobian">小边 {{'(' + classes.small + ')' }}</span>
+				<span @click="classJiemao">睫毛 {{'(' + classes.eyelash + ')' }}</span>
 			</p>
 		</div>
 		<div class="personal-class clearfix">
 			<span class="title">筛选条件</span>
 			<p>
 				<span class="selected">全部 {{'(' +classes.totalNum+ ')' }}</span>
-				<span>求购中 {{'(' +a+ ')' }}</span>
-				<span>已成交 {{'(' +a+ ')' }}</span>
-				<span>已关闭 {{'(' +a+ ')' }}</span>
+				<span @click="classBuy">求购中 {{'(' + classes.statusBuy + ')' }}</span>
+				<span @click="classSuccess">已成交 {{'(' + classes.statusSuccess + ')' }}</span>
+				<span @click="classClosed">已关闭 {{'(' + classes.statusClosed + ')' }}</span>
 			</p>
 		</div>
 		<div class="personal-buy-wrap clearfix">
 			<div class="personal-goods-item" v-for="item in items">
 				<div class="personal-goods-item-img">
 					<img :src="item.buyPicUrl" alt="求购" />
-					<span class="states green" v-if="item.buyStatus == 0">求购中</span>
-					<span class="states yellow" v-if="item.buyStatus == 1">已成交</span>
-					<span class="states gray" v-if="item.buyStatus == 2">已关闭</span>
-					<p v-if="item.buyStatus == 1">取消求购</p>
+					<span class="states green" v-if="item.buyStatus == 1">求购中</span>
+					<span class="states yellow" v-if="item.buyStatus == 2">已成交</span>
+					<span class="states gray" v-if="item.buyStatus == 3">已关闭</span>
+					<p class="gray" v-if="item.buyStatus == 1">取消求购</p>
 					<p class="blue" v-if="item.buyStatus == 2">重新发布</p>
 					<p class="p3" v-if="item.buyStatus == 3"><span class="spanL">重新发布</span><span class="spanR">删除</span></p>
 
@@ -37,7 +38,7 @@
 				</div>
 			</div>
 		</div>
-		<pageBar :pageNum="pageNum" :pageMax="pageMax" :number="number" v-on:upPage="upPage" v-on:downPage="downPage" v-on:selectFirstPage="selectFirstPage" v-on:selectLastPage="selectLastPage" v-on:selectNumber="selectNumber($event)"></pageBar>
+		<pageBar v-if="classes.totalNum > 8" :pageNum="pageNum" :pageMax="pageMax" :number="pageSize" v-on:upPage="upPage" v-on:downPage="downPage" v-on:selectFirstPage="selectFirstPage" v-on:selectLastPage="selectLastPage" v-on:selectNumber="selectNumber($event)"></pageBar>
 	</div>
 </template>
 
@@ -47,22 +48,27 @@
 	export default {
 		data() {
 			return {
-				pageNum: 1,
-				pageMax: 20,
-				'number': 50,
+				pageNum: '',
+				pageMax: '',
+				pageSize: '',
 				param: {
+					buyShapes: '',
 					buyStatus: '',
-					buyType: '',
+					buyTypes: '',
 					isMy: 'true',
-					pageNo: '',
+					pageNo: 1,
 					pageSize: 8
 				},
 				items: [],
 				classes: {
-					totalNum: '',
-					large: '',
-					small: '',
-					eyelash: ''
+					totalNum: 0,
+					mianliao: 0,
+					large: 0,
+					small: 0,
+					eyelash: 0,
+					statusBuy: 0,
+					statusSuccess: 0,
+					statusClosed: 0
 				},
 				tipShow: false,
 				a: 1,
@@ -73,20 +79,23 @@
 			pageBar
 		},
 		created() {
-			this.listProductBuysMethod();
+			let _ = this;
+			listProductBuys(_.param).then((res) => {
+				_.items = res.data.list;
+				_.pageNum = res.data.pageNO;
+				_.pageSize = res.data.pageSize;
+				_.pageMax = res.data.totalPage;
+				_.classes.totalNum = res.data.totalNum;
+			}).catch();
 		},
 		methods: {
 			listProductBuysMethod() {
 				let _ = this;
-				console.log('我的求购', _.param);
 				listProductBuys(_.param).then((res) => {
 					_.items = res.data.list;
-					_.classes.totalNum = res.data.totalNum;
-					/* _.items.forEach((item) => {
-						if (item.buyType === 100011) { _.classes.large ++; }
-						console.log(_.classes.large);
-					}); */
-					console.log(res.data.list);
+					_.pageNum = res.data.pageNO;
+					_.pageSize = res.data.pageSize;
+					_.pageMax = res.data.totalPage;
 				}).catch();
 			},
 			closeProductBuyMethod() {
@@ -95,13 +104,13 @@
 			},
 			selectFirstPage() {
 				let _ = this;
-				_.pageNum = 1;
-				console.log(_.pageNum);
+				_.param.pageNo = 1;
+				this.listProductBuysMethod();
 			},
 			selectLastPage() {
 				let _ = this;
-				_.pageNum = _.pageMax;
-				console.log(_.pageNum);
+				_.param.pageNo = _.pageMax;
+				this.listProductBuysMethod();
 			},
 			upPage() {
 				let _ = this;
@@ -109,7 +118,8 @@
 					return;
 				};
 				--_.pageNum;
-				console.log(_.pageNum);
+				_.param.pageNo = _.pageNum;
+				this.listProductBuysMethod();
 			},
 			downPage() {
 				let _ = this;
@@ -117,10 +127,48 @@
 					return;
 				};
 				++_.pageNum;
-				console.log(_.pageNum);
+				_.param.pageNo = _.pageNum;
+				this.listProductBuysMethod();
 			},
 			selectNumber(num) {
-				console.log(num);
+				let _ = this;
+				_.param.pageSize = num;
+				this.listProductBuysMethod();
+			},
+			classMianliao() {
+				let _ = this;
+				_.param.buyTypes = 100010;
+				this.listProductBuysMethod();
+			},
+			classDabian() {
+				let _ = this;
+				_.param.buyTypes = 100011;
+				this.listProductBuysMethod();
+			},
+			classXiaobian() {
+				let _ = this;
+				_.param.buyTypes = 100012;
+				this.listProductBuysMethod();
+			},
+			classJiemao() {
+				let _ = this;
+				_.param.buyTypes = 100013;
+				this.listProductBuysMethod();
+			},
+			classSuccess() {
+				let _ = this;
+				_.param.buyStatus = 2;
+				this.listProductBuysMethod();
+			},
+			classBuy() {
+				let _ = this;
+				_.param.buyStatus = 1;
+				this.listProductBuysMethod();
+			},
+			classClosed() {
+				let _ = this;
+				_.param.buyStatus = 3;
+				this.listProductBuysMethod();
 			}
 		}
 	};

@@ -73,14 +73,14 @@ const METHODS = {
  * @return {object || string}         格式化后的data
  */
 function _formatData(method, data) {
-    console.log('请求data', data);
+//  console.log('请求data', data);
     if (!data) {
-        console.log('请求data为空', data);
+//      console.log('请求data为空', data);
         return '';
     }
     let _data = Object.assign({}, data);
     if (method === METHODS.get) {
-        console.log('get请求data', _data);
+//      console.log('get请求data', _data);
         return _data;
     } else if (method === METHODS.post) {
         return JSON.stringify(_data);
@@ -130,7 +130,8 @@ function _fetch(method = METHODS.get, data, url) {
 					store.commit(types.LOGIN, token);
 				}
 			}
-			if (res.data.code !== 0 && res.data.message) {
+//			if (res.data.code !== 0 && res.data.message) {
+			if (res.data.message) {
 				store.commit(types.MODEL_SHOW, true);
 				store.commit(types.MODEL_OPTION, {type: 2, title: '提示', content: res.data.message});
 			}
@@ -217,6 +218,11 @@ export function listBuyTask(data) {
 // 获取收藏花型列表
 export function listProduct(data) {
 	return _fetch(METHODS.post, data, API.collection.listProduct);
+};
+
+// 获取收藏厂家列表
+export function listCompany(data) {
+	return _fetch(METHODS.post, data, API.collection.listCompany);
 };
 
 // 关闭求购

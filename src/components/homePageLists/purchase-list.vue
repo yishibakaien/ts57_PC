@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="right-list">
-      <list-tile :title-color="titleColor"></list-tile>
+      <list-tile :title-text="titleText"></list-tile>
       <div class="item-wrapper"  v-for="item in [1,2,3,4]">
         <base-item></base-item>
       </div>
@@ -33,7 +33,11 @@ import listTile from './list-title';
 export default {
   data() {
     return {
-      titleColor: '#4c93fd'
+      titleText: {
+        color: '#4c93fd',
+        title: '最新求购',
+        extend: '更多求购'
+      }
     };
   },
   components: {

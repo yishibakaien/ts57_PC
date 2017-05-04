@@ -42,7 +42,8 @@
 		data() {
 			return {
 				param: {
-					buyStatus: null
+					buyStatus: '',
+					buyType: ''
 				},
 				items: [],
 				classNum: {
@@ -53,15 +54,14 @@
 		},
 		created() {
 			this.listBuyTaskMethod();
-//			console.log(this);
 		},
 		methods: {
 			listBuyTaskMethod() {
 				let _ = this;
 				listBuyTask(_.param).then((res) => {
 					_.items = res.data.list;
-//					_.classNum.all = _.items.length;
-//					console.log(res.data);
+					_.classNum.all = _.items.length;
+					console.log(res.data);
 				}).catch(
 				);
 			}
