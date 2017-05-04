@@ -28,23 +28,28 @@
 					<p v-if="item.buyStatus == 1">取消求购</p>
 					<p class="blue" v-if="item.buyStatus == 2">重新发布</p>
 					<p class="p3" v-if="item.buyStatus == 3"><span class="spanL">重新发布</span><span class="spanR">删除</span></p>
-					
+
 				</div>
 				<p class="info">{{ item.buyDesc }}</p>
 				<p><span>求购 <i>{{ item.buyNum }}</i> 码</span><span class="time">1小时前</span></p>
 				<div class="tipsModel" v-show="tipShow">
-					
+
 				</div>
 			</div>
 		</div>
+		<pageBar :pageNum="pageNum" :pageMax="pageMax" :number="number" v-on:upPage="upPage" v-on:downPage="downPage" v-on:selectFirstPage="selectFirstPage" v-on:selectLastPage="selectLastPage" v-on:selectNumber="selectNumber($event)"></pageBar>
 	</div>
 </template>
 
 <script>
-	import { listProductBuys } from '../../common/api/api';
+	import { pageBar } from '@/components';
+	import { listProductBuys } from '@/common/api/api';
 	export default {
 		data() {
 			return {
+				pageNum: 1,
+				pageMax: 20,
+				'number': 50,
 				param: {
 					buyStatus: '',
 					buyType: '',
@@ -64,6 +69,9 @@
 				b: 3
 			};
 		},
+		components: {
+			pageBar
+		},
 		created() {
 			this.listProductBuysMethod();
 		},
@@ -79,13 +87,40 @@
 						console.log(_.classes.large);
 					}); */
 					console.log(res.data.list);
-				}).catch((res) => {
-					console.log(res.data.data);
-				});
+				}).catch();
 			},
 			closeProductBuyMethod() {
 				let _ = this;
 				_.tipShow = true;
+			},
+			selectFirstPage() {
+				let _ = this;
+				_.pageNum = 1;
+				console.log(_.pageNum);
+			},
+			selectLastPage() {
+				let _ = this;
+				_.pageNum = _.pageMax;
+				console.log(_.pageNum);
+			},
+			upPage() {
+				let _ = this;
+				if (_.pageNum <= 1) {
+					return;
+				};
+				--_.pageNum;
+				console.log(_.pageNum);
+			},
+			downPage() {
+				let _ = this;
+				if (_.pageNum >= _.pageMax) {
+					return;
+				};
+				++_.pageNum;
+				console.log(_.pageNum);
+			},
+			selectNumber(num) {
+				console.log(num);
 			}
 		}
 	};
@@ -109,15 +144,17 @@
 		width: 50%;
 		height: 100%;
 	}
+	
 	.personal-goods-item {
-		position: relative;	
+		position: relative;
 	}
+	
 	.tipsModel {
 		width: 100%;
 		height: 100%;
 		position: absolute;
 		top: 0;
 		left: 0;
-		background: rgba(0,0,0,.5);
+		background: rgba(0, 0, 0, .5);
 	}
 </style>

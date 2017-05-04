@@ -26,8 +26,10 @@
 </template>
 
 <script>
-	import { header, nav } from '../../components';
-	import { getUserInfo } from '../../common/api/api';
+	import '@/common/css/personal.css';
+	
+	import { header, nav } from '@/components';
+	import { getUserInfo } from '@/common/api/api';
 	
 	import {
 		personalAccount,
@@ -124,7 +126,7 @@
 //					this.navItems[4].isShow = true;
 //				}
 			}).catch((res) => {
-				console.log(res.data.data);
+//				console.log(res.data.data);
 			});
 		},
 		methods: {
@@ -142,8 +144,7 @@
 </script>
 
 <style lang="scss" scoped="scoped">
-	@import '../../common/css/personal.css';
-	
+
 	.personal-container {
 		margin-top: 50px;
 	}

@@ -1,7 +1,3 @@
-/**
- * Created by superman on 17/2/16.
- * vuex types
- */
 'use strict';
 
 export const AJAX = 'ajax';   // 用于设置ajax 请求携带的ajaxToken
@@ -17,3 +13,7 @@ export const LOGIN_MASK = 'loginMask';
 export const USER_INFO = 'userInfo';
 
 export const USER_NAME = 'userName';
+
+export const MODEL_SHOW = 'modelShow';
+
+export const MODEL_OPTION = 'modelOption';

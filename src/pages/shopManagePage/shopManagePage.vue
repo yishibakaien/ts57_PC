@@ -29,6 +29,7 @@
 </template>
 
 <script>
+    import '../../common/css/shop.css';
 	import { header, nav } from '../../components';
 	import {
 		shopRepertory,
@@ -121,8 +122,7 @@
 </script>
 
 <style lang="scss" scoped="scoped">
-    @import '../../common/css/shop.css';
-	
+
 	.shop-container {
 		margin-top: 50px;
 	}

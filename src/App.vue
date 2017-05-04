@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="main-wrapper">
+    	<models></models>
       <topbar></topbar>
       <!-- <v-header></v-header> -->
 
@@ -22,7 +23,7 @@
 </template>
 
 <script>
-import {topbar, footer, loginMask} from './components';
+import {topbar, footer, loginMask, models} from './components';
 
 export default {
   data() {
@@ -36,6 +37,7 @@ export default {
   components: {
     topbar,
     loginMask,
+    models,
     'vFooter': footer
   }
 };
@@ -53,4 +55,8 @@ export default {
       &.active
         color #fff
         background #3385ff
+</style>
+<style lang="scss">
+@import url("http://at.alicdn.com/t/font_8edxesol4ympwrk9.css");
+@import './common/css/1px.scss';
 </style>

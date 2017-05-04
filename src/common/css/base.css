@@ -103,3 +103,25 @@ html, body, body > div:first-child {
     background-color: #EC8B89;
     color: #fff;
 }
+/*1px button*/
+.button.button-plain {
+  background: #fff;
+  border-radius: 0;
+  font-size: 20px;
+  padding: 8px 0
+}
+.button.button-plain:after {
+  display: none;
+}
+.button.button-plain.button-plain-blue {
+  color: #4c93fd;
+  border: 1px solid #4c93fd;
+}
+.button.button-plain.button-plain-orange {
+  color: #ff9c31;
+  border: 1px solid #ff9c31;
+}
+.button.button-plain.button-plain-pink {
+  color: #ff7478;
+  border: 1px solid #ff7478;
+}

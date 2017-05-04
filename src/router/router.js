@@ -15,7 +15,12 @@ import {
 } from '../pages';
 
 Vue.use(Router);
-
+// created By HZC
+const shopManager = r => require.ensure([], () => r(require('@/pages/shopManager/')), 'shopManager');
+const shopManagerMaterial = r => require.ensure([], () => r(require('@/pages/shopManager/children/material')), 'shopManagerMaterial');
+const shopManagerWareHouse = r => require.ensure([], () => r(require('@/pages/shopManager/children/warehouse')), 'shopManagerWareHouse');
+const shopManagerSupply = r => require.ensure([], () => r(require('@/pages/shopManager/children/supply')), 'shopManagerSupply');
+const shopManagerEnquiry = r => require.ensure([], () => r(require('@/pages/shopManager/children/enquiry')), 'shopManagerEnquiry');
 const routes = [
     {
         path: '/',
@@ -61,6 +66,28 @@ const routes = [
     {
         path: '/forgotPasswordPage',
         component: forgotPasswordPage
+    },
+    {
+      path: '/shopManager',
+      redirect: '/shopManager/warehouse',
+      component: shopManager,
+      children: [{
+        path: 'material',
+        component: shopManagerMaterial,
+        name: '素材库'
+      }, {
+        path: 'warehouse',
+        component: shopManagerWareHouse,
+        name: '仓库管理'
+      }, {
+        path: 'supply',
+        component: shopManagerSupply,
+        name: '厂家供应'
+      }, {
+        path: 'enquiry',
+        component: shopManagerEnquiry,
+        name: '询价列表'
+      }]
     }
 ];
 

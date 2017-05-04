@@ -1,4 +1,5 @@
 'use strict';
+
 import topbar from './topbar/topbar';
 
 import nav from './nav/nav';
@@ -16,7 +17,18 @@ import search from './search/search';
 import picUpload from './picUpload/picUpload';
 
 import fixedTopbar from './fixedTopbar/fixedTopbar';
-// import search from './search/search';
+
+import models from './models/models';
+
+import pageBar from './pageBar/pageBar';
+
+import banner from './banner/banner';
+
+import baseItem from './baseItem/baseItem';
+
+import purchaseList from './homePageLists/purchase-list';
+
+import supplyList from './homePageLists/supply-list';
 
 export {
     topbar,
@@ -27,5 +39,11 @@ export {
     loginMask,
     search,
     picUpload,
-    fixedTopbar
+    fixedTopbar,
+    models,
+    pageBar,
+    banner,
+    baseItem,
+    purchaseList,
+    supplyList
 };
