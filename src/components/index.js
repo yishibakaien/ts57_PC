@@ -36,6 +36,11 @@ import qualityCompanyList from './homePageLists/quality-company-list';
 
 import aliUpload from './aliUpload/aliUpload';
 
+// 检索结果筛选
+import filter from './filter/filter';
+// 分页器
+import paginator from './paginator/paginator';
+
 export {
     topbar,
     header,
@@ -54,5 +59,7 @@ export {
     supplyList,
     entryList,
     qualityCompanyList,
-    aliUpload
+    aliUpload,
+    filter,
+    paginator
 };

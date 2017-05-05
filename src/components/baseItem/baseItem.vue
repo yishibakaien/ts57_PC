@@ -5,8 +5,11 @@
         <img class="item-image" :src="picUrl">
       </div>
       <div class="item-desc">
-        <h2 class="desc-title">{{type==="supply" ? "供应" : "求购"}} {{num}}{{unit}}</h2>
-        <p class="desc-text">{{desc}}</p>
+        <h2 class="desc-title">{{productNo}}{{typeComputed}} {{num}}{{unit}}</h2>
+        <p class="desc-text">
+          {{desc}}
+          <span class="time" v-if="time">{{time}}</span>
+        </p>
       </div>
     </div>
   </div>
@@ -18,7 +21,7 @@ export default {
     item: {
       type: Object
     },
-    // 区分是求购还是供应
+    // 区分是求购还是供应 还是文本搜索
     type: {
       type: String
     }
@@ -31,28 +34,54 @@ export default {
     };
   },
   computed: {
-    unit() {
-      let s;
+    typeComputed() {
       if (this.type === 'supply') {
-        s = this.item.supplyUnit;
+        return '供应';
+      } else if (this.type === 'purchase') {
+        return '求购';
+      } else if (this.type === 'searchText') {
+        return '';
+      }
+    },
+    productNo() {
+      if (this.type === 'searchText') {
+        return this.item.productNo;
+      } else {
+        return '';
+      }
+    },
+    time() {
+      if (this.item.time) {
+        return this.item.time;
+      } else {
+        return '';
+      }
+    },
+    unit() {
+      let unit;
+      if (this.type === 'supply') {
+        unit = this.item.supplyUnit;
         this.num = this.item.supplyNum;
         this.desc = this.item.supplyDesc;
         this.picUrl = this.item.productPicUrl;
       }
       if (this.type === 'buy') {
-        s = this.item.buyUnit;
+        unit = this.item.buyUnit;
         this.num = this.item.buyNum;
         this.desc = this.item.buyDesc;
         this.picUrl = this.item.buyPicUrl;
       }
-      console.log('s', s);
-      if (s === 400010) {
+      if (this.type === 'searchText') {
+        this.picUrl = this.item.defaultPicUrl;
+        this.desc = this.item.companyName;
+      }
+      if (unit === 400010) {
         return '码';
       }
-      if (s === 400011) {
+      if (unit === 400011) {
         return '公斤';
       }
-      if (s === 400012) {
+      if (unit === 400012) {
         return '条';
       }
     }
@@ -92,11 +121,18 @@ export default {
       line-height 40px
       margin-top 16px
       color #333
+      overflow hidden
+      text-overflow ellipsis
+      white-space nowrap
     .desc-text
+      position relative
       height 36px
       line-height 36px
       overflow hidden
       text-overflow ellipsis
       white-space nowrap
       color #999
+      .time
+        position absolute
+        right 0
 </style>

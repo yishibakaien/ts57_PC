@@ -16,7 +16,12 @@ export default new Vuex.Store({
         showLoading: false,
         showLoginMask: false,
         modelShow: false,
-        modelOption: {}
+        modelOption: {},
+        searchResult: {
+            data: {
+                list: []
+            }
+        }
     },
     mutations: {
         [types.AJAX]: (state, data) => {
@@ -34,6 +39,10 @@ export default new Vuex.Store({
             state.userName = null;
             state.ajaxToken = null;
             state.accessToken = null;
+        },
+        [types.SEARCH_RESULT]: (state, data) => {
+            state.searchResult = data;
+            localStorage.searchText = data.searchText;
         },
         [types.LOADING]: (state, data) => {
             state.showLoading = data;

@@ -34,9 +34,8 @@
           </div>
         </div>
         <div class="entry-button-box">
-          <button class="button button-plain button-block button-plain-pink">新增花型</button>
+          <button class="button button-plain button-block button-plain-pink">申请入驻</button>
         </div>
-
       </div>
     </div>
     <div class="right-list">

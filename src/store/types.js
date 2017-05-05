@@ -17,3 +17,6 @@ export const USER_NAME = 'userName';
 export const MODEL_SHOW = 'modelShow';
 
 export const MODEL_OPTION = 'modelOption';
+
+// 搜索模块
+export const SEARCH_RESULT = 'searchResult'; // 搜索结果缓存

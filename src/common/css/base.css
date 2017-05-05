@@ -74,6 +74,9 @@ html, body, body > div:first-child {
             transform-origin: 0 0;
     content: ' ';
 }
+.button[disabled] {
+  cursor: not-allowed
+}
 .button.button-block {
     display: block;
     width: 100%;
@@ -83,7 +86,20 @@ html, body, body > div:first-child {
     background-color: rgb(76, 147, 253);
     color: #fff;
 }
-
+.button.button-default {
+  background-color: #f9f9f9;
+  padding: 12px;
+  color: #333;
+  border-radius: 0;
+}
+.button.button-default.active {
+  color: #fff;
+  background-color: #4c93fd;
+}
+.button.button-default[disabled] {
+  background-color: #f6f6f6;
+  color: rgba(7, 17, 27, 0.2);
+}
 .button.button-red {
     background-color: #E64340;
     color: #fff;
@@ -125,3 +141,4 @@ html, body, body > div:first-child {
   color: #ff7478;
   border: 1px solid #ff7478;
 }
+
