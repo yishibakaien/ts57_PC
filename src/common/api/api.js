@@ -63,7 +63,10 @@ const API = {
 	},
 	// 店铺管理
 	shopManagement: {
-		listProducts: '/product/listProducts' // 获取花型列表
+		// POST
+		listProducts: '/product/listProducts', // 获取花型列表
+		addProduct: '/product/listProducts' // 新增花型
+		// GET
 	},
 	oss: {
 		token: '/file/token' // OSS_token
@@ -285,3 +288,8 @@ export function closeProductBuy(data) {
 export function token() {
 	return _fetch(METHODS.post, { fileType: 1 }, API.oss.token);
 };
+// 店铺管理
+// 获取花型列表
+export const listProducts = param => _fetch(METHODS.post, param, API.shopManagement.listProducts);
+// 新增花型
+export const addProducts = param => _fetch(METHODS.post, param, API.shopManagement.addProduct);

@@ -24,6 +24,9 @@ const WareHouseAdd = r => require.ensure([], () => r(require('@/pages/shopManage
 const shopManagerSupply = r => require.ensure([], () => r(require('@/pages/shopManager/children/supply')), 'shopManagerSupply');
 const shopManagerEnquiry = r => require.ensure([], () => r(require('@/pages/shopManager/children/enquiry')), 'shopManagerEnquiry');
 const shopManagerSetting = r => require.ensure([], () => r(require('@/pages/shopManager/children/setting')), 'shopManagerSetting');
+const shopManagerCooperation = r => require.ensure([], () => r(require('@/pages/shopManager/children/cooperation')), 'shopManagerCooperation');
+const shopManagerClassification = r => require.ensure([], () => r(require('@/pages/shopManager/children/classification')), 'shopManagerClassification');
+const shopManagerAptitude = r => require.ensure([], () => r(require('@/pages/shopManager/children/aptitude')), 'shopManagerAptitude');
 const routes = [
     {
         path: '/',
@@ -102,6 +105,18 @@ const routes = [
         path: 'setting',
         component: shopManagerSetting,
         name: '店铺设置'
+      }, {
+        path: 'cooperation',
+        component: shopManagerCooperation,
+        name: '合作厂家'
+      }, {
+        path: 'classification',
+        component: shopManagerClassification,
+        name: '分类管理'
+      }, {
+        path: 'aptitude',
+        component: shopManagerAptitude,
+        name: '企业资质'
       }]
     }
 ];

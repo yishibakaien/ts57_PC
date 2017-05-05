@@ -3,7 +3,7 @@
     <ts-form :model="addPatternForm" :rules="rules"  ref="addPatternForm" label-width="125px" label-position="left">
       <ts-form-item label="花型编号：" prop="productNo">
         <ts-input v-model="addPatternForm.productNo" style="width:320px"></ts-input>
-        <!-- TODO：雨嘉说隐藏， -->
+        <!-- TODO：雨嘉说隐藏 -->
         <!-- <ts-button type="text">点击自动生成编号</ts-button> -->
       </ts-form-item>
       <ts-form-item label="花型分类：" prop="category">
