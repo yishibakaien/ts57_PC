@@ -131,7 +131,6 @@ export default {
       const _this = this;
       let file = e.target.files[0];
       uploadPicture(file).then((result) => {
-      console.log(result);
         _this.patterns = result;
       });
     },

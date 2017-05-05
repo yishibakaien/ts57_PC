@@ -52,9 +52,9 @@
 				pageMax: '',
 				pageSize: '',
 				param: {
-					buyShapes: '',
-					buyStatus: '',
-					buyTypes: '',
+					buyShapes: null,
+					buyStatus: null,
+					buyTypes: null,
 					isMy: 'true',
 					pageNo: 1,
 					pageSize: 8
@@ -132,6 +132,7 @@
 			},
 			selectNumber(num) {
 				let _ = this;
+				_.param.pageNo = 1;
 				_.param.pageSize = num;
 				this.listProductBuysMethod();
 			},

@@ -117,7 +117,9 @@
 		created() {
 			getUserInfo().then((res) => {
 				console.log('个人中心-userinfo', res.data.data);
-				localStorage.setItem('userHeadIcon', res.data.data.userHeadIcon);
+				if (res.data.data.userHeadIcon) {
+					localStorage.setItem('userHeadIcon', 'http://zsbgdev.oss-cn-shenzhen.aliyuncs.com/' + res.data.data.userHeadIcon);
+				}
 				localStorage.setItem('userMobile', res.data.data.userMobile);
 				localStorage.setItem('userName', res.data.data.userName);
 				localStorage.setItem('qq', res.data.data.qq);

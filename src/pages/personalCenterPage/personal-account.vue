@@ -5,7 +5,7 @@
 			<aliUpload :multiple="true" :id="id" v-on:doUpload="uploadImg"></aliUpload>
 			<div class="headImgSee">
 				<label for="headImg" class="lb">重新上传</label>
-				<img :src="param.userHeadIcon" alt="头像" />
+				<img :src="userHeadUrl" alt="头像" />
 			</div>
 		</div>
 		<div class="personal-account-item personal-form">
@@ -32,6 +32,7 @@
 	export default {
 		data() {
 			return {
+				userHeadUrl: '',
 				param: {
 					qq: '',
 					email: '',
@@ -45,19 +46,19 @@
 			aliUpload
 		},
 		created() {
-			this.param.userHeadIcon = localStorage.getItem('userHeadIcon');
+			this.userHeadUrl = localStorage.getItem('userHeadIcon');
 			this.param.userName = localStorage.getItem('userName');
 			this.param.qq = localStorage.getItem('qq');
 			this.param.email = localStorage.getItem('email');
 		},
 		methods: {
 			uploadImg(e) {
-				let base64URL = e.base64Url;
-				console.log(e.ossUrl);
-				this.param.userHeadIcon = base64URL[0];
+				this.userHeadUrl = e.base64Url;
+				this.param.userHeadIcon = e.ossUrl[0];
 			},
 			updateUserMethod() {
 				let _ = this;
+				console.log(_.param);
 				updateUser(this.param).then((res) => {
 					if (res.data.code === 0) {
 						if (_.param.qq) {
@@ -67,7 +68,7 @@
 							localStorage.setItem('email', _.param.email);
 						}
 						if (_.param.userHeadIcon) {
-							localStorage.setItem('userMobile', _.param.userHeadIcon);
+							localStorage.setItem('userHeadIcon', 'http://zsbgdev.oss-cn-shenzhen.aliyuncs.com/' + _.param.userHeadIcon);
 						}
 						if (_.param.userName) {
 							localStorage.setItem('userName', _.param.userName);
