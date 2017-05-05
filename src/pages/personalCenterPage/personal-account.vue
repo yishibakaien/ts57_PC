@@ -2,7 +2,7 @@
 	<div class="personal-account">
 		<div class="personal-account-item headImg personal-form">
 			<label>头像</label>
-			<input type="file" name="headImg" id="headImg" @change="uploadImg" />
+			<aliUpload :multiple="true" :id="id" v-on:doUpload="uploadImg"></aliUpload>
 			<div class="headImgSee">
 				<label for="headImg" class="lb">重新上传</label>
 				<img :src="param.userHeadIcon" alt="头像" />
@@ -27,8 +27,7 @@
 <script>
 //  import * as reg from '@/common/js/regExp';
 	import { updateUser } from '@/common/api/api';
-//	import { upPicOSS } from '@/common/api/aliOSS_upPic';
-	import uploadPicture from '@/common/js/uploadPicture';
+	import { aliUpload } from '@/components';
 
 	export default {
 		data() {
@@ -38,22 +37,24 @@
 					email: '',
 					userHeadIcon: '',
 					userName: ''
-				}
+				},
+				id: 'headImg'
 			};
+		},
+		components: {
+			aliUpload
 		},
 		created() {
 			this.param.userHeadIcon = localStorage.getItem('userHeadIcon');
 			this.param.userName = localStorage.getItem('userName');
 			this.param.qq = localStorage.getItem('qq');
 			this.param.email = localStorage.getItem('email');
-			console.log(this.param);
 		},
 		methods: {
 			uploadImg(e) {
-				let _ = this;
-				uploadPicture(e).then((result) => {
-					_.param.userHeadIcon = result;
-				});
+				let base64URL = e.base64Url;
+				console.log(e.ossUrl);
+				this.param.userHeadIcon = base64URL[0];
 			},
 			updateUserMethod() {
 				let _ = this;
@@ -95,8 +96,8 @@
 			vertical-align: top;
 		}
 		input {
-			position: absolute;
-			opacity: 0;
+			/*position: absolute;*/
+			/*opacity: 0;*/
 		}
 	}
 	

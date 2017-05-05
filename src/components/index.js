@@ -34,6 +34,8 @@ import entryList from './homePageLists/entry-list';
 
 import qualityCompanyList from './homePageLists/quality-company-list';
 
+import aliUpload from './aliUpload/aliUpload';
+
 export {
     topbar,
     header,
@@ -51,5 +53,6 @@ export {
     purchaseList,
     supplyList,
     entryList,
-    qualityCompanyList
+    qualityCompanyList,
+    aliUpload
 };

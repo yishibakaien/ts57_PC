@@ -38,7 +38,7 @@
 				</div>
 			</div>
 		</div>
-		<pageBar v-if="classes.totalNum > 8" :pageNum="pageNum" :pageMax="pageMax" :number="pageSize" v-on:upPage="upPage" v-on:downPage="downPage" v-on:selectFirstPage="selectFirstPage" v-on:selectLastPage="selectLastPage" v-on:selectNumber="selectNumber($event)"></pageBar>
+		<pageBar v-if="classes.totalNum > 8" :pageNum="pageNum" :pageMax="pageMax" :number="pageSize" v-on:upPage="upPage" v-on:downPage="downPage" v-on:selectFirstPage="selectFirstPage" v-on:selectLastPage="selectLastPage" v-on:selectNumber="selectNumber"></pageBar>
 	</div>
 </template>
 
