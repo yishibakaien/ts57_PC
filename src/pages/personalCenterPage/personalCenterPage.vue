@@ -26,10 +26,10 @@
 </template>
 
 <script>
-	import '../../common/css/personal.css';
+	import '@/common/css/personal.css';
 	
-	import { header, nav } from '../../components';
-	import { getUserInfo } from '../../common/api/api';
+	import { header, nav } from '@/components';
+	import { getUserInfo } from '@/common/api/api';
 	
 	import {
 		personalAccount,
@@ -117,14 +117,18 @@
 		created() {
 			getUserInfo().then((res) => {
 				console.log('个人中心-userinfo', res.data.data);
-				localStorage.setItem('userHeadIcon', res.data.data.userHeadIcon);
+				if (res.data.data.userHeadIcon) {
+					localStorage.setItem('userHeadIcon', 'http://zsbgdev.oss-cn-shenzhen.aliyuncs.com/' + res.data.data.userHeadIcon);
+				}
 				localStorage.setItem('userMobile', res.data.data.userMobile);
 				localStorage.setItem('userName', res.data.data.userName);
-//				if (res.data.data.userType === 1) {
-//					this.navItems[5].isShow = true;
-//				} else {
-//					this.navItems[4].isShow = true;
-//				}
+				localStorage.setItem('qq', res.data.data.qq);
+				localStorage.setItem('email', res.data.data.email);
+				if (res.data.data.userType === 1) {
+					this.navItems[4].isShow = true;
+				} else {
+					this.navItems[5].isShow = true;
+				}
 			}).catch((res) => {
 //				console.log(res.data.data);
 			});

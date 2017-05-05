@@ -3,33 +3,141 @@
     <v-header></v-header>
     <v-nav></v-nav>
     <div class="swiper">
-      banner-zone
-    </div>
-    <div class="homePage-box">
-      <button class="button button-block button-blue" @click="seeDetail">花型详情(需要登录才能浏览)</button>
-      <button @click="logout" class="button button-block button-red" v-if="showBtn">退出登录</button>
+        <banner :items="imgs" :width="1200" :height="300" :pagination="true" :auto-play="true" :speed="3000" :sync="false"></banner>
     </div>
 
+    <div class="homePage-box">
+      <div class="list">
+        <!-- 求购列表 -->
+        <purchase-list :purchase-list-obj="purchaseListObj"></purchase-list>
+      </div>
+      <div class="list">
+        <!-- 供应列表 -->
+        <supply-list :supply-list-obj="supplyListObj"></supply-list>
+      </div>
+      <div class="list">
+        <!-- 入驻厂家 -->
+        <entry-list :new-company-list="newCompanyList"></entry-list>
+      </div>
+      <div class="list">
+        <!-- 优质厂家 -->
+        <quality-company-list></quality-company-list>
+      </div>
+      <button class="button button-block button-blue" @click="seeDetail">花型详情(需要登录才能浏览)</button>
+      <button @click="logout" class="button button-block button-red" v-if="showBtn">退出登录</button>
+
+    </div>
     <!-- <fixed-topbar></fixed-topbar> -->
   </div>
 </template>
 
 <script>
-import { header, nav, fixedTopbar } from '../../components';
-import { listHomeBanners } from '../../common/api/api';
+import {
+  header,
+  nav,
+  fixedTopbar,
+  banner,
+  purchaseList,
+  supplyList,
+  entryList,
+  qualityCompanyList
+} from '../../components';
+// api 请求
+import {
+  listHomeBanners,
+  listProductBuys,
+  listCompanySupplys,
+  findNewCompanyByIndex
+} from '../../common/api/api';
 import * as types from '../../store/types';
 
+let imgs = [
+  {
+    src: 'http://i0.hdslb.com/bfs/archive/98548a7be48ab9929f02d2c51c2ab801841e5108.jpg',
+    href: 'https://www.baidu.com'
+  },
+  {
+    src: 'http://i0.hdslb.com/bfs/archive/056f5ad71f17a9fbb9581f16735768e3d9c54008.png',
+    href: 'https://www.baidu.com'
+  },
+  {
+    src: 'http://i0.hdslb.com/bfs/archive/98548a7be48ab9929f02d2c51c2ab801841e5108.jpg',
+    href: 'https://www.baidu.com'
+  },
+  {
+    src: 'http://i0.hdslb.com/bfs/archive/056f5ad71f17a9fbb9581f16735768e3d9c54008.png',
+    href: 'https://www.baidu.com'
+  }
+];
+
 export default {
+  data() {
+    return {
+      imgs: [], // 轮播图假数据
+      bannerImgs: [], // 真正的轮播图
+      purchaseListObj: {}, // 求购列表
+      supplyListObj: {}, // 供应列表
+      newCompanyList: [] // 最新入驻
+    };
+  },
   components: {
     'vHeader': header,
     'vNav': nav,
-    fixedTopbar
+    fixedTopbar,
+    banner,
+    purchaseList,
+    supplyList,
+    entryList,
+    qualityCompanyList
   },
   created() {
     listHomeBanners().then(res => {
       console.log('首页banner', res);
+      let bannerArr = res.data.data;
+      bannerArr.forEach(function(item) {
+        item.src = item.picUrl;
+        // 接口中暂时未提供轮播图的 跳转地址，先用百度代替
+        item.href = 'https://www.baidu.com';
+      });
+      this.bannerImgs = bannerArr;
+      // 轮播图假数据
+      this.imgs = imgs;
     }).catch(res => {
       console.log('error', res);
+    });
+    // 获取求购列表
+    listProductBuys({
+      buyStatus: 0,
+      pageNo: 0,
+      pageSize: 4
+    }).then(res => {
+      console.log('求购详情', res);
+      // 这里需要格式化 type 以便于后面 baseItem 逐渐分辨到底是 supply 还是 buy
+      let data = {
+        type: 'buy',
+        data: res.data.list
+      };
+      this.purchaseListObj = data;
+    });
+    listCompanySupplys({
+      supplyStatus: 1, // 供应状态 1--供应中 2--已关闭
+      pageNo: 0,
+      pageSize: 4
+    }).then(res => {
+      console.log('供应详情', res);
+      // 这里需要格式化 type 以便于后面 baseItem 逐渐分辨到底是 supply 还是 buy
+      let data = {
+        type: 'supply',
+        data: res.data.list
+      };
+      this.supplyListObj = data;
+    });
+    // 获取厂家入驻列表
+    findNewCompanyByIndex({
+      companyType: 1 // 1工厂 2 档口
+    }).then(res => {
+      console.log('厂家入驻', res);
+      this.newCompanyList = res.data.data;
     });
   },
   computed: {
@@ -69,13 +177,11 @@ export default {
       margin 0 auto
       margin-top 300px
       padding 16px 0
-      background #fff
+      background #f2f2f2
+      .list
+        margin 32px 0
       .button
         width 20%
         margin-top 20px
-    .file-upload
-      display block
-      height 80px
-      width 80px
 
 </style>

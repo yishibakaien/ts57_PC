@@ -21,12 +21,19 @@ const API = {
 		getVerifyCode: '/front/user/getVerifyCode', // 获取图片验证码
 		getFindSMSCode: '/front/user/getFindSMSCode', // 获取找回短信
 		getRegSMSCode: '/front/user/getRegSMSCode', // 获取注册短信
-		getUserInfo: '/user/getUserInfo' // 获取用户最新信息
+		getUserInfo: '/user/getUserInfo', // 获取用户最新信息
+		getMsgSetting: '/msg/getMsgSetting', // 获取短信设置
+		setMsg: '/msg/setMsg' // 设置短信开关
 	},
 	// 首页
 	home: {
-		listHomeBanners: '/homeBanner/listHomeBanners' // 首页banner
+		listHomeBanners: '/homeBanner/listHomeBanners', // 首页banner
+    findNewCompanyByIndex: '/company/findNewCompanyByIndex' // 获取最新入驻厂家列表
 	},
+  // 搜索
+  search: {
+    search: '/product/search' // 文本搜索
+  },
 	// 供应求购
 	buy: {
 		listProductBuys: '/productBuy/listProductBuys', // 获取求购列表
@@ -80,14 +87,14 @@ const METHODS = {
  * @return {object || string}         格式化后的data
  */
 function _formatData(method, data) {
-    console.log('请求data', data);
+//  console.log('请求data', data);
     if (!data) {
-        console.log('请求data为空', data);
+//      console.log('请求data为空', data);
         return '';
     }
     let _data = Object.assign({}, data);
     if (method === METHODS.get) {
-        console.log('get请求data', _data);
+//      console.log('get请求data', _data);
         return _data;
     } else if (method === METHODS.post) {
         return JSON.stringify(_data);
@@ -137,7 +144,8 @@ function _fetch(method = METHODS.get, data, url) {
 					store.commit(types.LOGIN, token);
 				}
 			}
-			if (res.data.code !== 0 && res.data.message) {
+//			if (res.data.code !== 0 && res.data.message) {
+			if (res.data.message) {
 				store.commit(types.MODEL_SHOW, true);
 				store.commit(types.MODEL_OPTION, {type: 2, title: '提示', content: res.data.message});
 			}
@@ -154,7 +162,9 @@ function _fetch(method = METHODS.get, data, url) {
  * @param  {object} data  请求参数， 将 x-token 放入data中即可
  * @return {promise}      Promise 对象
  */
-// 用户模块api
+/**
+ * 用户部分
+ */
 // 登录
 export function login(data) {
 	// alert('调用fetch');
@@ -181,11 +191,6 @@ export function getUserInfo(data) {
 	return _fetch(METHODS.post, data, API.user.getUserInfo);
 };
 
-// 获取首页banner
-export function listHomeBanners(data) {
-	return _fetch(METHODS.get, data, API.home.listHomeBanners);
-};
-
 // 检验手机号码是否存在
 export function checkPhone(data) {
     return _fetch(METHODS.get, data, API.user.checkPhone);
@@ -196,9 +201,52 @@ export function getRegSMSCode(data) {
     return _fetch(METHODS.post, data, API.user.getRegSMSCode);
 };
 
+/**
+ * 首页部分
+ */
+// 获取首页banner
+export function listHomeBanners(data) {
+	return _fetch(METHODS.get, data, API.home.listHomeBanners);
+};
+
+// 获取求购列表
+export function listProductBuys(data) {
+  return _fetch(METHODS.get, data, API.buy.listProductBuys);
+}
+
+// 获取供应列表
+export function listCompanySupplys(data) {
+  return _fetch(METHODS.get, data, API.buy.listCompanySupplys);
+}
+
+export function findNewCompanyByIndex(data) {
+  return _fetch(METHODS.post, data, API.home.findNewCompanyByIndex);
+}
+
+/**
+ * 搜索部分
+ */
+// 文本搜索
+export function search(data) {
+  return _fetch(METHODS.post, data, API.search.search);
+}
+
+/**
+ * 个人中心部分
+ */
 // 获取修改手机短信
 export function changeSMSCode(data) {
 	return _fetch(METHODS.post, data, API.user.changeSMSCode);
+};
+
+// 设置短信
+export function setMsg(data) {
+	return _fetch(METHODS.post, data, API.user.setMsg);
+};
+
+// 获取短信设置
+export function getMsgSetting(data) {
+	return _fetch(METHODS.get, data, API.user.getMsgSetting);
 };
 
 // 修改手机号
@@ -211,11 +259,6 @@ export function restPasswd(data) {
 	return _fetch(METHODS.post, data, API.user.restPasswd);
 };
 
-// 获取求购列表
-export function listProductBuys(data) {
-	return _fetch(METHODS.get, data, API.buy.listProductBuys);
-};
-
 // 获取接单列表
 export function listBuyTask(data) {
 	return _fetch(METHODS.post, data, API.buy.listBuyTask);
@@ -224,6 +267,16 @@ export function listBuyTask(data) {
 // 获取收藏花型列表
 export function listProduct(data) {
 	return _fetch(METHODS.post, data, API.collection.listProduct);
+};
+
+// 获取收藏厂家列表
+export function listCompany(data) {
+	return _fetch(METHODS.post, data, API.collection.listCompany);
+};
+
+// 获取收藏供应列表
+export function listSupply(data) {
+	return _fetch(METHODS.post, data, API.collection.listSupply);
 };
 
 // 关闭求购

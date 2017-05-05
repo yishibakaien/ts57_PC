@@ -28,7 +28,7 @@
 </template>
 
 <script>
-	import { checkPasswd, changeSMSCode, changeMobile } from '../../common/api/api';
+	import { checkPasswd, changeSMSCode, changeMobile } from '@/common/api/api';
 	export default {
 		data() {
 			return {

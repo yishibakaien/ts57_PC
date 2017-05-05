@@ -3,7 +3,7 @@
 		<div class="personal-class clearfix">
 			<span class="title">分类</span>
 			<p>
-				<span class="selected">全部 {{'(' +a+ ')' }}</span>
+				<span class="selected">全部 {{'(' + classes.totalNum + ')' }}</span>
 				<span>大边 {{'(' +a+ ')' }}</span>
 				<span>小边 {{'(' +a+ ')' }}</span>
 				<span>睫毛 {{'(' +a+ ')' }}</span>
@@ -12,17 +12,17 @@
 		<div class="personal-class clearfix">
 			<span class="title">筛选条件</span>
 			<p>
-				<span class="selected">全部 {{'(' +a+ ')' }}</span>
+				<span class="selected">全部 {{'(' +  classes.totalNum  + ')' }}</span>
 				<span>胚布 {{'(' +a+ ')' }}</span>
 				<span>成品 {{'(' +a+ ')' }}</span>
 			</p>
 		</div>
 		<div class="personal-flower-wrap clearfix">
-			<div class="personal-goods-item">
+			<div class="personal-goods-item" v-for="item in items">
 				<div class="personal-goods-item-img">
-					<img src="../../../static/timg.jpg" alt="求购" />
+					<img src="item.productPicUrl" alt="求购" />
 					<span class="states green">成品</span>
-					<!--<span class="states gray">胚布</span>-->
+					<span class="states gray">胚布</span>
 					<p class="p3"><span class="span1"> &nbsp;&nbsp;2000码</span><span class="span2">昨天&nbsp;&nbsp; </span></p>
 				</div>
 				<p class="info">大量求购，有多少要多少大量求购，有多少要多少大量求购，有多少要多少</p>
@@ -37,12 +37,33 @@
 </template>
 
 <script>
+	import { listSupply } from '@/common/api/api';
 	export default {
 		data() {
 			return {
+				param: {
+					pageNo: 1,
+					pageSize: 8
+				},
+				classes: {
+					totalNum: 0
+				},
+				items: [],
 				a: 1,
 				b: 2
 			};
+		},
+		created() {
+			this.listSupplyMethod();
+		},
+		methods: {
+			listSupplyMethod() {
+				let _ = this;
+				listSupply(_.param).then((res) => {
+					_.items = res.data.list;
+					console.log(res);
+				}).catch();
+			}
 		}
 	};
 </script>

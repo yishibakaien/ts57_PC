@@ -1,5 +1,6 @@
 <template>
   <div class="base-item-wrapper">
+<<<<<<< HEAD
     <div class="base-item">
       <div class="img-container">
         <img class="item-image" src="/static/images/pattern.jpg">
@@ -7,6 +8,18 @@
       <div class="item-desc">
         <h2 class="desc-title">供应 200码</h2>
         <p class="desc-text">急需这款面料，有货的快来联系</p>
+=======
+    <div class="base-item" :itemId="item.id">
+      <div class="img-container">
+        <img class="item-image" :src="picUrl">
+      </div>
+      <div class="item-desc">
+        <h2 class="desc-title">{{productNo}}{{typeComputed}} {{num}}{{unit}}</h2>
+        <p class="desc-text">
+          {{desc}}
+          <span class="time" v-if="time">{{time}}</span>
+        </p>
+>>>>>>> all
       </div>
     </div>
   </div>
@@ -15,8 +28,77 @@
 <script>
 export default {
   props: {
+<<<<<<< HEAD
     message: {
       type: Object
+=======
+    item: {
+      type: Object
+    },
+    // 区分是求购还是供应 还是文本搜索
+    type: {
+      type: String
+    }
+  },
+  data() {
+    return {
+      num: '',
+      desc: '',
+      picUrl: ''
+    };
+  },
+  computed: {
+    typeComputed() {
+      if (this.type === 'supply') {
+        return '供应';
+      } else if (this.type === 'purchase') {
+        return '求购';
+      } else if (this.type === 'searchText') {
+        return '';
+      }
+    },
+    productNo() {
+      if (this.type === 'searchText') {
+        return this.item.productNo;
+      } else {
+        return '';
+      }
+    },
+    time() {
+      if (this.item.time) {
+        return this.item.time;
+      } else {
+        return '';
+      }
+    },
+    unit() {
+      let unit;
+      if (this.type === 'supply') {
+        unit = this.item.supplyUnit;
+        this.num = this.item.supplyNum;
+        this.desc = this.item.supplyDesc;
+        this.picUrl = this.item.productPicUrl;
+      }
+      if (this.type === 'buy') {
+        unit = this.item.buyUnit;
+        this.num = this.item.buyNum;
+        this.desc = this.item.buyDesc;
+        this.picUrl = this.item.buyPicUrl;
+      }
+      if (this.type === 'searchText') {
+        this.picUrl = this.item.defaultPicUrl;
+        this.desc = this.item.companyName;
+      }
+      if (unit === 400010) {
+        return '码';
+      }
+      if (unit === 400011) {
+        return '公斤';
+      }
+      if (unit === 400012) {
+        return '条';
+      }
+>>>>>>> all
     }
   }
 };
@@ -30,6 +112,10 @@ export default {
   padding 16px
   background #fff
   border-left 1px solid #d8d8d8
+<<<<<<< HEAD
+=======
+  cursor pointer
+>>>>>>> all
   &:hover
     position relative
     border 1px solid rgba(76, 147, 253, 0.8)
@@ -53,11 +139,25 @@ export default {
       line-height 40px
       margin-top 16px
       color #333
+<<<<<<< HEAD
     .desc-text
+=======
+      overflow hidden
+      text-overflow ellipsis
+      white-space nowrap
+    .desc-text
+      position relative
+>>>>>>> all
       height 36px
       line-height 36px
       overflow hidden
       text-overflow ellipsis
       white-space nowrap
       color #999
+<<<<<<< HEAD
+=======
+      .time
+        position absolute
+        right 0
+>>>>>>> all
 </style>

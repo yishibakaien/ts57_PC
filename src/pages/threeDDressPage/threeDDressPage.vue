@@ -26,7 +26,7 @@
             <div class="file">
               <i class="iconfont">字</i>
               <span>上传花型</span>
-              <input class="upload-btn" type="file" @change="uploadPic">
+              <input class="upload-btn" type="file" @change="uploadPic($event)">
             </div>
           </div>
 
@@ -129,7 +129,8 @@ export default {
     },
     uploadPic(e) {
       const _this = this;
-      uploadPicture(e).then((result) => {
+      let file = e.target.files[0];
+      uploadPicture(file).then((result) => {
         _this.patterns = result;
       });
     },

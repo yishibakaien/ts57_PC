@@ -1,50 +1,49 @@
 <template>
-  <div>
-    <div class="main-wrapper">
-    	<models></models>
-      <topbar></topbar>
-      <!-- <v-header></v-header> -->
+	<div>
+		<div class="main-wrapper">
+			<models></models>
+			<topbar></topbar>
+			<!-- <v-header></v-header> -->
 
-      <div class="main">
+			<div class="main">
 
-        <!-- <div class="nav-wrapper">
+				<!-- <div class="nav-wrapper">
           <v-nav></v-nav>
         </div> -->
 
-        <router-view :message="message"></router-view>
+				<router-view :message="message"></router-view>
 
-      </div>
-    </div>
-    <div class="footer-wrapper">
-      <v-footer :message="message"></v-footer>
-    </div>
-    <login-mask></login-mask>
-  </div>
+			</div>
+		</div>
+		<div class="footer-wrapper">
+			<v-footer :message="message"></v-footer>
+		</div>
+		<login-mask></login-mask>
+	</div>
 </template>
 
 <script>
-import {topbar, footer, loginMask, models} from './components';
+	import { topbar, footer, loginMask, models } from '@/components';
 
-export default {
-  data() {
-    return {
-      message: {
-        desc: 'message form app.vue.',
-        showLoading: false
-      }
-    };
-  },
-  components: {
-    topbar,
-    loginMask,
-    models,
-    'vFooter': footer
-  }
-};
+	export default {
+		data() {
+			return {
+				message: {
+					desc: 'message form app.vue.',
+					showLoading: false
+				}
+			};
+		},
+		components: {
+			topbar,
+			loginMask,
+			models,
+			'vFooter': footer
+		}
+	};
 </script>
 
 <style lang="stylus" scoped>
-
   .tab
     display flex
     height 40px

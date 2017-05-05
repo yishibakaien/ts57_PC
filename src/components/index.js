@@ -1,4 +1,5 @@
 'use strict';
+
 import topbar from './topbar/topbar';
 
 import nav from './nav/nav';
@@ -20,7 +21,25 @@ import fixedTopbar from './fixedTopbar/fixedTopbar';
 import models from './models/models';
 
 import pageBar from './pageBar/pageBar';
-// import search from './search/search';
+
+import banner from './banner/banner';
+
+import baseItem from './baseItem/baseItem';
+
+import purchaseList from './homePageLists/purchase-list';
+
+import supplyList from './homePageLists/supply-list';
+
+import entryList from './homePageLists/entry-list';
+
+import qualityCompanyList from './homePageLists/quality-company-list';
+
+import aliUpload from './aliUpload/aliUpload';
+
+// 检索结果筛选
+import filter from './filter/filter';
+// 分页器
+import paginator from './paginator/paginator';
 
 export {
     topbar,
@@ -33,5 +52,14 @@ export {
     picUpload,
     fixedTopbar,
     models,
-    pageBar
+    pageBar,
+    banner,
+    baseItem,
+    purchaseList,
+    supplyList,
+    entryList,
+    qualityCompanyList,
+    aliUpload,
+    filter,
+    paginator
 };
