@@ -1,16 +1,17 @@
-import tsCheck from './tsCheck.vue';
+import tsCheckbox from './checkbox/tsCheckbox.vue';
+import tsCheckboxGroup from './checkbox/tsCheckboxGroup.vue';
 import tsFilter from './tsFilter.vue';
 import tsImage from './tsImage.vue';
-import tsRadio from './tsRadio.vue';
-import tsRadioGroup from './tsRadioGroup.vue';
+import tsRadio from './radio/tsRadio.vue';
+import tsRadioGroup from './radio/tsRadioGroup.vue';
 import tsSection from './tsSection.vue';
 import tsMenuTable from './tsMenuTable.vue';
-import tsMenuTableBox from './tsMenuTableBox.vue';
+import tsMenuTableItem from './tsMenuTableItem.vue';
 import tsDialog from './tsDialog.vue';
 import tsTable from './tsTable.vue';
 import tsColumn from './tsColumn.vue';
 import tsInput from './tsInput.vue';
-import tsSelect from './tsSelect.vue';
+import tsSelect from './select/tsSelect.vue';
 import tsButton from './tsButton.vue';
 import tsForm from './tsForm.vue';
 import tsFormItem from './tsFormItem.vue';
@@ -21,9 +22,10 @@ const Components = {
   tsImage,
   tsFilter,
   tsButton,
-  tsCheck,
+  tsCheckboxGroup,
+  tsCheckbox,
   tsMenuTable,
-  tsMenuTableBox,
+  tsMenuTableItem,
   tsDialog,
   tsTable,
   tsColumn,

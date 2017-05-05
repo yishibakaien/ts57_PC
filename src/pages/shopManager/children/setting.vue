@@ -1,9 +1,9 @@
 <template>
-<div class="setting">
+<section class="setting">
   <company-info></company-info>
   <message-phone></message-phone>
   <address-info></address-info>
-</div>
+</section>
 </template>
 
 <script>
