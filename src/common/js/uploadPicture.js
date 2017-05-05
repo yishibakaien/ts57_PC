@@ -4,11 +4,7 @@
 // 上传图片，传入input[type=file] 的onchange 事件
 // 返回一个 Promise 对象
 function uploadPictrue(e) {
-  let files = e.target.files;
-  if (!files.length) {
-    return;
-  }
-  return _getBase64Image(files[0]);
+  return _getBase64Image(e);
 }
 
 function _getBase64Image(file) {

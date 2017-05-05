@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "axios": "^0.16.1",
-    "fs": "^0.0.1-security",
     "vue": "^2.2.2",
     "vue-router": "^2.3.0",
     "vuex": "^2.3.0"
