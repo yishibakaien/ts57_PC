@@ -1,5 +1,9 @@
 'use strict';
+// 主页
 import homePage from './homePage/homePage';
+// 文本搜索结果页
+import textSearchResultPage from './homePage/searchResultPage/textSearchResultPage';
+
 import findPage from './findPage/findPage';
 import threeDDressPage from './threeDDressPage/threeDDressPage';
 import personalCenterPage from './personalCenterPage/personalCenterPage';
@@ -12,6 +16,7 @@ import forgotPasswordPage from './formPages/forgotPasswordPage/forgotPasswordPag
 
 export {
   homePage,
+  textSearchResultPage,
   findPage,
   threeDDressPage,
   personalCenterPage,
