@@ -2,7 +2,7 @@
   <div class="messagePhone">
       <ts-section>
         <div slot="title">
-          接受短信号码<span class="pot-warning" @click="messSettingDialog=!messSettingDialog">?</span>
+          接受短信号码<span class="pot-warning" @click="messSettingDialog">?</span>
         </div>
     <div slot="menu">
       <ts-button type="primary" @click="editCompany">新增号码</ts-button>
@@ -19,7 +19,7 @@
     </div>
   </ts-section>
   <!-- 短信接收设置说明对话框 -->
-  <ts-dialog v-model="messSettingDialog" title="短信接收设置说明" type="alert" alertText="我知道了" @confirm="messSettingDialog=!messSettingDialog">
+  <ts-dialog v-model="Phone.showNoticeDialog" title="短信接收设置说明" type="alert" alertText="我知道了" @confirm="handleNotice">
     <article class="message-phone-dialog">
     系统在以下几种情况会发送业务短信给您
     <p>1、<i>花型询价</i>：有买家对您店铺的某款花型发起询价时会发送短信；</p>
@@ -31,6 +31,26 @@
     </p>
     </article>
   </ts-dialog>
+  <!-- 添加接收短信号码 -->
+  <ts-dialog v-model="Phone.showAddDialog" title="添加接收短信号码" @close="cancelAddPhone" @confirm="handleAddPhone">
+    <ts-form :model="PhoneForm" :rules="rules" ref="PhoneForm" label-width="125px" label-position="left">
+      <ts-form-item label="登录密码：" prop="name">
+        <ts-input v-model="PhoneForm.password" placeholder="请输入登录密码"></ts-input>
+      </ts-form-item>
+      <ts-form-item label="手机电话：" prop="mobile">
+        <ts-input v-model="PhoneForm.mobile"></ts-input>
+      </ts-form-item>
+      <ts-form-item label="图形验证码：" prop="verifyCode">
+        <ts-input v-model="PhoneForm.verifyCode" class="message-phone-input"></ts-input>
+        <ts-image width="106" height="38"></ts-image>
+      </ts-form-item>
+      <ts-form-item label="短信验证码：" prop="smsCode">
+        <ts-input v-model="PhoneForm.smsCode" class="message-phone-input"></ts-input>
+        <ts-button type="primary">发送验证码</ts-button>
+      </ts-form-item>
+      <ts-button @click="submitForm('PhoneForm')">你好</ts-button>
+    </ts-form>
+  </ts-dialog>
     </div>
 </template>
 
@@ -38,7 +58,21 @@
 export default {
   data() {
     return {
-      messSettingDialog: false
+      // 电话
+      Phone: {
+        showAddDialog: false,
+        showNoticeDialog: false
+      },
+      // 表单
+      PhoneForm: {
+        mobile: '',
+        password: '',
+        verifyCode: '',
+        smsCode: ''
+      },
+      rules: [{
+
+      }]
     };
   }
 };
@@ -55,6 +89,10 @@ export default {
     @modifier left{
       width: 20%;
     }
+  }
+  @component input{
+    margin-right: 17px;
+    width: 30%;
   }
   @component dialog{
     line-height: 200%;

@@ -1,11 +1,11 @@
 <template>
-<label :class="[{'is-active':value===label},{'is-disbaled':isDisabled},{'origin':type==='origin'}]" class="ts-radio" v-if="type!=='origin'">
+<label :class="[{'is-active':value===label},{'is-disbaled':isDisabled},{'is-origin':type==='origin'}]" class="ts-radio" v-if="type!=='origin'">
     <input type="radio" :value="label" :name="name" v-model="value" :disabled="isDisabled" class="ts-radio-input">
     <span :style="value===label?activeStyle:null" class="ts-radio--inner">
       <slot></slot>
     </span>
 </label>
-<span v-else>
+<span v-else class="ts-radio--origin">
   <input type="radio" :value="label" :name="name" v-model="value" :disabled="isDisabled">
   <span>
     <slot></slot>
@@ -74,19 +74,27 @@ export default {
 </script>
 
 <style lang="css" scoped>
-@import '../../common/css/var.css';
+@import '../../../common/css/var.css';
 @component-namespace ts{
   @component radio{
     position: relative;
     display: inline-block;
     height:34px;
     padding:10px;
+    font-size: 14px;
     box-sizing: border-box;
     margin-right: 20px;
     text-align: center;
     cursor: pointer;
     @modifier inner{
       display: inline-block;
+    }
+    @modifier origin{
+      margin-top: 10px;
+      display: inline-block;
+      & + .ts-radio--origin{
+        margin-left: 20px;
+      }
     }
     @when active{
       color:var(--radioColor);

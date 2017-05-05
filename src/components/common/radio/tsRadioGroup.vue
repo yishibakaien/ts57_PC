@@ -5,8 +5,10 @@
 </template>
 
 <script>
+import Emitter from '@/common/js/mixins/emitter';
 export default {
   name: 'tsRadioGroup',
+  mixins: [Emitter],
   componentName: 'tsRadioGroup',
   props: {
     value: {},
@@ -21,12 +23,13 @@ export default {
   watch: {
     value(val) {
       this.$emit('change', val);
+      this.dispatch('tsFormItem', 'ts.form.change', [this.value]);
     }
   }
 };
 </script>
 <style lang="css" scoped>
-@import '../../common/css/var.css';
+@import '../../../common/css/var.css';
   .is-bordered{
     .ts-radio{
       &:before{

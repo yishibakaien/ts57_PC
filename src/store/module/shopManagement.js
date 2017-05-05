@@ -1,4 +1,4 @@
-import {getProductList} from '@/common/api/api';
+import {listProducts} from '@/common/api/api.js';
 
 const state = {
   // 花型列表
@@ -16,8 +16,8 @@ const actions = {
   async getProductList({
     commit
   }, params) {
-    let data = await getProductList(params);
-    commit('GET_PRODUCTLIST', data.records);
+    let data = await listProducts(params);
+    commit('GET_PRODUCT_LIST', data.lists);
   }
 };
 const getters = {

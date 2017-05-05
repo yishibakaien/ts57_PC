@@ -1,10 +1,12 @@
 :root {
   /*checkbox*/
-  --checkboxBg: rgba(0, 0, 0, 0.4);
-  --checkboxdisabledbg: rgba(155, 155, 155, 0.5);
-  --checkboxColor: rgba(255, 255, 255, 1);
-  --checkboxDisabled: rgba(255, 255, 255, 1);
-  --checkedBg: #4C93FD;
+  --checkbox-checked-bg:#4C93FD;
+  --checkbox-bg:#fff;
+  --checkbox-border-color:#bfcbd9;
+  --checkbox-color:#666666;
+  --checkbox-color:#666666;
+  --checkbox-disabled-color:#d1dbe5;
+  --checkbox-disabled-bg:#eef1f6;
   /*nav*/
   --navHoverColor: #4C93FD;
   --navHoverBg: #FFF;

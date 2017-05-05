@@ -5,10 +5,16 @@ import * as types from './types';
 import Vuex from 'vuex';
 
 import Vue from 'vue';
-
+// module
+// ======
+import shopManagement from './module/shopManagement';
+// ======
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+    modules: {
+      shopManagement
+    },
     state: {
         userName: '',
         ajaxToken: '',    // 发起ajax请求时的携带的token 始终存在
