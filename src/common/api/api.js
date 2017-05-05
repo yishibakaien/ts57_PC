@@ -30,6 +30,10 @@ const API = {
 		listHomeBanners: '/homeBanner/listHomeBanners', // 首页banner
     findNewCompanyByIndex: '/company/findNewCompanyByIndex' // 获取最新入驻厂家列表
 	},
+  // 搜索
+  search: {
+    search: '/product/search' // 文本搜索
+  },
 	// 供应求购
 	buy: {
 		listProductBuys: '/productBuy/listProductBuys', // 获取求购列表
@@ -215,6 +219,15 @@ export function listCompanySupplys(data) {
 export function findNewCompanyByIndex(data) {
   return _fetch(METHODS.post, data, API.home.findNewCompanyByIndex);
 }
+
+/**
+ * 搜索部分
+ */
+// 文本搜索
+export function search(data) {
+  return _fetch(METHODS.post, data, API.search.search);
+}
+
 /**
  * 个人中心部分
  */

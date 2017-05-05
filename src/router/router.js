@@ -5,6 +5,7 @@ import store from '../store/store';
 
 import {
     homePage,
+    textSearchResultPage,
     findPage,
     threeDDressPage,
     personalCenterPage,
@@ -31,6 +32,10 @@ const routes = [
     {
         path: '/homePage',
         component: homePage
+    },
+    {
+        path: '/textSearchResultPage',
+        component: textSearchResultPage
     },
     {
         path: '/findPage',

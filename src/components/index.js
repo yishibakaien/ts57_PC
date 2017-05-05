@@ -33,6 +33,10 @@ import supplyList from './homePageLists/supply-list';
 import entryList from './homePageLists/entry-list';
 
 import qualityCompanyList from './homePageLists/quality-company-list';
+// 检索结果筛选
+import filter from './filter/filter';
+// 分页器
+import paginator from './paginator/paginator';
 
 export {
     topbar,
@@ -51,5 +55,7 @@ export {
     purchaseList,
     supplyList,
     entryList,
-    qualityCompanyList
+    qualityCompanyList,
+    filter,
+    paginator
 };
