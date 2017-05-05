@@ -73,6 +73,8 @@ export default {
         console.log(res);
         var _data = res.data;
         _data.searchText = localStorage.searchText;
+        _data.category = _formateCategory(this.categoryActiveItem) || '';
+        _data.stockType = _formateStockType(this.stockActiveItem) || 0;
         this.$store.commit(types.SEARCH_RESULT, _data);
       });
     },
@@ -91,6 +93,8 @@ export default {
         console.log(res);
         var _data = res.data;
         _data.searchText = localStorage.searchText;
+        _data.category = _formateCategory(this.categoryActiveItem) || '';
+        _data.stockType = _formateStockType(this.stockActiveItem) || 0;
         this.$store.commit(types.SEARCH_RESULT, _data);
       });
     }

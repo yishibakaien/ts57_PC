@@ -6,6 +6,7 @@ import Vuex from 'vuex';
 
 import Vue from 'vue';
 
+// import {search} from '../../common/api/api';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -43,6 +44,8 @@ export default new Vuex.Store({
         [types.SEARCH_RESULT]: (state, data) => {
             state.searchResult = data;
             localStorage.searchText = data.searchText;
+            localStorage.category = data.category || '';
+            localStorage.stockType = data.stockType || 0;
         },
         [types.LOADING]: (state, data) => {
             state.showLoading = data;
@@ -71,5 +74,13 @@ export default new Vuex.Store({
         getModelOption: state => {
             return state.modelOption;
         }
+    },
+    action: {
+        // doSearch({commit}, data) {
+        //     search(data).then(res => {
+        //         console.log('vuex action 的搜索返回值', res);
+        //         commit(types.SEARCH_RESULT, res.data);
+        //     });
+        // }
     }
 });
