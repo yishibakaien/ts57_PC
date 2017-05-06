@@ -4,7 +4,7 @@
     <v-header></v-header>
     <v-nav></v-nav>
     <div class="purchase-list-page-box">
-
+      我是求购列表页面
     </div>
   </div>
 </template>
@@ -13,7 +13,7 @@
 import {
   header,
   nav
-} from '../../components';
+} from '../../../components';
 
 export default {
   components: {

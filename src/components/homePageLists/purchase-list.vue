@@ -21,7 +21,7 @@
     <div class="right-list">
       <list-tile :title-text="titleText"></list-tile>
       <div class="item-wrapper"  v-for="item in purchaseListObj.data">
-        <base-item :item="item" :type="purchaseListObj.type"></base-item>
+        <base-item :item="item" :type="purchaseListObj.type" @purchaseClick="goPurchaseDetailPage"></base-item>
       </div>
     </div>
   </div>
@@ -55,6 +55,14 @@ export default {
         path: '/releasePurchasePage',
         query: {
           text: this.text
+        }
+      });
+    },
+    goPurchaseDetailPage(id) {
+      this.$router.push({
+        path: '/purchaseDetailPage',
+        query: {
+          purchaseId: id
         }
       });
     }

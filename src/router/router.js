@@ -12,8 +12,14 @@ import {
   loginPage,
   registerPage,
   forgotPasswordPage,
+
+  releasePurchasePage,
+  purchaseListPage,
+  purchaseDetailPage,
+
   releaseSupplyPage,
-  releasePurchasePage
+  supplyListPage,
+  supplyDetailPage
 } from '../pages';
 
 Vue.use(Router);
@@ -61,13 +67,28 @@ const routes = [
     }
   },
   {
-    path: '/releaseSupplyPage',
-    name: 'releaseSupplyPage',
+    path: '/releasePurchasePage', // 发布求购
+    component: releasePurchasePage
+  },
+  {
+    path: '/purchaseListPage',  // 求购列表
+    component: purchaseListPage
+  },
+  {
+    path: '/purchaseDetailPage', // 求购详情
+    component: purchaseDetailPage
+  },
+  {
+    path: '/releaseSupplyPage', // 发布供应
     component: releaseSupplyPage
   },
   {
-    path: '/releasePurchasePage',
-    component: releasePurchasePage
+    path: '/supplyListPage',  // 供应列表
+    component: supplyListPage
+  },
+  {
+    path: '/supplyDetailPage',  // 供应详情
+    component: supplyDetailPage
   },
   {
     path: '/loginPage',

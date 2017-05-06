@@ -1,9 +1,9 @@
 <template>
-  <div class="supply-list-page">
+  <div class="supply-detail-page">
     <v-header></v-header>
     <v-nav></v-nav>
-    <div class="supply-list-page-box">
-      我是供应列表页面
+    <div class="supply-detail-page-box">
+      我是供应详情页面
     </div>
   </div>
 </template>
@@ -23,9 +23,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-  .supply-list-page
+  .supply-detail-page
     background #f2f2f2
-    .supply-list-page-box
+    .supply-detail-page-box
       width 1200px
       margin 0 auto
       padding 16px 0

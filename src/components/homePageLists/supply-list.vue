@@ -21,7 +21,7 @@
     <div class="right-list">
       <list-tile :title-text="titleText"></list-tile>
       <div class="item-wrapper"  v-for="item in supplyListObj.data">
-        <base-item :item="item" :type="supplyListObj.type"></base-item>
+        <base-item :item="item" :type="supplyListObj.type" @supplyClick="goSupplyDetailPage"></base-item>
       </div>
     </div>
   </div>
@@ -47,6 +47,14 @@ export default {
         path: '/releaseSupplyPage',
         query: {
           text: this.text
+        }
+      });
+    },
+    goSupplyDetailPage(id) {
+      this.$router.push({
+        path: '/supplyDetailPage',
+        query: {
+          supplyId: id
         }
       });
     }
