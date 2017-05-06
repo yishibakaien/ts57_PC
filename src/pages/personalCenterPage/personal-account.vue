@@ -11,14 +11,17 @@
 		<div class="personal-account-item personal-form">
 			<label for="fullName">姓名</label>
 			<input type="text" name="fullName" id="fullName" placeholder="请填写您的姓名" v-model="param.userName" />
+			<p>请输入2-8位长度的名称</p>
 		</div>
 		<div class="personal-account-item personal-form">
 			<label for="QQ">QQ</label>
 			<input type="text" name="QQ" id="QQ" placeholder="请填写您的QQ号码" v-model="param.qq"/>
+			<p>您输入的QQ格式错误</p>
 		</div>
 		<div class="personal-account-item personal-form">
 			<label for="email">邮箱</label>
 			<input type="text" name="email" id="email" placeholder="请填写您的邮箱地址" v-model="param.email"/>
+			<p>您输入的Email格式错误</p>
 		</div>
 		<button class="personal-btn" @click="updateUserMethod">保存</button>
 	</div>
@@ -87,7 +90,15 @@
 	}
 	
 	.personal-account-item {
-		margin-bottom: 20px;
+		position: relative;
+		margin-bottom: 25px;
+		p {
+			position: absolute;
+			left: 105px;
+			bottom: -18px;
+			font-size: 14px;
+			color: #FF0000;
+		}
 	}
 	
 	.headImg {

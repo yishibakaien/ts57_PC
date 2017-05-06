@@ -138,36 +138,43 @@
 			},
 			classMianliao() {
 				let _ = this;
+				_.param.pageNo = 1;
 				_.param.buyTypes = 100010;
 				this.listProductBuysMethod();
 			},
 			classDabian() {
 				let _ = this;
+				_.param.pageNo = 1;
 				_.param.buyTypes = 100011;
 				this.listProductBuysMethod();
 			},
 			classXiaobian() {
 				let _ = this;
+				_.param.pageNo = 1;
 				_.param.buyTypes = 100012;
 				this.listProductBuysMethod();
 			},
 			classJiemao() {
 				let _ = this;
+				_.param.pageNo = 1;
 				_.param.buyTypes = 100013;
 				this.listProductBuysMethod();
 			},
 			classSuccess() {
 				let _ = this;
+				_.param.pageNo = 1;
 				_.param.buyStatus = 2;
 				this.listProductBuysMethod();
 			},
 			classBuy() {
 				let _ = this;
+				_.param.pageNo = 1;
 				_.param.buyStatus = 1;
 				this.listProductBuysMethod();
 			},
 			classClosed() {
 				let _ = this;
+				_.param.pageNo = 1;
 				_.param.buyStatus = 3;
 				this.listProductBuysMethod();
 			}

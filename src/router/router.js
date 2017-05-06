@@ -114,6 +114,7 @@ if (localStorage.accessToken) {
 }
 
 const router = new Router({
+	mode: 'history',
     linkActiveClass: 'active',
     routes
 });
