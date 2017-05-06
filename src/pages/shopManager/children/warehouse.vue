@@ -36,7 +36,6 @@
     </div>
     <!-- 表格 -->
     <div class="warehouse-table">
-      <ts-select :options="list" v-model="selectedVal" data-key-name="label" data-val-name="id"></ts-select>
       <ts-checkbox-group>
       <ts-menu-table>
         <div slot="header-left">

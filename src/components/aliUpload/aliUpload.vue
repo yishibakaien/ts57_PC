@@ -51,7 +51,6 @@
 							uploadPicture(file).then((result) => {
 								_.url.base64Url.push(result);
 							});
-							
 							let storeAs = _.dir + 'web-' + _.uuidMethod().split('-').join('') + '.' + file.name.split('.')[file.name.split('.').length - 1];
 							//2
 							client.multipartUpload(storeAs, file, {
@@ -72,7 +71,7 @@
 	.oss-file {
 		float: left;
 	}
-	
+
 	.oss-file input {
 		position: absolute;
 		opacity: 0;

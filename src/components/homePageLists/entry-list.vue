@@ -34,25 +34,14 @@
           </div>
         </div>
         <div class="entry-button-box">
-<<<<<<< HEAD
-          <button class="button button-plain button-block button-plain-pink">新增花型</button>
-        </div>
-
-=======
           <button class="button button-plain button-block button-plain-pink">申请入驻</button>
         </div>
->>>>>>> all
       </div>
     </div>
     <div class="right-list">
       <list-tile :title-text="titleText"></list-tile>
-<<<<<<< HEAD
-      <div class="item-wrapper"  v-for="item in [1,2,3,4,5,6]">
-        <entry-list-item></entry-list-item>
-=======
       <div class="item-wrapper"  v-for="item in newCompanyList">
         <entry-list-item :item="item"></entry-list-item>
->>>>>>> all
       </div>
     </div>
   </div>
@@ -62,14 +51,6 @@
 import listTile from './list-title';
 import entryListItem from './entry-list-item';
 export default {
-<<<<<<< HEAD
-=======
-  props: {
-    newCompanyList: {
-      type: Array
-    }
-  },
->>>>>>> all
   data() {
     return {
       titleText: {
@@ -82,14 +63,11 @@ export default {
   components: {
     listTile,
     entryListItem
-<<<<<<< HEAD
   },
   props: {
     message: {
       type: Object
     }
-=======
->>>>>>> all
   }
 };
 </script>
@@ -101,15 +79,9 @@ basecolor = #ff7478
   box-sizing border-box
   width 100%
   .left-brand
-<<<<<<< HEAD
-    flex 0 0 267px
-    width 267px
-    height 384px
-=======
     flex 0 0 267px 164 +322
     width 267px
     height 486px
->>>>>>> all
     .brand-header
       height 132px
       padding 16px

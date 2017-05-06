@@ -28,7 +28,12 @@
         </ts-radio-group>
       </ts-form-item>
       <ts-form-item label="花型图片：" prop="picsUrl">
-        <ts-button type="text">添加图片</ts-button>
+        <ts-image width="200" height="200" :src="Pic.src" v-show='Pic.show'></ts-image>
+          <label class="add-upload-button">
+            {{Pic.text}}
+            <aliUpload id="addPic" @doUpload="uploadImg"></aliUpload>
+          </label>
+          <span class="add-upload-button"@click="Pic.src=''" v-show='Pic.show'>删除图片</span>
       </ts-form-item>
     <p class="list-title">选填内容</p>
     <ts-form-item label="价格：" prop="price">
@@ -44,14 +49,18 @@
     <ts-form-item label="出码率：" prop="outRate">
       <ts-input v-model="addPatternForm.outRate" style="width:320px" placeholder="请输入出码率"></ts-input>
     </ts-form-item>
+    </ts-form>
     <ts-button type="primary" class="bottom-button-margin" @click="submitForm('addPatternForm')">新增</ts-button>
     <ts-button type="cancel" @click="submitForm('addPatternForm')">取消</ts-button>
-    </ts-form>
   </ts-section>
 </template>
 
 <script>
+import {
+  aliUpload
+} from '@/components';
 import DICT from '../../dict.js';
+import Emitter from '@/common/js/mixins/emitter';
 export default {
   data() {
     return {
@@ -116,6 +125,12 @@ export default {
           trigger: 'blur'
         }]
       },
+      Pic: {
+        src: '',
+        show: false,
+        text: '添加图片'
+      },
+      // 表单
       addPatternForm: {
         category: '',
         height: '',
@@ -134,7 +149,34 @@ export default {
       }
     };
   },
+  components: {
+    aliUpload
+  },
+  computed: {
+    picShow() {
+      return this.Pic.src.length > 0;
+    }
+  },
+  watch: {
+    Pic: {
+      handler(val) {
+        val.text = val.src.length > 0 ? '更换图片' : '添加图片';
+        val.show = val.src.length > 0;
+        this.dispatch('tsFormItem', 'ts.form.change', [val.src]);
+      },
+      deep: true
+    }
+  },
+  mixins: [Emitter],
   methods: {
+    // 上传图片
+    uploadImg(e) {
+      // 显示Base64
+      this.Pic.src = e.base64Url[e.base64Url.length - 1];
+      // 放到表单
+      this.addPatternForm.picsUrl = e.ossUrl[e.ossUrl.length - 1];
+    },
+    // 提交表单
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -150,26 +192,42 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+/*添加图片按钮*/
+@component-namespace add {
+  @component upload {
+    @descendent button {
+      color: #4C93FD;
+      height: 38px;
+      line-height: 38px;
+      cursor: pointer;
+      transition: .5s;
+      position: relative;
+      &:hover {
+        color: #105bca;
+      }
+    }
+  }
+}
 /*选填内容的标题样式*/
 .list-title {
-    height: 56px;
-    line-height: 56px;
-    background: #F8F8F8;
-    color: #666666;
-    margin: 40px 0;
-    padding-left: 10px;
+  height: 56px;
+  line-height: 56px;
+  background: #F8F8F8;
+  color: #666666;
+  margin: 40px 0;
+  padding-left: 10px;
 }
 /*底部按钮*/
 .bottom-button-margin {
-    margin-right: 24px;
+  margin-right: 24px;
 }
 /*库存的单选按钮*/
 .add-radio {
-    margin-top: 10px;
-    display: inline-block;
-    & + label {
-        margin-left: 20px;
-    }
+  margin-top: 10px;
+  display: inline-block;
+  &+label {
+    margin-left: 20px;
+  }
 }
 </style>

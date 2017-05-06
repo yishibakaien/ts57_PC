@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-<!-- 借鉴自 github -->
->>>>>>> all
 <template>
   <div class="vue-only-slider">
     <ul :style="{width:`${scaleW}px`,height:`${height}px`}">
@@ -273,10 +269,7 @@ export default {
 <style lang="stylus">
 .vue-only-slider{
   width: 100%;
-<<<<<<< HEAD
-=======
   min-width 1200px;
->>>>>>> all
   position: relative;
   text-align: center;
   overflow: hidden;

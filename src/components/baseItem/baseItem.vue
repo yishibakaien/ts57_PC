@@ -1,14 +1,5 @@
 <template>
   <div class="base-item-wrapper">
-<<<<<<< HEAD
-    <div class="base-item">
-      <div class="img-container">
-        <img class="item-image" src="/static/images/pattern.jpg">
-      </div>
-      <div class="item-desc">
-        <h2 class="desc-title">供应 200码</h2>
-        <p class="desc-text">急需这款面料，有货的快来联系</p>
-=======
     <div class="base-item" :itemId="item.id">
       <div class="img-container">
         <img class="item-image" :src="picUrl">
@@ -19,7 +10,6 @@
           {{desc}}
           <span class="time" v-if="time">{{time}}</span>
         </p>
->>>>>>> all
       </div>
     </div>
   </div>
@@ -28,10 +18,6 @@
 <script>
 export default {
   props: {
-<<<<<<< HEAD
-    message: {
-      type: Object
-=======
     item: {
       type: Object
     },
@@ -98,7 +84,6 @@ export default {
       if (unit === 400012) {
         return '条';
       }
->>>>>>> all
     }
   }
 };
@@ -112,10 +97,7 @@ export default {
   padding 16px
   background #fff
   border-left 1px solid #d8d8d8
-<<<<<<< HEAD
-=======
   cursor pointer
->>>>>>> all
   &:hover
     position relative
     border 1px solid rgba(76, 147, 253, 0.8)
@@ -139,25 +121,18 @@ export default {
       line-height 40px
       margin-top 16px
       color #333
-<<<<<<< HEAD
-    .desc-text
-=======
       overflow hidden
       text-overflow ellipsis
       white-space nowrap
     .desc-text
       position relative
->>>>>>> all
       height 36px
       line-height 36px
       overflow hidden
       text-overflow ellipsis
       white-space nowrap
       color #999
-<<<<<<< HEAD
-=======
       .time
         position absolute
         right 0
->>>>>>> all
 </style>

@@ -1,10 +1,10 @@
 <template>
 <button class="ts-button" @click="handleClick" :disabled="disabled" :class="['ts-button--'+type,'ts-button--'+size,{'is-disabled':disabled}]">
-    <!-- <span class="ts-button-icon" v-if="icon || $slots.icon">
+    <span class="ts-button-icon" v-if="icon || $slots.icon">
       <slot name="icon">
         <i v-if="icon" class="iconfont" :class={"iconfont-"+icon}></i>
       </slot>
-    </span> -->
+    </span>
     <label class="ts-button-text">
       <slot></slot>
     </label>
