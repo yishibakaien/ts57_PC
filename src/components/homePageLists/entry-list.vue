@@ -65,8 +65,8 @@ export default {
     entryListItem
   },
   props: {
-    message: {
-      type: Object
+    newCompanyList: {
+      type: Array
     }
   }
 };

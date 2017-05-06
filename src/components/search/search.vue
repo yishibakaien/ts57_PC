@@ -28,7 +28,10 @@ export default {
   },
   methods: {
     searchText() {
-      console.log('点击搜索');
+      if (!this.text) {
+        alert('请输入搜索内容');
+        return;
+      }
       search({
         keywords: this.text,
         pageSize: 15,  // 每页数量 默认10
