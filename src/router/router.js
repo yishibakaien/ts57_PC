@@ -68,7 +68,10 @@ const routes = [
   },
   {
     path: '/releasePurchasePage', // 发布求购
-    component: releasePurchasePage
+    component: releasePurchasePage,
+    meta: {
+      needAuth: true
+    }
   },
   {
     path: '/purchaseListPage',  // 求购列表
@@ -80,7 +83,10 @@ const routes = [
   },
   {
     path: '/releaseSupplyPage', // 发布供应
-    component: releaseSupplyPage
+    component: releaseSupplyPage,
+    meta: {
+      needAuth: true
+    }
   },
   {
     path: '/supplyListPage',  // 供应列表
