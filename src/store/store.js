@@ -104,12 +104,13 @@ export default new Vuex.Store({
     action: {
         doSearch({commit}, data) {
             // let defaultData = {
-            //     keywords: localStorage.searchText,
+            //     keywords: '',
             //     category: localStorage.category || '',
             //     stockType: localStorage.stockType || 0,
             //     pageSize: 15,  // 每页数量 默认10
             //     searchType: 2  // 搜索类型 1:店铺搜索 2:全局搜索
             // }
+
             let _data = Object.assin({}, data);
             for (let key in _data) {
                 if (key === 'category') {
