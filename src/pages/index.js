@@ -3,6 +3,10 @@
 import homePage from './homePage/homePage';
 // 文本搜索结果页
 import textSearchResultPage from './homePage/searchResultPage/textSearchResultPage';
+// 发布求购页
+import releaseSupplyPage from './homePage/releaseSupplyPage/releaseSupplyPage';
+// 发布供应页
+import releasePurchasePage from './homePage/releasePurchasePage/releasePurchasePage';
 
 import findPage from './findPage/findPage';
 import threeDDressPage from './threeDDressPage/threeDDressPage';
@@ -21,5 +25,7 @@ export {
   personalCenterPage,
   loginPage,
   registerPage,
-  forgotPasswordPage
+  forgotPasswordPage,
+  releaseSupplyPage,
+  releasePurchasePage
 };

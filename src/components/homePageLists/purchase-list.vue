@@ -14,8 +14,8 @@
         <p class="brand-desc">海量档口真实采购需求</p>
       </div>
       <div class="brand-body">
-        <textarea class="input" maxlength="60" placeholder="请填写需求购买花型的详细描述，如花高，宽幅等信息"></textarea>
-        <button class="button button-plain button-block button-plain-blue">发布求购</button>
+        <textarea class="input" maxlength="60" placeholder="请填写需求购买花型的详细描述，如花高，宽幅等信息" v-model="text"></textarea>
+        <button @click="releasePurchase" class="button button-plain button-block button-plain-blue">发布求购</button>
       </div>
     </div>
     <div class="right-list">
@@ -31,6 +31,16 @@
 import baseItem from '../baseItem/baseItem';
 import listTile from './list-title';
 export default {
+  data() {
+    return {
+      titleText: {
+        color: '#4c93fd',
+        title: '最新求购',
+        extend: '更多求购'
+      },
+      text: ''
+    };
+  },
   props: {
     purchaseListObj: {
       type: Object,
@@ -39,14 +49,15 @@ export default {
       }
     }
   },
-  data() {
-    return {
-      titleText: {
-        color: '#4c93fd',
-        title: '最新求购',
-        extend: '更多求购'
-      }
-    };
+  methods: {
+    releasePurchase() {
+      this.$router.push({
+        path: '/releasePurchasePage',
+        query: {
+          text: this.text
+        }
+      });
+    }
   },
   components: {
     baseItem,

@@ -11,7 +11,9 @@ import {
   personalCenterPage,
   loginPage,
   registerPage,
-  forgotPasswordPage
+  forgotPasswordPage,
+  releaseSupplyPage,
+  releasePurchasePage
 } from '../pages';
 
 Vue.use(Router);
@@ -31,37 +33,55 @@ const routes = [
   {
     path: '/',
     redirect: '/homePage'
-  }, {
+  },
+  {
     path: '/homePage',
     component: homePage
-  }, {
+  },
+  {
     path: '/textSearchResultPage',
     component: textSearchResultPage
-  }, {
+  },
+  {
     path: '/findPage',
     component: findPage,
     meta: {
       needAuth: true
     }
-  }, {
+  },
+  {
     path: '/threeDDressPage',
     component: threeDDressPage
-  }, {
+  },
+  {
     path: '/personalCenterPage',
     component: personalCenterPage,
     meta: {
       //          needAuth: true
     }
-  }, {
+  },
+  {
+    path: '/releaseSupplyPage',
+    name: 'releaseSupplyPage',
+    component: releaseSupplyPage
+  },
+  {
+    path: '/releasePurchasePage',
+    component: releasePurchasePage
+  },
+  {
     path: '/loginPage',
     component: loginPage
-  }, {
+  },
+  {
     path: '/registerPage',
     component: registerPage
-  }, {
+  },
+  {
     path: '/forgotPasswordPage',
     component: forgotPasswordPage
-  }, {
+  },
+  {
     path: '/shopManagePage',
     redirect: '/shopManagePage/warehouse',
     component: shopManager,
