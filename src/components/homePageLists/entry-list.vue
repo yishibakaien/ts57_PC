@@ -56,7 +56,8 @@ export default {
       titleText: {
         title: '厂家入驻',
         color: '#ff7478',
-        extend: '更多厂家'
+        extend: '更多厂家',
+        type: 'entry'
       }
     };
   },
