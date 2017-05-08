@@ -155,17 +155,14 @@ export default {
     Object.keys(localStorage).forEach(function(item) {
       if (item.indexOf(PICNAME_PREFIX) !== -1) {
         var obj = {};
-        // obj.localPicSrc = localStorage[item];
         obj.num = Number(item.replace(PICNAME_PREFIX, ''));
         arr.push(obj);
       }
     });
-    // console.info('before sort arr', arr);
     // 处理排序
     arr.sort(function(a, b) {
       return a.num - b.num;
     });
-    // console.info('after sort arr', arr);
     var _arr = arr.map(function(item) {
       item.itemkey = PICNAME_PREFIX + item.num;
       return item;
@@ -174,7 +171,6 @@ export default {
     _arr.forEach(function(item) {
       item.localPicSrc = localStorage[item.itemkey];
     });
-    // console.log('_arr', _arr);
     // 填充历史图片搜索记录数组
     this.historyPicArr = _arr;
     // 填充预览小图
