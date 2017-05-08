@@ -15,6 +15,7 @@ import tsSelect from './select/tsSelect.vue';
 import tsButton from './tsButton.vue';
 import tsForm from './tsForm.vue';
 import tsFormItem from './tsFormItem.vue';
+import tsPagination from '../pageBar/pageBar.vue';
 const Components = {
   tsSection,
   tsRadioGroup,
@@ -29,6 +30,7 @@ const Components = {
   tsDialog,
   tsTable,
   tsColumn,
+  tsPagination,
   tsInput,
   tsSelect,
   tsForm,

@@ -5,6 +5,7 @@ import Vue from 'vue';
 import App from './App';
 import router from './router/router';
 import store from './store/store';
+import * as filters from './filter/';
 // import models from '@/common/js/tipsModels';
 // import axios from 'axios';
 
@@ -13,7 +14,8 @@ import '!style-loader!css-loader!sass-loader!./common/css/index.css';
 import jhComponents from '@/Components/common/index.js';
 Vue.use(jhComponents);
 Vue.config.productionTip = false;
-
+// 注册过滤器
+Object.keys(filters).forEach(k => Vue.filter(k, filters[k]));
 // Vue.use(Vuex);
 
 // 状态检查，未登陆时路由至登陆/注册 界面
