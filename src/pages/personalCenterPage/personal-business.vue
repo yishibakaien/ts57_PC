@@ -1,10 +1,10 @@
 <template>
 	<div class="personal-business">
-		<div class="personal-business-wrap clearfix" v-for="item in items">
+		<div class="personal-business-wrap clearfix" v-for="(item, index) in items">
 			<div class="personal-business-Info">
 				<div class="logo">
-					<img src="../../../static/timg.jpg" alt="logo" />
-					<p class="cancel">取消收藏</p>
+					<img src="item.companyHeadIcon" alt="logo" />
+					<p class="cancel" @click="cancelSC(index)">取消收藏</p>
 				</div>
 				<p><span class="address">地址：</span><span class="addressInfo">{{item.address}}</span></p>
 				<p><span class="address">电话：</span>{{item.contactTel}}</p>
@@ -23,48 +23,31 @@
 						<img src="hotSellItem.defaultPicUrl" alt="hotSell" />
 						<p class="goodsName">#{{hotSellItem.id}}</p>
 						<p>
-							<span class="red">¥{{hotSellItem.priceUnit}}/码</span>
-							<span class="gray">需要开机</span>
-							<span class="green">有库存</span>
+							<span class="red">¥{{hotSellItem.priceUnit?hotSellItem.priceUnit:0}}/码</span>
+							<span class="gray" v-if="hotSellItem.isStock === 0">需要开机</span>
+							<span class="green" v-if="hotSellItem.isStock === 1">有库存</span>
 						</p>
 					</div>
-					<!--<div class="hotSellItem">
-						<img src="../../../static/timg.jpg" alt="hotSell" />
-						<p class="goodsName">#2001</p>
-						<p>
-							<span class="red">{{item.priceUnit}}/码</span>
-							<span class="green">有库存</span>
-							<span class="gray">需要开机</span>
-						</p>
-					</div>
-					<div class="hotSellItem">
-						<img src="../../../static/timg.jpg" alt="hotSell" />
-						<p class="goodsName">#2001</p>
-						<p>
-							<span class="red">$10/码</span>
-							<span class="green">有库存</span>
-							<span class="gray">需要开机</span>
-						</p>
-					</div>-->
-
 				</div>
-
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-	import { listCompany } from '@/common/api/api';
+	import { listCompany, favoriteBus } from '@/common/api/api';
 	export default {
 		data() {
 			return {
 				param: {
 					pageNo: 1,
-					pageSize: 8
+					pageSize: 50
+				},
+				favorite: {
+					businessId: '',
+					businessType: 2
 				},
 				items: []
-//				totalNum: 5
 			};
 		},
 		created() {
@@ -75,7 +58,13 @@
 				let _ = this;
 				listCompany(_.param).then((res) => {
 					_.items = res.data.list;
-					console.log('商家收藏', res);
+				}).catch();
+			},
+			cancelSC(index) {
+				let _ = this;
+				_.favorite.businessId = _.items[index].id;
+				favoriteBus(_.favorite).then((res) => {
+					_.listCompanyMethod();
 				}).catch();
 			}
 		}
@@ -85,15 +74,19 @@
 <style lang="scss" scoped="scoped">
 	.personal-business-wrap {
 		position: relative;
-		padding: 30px 15px;
-		&::after {
+		padding: 20px 15px 0;
+		&::before {
 			position: absolute;
+			bottom: 0px;
 			content: '';
 			display: block;
 			width: 914px;
-			height: 5px;
+			height: 1px;
 			background: #d1d1d1;
 		}
+	}
+	.personal-business-wrap:last-of-type::before {
+		display: none;
 	}
 	
 	.companyName {

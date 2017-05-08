@@ -149,8 +149,13 @@
 
 <style lang="scss" scoped="scoped">
 
+    .personal {
+
+    }
 	.personal-container {
-		margin-top: 50px;
+		width: 1200px;
+    	/*margin: 0 auto;*/
+		margin: 50px auto;
 	}
 	
 	.personal-nav {
