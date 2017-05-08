@@ -1,48 +1,34 @@
 <template lang="html">
   <div @mouseover="isSHow=true" @mouseout="isSHow=false" class="ts-image" :style="{width:width+'px',height:height+'px'}" @click="handleImg">
-    <img :src="src"  class="ts-image-img">
-    <!-- <ts-check class="ts-image-check--side" v-if="needChoose"></ts-check> -->
-    <!-- <p class="ts-image-bottom" v-show="isSHow" v-if="!needChoose">
-      <span class="iconfont" :class="'icon-'+bottomIcon"></span>
-      {{bottomText}}
-    </p> -->
+    <img :src="type==='local'?src:domain+src"  class="ts-image-img">
   </div>
 </template>
 
 <script>
+import {ALI_DOMAIN} from '@/common/dict/const';
 export default {
-  // data() {
-  //   return {
-  //     isSHow: false
-  //   };
-  // },
-  // components: {
-  //   tsCheck
-  // },
+  data() {
+    return {
+      domain: ALI_DOMAIN
+    };
+  },
   // src--图片SRC
   // width/height--图片宽高
-  // bottomText--底部菜单的文字
-  // icon-底部菜单的图标
-  // needMenu-是否需要底部菜单
-  // needMenu-是否需要多选
+  // type-类型：主要是判断是否要加ALi前缀，本地不加（默认显示base）,网络加（默认加阿里前缀）
   props: {
-    // needMenu: {
-    //   type: Boolean,
-    //   default: false
-    // },
-    // needChoose: {
-    //   type: Boolean,
-    //   default: false
-    // },
+    type: {
+      type: String,
+      default: 'alioss',
+      validator(value) {
+        return [
+          'local',
+          'alioss'
+        ].indexOf(value) > -1;
+      }
+    },
     src: {
       type: String
     },
-    // bottomIcon: {
-    //   type: String
-    // },
-    // bottomText: {
-    //   type: String
-    // },
     height: {
       type: String
     },
