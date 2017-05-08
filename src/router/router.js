@@ -11,7 +11,15 @@ import {
   personalCenterPage,
   loginPage,
   registerPage,
-  forgotPasswordPage
+  forgotPasswordPage,
+
+  releasePurchasePage,
+  purchaseListPage,
+  purchaseDetailPage,
+
+  releaseSupplyPage,
+  supplyListPage,
+  supplyDetailPage
 } from '../pages';
 
 Vue.use(Router);
@@ -31,37 +39,76 @@ const routes = [
   {
     path: '/',
     redirect: '/homePage'
-  }, {
+  },
+  {
     path: '/homePage',
     component: homePage
-  }, {
+  },
+  {
     path: '/textSearchResultPage',
     component: textSearchResultPage
-  }, {
+  },
+  {
     path: '/findPage',
     component: findPage,
     meta: {
       needAuth: true
     }
-  }, {
+  },
+  {
     path: '/threeDDressPage',
     component: threeDDressPage
-  }, {
+  },
+  {
     path: '/personalCenterPage',
     component: personalCenterPage,
     meta: {
       //          needAuth: true
     }
-  }, {
+  },
+  {
+    path: '/releasePurchasePage', // 发布求购
+    component: releasePurchasePage,
+    meta: {
+      needAuth: true
+    }
+  },
+  {
+    path: '/purchaseListPage',  // 求购列表
+    component: purchaseListPage
+  },
+  {
+    path: '/purchaseDetailPage', // 求购详情
+    component: purchaseDetailPage
+  },
+  {
+    path: '/releaseSupplyPage', // 发布供应
+    component: releaseSupplyPage,
+    meta: {
+      needAuth: true
+    }
+  },
+  {
+    path: '/supplyListPage',  // 供应列表
+    component: supplyListPage
+  },
+  {
+    path: '/supplyDetailPage',  // 供应详情
+    component: supplyDetailPage
+  },
+  {
     path: '/loginPage',
     component: loginPage
-  }, {
+  },
+  {
     path: '/registerPage',
     component: registerPage
-  }, {
+  },
+  {
     path: '/forgotPasswordPage',
     component: forgotPasswordPage
-  }, {
+  },
+  {
     path: '/shopManagePage',
     redirect: '/shopManagePage/warehouse',
     component: shopManager,
