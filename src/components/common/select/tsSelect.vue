@@ -132,7 +132,7 @@
       border: 1px solid #cfcfcf;
       min-height: 32px;
       line-height: 32px;
-      padding: 0 10px;
+      padding: 0 4px;
       box-sizing: border-box;
       &:after{
         transition: all 0.2s ease;

@@ -1,12 +1,12 @@
 <template>
-<label :class="[{'is-active':value===label},{'is-disbaled':isDisabled},{'is-origin':type==='origin'}]" class="ts-radio" v-if="type!=='origin'">
-    <input type="radio" :value="label" :name="name" v-model="value" :disabled="isDisabled" class="ts-radio-input">
+<label :class="[{'is-active':model===label},{'is-disbaled':isDisabled},{'is-origin':type==='origin'}]" class="ts-radio" v-if="type!=='origin'">
+    <input type="radio" :value="label" :name="name" v-model="model" :disabled="isDisabled" class="ts-radio-input">
     <span :style="value===label?activeStyle:null" class="ts-radio--inner">
       <slot></slot>
     </span>
 </label>
 <span v-else class="ts-radio--origin">
-  <input type="radio" :value="label" :name="name" v-model="value" :disabled="isDisabled">
+  <input type="radio" :name="name" :value="label" v-model="model" :disabled="isDisabled">
   <span>
     <slot></slot>
   </span>
@@ -14,13 +14,18 @@
 </template>
 
 <script>
+import Emitter from '@/common/js/mixins/emitter';
 export default {
+  mixins: [Emitter],
+  componentName: 'tsRadio',
   props: {
     // label---标签
+    // value---值
     // name---原生属性：name
     // disabled---disabled
     // type---'block'/'origin' block就是方块型 origin就是原始状态
     label: {},
+    value: {},
     name: String,
     disabled: Boolean,
     type: {
@@ -36,29 +41,36 @@ export default {
   },
   computed: {
     // 设置值
-    value: {
+    model: {
       get() {
-        return this._radioGroup.value;
+        return this.isGroup ? this._radioGroup.value : this.value;
       },
       set(val) {
-        this._radioGroup.$emit('input', val);
+        if (this.isGroup) {
+           this.dispatch('tsRadioGroup', 'input', [val]);
+         } else {
+           this.$emit('input', val);
+         }
       }
     },
     // 单选组
-    _radioGroup() {
+    isGroup() {
       let parent = this.$parent;
       while (parent) {
         if (parent.$options.componentName !== 'tsRadioGroup') {
           parent = parent.$parent;
         } else {
-          return parent;
+          this._radioGroup = parent;
+          return true;
         }
       }
       return false;
     },
     // 是否禁用
     isDisabled() {
-      return this.disabled || this._radioGroup.disabled;
+      return this.isGroup
+          ? this._radioGroup.disabled || this.disabled
+          : this.disabled;
     },
     // 高亮
     activeStyle() {
@@ -83,7 +95,7 @@ export default {
     padding:10px;
     font-size: 14px;
     box-sizing: border-box;
-    margin-right: 20px;
+    margin-right:20px;
     text-align: center;
     cursor: pointer;
     @modifier inner{

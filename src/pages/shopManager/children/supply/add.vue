@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import DICT from '../../dict.js';
+import DICT from '@/common/dict';
 export default {
   data() {
     return {
@@ -42,7 +42,7 @@ export default {
         isStock: DICT.isStock
       },
       addPatternForm: {
-
+        category: ''
       }
     };
   }
