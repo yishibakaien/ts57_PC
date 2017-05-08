@@ -134,7 +134,6 @@ export default {
       this.$emit('confirm');
     },
     handleClose() {
-      this.handleWrapperClick();
       this.$emit('close');
     }
   },
@@ -192,13 +191,16 @@ export default {
       background-color:var(--dialogFooterBg);
       box-sizing: border-box;
       height: 40px;
+      align-items: center;
       display: flex;
+      padding-left: 10px;
     }
     @modifier button{
       border: none;
       background-color:var(--dialogFooterBg);
       border-right: 1px solid var(--dialogRightButton);
       flex: 1;
+      height: 40px;
       cursor: pointer;
       transition: .3s;
       font-size: 16px;

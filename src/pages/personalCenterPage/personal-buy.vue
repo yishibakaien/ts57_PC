@@ -1,23 +1,23 @@
 <template>
 	<div class="personal-buy">
-		<div class="personal-class clearfix">
-			<span class="title">分类</span>
-			<p>
-				<span class="selected">全部 {{'(' + classes.totalNum + ')' }}</span>
-				<span @click="classMianliao">面料 {{'(' + classes.mianliao + ')' }}</span>
-				<span @click="classDabian">大边 {{'(' + classes.large + ')' }}</span>
-				<span @click="classXiaobian">小边 {{'(' + classes.small + ')' }}</span>
-				<span @click="classJiemao">睫毛 {{'(' + classes.eyelash + ')' }}</span>
-			</p>
-		</div>
-		<div class="personal-class clearfix">
-			<span class="title">筛选条件</span>
-			<p>
-				<span class="selected">全部 {{'(' +classes.totalNum+ ')' }}</span>
-				<span @click="classBuy">求购中 {{'(' + classes.statusBuy + ')' }}</span>
-				<span @click="classSuccess">已成交 {{'(' + classes.statusSuccess + ')' }}</span>
-				<span @click="classClosed">已关闭 {{'(' + classes.statusClosed + ')' }}</span>
-			</p>
+		<div>
+			<ts-filter title="分类">
+				<ts-radio-group v-model="Filter.sort" @change="hanleFilterSort">
+					<ts-radio label="null">全部({{classes.totalNum}})</ts-radio>
+					<ts-radio label="100010">面料({{classes.mianliao}})</ts-radio>
+					<ts-radio label="100011">大边({{classes.large}})</ts-radio>
+					<ts-radio label="100012">小边({{classes.small}})</ts-radio>
+					<ts-radio label="100013">睫毛({{classes.eyelash}})</ts-radio>
+				</ts-radio-group>
+			</ts-filter>
+			<ts-filter title="面料种类">
+				<ts-radio-group v-model="Filter.fabricType" @change="hanleFilterFabric">
+					<ts-radio label="null">全部({{classes.totalNum}})</ts-radio>
+					<ts-radio label="1">求购中({{classes.statusBuy}})</ts-radio>
+					<ts-radio label="2">已成交({{classes.statusSuccess}})</ts-radio>
+					<ts-radio label="3">已关闭({{classes.statusClosed}})</ts-radio>
+				</ts-radio-group>
+			</ts-filter>
 		</div>
 		<div class="personal-buy-wrap clearfix">
 			<div class="personal-goods-item" v-for="item in items">
@@ -38,7 +38,7 @@
 				</div>
 			</div>
 		</div>
-		<pageBar v-if="classes.totalNum > 8" :pageNum="pageNum" :pageMax="pageMax" :number="pageSize" v-on:upPage="upPage" v-on:downPage="downPage" v-on:selectFirstPage="selectFirstPage" v-on:selectLastPage="selectLastPage" v-on:selectNumber="selectNumber"></pageBar>
+		<pageBar v-if="pageMax >= 1" :pageNum="pageNum" :pageMax="pageMax" :number="pageSize" v-on:upPage="upPage" v-on:downPage="downPage" v-on:selectFirstPage="selectFirstPage" v-on:selectLastPage="selectLastPage" v-on:selectNumber="selectNumber"></pageBar>
 	</div>
 </template>
 
@@ -48,6 +48,10 @@
 	export default {
 		data() {
 			return {
+				Filter: {
+					sort: 'null',
+					fabricType: 'null'
+				},
 				pageNum: '',
 				pageMax: '',
 				pageSize: '',
@@ -98,6 +102,28 @@
 					_.pageMax = res.data.totalPage;
 				}).catch();
 			},
+			hanleFilterFabric(e) {
+				let _ = this;
+				if (e === 'null') {
+					_.param.buyStatus = null;
+				} else {
+					_.param.buyStatus = parseInt(e);
+				}
+				_.pageMax = '';
+				_.param.pageNo = 1;
+				_.listProductBuysMethod();
+			},
+			hanleFilterSort(e) {
+				let _ = this;
+				if (e === 'null') {
+					_.param.buyTypes = null;
+				} else {
+					_.param.buyTypes = parseInt(e);
+				}
+				_.pageMax = '';
+				_.param.pageNo = 1;
+				_.listProductBuysMethod();
+			},
 			closeProductBuyMethod() {
 				let _ = this;
 				_.tipShow = true;
@@ -134,48 +160,6 @@
 				let _ = this;
 				_.param.pageNo = 1;
 				_.param.pageSize = num;
-				this.listProductBuysMethod();
-			},
-			classMianliao() {
-				let _ = this;
-				_.param.pageNo = 1;
-				_.param.buyTypes = 100010;
-				this.listProductBuysMethod();
-			},
-			classDabian() {
-				let _ = this;
-				_.param.pageNo = 1;
-				_.param.buyTypes = 100011;
-				this.listProductBuysMethod();
-			},
-			classXiaobian() {
-				let _ = this;
-				_.param.pageNo = 1;
-				_.param.buyTypes = 100012;
-				this.listProductBuysMethod();
-			},
-			classJiemao() {
-				let _ = this;
-				_.param.pageNo = 1;
-				_.param.buyTypes = 100013;
-				this.listProductBuysMethod();
-			},
-			classSuccess() {
-				let _ = this;
-				_.param.pageNo = 1;
-				_.param.buyStatus = 2;
-				this.listProductBuysMethod();
-			},
-			classBuy() {
-				let _ = this;
-				_.param.pageNo = 1;
-				_.param.buyStatus = 1;
-				this.listProductBuysMethod();
-			},
-			classClosed() {
-				let _ = this;
-				_.param.pageNo = 1;
-				_.param.buyStatus = 3;
 				this.listProductBuysMethod();
 			}
 		}

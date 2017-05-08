@@ -1,4 +1,3 @@
-<!-- 借鉴自 github -->
 <template>
   <div class="vue-only-slider">
     <ul :style="{width:`${scaleW}px`,height:`${height}px`}">

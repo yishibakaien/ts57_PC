@@ -2,7 +2,9 @@
 <div class="">
   <ts-section>
     <div slot="menu">
-      <button class="button button-blue">发布供应</button>
+      <router-link to="supplyAdd" exact>
+        <ts-button type="primary">发布供应</ts-button>
+      </router-link>
     </div>
       <!-- 过滤器 -->
       <div class="supply-filter">
@@ -26,32 +28,30 @@
         </ts-filter>
       </div>
       <!-- 表格 -->
-      <div class="supply-table">
         <ts-menu-table>
           <div slot="header-left">
-            <ts-check>温水可保证</ts-check>
+            <ts-checkbox>温水可保证</ts-checkbox>
           </div>
           <div slot="header-right">
             状态：<b>维护中</b>
           </div>
-          <ts-menu-table-box width="310" class="supply-table--avatar">
+          <ts-menu-table-item width="310" class="supply-table--avatar">
             <ts-image width="80" height="80" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1493364654514&di=663dd7b0b318d20351579dba0006c37b&imgtype=0&src=http%3A%2F%2Fcdn.lizhi.fm%2Fradio_cover%2F2014%2F08%2F27%2F13991357699196804.jpg"></ts-image>
-          </ts-menu-table-box>
-          <ts-menu-table-box>
+          </ts-menu-table-item>
+          <ts-menu-table-item>
             大量提供，价格从优，要的赶紧来买
-          </ts-menu-table-box>
-          <ts-menu-table-box>
+          </ts-menu-table-item>
+          <ts-menu-table-item>
             供应：2000码
-          </ts-menu-table-box>
-          <ts-menu-table-box>
+          </ts-menu-table-item>
+          <ts-menu-table-item>
             收藏次数：<span class="supply-table--collect" @click.self="handleCollectDialog">8</span>
-          </ts-menu-table-box>
-          <ts-menu-table-box>
+          </ts-menu-table-item>
+          <ts-menu-table-item>
             <a class="supply-table--link">关闭</a>
             <a class="supply-table--link">编辑</a>
-          </ts-menu-table-box>
+          </ts-menu-table-item>
         </ts-menu-table>
-      </div>
     <div slot="footer">
     </div>
   </ts-section>

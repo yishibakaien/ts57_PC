@@ -7,7 +7,6 @@ import textSearchResultPage from './homePage/searchResultPage/textSearchResultPa
 import findPage from './findPage/findPage';
 import threeDDressPage from './threeDDressPage/threeDDressPage';
 import personalCenterPage from './personalCenterPage/personalCenterPage';
-import shopManagePage from './shopManagePage/shopManagePage';
 
 // 注册、登录、修改密码等表单页面
 import loginPage from './formPages/loginPage/loginPage';
@@ -20,7 +19,6 @@ export {
   findPage,
   threeDDressPage,
   personalCenterPage,
-  shopManagePage,
   loginPage,
   registerPage,
   forgotPasswordPage

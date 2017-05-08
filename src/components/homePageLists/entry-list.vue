@@ -51,11 +51,6 @@
 import listTile from './list-title';
 import entryListItem from './entry-list-item';
 export default {
-  props: {
-    newCompanyList: {
-      type: Array
-    }
-  },
   data() {
     return {
       titleText: {
@@ -68,6 +63,11 @@ export default {
   components: {
     listTile,
     entryListItem
+  },
+  props: {
+    message: {
+      type: Object
+    }
   }
 };
 </script>

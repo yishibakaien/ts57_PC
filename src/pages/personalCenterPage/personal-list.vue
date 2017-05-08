@@ -1,6 +1,6 @@
 <template>
 	<div class="personal-list">
-		<div class="personal-class clearfix">
+		<!--<div class="personal-class clearfix">
 			<span class="title">分类</span>
 			<p>
 				<span class="selected">全部 {{'(' +classNum.all+ ')' }}</span>
@@ -17,6 +17,25 @@
 				<span>已成交 {{'(' +a+ ')' }}</span>
 				<span>已关闭 {{'(' +a+ ')' }}</span>
 			</p>
+		</div>-->
+		<div>
+			<ts-filter title="分类">
+				<ts-radio-group v-model="Filter.sort" @change="hanleFilterSort">
+					<ts-radio label="null">全部({{classes.totalNum}})</ts-radio>
+					<ts-radio label="100010">面料({{classes.mianliao}})</ts-radio>
+					<ts-radio label="100011">大边({{classes.large}})</ts-radio>
+					<ts-radio label="100012">小边({{classes.small}})</ts-radio>
+					<ts-radio label="100013">睫毛({{classes.eyelash}})</ts-radio>
+				</ts-radio-group>
+			</ts-filter>
+			<ts-filter title="面料种类">
+				<ts-radio-group v-model="Filter.fabricType" @change="hanleFilterFabric">
+					<ts-radio label="null">全部({{classes.totalNum}})</ts-radio>
+					<ts-radio label="1">接单中({{classes.statusBuy}})</ts-radio>
+					<ts-radio label="2">已成交({{classes.statusSuccess}})</ts-radio>
+					<ts-radio label="3">已关闭({{classes.statusClosed}})</ts-radio>
+				</ts-radio-group>
+			</ts-filter>
 		</div>
 		<div class="personal-list-wrap clearfix">
 			<div class="personal-goods-item" v-for="item in items">
@@ -41,21 +60,37 @@
 	export default {
 		data() {
 			return {
+				Filter: {
+					sort: 'null',
+					fabricType: 'null'
+				},
 				param: {
-					buyStatus: '',
-					buyType: ''
+					buyStatus: null,
+					buyType: null
 				},
 				items: [],
-				classNum: {
-					all: ''
-				},
-				a: 1
+				classes: {
+					totalNum: 0,
+					mianliao: 0,
+					large: 0,
+					small: 0,
+					eyelash: 0,
+					statusBuy: 0,
+					statusSuccess: 0,
+					statusClosed: 0
+				}
 			};
 		},
 		created() {
 			this.listBuyTaskMethod();
 		},
 		methods: {
+			hanleFilterSort(e) {
+				console.log(e);
+			},
+			hanleFilterFabric(e) {
+				console.log(e);
+			},
 			listBuyTaskMethod() {
 				let _ = this;
 				listBuyTask(_.param).then((res) => {
