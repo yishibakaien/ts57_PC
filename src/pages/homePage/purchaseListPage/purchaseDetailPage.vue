@@ -4,7 +4,12 @@
     <v-header></v-header>
     <v-nav></v-nav>
     <div class="purchase-detail-page-box">
-      我是求购详情页
+      <div class="purchase-detail-left">
+
+      </div>
+      <div class="purchase-detail-right">
+
+      </div>
     </div>
   </div>
 </template>
@@ -27,9 +32,9 @@ export default {
 .purchase-detail-page
   background #f2f2f2
   .purchase-detail-page-box
+    box-sizing border-box
     width 1200px
     margin 0 auto
-    margin-top 300px
     padding 16px 0
-    background #f2f2f2
+    background #fff
 </style>

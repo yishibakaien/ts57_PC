@@ -36,7 +36,8 @@ export default {
       titleText: {
         color: '#4c93fd',
         title: '最新求购',
-        extend: '更多求购'
+        extend: '更多求购',
+        type: 'purchase'
       },
       text: ''
     };
