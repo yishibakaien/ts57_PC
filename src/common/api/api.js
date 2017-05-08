@@ -59,7 +59,9 @@ const API = {
 		favoriteBus: '/favorite/favoriteBus', // 收藏或取消
 		listSupply: 'favorite/listSupply', // 获取收藏供应列表
 		listCompany: '/favorite/listCompany', // 获取收藏厂家列表
-		listProduct: '/favorite/listProduct' // 获取收藏花型列表
+		listProduct: '/favorite/listProduct', // 获取收藏花型列表
+		countSupply: '/favorite/countSupply', // 获取收藏供应各分类数量
+		countProduct: '/favorite/countProduct' // 获取收藏花型各分类数量
 	},
 	// 店铺管理
 	shopManagement: {
@@ -148,8 +150,8 @@ function _fetch(method = METHODS.get, data, url) {
 					store.commit(types.LOGIN, token);
 				}
 			}
-//			if (res.data.code !== 0 && res.data.message) {
-			if (res.data.message) {
+			if (res.data.code !== 0 && res.data.message) {
+//			if (res.data.message) {
 				store.commit(types.MODEL_SHOW, true);
 				store.commit(types.MODEL_OPTION, {type: 2, title: '提示', content: res.data.message});
 			}
@@ -281,6 +283,21 @@ export function listCompany(data) {
 // 获取收藏供应列表
 export function listSupply(data) {
 	return _fetch(METHODS.post, data, API.collection.listSupply);
+};
+
+// 获取收藏供应各分类统计
+export function countSupply(data) {
+	return _fetch(METHODS.get, data, API.collection.countSupply);
+};
+
+// 获取收藏花型各分类统计
+export function countProduct(data) {
+	return _fetch(METHODS.get, data, API.collection.countProduct);
+};
+
+// 收藏或取消
+export function favoriteBus(data) {
+	return _fetch(METHODS.post, data, API.collection.favoriteBus);
 };
 
 // 关闭求购

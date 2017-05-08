@@ -1,27 +1,9 @@
 <template>
 	<div class="personal-flower">
-		<div class="personal-class clearfix">
-			<span class="title">分类</span>
-			<p>
-				<span class="selected">全部 {{'(' + classes.totalNum + ')' }}</span>
-				<span @click="classMianliao">面料 {{'(' + classes.mianliao + ')' }}</span>
-				<span @click="classDabian">大边 {{'(' + classes.large + ')' }}</span>
-				<span @click="classXiaobian">小边 {{'(' + classes.small + ')' }}</span>
-				<span @click="classJiemao">睫毛 {{'(' + classes.eyelash + ')' }}</span>
-			</p>
-		</div>
-		<div class="personal-class clearfix">
-			<span class="title">筛选条件</span>
-			<p>
-				<span class="selected">全部 {{'(' + classes.totalNum + ')' }}</span>
-				<span>有库存 {{'(' + classes.statusYes + ')' }}</span>
-				<span>需要开机 {{'(' + classes.statusNo + ')' }}</span>
-			</p>
-		</div>
 		<div>
 			<ts-filter title="分类">
 				<ts-radio-group v-model="Filter.sort" @change="hanleFilterSort">
-					<ts-radio label="null">全部({{classes.totalNum}})</ts-radio>
+					<ts-radio label="-1">全部({{classes.totalNum}})</ts-radio>
 					<ts-radio label="100010">面料({{classes.mianliao}})</ts-radio>
 					<ts-radio label="100011">大边({{classes.large}})</ts-radio>
 					<ts-radio label="100012">小边({{classes.small}})</ts-radio>
@@ -30,9 +12,9 @@
 			</ts-filter>
 			<ts-filter title="面料种类">
 				<ts-radio-group v-model="Filter.fabricType" @change="hanleFilterFabric">
-					<ts-radio label="null">全部({{classes.totalNum}})</ts-radio>
+					<ts-radio label="-1">全部({{classes.totalNum}})</ts-radio>
 					<ts-radio label="1">有库存({{classes.statusYes}})</ts-radio>
-					<ts-radio label="2">需要开机({{classes.statusNo}})</ts-radio>
+					<ts-radio label="0">需要开机({{classes.statusNo}})</ts-radio>
 				</ts-radio-group>
 			</ts-filter>
 		</div>
@@ -54,20 +36,20 @@
 
 <script>
 	import { pageBar } from '@/components';
-	import { listProduct } from '@/common/api/api';
+	import { listProduct, countProduct } from '@/common/api/api';
 	export default {
 		data() {
 			return {
 				Filter: {
-					sort: 'null',
-					fabricType: 'null'
+					sort: -1,
+					fabricType: -1
 				},
 				pageNum: '',
 				pageMax: '',
 				pageSize: '',
 				param: {
-					category: '',
-					isStock: '',
+					category: -1,
+					isStock: -1,
 					pageNo: 1,
 					pageSize: 8
 				},
@@ -97,6 +79,15 @@
 				_.classes.totalNum = res.data.totalNum;
 				console.log(_.pageMax);
 			}).catch((res) => {});
+			countProduct().then((res) => {
+				console.log(res.data.data);
+				_.classes.mianliao = res.data.data.countML;
+				_.classes.large = res.data.data.countDB;
+				_.classes.small = res.data.data.countXB;
+				_.classes.eyelash = res.data.data.countJM;
+				_.classes.statusYes = res.data.data.countYKC;
+				_.classes.statusNo = res.data.data.countXYKJ;
+			}).catch();
 		},
 		methods: {
 			listProductMethod() {
@@ -106,32 +97,25 @@
 					_.pageNum = res.data.pageNO;
 					_.pageSize = res.data.pageSize;
 					_.pageMax = res.data.totalPage;
-					console.log('花型收藏', res.data);
 				}).catch((res) => {
 					console.log(res.data);
 				});
 			},
 			hanleFilterFabric(e) {
+				console.log(e);
 				let _ = this;
-				if (e === 'null') {
-					_.param.buyStatus = null;
-				} else {
-					_.param.buyStatus = parseInt(e);
-				}
+				_.param.isStock = parseInt(e);
 				_.pageMax = '';
 				_.param.pageNo = 1;
-				_.listProductBuysMethod();
+				_.listProductMethod();
 			},
 			hanleFilterSort(e) {
+				console.log(e);
 				let _ = this;
-				if (e === 'null') {
-					_.param.buyTypes = null;
-				} else {
-					_.param.buyTypes = parseInt(e);
-				}
+				_.param.category = parseInt(e);
 				_.pageMax = '';
 				_.param.pageNo = 1;
-				_.listProductBuysMethod();
+				_.listProductMethod();
 			},
 			selectFirstPage() {
 				let _ = this;
@@ -165,26 +149,6 @@
 				let _ = this;
 				_.param.pageNo = 1;
 				_.param.pageSize = num;
-				this.listProductMethod();
-			},
-			classMianliao() {
-				let _ = this;
-				_.param.buyTypes = 100010;
-				this.listProductMethod();
-			},
-			classDabian() {
-				let _ = this;
-				_.param.buyTypes = 100011;
-				this.listProductMethod();
-			},
-			classXiaobian() {
-				let _ = this;
-				_.param.buyTypes = 100012;
-				this.listProductMethod();
-			},
-			classJiemao() {
-				let _ = this;
-				_.param.buyTypes = 100013;
 				this.listProductMethod();
 			}
 		}
