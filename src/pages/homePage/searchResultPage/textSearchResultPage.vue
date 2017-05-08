@@ -13,7 +13,7 @@
       <div class="ifNone" v-if="result.data.list.length === 0">
         暂无更多搜索结果
       </div>
-      <paginator :page-message="pageMessage"></paginator>
+      <paginator :page-message="pageMessage" @goPage="goPage"></paginator>
     </div>
   </div>
 </template>
@@ -41,16 +41,20 @@ export default {
     if (!this.$store.state.searchResult.searchText) {
       search({
         keywords: localStorage.searchText,
+        category: localStorage.category || '',
+        stockType: localStorage.stockType || 0,
         pageSize: 15,  // 每页数量 默认10
         searchType: 2  // 搜索类型 1:店铺搜索 2:全局搜索
       }).then(res => {
-        this.$router.push({
-          path: 'textSearchResultPage'
-        });
+        // this.$router.push({
+        //   path: 'textSearchResultPage'
+        // });
         // 储存搜索字段
         let _data = res.data;
         console.log('搜索结果页字段', _data);
         _data.searchText = localStorage.searchText;
+        _data.category = localStorage.category || '';
+        _data.stockType = localStorage.stockType || 0;
         this.$store.commit(types.SEARCH_RESULT, _data);
       });
     }
@@ -73,6 +77,26 @@ export default {
       data.totalPage = _data.totalPage;
       data.pageNO = _data.pageNO;
       return data;
+    }
+  },
+  methods: {
+    // 字组件 分页器 注册的事件
+    goPage(n) {
+      search({
+        keywords: localStorage.searchText,
+        category: localStorage.category || '',
+        stockType: localStorage.stockType || 0,
+        pageSize: 15,  // 每页数量 默认10
+        searchType: 2,  // 搜索类型 1:店铺搜索 2:全局搜索
+        pageNo: n // 页码 默认 1
+      }).then(res => {
+        // 储存搜索字段
+        let _data = res.data;
+        _data.searchText = localStorage.searchText;
+        _data.category = localStorage.category || '';
+        _data.stockType = localStorage.stockType || 0;
+        this.$store.commit(types.SEARCH_RESULT, _data);
+      });
     }
   }
 };

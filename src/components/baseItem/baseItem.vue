@@ -1,6 +1,6 @@
 <template>
   <div class="base-item-wrapper">
-    <div class="base-item" :itemId="item.id">
+    <div class="base-item" :itemId="item.id" @click="itemClick(item.id)">
       <div class="img-container">
         <img class="item-image" :src="picUrl">
       </div>
@@ -84,6 +84,25 @@ export default {
       if (unit === 400012) {
         return '条';
       }
+    }
+  },
+  methods: {
+    itemClick(id) {
+      console.log(id);
+      console.log(this.type);
+      if (this.type === 'buy') {
+        console.log('purchaseClick');
+        this.$emit('purchaseClick', id);
+      }
+      if (this.type === 'supply') {
+        console.log('supplyClick');
+        this.$emit('supplyClick', id);
+      }
+      if (this.type === 'searchText') {
+        console.log('searchTextClick');
+        this.$emit('searchTextClick', id);
+      }
+      console.log('clicked');
     }
   }
 };

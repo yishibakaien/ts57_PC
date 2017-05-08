@@ -18,9 +18,7 @@
 				url: {
 					base64Url: [],
 					ossUrl: []
-				},
-				base64Url: [],
-					ossUrl: []
+				}
 			};
 		},
 		methods: {

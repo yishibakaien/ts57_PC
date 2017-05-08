@@ -14,14 +14,14 @@
         <p class="brand-desc">海量厂家真实供货渠道</p>
       </div>
       <div class="brand-body">
-        <textarea class="input" maxlength="60" placeholder="请填写需求购买花型的详细描述，如花高，宽幅等信息"></textarea>
-        <button class="button button-plain button-block button-plain-orange">发布供应</button>
+        <textarea class="input" maxlength="60" placeholder="请填写需求购买花型的详细描述，如花高，宽幅等信息" v-model="text"></textarea>
+        <button @click="releaseSupply" class="button button-plain button-block button-plain-orange">发布供应</button>
       </div>
     </div>
     <div class="right-list">
       <list-tile :title-text="titleText"></list-tile>
       <div class="item-wrapper"  v-for="item in supplyListObj.data">
-        <base-item :item="item" :type="supplyListObj.type"></base-item>
+        <base-item :item="item" :type="supplyListObj.type" @supplyClick="goSupplyDetailPage"></base-item>
       </div>
     </div>
   </div>
@@ -37,8 +37,27 @@ export default {
         color: '#ff9c31',
         title: '最新供应',
         extend: '更多供应'
-      }
+      },
+      text: ''
     };
+  },
+  methods: {
+    releaseSupply() {
+      this.$router.push({
+        path: '/releaseSupplyPage',
+        query: {
+          text: this.text
+        }
+      });
+    },
+    goSupplyDetailPage(id) {
+      this.$router.push({
+        path: '/supplyDetailPage',
+        query: {
+          supplyId: id
+        }
+      });
+    }
   },
   components: {
     baseItem,
