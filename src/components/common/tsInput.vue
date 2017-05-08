@@ -2,12 +2,12 @@
 <div :class="[type === 'textarea' ? 'ts-textarea' : 'ts-input',{'is-disabled': disabled}]">
   <!-- input -->
   <input class="ts-input--inner" :placeholder="placeholder" :disabled="disabled" :readonly="readonly" :maxlength="maxlength" :minlength="minlength" :autocomplete="autoComplete" :autofocus="autofocus"
-    :min="min" :max="max" :step="step" :value="currentValue" ref="input" @input="handleInput" @focus="handleFocus" @blur="handleBlur">
+    :min="min" :max="max" :step="step" :value="currentValue" ref="input" @input="handleInput" @focus="handleFocus" @blur="handleBlur" :class="{'is-validateEvent':validateEvent}">
     <div class="ts-input--append" v-if="$slots.append">
        <slot name="append"></slot>
      </div>
   <!-- textarea -->
-  <textarea v-if="type === 'textarea'" class="ts-textarea--inner" :value="currentValue" @input="handleInput" ref="textarea" :name="name" :placeholder="placeholder" :disabled="disabled" :readonly="readonly" :rows="rows" :autofocus="autofocus"
+  <textarea v-if="type === 'textarea'" :class="{'is-validateEvent':validateEvent}" class="ts-textarea--inner" :value="currentValue" @input="handleInput" ref="textarea" :name="name" :placeholder="placeholder" :disabled="disabled" :readonly="readonly" :rows="rows" :autofocus="autofocus"
     :maxlength="maxlength" :minlength="minlength" @focus="handleFocus" @blur="handleBlur">
    </textarea>
  </div>
@@ -182,8 +182,8 @@ export default {
     }
     }
 }
-.is-error{
-  .ts-input--inner,.ts-textarea--inner{
+.is-error {
+  .is-validateEvent{
     transition: 0.3s;
     border-color: red;
   }

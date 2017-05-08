@@ -18,6 +18,24 @@
 				<span>需要开机 {{'(' + classes.statusNo + ')' }}</span>
 			</p>
 		</div>
+		<div>
+			<ts-filter title="分类">
+				<ts-radio-group v-model="Filter.sort" @change="hanleFilterSort">
+					<ts-radio label="null">全部({{classes.totalNum}})</ts-radio>
+					<ts-radio label="100010">面料({{classes.mianliao}})</ts-radio>
+					<ts-radio label="100011">大边({{classes.large}})</ts-radio>
+					<ts-radio label="100012">小边({{classes.small}})</ts-radio>
+					<ts-radio label="100013">睫毛({{classes.eyelash}})</ts-radio>
+				</ts-radio-group>
+			</ts-filter>
+			<ts-filter title="面料种类">
+				<ts-radio-group v-model="Filter.fabricType" @change="hanleFilterFabric">
+					<ts-radio label="null">全部({{classes.totalNum}})</ts-radio>
+					<ts-radio label="1">有库存({{classes.statusYes}})</ts-radio>
+					<ts-radio label="2">需要开机({{classes.statusNo}})</ts-radio>
+				</ts-radio-group>
+			</ts-filter>
+		</div>
 		<div class="personal-flower-wrap clearfix">
 			<div class="personal-goods-item" v-for="item in items">
 				<div class="personal-goods-item-img">
@@ -40,10 +58,16 @@
 	export default {
 		data() {
 			return {
+				Filter: {
+					sort: 'null',
+					fabricType: 'null'
+				},
 				pageNum: '',
 				pageMax: '',
 				pageSize: '',
 				param: {
+					category: '',
+					isStock: '',
 					pageNo: 1,
 					pageSize: 8
 				},
@@ -86,6 +110,28 @@
 				}).catch((res) => {
 					console.log(res.data);
 				});
+			},
+			hanleFilterFabric(e) {
+				let _ = this;
+				if (e === 'null') {
+					_.param.buyStatus = null;
+				} else {
+					_.param.buyStatus = parseInt(e);
+				}
+				_.pageMax = '';
+				_.param.pageNo = 1;
+				_.listProductBuysMethod();
+			},
+			hanleFilterSort(e) {
+				let _ = this;
+				if (e === 'null') {
+					_.param.buyTypes = null;
+				} else {
+					_.param.buyTypes = parseInt(e);
+				}
+				_.pageMax = '';
+				_.param.pageNo = 1;
+				_.listProductBuysMethod();
 			},
 			selectFirstPage() {
 				let _ = this;

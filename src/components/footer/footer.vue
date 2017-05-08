@@ -29,6 +29,7 @@ export default {
 <style lang="stylus" scoped>
   .footer
     text-align center
+    border-top 1px solid #d8d8d8
     .footer-desc
       padding 16px 0 12px 0
       font-size 16px

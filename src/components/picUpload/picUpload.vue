@@ -5,6 +5,7 @@
   <a class="file-upload-icon" v-show="true">
     <input ref="input" type="file" accept="image/png,image/jpeg,image/gif" @change="change" v-show="!openCrop">
   </a>
+
   <div class="picHistory-box" v-if="isShowHistoryBox"> <!---->
     <h2 class="history-text">
       <span class="history-title">图片搜索历史</span>
@@ -214,6 +215,7 @@ export default {
       this.destImg = this.$refs.canvas.toDataURL();
       this.saveSearchHistory(this.destImg);
       this.closeCrop();
+      // 这里调用搜索接口
     },
     openFile: function () {
       if (!this.openCrop) {

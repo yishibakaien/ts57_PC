@@ -65,8 +65,12 @@ const API = {
 	shopManagement: {
 		// POST
 		listProducts: '/product/listProducts', // 获取花型列表
-		addProduct: '/product/listProducts' // 新增花型
+		addProduct: '/product/addProduct', // 新增花型
+		addIngredient: '/ingredient/addIngredient', // 自定义成分
+		deleteIngredient: '/ingredient/deleteIngredient', // 删除成分
 		// GET
+		listIngredients: '/ingredient/listIngredients', // 获取成分列表
+		updateIngredient: '/ingredient/updateIngredient' // 修改成分
 	},
 	oss: {
 		token: '/file/token' // OSS_token
@@ -290,6 +294,14 @@ export function token() {
 };
 // 店铺管理
 // 获取花型列表
-export const listProducts = param => _fetch(METHODS.post, param, API.shopManagement.listProducts);
+export const getProductList = param => _fetch(METHODS.post, param, API.shopManagement.listProducts);
 // 新增花型
 export const addProducts = param => _fetch(METHODS.post, param, API.shopManagement.addProduct);
+// 获取成分列表
+export const getIngredientsList = param => _fetch(METHODS.get, param, API.shopManagement.listIngredients);
+// 自定义成分
+export const addIngredient = param => _fetch(METHODS.post, param, API.shopManagement.addIngredient);
+// 修改成分
+export const updateIngredient = param => _fetch(METHODS.get, param, API.shopManagement.updateIngredient);
+// 删除成分
+export const deleteIngredient = param => _fetch(METHODS.post, param, API.shopManagement.deleteIngredient);

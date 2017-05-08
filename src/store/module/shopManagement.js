@@ -1,27 +1,39 @@
-import {listProducts} from '@/common/api/api.js';
+import {getProductList, getIngredientsList} from '@/common/api/api.js';
 
 const state = {
   // 花型列表
-  listProducts: []
+  productList: [],
+  // 成分列表
+  ingredientList: []
 };
 
 const mutations = {
-  // 获取花型列表
-  GET_PRODUCT_LIST(state, listProducts) {
-    state.listProducts = listProducts;
+  // 花型列表
+  GET_PRODUCT_LIST(state, list) {
+    state.productList = list;
+  },
+  // 成分列表
+  GET_INGREDIENTS_LIST(state, ingredientList) {
+    state.ingredientList = ingredientList.data;
   }
 };
 const actions = {
-    // 获取花型列表
+  // 获取花型列表
   async getProductList({
     commit
   }, params) {
-    let data = await listProducts(params);
-    commit('GET_PRODUCT_LIST', data.lists);
+    let data = await getProductList(params);
+    commit('GET_PRODUCT_LIST', data.data);
+  },
+  // 获取成分列表
+  async getIngredientsList({commit}) {
+    let data = await getIngredientsList();
+    commit('GET_INGREDIENTS_LIST', data.data);
   }
 };
 const getters = {
-  productList: (state) => state.productList
+  productList: (state) => state.productList,
+  ingredientList: (state) => state.ingredientList
 };
 export default {
   state,

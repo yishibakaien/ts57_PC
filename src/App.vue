@@ -3,16 +3,9 @@
 		<div class="main-wrapper">
 			<models></models>
 			<topbar></topbar>
-			<!-- <v-header></v-header> -->
 
 			<div class="main">
-
-				<!-- <div class="nav-wrapper">
-          <v-nav></v-nav>
-        </div> -->
-
 				<router-view :message="message"></router-view>
-
 			</div>
 		</div>
 		<div class="footer-wrapper">

@@ -11,10 +11,10 @@
         <ts-button type="primary">新增花型</ts-button>
       </router-link>
     </div>
-    <div slot="footer" class="warehouse-footer--button">
+    <div slot="footer" class="warehouse-footer--button" v-if="chooseItem.length>0">
       <ts-button type="primary">上架平台</ts-button>
       <ts-button type="primary">上架店铺</ts-button>
-      <ts-button type="cancel">取消</ts-button>
+      <ts-button type="cancel">删除</ts-button>
     </div>
     <!-- 品种过滤器 -->
     <div class="warehouse-filter">
@@ -35,48 +35,61 @@
       </ts-filter>
     </div>
     <!-- 表格 -->
-    <div class="warehouse-table">
-      <ts-checkbox-group>
+    <div class="warehouse-table" v-for="item in productList.list">
+      <ts-checkbox-group v-model="chooseItem">
       <ts-menu-table>
         <div slot="header-left">
-          <ts-checkbox label="1">温水可保证</ts-checkbox>
+          <ts-checkbox :label="item.id">#{{item.productNo}}&nbsp{{item.category}}</ts-checkbox>
         </div>
         <div slot="header-right">
-          状态：<b>维护中</b>
+          状态：<b>{{item.publishStatus | filterDict(DICT.PublishStatus)}}</b>
         </div>
         <ts-menu-table-item width="310" class="supply-table--avatar">
-          <ts-image width="80" height="80" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1493364654514&di=663dd7b0b318d20351579dba0006c37b&imgtype=0&src=http%3A%2F%2Fcdn.lizhi.fm%2Fradio_cover%2F2014%2F08%2F27%2F13991357699196804.jpg"></ts-image>
+          <ts-image width="80" height="80" :src="item.picsUrl"></ts-image>
         </ts-menu-table-item>
         <ts-menu-table-item>
-          大量提供，价格从优，要的赶紧来买
+          <p>{{item.isStock}}</p>
+          <p>{{item.isStock}}</p>
         </ts-menu-table-item>
         <ts-menu-table-item>
-          供应：2000码
+          <span v-if="item.price.length>0">{{item.price}}元／{{item.stockUnit}}</span>
+          <span v-else></span>
         </ts-menu-table-item>
         <ts-menu-table-item>
-          收藏次数：<span class="supply-table--collect" @click.self="handleCollectDialog">8</span>
+          询价次数：<span class="supply-table--collect" @click.self="handleCollectDialog(item.id)">{{item.enquiryNum}}</span>
         </ts-menu-table-item>
         <ts-menu-table-item>
-          <a class="supply-table--link">关闭</a>
-          <a class="supply-table--link">编辑</a>
+          <a class="warehouse-table--link">上架平台</a>
+          <a class="warehouse-table--link">上架店铺</a>
+          <a class="warehouse-table--link">下架</a>
+          <a class="warehouse-table--link">编辑</a>
+          <a class="warehouse-table--link" v-if="item.publishStatus===0">删除</a>
         </ts-menu-table-item>
       </ts-menu-table>
       </ts-checkbox-group>
     </div>
-    <pre>{{checked}}</pre>
-    <ts-checkbox-group v-model="checked">
-      <ts-checkbox type="circle" label="复选框 A" disabled>2222</ts-checkbox>
-      <ts-checkbox  type="circle" label="复选框 B">22</ts-checkbox>
-      <ts-checkbox label="复选框 AC">123</ts-checkbox>
-  </ts-checkbox-group>
   </ts-section>
 </template>
 
 <script>
-import {mapActions} from 'vuex';
+import {
+  mapActions,
+  mapGetters
+} from 'vuex';
+import DICT from '@/common/dict';
 export default {
   data() {
     return {
+      // 数据字典
+      DICT: {
+        BulkType: DICT.BulkType,
+        Units: DICT.Units,
+        PatternClassfication: DICT.PatternClassfication,
+        PublishStatus: DICT.PublishStatus,
+        isStock: DICT.isStock
+      },
+      // 选择的项目
+      chooseItem: [],
       checked: ['复选框 A'],
       list: [{
         id: 1,
@@ -95,8 +108,21 @@ export default {
       }
     };
   },
+  watch: {
+    chooseItem(val) {
+
+    }
+  },
   created() {
-    this.getProductList();
+    // 获取花型列表
+    this.getProductList({
+      orderBy: 'desc',
+      pageNo: 1,
+      pageSize: 10
+    });
+  },
+  computed: {
+    ...mapGetters(['productList'])
   },
   methods: {
     ...mapActions(['getProductList']),
@@ -116,6 +142,12 @@ export default {
       button{
         margin-right:32px;
       }
+    }
+  }
+  @component table{
+    @modifier link{
+      display: block;
+      text-align: center;
     }
   }
   @component photo{

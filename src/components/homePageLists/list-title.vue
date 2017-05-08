@@ -1,7 +1,7 @@
 <template>
   <div class="list-title">
     <span class="title-name" :style="{color: titleText.color}">{{titleText.title}}</span>
-    <div class="right-nav">
+    <div class="right-nav" @click="goListPage">
       <span class="right-nav-text">{{titleText.extend}}</span>
       <i class="iconfont" :style="{background: titleText.color}">字</i>
     </div>
@@ -13,6 +13,15 @@ export default {
   props: {
     titleText: {
       type: Object
+    }
+  },
+  methods: {
+    goListPage() {
+      let _path = '';
+      _path = '/' + this.titleText.type + 'ListPage';
+      this.$router.push({
+        path: _path
+      });
     }
   }
 };
