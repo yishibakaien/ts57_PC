@@ -1,50 +1,137 @@
 <template>
-<ts-form :model="addSupplyForm" :rules="rules" ref="addSupplyForm" label-width="125px" label-position="left">
-  <ts-form-item label="花型分类：" prop="category">
-    <ts-radio-group bordered v-model="addSupplyForm.category">
-      <ts-radio :label="item.value" v-for="item in DICT.PatternClassfication" :key="item.value">{{item.label}}</ts-radio>
-    </ts-radio-group>
-  </ts-form-item>
-  <ts-form-item label="大货类型：" prop="supplyShapes">
-    <ts-radio-group bordered v-model="addSupplyForm.supplyShapes">
-      <ts-radio origin :label="item.value" :key="item.value" v-for="item in DICT.BulkType">{{item.label}}</ts-radio>
-    </ts-radio-group>
-  </ts-form-item>
-  <ts-form-item label="供应数量：" prop="supplyNum">
-    <ts-input v-model="addSupplyForm.supplyNum" style="width:320px"></ts-input>
-    <ts-select style="width:12%" data-key-name="label" data-val-name="value"  :options='DICT.Units' v-model="addSupplyForm.stockUnit"></ts-select>
-  </ts-form-item>
-  <ts-form-item label="花型图片：" prop="picsUrl">
-    <ts-image width="200" height="200" :src="Pic.src" v-show='Pic.show'></ts-image>
-    <label class="add-upload-button">
-          {{Pic.text}}
-          <aliUpload id="addPic" @doUpload="uploadImg"></aliUpload>
+<ts-section :pageTitle="title">
+  <ts-form :model="addSupplyForm" :rules="rules" ref="addSupplyForm" label-width="125px" label-position="left">
+    <ts-form-item label="花型分类：" prop="supplyType">
+      <ts-radio-group bordered v-model="addSupplyForm.supplyType">
+        <ts-radio :label="item.value" v-for="item in DICT.SupplyType" :key="item.value">{{item.label}}</ts-radio>
+      </ts-radio-group>
+    </ts-form-item>
+    <ts-form-item label="大货类型：" prop="supplyShape">
+      <ts-radio-group bordered v-model="addSupplyForm.supplyShape">
+        <ts-radio origin :label="item.value" :key="item.value" v-for="item in DICT.SupplyShapes">{{item.label}}</ts-radio>
+      </ts-radio-group>
+    </ts-form-item>
+    <ts-form-item label="供应数量：" prop="supplyNum">
+      <ts-input v-model="addSupplyForm.supplyNum" style="width:320px"></ts-input>
+      <ts-select style="width:12%" data-key-name="label" data-val-name="value" :options='DICT.StockUnits' v-model="addSupplyForm.supplyUnit"></ts-select>
+    </ts-form-item>
+    <ts-form-item label="花型图片：" prop="productPicUrl">
+      <ts-image width="200" height="200" v-model="addSupplyForm.productPicUrl" v-show='Pic.show' type="local"></ts-image>
+      <label class="add-upload-button">
+              {{Pic.text}}
+              <aliUpload id="addPic" @doUpload="uploadImg"></aliUpload>
         </label>
-    <span class="add-upload-button" @click="Pic.src=''" v-show='Pic.show'>删除图片</span>
-  </ts-form-item>
-  <ts-form-item label="供应数量：" prop="productNo">
-    <ts-input type="textarea" v-model="addSupplyForm.supplyDesc" placeholder="请输入供应说明"></ts-input>
-  </ts-form-item>
-</ts-form>
+    </ts-form-item>
+    <ts-form-item label="供应说明：" prop="supplyDesc">
+      <ts-input type="textarea" :rows="4" v-model="addSupplyForm.supplyDesc" placeholder="请输入供应说明"></ts-input>
+    </ts-form-item>
+  </ts-form>
+  <div slot="footer">
+    <ts-button type="primary" class="add-bottom-button" @click="submitForm('addSupplyForm')">{{title}}</ts-button>
+    <ts-button type="cancel" @click="$router.go(-1)">取消</ts-button>
+  </div>
+</ts-section>
 </template>
 
 <script>
 import DICT from '@/common/dict';
+import {
+  aliUpload
+} from '@/components';
+import {
+  releaseCompanySupply
+} from '@/common/api/api';
 export default {
   data() {
     return {
       // 数据字典
       DICT: {
-        BulkType: DICT.BulkType,
-        Units: DICT.Units,
-        PatternClassfication: DICT.PatternClassfication,
+        SupplyShapes: DICT.SupplyShapes,
+        StockUnits: DICT.StockUnits,
+        SupplyType: DICT.SupplyType,
         PublishStatus: DICT.PublishStatus,
         isStock: DICT.isStock
       },
-      addPatternForm: {
-        category: ''
+      rules: {
+        supplyType: [{
+          required: true,
+          message: '请选择花边分类'
+        }],
+        supplyNum: [{
+          required: true,
+          pattern: /^[0-9]*$/,
+          message: '请选择正确的供应数量'
+        }],
+        supplyShape: [{
+          required: true,
+          message: '请选择大货类型'
+        }],
+        supplyDesc: [{
+          required: true,
+          message: '请输入供应说明'
+        }],
+        productPicUrl: [{
+          required: true,
+          trigger: 'change',
+          message: '请上传花型图片'
+        }]
+      },
+      Pic: {
+        show: false,
+        text: '添加图片'
+      },
+      addSupplyForm: {
+        supplyType: '',
+        supplyUnit: '',
+        supplyShape: '',
+        supplyNum: '',
+        supplyDesc: '',
+        productPicUrl: ''
       }
     };
+  },
+  watch: {
+    'addSupplyForm.productPicUrl' (val) {
+      this.Pic.text = val ? '修改图片' : '添加图片';
+      this.Pic.show = !!val;
+    }
+  },
+  async created() {
+    // 默认选择公斤
+    this.addSupplyForm.supplyUnit = 400011;
+    // TODO:编辑页面 => 后台并没有提供接口
+    // if (this.$route.query.id) {
+    //   let data = await getCompanySupply(this.$route.query.id);
+    //   this.addSupplyForm = data.data.data;
+    // }
+  },
+  components: {
+    aliUpload
+  },
+  computed: {
+    title() {
+      return this.$route.query.id ? '修改供应' : '发布供应';
+    }
+  },
+  methods: {
+    // 上传图片
+    uploadImg(e) {
+      // 显示Base64
+      // this.Pic.src = e.base64Url[e.base64Url.length - 1];
+      // 放到表单
+      this.addSupplyForm.productPicUrl = e.ossUrl[e.ossUrl.length - 1];
+    },
+    // 提交表单
+    submitForm(formName) {
+      this.$refs[formName].validate(async(valid) => {
+        if (valid) {
+          await releaseCompanySupply(this.addSupplyForm);
+          await this.$router.go(-1);
+        } else {
+          return false;
+        }
+      });
+    }
   }
 };
 </script>

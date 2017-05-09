@@ -4,45 +4,41 @@
       <ts-button :type="Edit.status?'cancel':'primary'" :class="Edit.status?'':'button-blue'" @click="Edit.status=!Edit.status">{{Edit.text}}</ts-button>
     </div>
     <!-- checkbox-group控制 -->
-    <ts-checkbox-group v-model="Image.list">
-      <div class="material-img" v-for="item in imgList">
+    <ts-checkbox-group v-model="chooseImg.list">
+      <div class="material-img" v-for="item in albumPicsList.list">
+        <!-- 多选  -->
         <ts-checkbox v-show="Edit.status" :label="item.id" class="material-img-checkbox">{{item.text}}</ts-checkbox>
-        <ts-image :src="item.url" width="160" height="160" :key="item.id"></ts-image>
-        <span class="material-img-tip" v-show="!Edit.status">
+        <!-- 图片 -->
+        <ts-image type="local" v-model="item.photoUrl" width="160" height="160" :key="item.id"></ts-image>
+        <!-- “入仓”提示 -->
+        <router-link :to="{path:'addwarehouse',query:{url:item.photoUrl}}" tag="span" class="material-img-tip" v-show="!Edit.status">
             入仓
-        </span>
+        </router-link>
       </div>
     </ts-checkbox-group>
     <div slot="footer">
-      <ts-button type="primary" :disabled="Image.status" v-if="Edit.status">删除</ts-button>
+      <ts-button type="primary" :disabled="chooseImg.status" v-if="Edit.status" @click="handleDelAlbumPic">删除</ts-button>
     </div>
   </ts-section>
 </template>
 
 <script>
+import {
+  getAlbumPicsList,
+  deleteAlbumPic
+} from '@/common/api/api';
 export default {
   data() {
     return {
-      ruleForm: {
-        name: '',
-        age: ''
-      },
-      rules: {
-        name: [{
-            required: true,
-            message: '请输入活动名称',
-            trigger: 'blur'
-          },
-          {
-            min: 3,
-            max: 5,
-            message: '长度在 3 到 5 个字符',
-            trigger: 'blur'
-          }
-        ]
+      albumPicsList: {},
+      // 传的参数
+      Params: {
+        pageNo: '1',
+        pageSize: '10',
+        albumId: ''
       },
       // 图片的操作
-      Image: {
+      chooseImg: {
         list: [], // 选中的图片
         status: false // 能否删除的状态
       },
@@ -50,17 +46,7 @@ export default {
       Edit: {
         text: '编辑',
         status: false
-      },
-      // 是否编辑状态
-      imgList: [{
-        id: 12,
-        text: '',
-        url: 'static/images/modles/modle1_all.png'
-      }, {
-        id: 1211,
-        text: '',
-        url: 'static/images/modles/modle1_back.png'
-      }]
+      }
     };
   },
   watch: {
@@ -70,14 +56,23 @@ export default {
       },
       deep: true
     },
-    Image: {
+    chooseImg: {
       handler(val) {
         val.status = val.list.length <= 0;
       },
       deep: true
     }
   },
+  async created() {
+    this.albumPicsList = (await getAlbumPicsList(this.Params)).data;
+  },
   methods: {
+    async handleDelAlbumPic() {
+      await deleteAlbumPic({
+        ids: this.chooseImg.list.join(',')
+      });
+      this.albumPicsList = (await getAlbumPicsList(this.Params)).data;
+    }
   }
 };
 </script>
