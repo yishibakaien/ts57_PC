@@ -31,7 +31,7 @@
 
     <div class="supply-table" v-for="item in companySupplyList.list">
       <ts-checkbox-group v-model="chooseItem">
-        <ts-menu-table>
+        <ts-menu-table :prop="companySupplyList.list">
           <div slot="header-left">
             <ts-checkbox :label="item.id">面料-{{item.supplyType | filterDict(DICT.SupplyType)}}</ts-checkbox>
           </div>

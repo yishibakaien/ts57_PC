@@ -51,4 +51,5 @@
 <style lang="scss">
 @import url("http://at.alicdn.com/t/font_8edxesol4ympwrk9.css");
 @import './common/css/1px.scss';
+@reset-global pc;
 </style>

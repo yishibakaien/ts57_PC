@@ -1,21 +1,22 @@
 <template>
-  <div class="ts-menuTable">
-    <!-- 头部 -->
-    <div class="ts-menuTable-header">
-      <slot name="header-left">
-      </slot>
-      <div class="ts-menuTable-header--right">
-        <slot name="header-right"></slot>
-      </div>
-    </div>
-    <div class="ts-menuTable-content">
-      <slot></slot>
+<div class="ts-menuTable">
+  <!-- 头部 -->
+  <div class="ts-menuTable-header">
+    <slot name="header-left">
+    </slot>
+    <div class="ts-menuTable-header--right">
+      <slot name="header-right"></slot>
     </div>
   </div>
+  <div class="ts-menuTable-content">
+    <slot></slot>
+  </div>
+</div>
 </template>
 
 <script>
 export default {
+  props: ['prop']
 };
 </script>
 
