@@ -142,7 +142,7 @@ export default {
     display: inline-block;
     width: 100%;
     cursor: pointer;
-    vertical-align: middle;
+    /*vertical-align: middle;*/
     @descendent toggle{
       border: 1px solid #cfcfcf;
       min-height: 32px;

@@ -1,6 +1,5 @@
 <template lang="html">
   <ts-section :pageTitle="title">
-    <pre>{{addPatternForm}}</pre>
     <ts-form :model="addPatternForm" :rules="rules"  ref="addPatternForm" label-width="125px" label-position="left">
       <ts-form-item label="花型编号：" prop="productNo">
         <ts-input v-model="addPatternForm.productNo" style="width:320px" placeholder="请输入花型编号"></ts-input>

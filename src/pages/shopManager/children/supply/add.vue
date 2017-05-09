@@ -6,8 +6,8 @@
         <ts-radio :label="item.value" v-for="item in DICT.SupplyType" :key="item.value">{{item.label}}</ts-radio>
       </ts-radio-group>
     </ts-form-item>
-    <ts-form-item label="大货类型：" prop="supplyShape">
-      <ts-radio-group bordered v-model="addSupplyForm.supplyShape">
+    <ts-form-item label="大货类型：" prop="supplyShapes">
+      <ts-radio-group bordered v-model="addSupplyForm.supplyShapes">
         <ts-radio origin :label="item.value" :key="item.value" v-for="item in DICT.SupplyShapes">{{item.label}}</ts-radio>
       </ts-radio-group>
     </ts-form-item>
@@ -62,7 +62,7 @@ export default {
           pattern: /^[0-9]*$/,
           message: '请选择正确的供应数量'
         }],
-        supplyShape: [{
+        supplyShapes: [{
           required: true,
           message: '请选择大货类型'
         }],
@@ -83,7 +83,7 @@ export default {
       addSupplyForm: {
         supplyType: '',
         supplyUnit: '',
-        supplyShape: '',
+        supplyShapes: '',
         supplyNum: '',
         supplyDesc: '',
         productPicUrl: ''
@@ -94,6 +94,12 @@ export default {
     'addSupplyForm.productPicUrl' (val) {
       this.Pic.text = val ? '修改图片' : '添加图片';
       this.Pic.show = !!val;
+    },
+    addSupplyForm: {
+      handler(val) {
+        val.supplyNum = Number(val.supplyNum);
+      },
+      deep: true
     }
   },
   async created() {

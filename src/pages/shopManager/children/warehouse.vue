@@ -7,7 +7,7 @@
         <ts-button slot="append" size="small" @click.capture="handleSearch">O</ts-button>
       </ts-input>
       <ts-button type="warning" class="warehouse-photo--search">
-        O
+        <span class="icon-xiangji"></span>
       </ts-button>
       <router-link to="addwarehouse" exact>
         <ts-button type="primary">新增花型</ts-button>

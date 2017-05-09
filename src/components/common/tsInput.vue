@@ -95,6 +95,7 @@ export default {
     position: relative;
     display: inline-table;
     width: 100%;
+    vertical-align: middle;
     margin:2px 0;
     @modifier inner{
       appearance: none;

@@ -107,9 +107,6 @@ export default {
       & + .ts-radio--origin{
         margin-left: 20px;
       }
-      input{
-        vertical-align: top;
-      }
     }
     @when active{
       color:var(--radioColor);

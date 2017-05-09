@@ -12,6 +12,7 @@
         <ts-image type="local" v-model="item.photoUrl" width="160" height="160" :key="item.id"></ts-image>
         <!-- “入仓”提示 -->
         <router-link :to="{path:'addwarehouse',query:{url:item.photoUrl}}" tag="span" class="material-img-tip" v-show="!Edit.status">
+          <i class="logo icon-dangkou"></i>
             入仓
         </router-link>
       </div>

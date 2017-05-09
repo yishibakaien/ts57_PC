@@ -54,10 +54,8 @@ export default {
         background #3385ff
 </style>
 <style lang="scss">
-// 字体图标
-@import url("http://at.alicdn.com/t/font_8edxesol4ympwrk9.css");
+@import './common/css/font.css';
+@import 'static/css/pc_reset.css';
 // 1px结局
 @import './common/css/1px.scss';
-// reset
-@reset-global pc;
 </style>
