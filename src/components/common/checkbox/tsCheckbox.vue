@@ -24,6 +24,7 @@
         <template v-if="!$slots.default">{{label}}</template>
       </span>
   </label>
+  
 </template>
 <script>
 import Emitter from '@/common/js/mixins/emitter';

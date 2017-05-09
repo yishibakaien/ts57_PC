@@ -1,16 +1,25 @@
 <template lang="html">
   <div @mouseover="isSHow=true" @mouseout="isSHow=false" class="ts-image" :style="{width:width+'px',height:height+'px'}" @click="handleImg">
-    <img :src="type==='local'?src:domain+src"  class="ts-image-img">
+    <img :src="type==='local'?value:domain+value"  class="ts-image-img">
   </div>
 </template>
 
 <script>
-import {ALI_DOMAIN} from '@/common/dict/const';
+import emitter from '@/common/js/mixins/emitter';
+import {
+  ALI_DOMAIN
+} from '@/common/dict/const';
 export default {
   data() {
     return {
       domain: ALI_DOMAIN
     };
+  },
+  mixins: [emitter],
+  watch: {
+    value(val) {
+      this.dispatch('tsFormItem', 'ts.form.change', [val]);
+    }
   },
   // src--图片SRC
   // width/height--图片宽高
@@ -26,15 +35,13 @@ export default {
         ].indexOf(value) > -1;
       }
     },
-    src: {
-      type: String
+    src: String,
+    value: {
+      type: String,
+      default: null
     },
-    height: {
-      type: String
-    },
-    width: {
-      type: String
-    }
+    height: String,
+    width: String
   },
   methods: {
     handleImg() {

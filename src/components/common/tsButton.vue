@@ -66,7 +66,7 @@ export default {
     text-align: center;
     min-width:var(--button-width);
     &::after {
-      background-color: #000;
+      background-color: var(--buton-active-bg);
       content: " ";
       opacity: 0;
       position: absolute 0 0 0 0;
@@ -120,7 +120,8 @@ export default {
       display: inline-block;
       font-size: 12px;
       padding: 0 12px;
-      height: 25px;
+      height: 32px;
+      min-width: 32px;
     }
     @when disabled {
       opacity: .6;

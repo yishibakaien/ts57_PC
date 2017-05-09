@@ -1,22 +1,22 @@
 <template lang="html">
-  <ts-section>
+  <ts-section :pageTitle="title">
     <pre>{{addPatternForm}}</pre>
     <ts-form :model="addPatternForm" :rules="rules"  ref="addPatternForm" label-width="125px" label-position="left">
       <ts-form-item label="花型编号：" prop="productNo">
-        <ts-input v-model="addPatternForm.productNo" style="width:320px"></ts-input>
+        <ts-input v-model="addPatternForm.productNo" style="width:320px" placeholder="请输入花型编号"></ts-input>
         <!-- TODO：雨嘉说隐藏 -->
         <!-- <ts-button type="text">点击自动生成编号</ts-button> -->
       </ts-form-item>
       <ts-form-item label="花型分类：" prop="category">
         <ts-radio-group bordered v-model="addPatternForm.category">
-          <ts-radio :label="item.value" v-for="item in DICT.PatternClassfication" :key="item.value">{{item.label}}</ts-radio>
+          <ts-radio :label="item.value" v-for="item in DICT.SupplyType" :key="item.label">{{item.label}}</ts-radio>
         </ts-radio-group>
       </ts-form-item>
       <ts-form-item label="花型成分：" prop="ingredient">
         <ts-radio-group bordered v-model="addPatternForm.ingredient">
           <!-- 原有的成分 -->
           <!-- 成分类型ingredientType为1才可以修改／删除 -->
-          <div class="add-radio" v-for="item in ingredientList">
+          <div class="add-radio" :key="item.id" v-for="item in ingredientList">
             <ts-radio :label="item.id.toString()" :key="item.id">
               <span
                 :contenteditable="item.ingredientType=== 1"
@@ -28,7 +28,7 @@
             <i class="add-radio-close" @click.self="handleDelIngredient(item)" v-if="item.ingredientType=== 1">&times</i>
           </div>
           <!-- 新增的成分 -->
-          <div class="add-radio" v-for="(item,index) in newIngredients">
+          <div class="add-radio" :key="item.ingredientName" v-for="(item,index) in newIngredients">
           <ts-radio :label="item.ingredientName" :key="item.ingredientName" >
             <span
               contenteditable="plaintext-only"
@@ -42,15 +42,19 @@
           <ts-input :validateEvent="false" placeholder="自定义成分" @keyup.enter.native="handleAddIngredient" class="add-input"></ts-input>
         </ts-radio-group>
       </ts-form-item>
-      <ts-form-item label="大货类型：" prop="supplyShape">
-        <ts-radio-group bordered v-model="addPatternForm.supplyShape">
-          <ts-radio origin :label="item.value" :key="item.value" v-for="item in DICT.BulkType">{{item.label}}</ts-radio>
+      <ts-form-item label="大货类型：" prop="productShape">
+        <ts-radio-group bordered v-model="addPatternForm.productShape">
+          <ts-radio origin :label="item.value" :key="item.value" v-for="item in DICT.SupplyShapes">{{item.label}}</ts-radio>
         </ts-radio-group>
       </ts-form-item>
-    <ts-form-item label="库存：" prop="isStock">
-      <ts-radio-group v-model="addPatternForm.isStock">
-        <ts-radio :label="item.value" :key="item.value" v-for="item in DICT.isStock" type="origin">{{item.label}}</ts-radio>
+    <ts-form-item label="库存：" prop="isStock" class="add-dynamic">
+      <ts-radio-group v-model="addPatternForm.isStock" class="add-dynamic--radioGroup">
+        <ts-radio :label="item.value" :key="item.label" v-for="item in DICT.isStock" type="origin">{{item.label}}</ts-radio>
       </ts-radio-group>
+      <ts-form-item prop="stock" labelWidth="0" v-if="addPatternForm.isStock===1" class="add-dynamic--input">
+          <ts-input v-model="addPatternForm.stock" style="width:150px" placeholder="请输入库存数量"></ts-input>
+          <ts-select style="width:20%" data-key-name="label" data-val-name="value" placeholder="选择单位" :options='DICT.StockUnits' v-model="addPatternForm.stockUnit"></ts-select>
+      </ts-form-item>
     </ts-form-item>
       <ts-form-item label="上架至：" prop="publishStatus">
         <ts-radio-group bordered v-model="addPatternForm.publishStatus">
@@ -58,18 +62,17 @@
         </ts-radio-group>
       </ts-form-item>
       <!-- TODO:花型图片 -->
-      <ts-form-item label="花型图片：">
-        <ts-image width="200" height="200" :src="Pic.src" v-show="Pic.show"></ts-image>
+      <ts-form-item label="花型图片：" prop="picsUrl">
+        <ts-image width="200" height="200" v-model="addPatternForm.picsUrl" type="local" v-show="Pic.show"></ts-image>
           <label class="add-upload-button">
             {{Pic.text}}
             <aliUpload id="addPic" @doUpload="uploadImg"></aliUpload>
           </label>
-          <span class="add-upload-button"@click="Pic.src=''" v-show='Pic.show'>删除图片</span>
       </ts-form-item>
-    <p class="list-title">选填内容</p>
+    <p class="add-list-title">选填内容</p>
     <ts-form-item label="价格：" prop="price">
-      <ts-input v-model="addPatternForm.price" style="width:320px"></ts-input>
-      <ts-select style="width:12%" data-key-name="label" data-val-name="value" placeholder="选择单位" :options='DICT.Units' v-model="addPatternForm.stockUnit" ></ts-select>
+      <ts-input v-model="addPatternForm.price" style="width:320px" placeholder="请输入单价"></ts-input>
+      <ts-select style="width:12%" data-key-name="label" data-val-name="value" placeholder="选择单位" :options='DICT.PriceUnits' v-model="addPatternForm.priceUnit" ></ts-select>
     </ts-form-item>
     <ts-form-item label="幅宽：" prop="width">
       <ts-input v-model="addPatternForm.width" style="width:320px" placeholder="请输入幅宽"></ts-input>
@@ -81,8 +84,8 @@
       <ts-input v-model="addPatternForm.outRate" style="width:320px" placeholder="请输入出码率"></ts-input>
     </ts-form-item>
     </ts-form>
-    <ts-button type="primary" class="bottom-button-margin" @click="submitForm('addPatternForm')">新增</ts-button>
-    <ts-button type="cancel" @click="submitForm('addPatternForm')">取消</ts-button>
+    <ts-button type="primary" class="add-bottom-button" @click="submitForm('addPatternForm')">{{title}}</ts-button>
+    <ts-button type="cancel" @click="$router.go(-1)">取消</ts-button>
   </ts-section>
 </template>
 
@@ -92,90 +95,85 @@ import {
 } from '@/components';
 import {
   addProducts,
+  // getProduct,
+  getIngredientsList,
   // updateIngredient,
+  updateProducts,
   addIngredient,
   deleteIngredient
 } from '@/common/api/api';
 import DICT from '@/common/dict';
 import Emitter from '@/common/js/mixins/emitter';
-import {
-  mapActions,
-  mapGetters
-} from 'vuex';
 export default {
   data() {
     return {
       // 数据字典
       DICT: {
-        BulkType: DICT.BulkType,
-        Units: DICT.Units,
-        PatternClassfication: DICT.PatternClassfication,
+        SupplyShapes: DICT.SupplyShapes,
+        PriceUnits: DICT.PriceUnits,
+        StockUnits: DICT.StockUnits,
+        SupplyType: DICT.SupplyType,
         PublishStatus: DICT.PublishStatus,
         isStock: DICT.isStock
       },
       rules: {
         price: [{
           pattern: /^[-+]?\d*[.]?\d{0,9}$/,
-          message: '请输入正确的价格',
-          trigger: 'blur'
+          message: '请输入正确的价格'
         }],
         productNo: [{
           pattern: /^[0-9a-zA-Z]*$/,
           required: true,
-          message: '请输入正确的花型编号',
-          trigger: 'blur'
+          message: '请输入正确的花型编号'
         }],
         category: [{
           required: true,
-          message: '请至少选择一个花型分类',
-          trigger: 'change'
+          message: '请至少选择一个花型分类'
         }],
         ingredient: [{
           required: true,
-          message: '请至少选择一个花型成分',
-          trigger: 'change'
+          message: '请至少选择一个花型成分'
         }],
         publishStatus: [{
           required: true,
-          message: '请至少选择一个上架情况',
-          trigger: 'change'
+          message: '请至少选择一个上架情况'
         }],
         isStock: [{
           required: true,
-          message: '请选择库存情况',
-          trigger: 'change'
+          message: '请选择库存情况'
         }],
-        supplyShape: [{
+        productShape: [{
           required: true,
-          message: '请至少选择一个大货类型',
-          trigger: 'change'
+          message: '请至少选择一个大货类型'
         }],
         width: [{
           pattern: /^[-+]?\d*[.]?\d{0,9}$/,
-          message: '请输入正确的幅宽',
-          trigger: 'blur'
+          message: '请输入正确的幅宽'
+        }],
+        stock: [{
+          pattern: /^[-+]?\d*[.]?\d{0,9}$/,
+          message: '请输入正确的库存数量',
+          required: true
         }],
         height: [{
           pattern: /^[-+]?\d*[.]?\d{0,9}$/,
-          message: '请输入正确的花高',
-          trigger: 'blur'
+          message: '请输入正确的花高'
         }],
-        // picsUrl: [{
-        //   required: true,
-        //   message: '请上传一张花型图片',
-        //   trigger: 'change'
-        // }],
+        picsUrl: [{
+          required: true,
+          message: '请上传一张花型图片',
+          trigger: 'change'
+        }],
         outRate: [{
           pattern: /^[-+]?\d*[.]?\d{0,9}$/,
-          message: '请输入正确的出码率',
-          trigger: 'blur'
+          message: '请输入正确的出码率'
         }]
       },
       Pic: {
-        src: '',
         show: false,
         text: '添加图片'
       },
+      ingredientList: [],
       newIngredients: [],
       // 表单
       addPatternForm: {
@@ -192,33 +190,26 @@ export default {
         stock: '',
         stockUnit: '',
         width: '',
-        supplyShape: ''
+        productShape: ''
       }
     };
   },
   components: {
     aliUpload
   },
-  computed: {
-    ...mapGetters(['ingredientList']),
-    picShow() {
-      return this.Pic.src.length > 0;
+  watch: {
+    'addPatternForm.picsUrl' (val) {
+      this.Pic.text = val ? '修改图片' : '添加图片';
+      this.Pic.show = !!val;
     }
   },
-  watch: {
-    Pic: {
-      handler(val) {
-        val.text = val.src.length > 0 ? '更换图片' : '添加图片';
-        val.show = val.src.length > 0;
-        this.$emit('change', this.Pic.src);
-        this.dispatch('tsFormItem', 'ts.form.change', [this.Pic.src]);
-      },
-      deep: true
+  computed: {
+    title() {
+      return this.$route.query.id ? '修改花型' : '新增花型';
     }
   },
   mixins: [Emitter],
   methods: {
-    ...mapActions(['getIngredientsList']),
     handleInputIngredient(e) {
       console.log(e);
     },
@@ -234,8 +225,6 @@ export default {
     },
     // 上传图片
     uploadImg(e) {
-      // 显示Base64
-      this.Pic.src = e.base64Url[e.base64Url.length - 1];
       // 放到表单
       this.addPatternForm.picsUrl = e.ossUrl[e.ossUrl.length - 1];
     },
@@ -260,7 +249,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(async(valid) => {
         if (valid) {
-          await addProducts(this.addPatternForm);
+          this.$route.query.id ? await updateProducts(this.addPatternForm) : await addProducts(this.addPatternForm);
           await this.$router.go(-1);
         } else {
           return false;
@@ -268,8 +257,22 @@ export default {
       });
     }
   },
-  created() {
-    this.getIngredientsList();
+  async created() {
+    this.ingredientList = (await getIngredientsList()).data.data;
+    // 默认会选中第一个值
+    this.addPatternForm = Object.assign({}, this.addPatternForm, {
+      stockUnit: DICT.StockUnits[2].value,
+      priceUnit: DICT.PriceUnits[2].value
+    });
+    // 编辑页面
+    // if (this.$route.query.id) {
+    //   let data = await getProduct(this.$route.query.id);
+    //   this.addPatternForm = data.data.data;
+    // }
+    // // 从素材库进来
+    // if (this.$route.query.url) {
+    //   this.addPatternForm.picsUrl = this.$route.query.url;
+    // }
   }
 };
 </script>
@@ -282,20 +285,37 @@ export default {
   --add-radio-close-size: 16px;
 }
 
-
-
-
-
-/*添加图片按钮*/
-
 @component-namespace add {
   @component input {
     width: 15%;
     display: inline-block;
+    margin-top: 15px;
+  }
+  @component dynamic {
+    @modifier input {
+      display: inline-block;
+      width: 50%;
+      margin: 0 0 0 10px;
+    }
+    @modifier radioGroup {
+      display: inline-block;
+    }
+  }
+  @component list-title {
+    height: 56px;
+    line-height: 56px;
+    background: #F8F8F8;
+    color: #666666;
+    margin: 40px 0;
+    padding-left: 10px;
   }
   @component radio {
     display: inline-block;
     position: relative;
+    margin-top: 10px;
+    &+label {
+      margin-left: 20px;
+    }
     @descendent close {
       position: absolute -8px * * -8px;
       border-radius: 50%;
@@ -312,6 +332,11 @@ export default {
       }
     }
   }
+  @component bottom {
+    @descendent button {
+      margin-right: 24px;
+    }
+  }
   @component upload {
     @descendent button {
       color: #4C93FD;
@@ -324,84 +349,6 @@ export default {
         color: #105bca;
       }
     }
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*选填内容的标题样式*/
-
-.list-title {
-  height: 56px;
-  line-height: 56px;
-  background: #F8F8F8;
-  color: #666666;
-  margin: 40px 0;
-  padding-left: 10px;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*底部按钮*/
-
-.bottom-button-margin {
-  margin-right: 24px;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*库存的单选按钮*/
-
-.add-radio {
-  margin-top: 10px;
-  display: inline-block;
-  &+label {
-    margin-left: 20px;
   }
 }
 </style>

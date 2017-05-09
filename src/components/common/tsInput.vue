@@ -1,7 +1,7 @@
 <template>
 <div :class="[type === 'textarea' ? 'ts-textarea' : 'ts-input',{'is-disabled': disabled}]">
   <!-- input -->
-  <input class="ts-input--inner" :placeholder="placeholder" :disabled="disabled" :readonly="readonly" :maxlength="maxlength" :minlength="minlength" :autocomplete="autoComplete" :autofocus="autofocus"
+  <input v-if="type !== 'textarea'" class="ts-input--inner" :placeholder="placeholder" :disabled="disabled" :readonly="readonly" :maxlength="maxlength" :minlength="minlength" :autocomplete="autoComplete" :autofocus="autofocus"
     :min="min" :max="max" :step="step" :value="currentValue" ref="input" @input="handleInput" @focus="handleFocus" @blur="handleBlur" :class="{'is-validateEvent':validateEvent}">
     <div class="ts-input--append" v-if="$slots.append">
        <slot name="append"></slot>
@@ -127,7 +127,6 @@ export default {
       position: relative;
       border: var(--input-border);
       border-left: none;
-      padding: 0 10px;
       width: 1%;
       white-space: nowrap;
       cursor: pointer;
@@ -160,7 +159,6 @@ export default {
         background-color: var(--input-fill);
         background-image: none;
         border: var(--input-border);
-        border-radius: var(--input-border-radius);
         transition: var(--border-transition-base);
         &::placeholder {
           color: var(--input-placeholder-color);

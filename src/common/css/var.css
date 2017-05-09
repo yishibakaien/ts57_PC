@@ -30,10 +30,9 @@
   --dialogConfirmButton: #4C93FD;
   /*Input*/
   --input-border: 1px solid #D1D1D1;
-  --input-border-radius: 2px;
   --input-fill: #fff;
   --input-color: #666666;
-  --input-height: 32px;
+  --input-height: 34px;
   --border-transition-base: border-color .2s cubic-bezier(.645, .045, .355, 1);
   --input-placeholder-color: #b0b0b0;
   --input-hover-border: #b0b0b0;
@@ -61,4 +60,5 @@
   --button-height:32px;
   --button-width:80px;
   --button-border-background:#b8bbbf;
+  --buton-active-bg:rgba(155,155,155,0.5);
 }

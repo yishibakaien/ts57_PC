@@ -10,10 +10,14 @@
       value: '1'
     }
   ], */
-export const filterDict = (val, $arr) => {
-  if (!val && val.length === 0) {
-    return val;
+export const filterDict = (val, $arr, label = 'label') => {
+  try {
+    if (!val && val.length === 0) {
+      return val;
+    }
+    let filter = $arr.filter(item => item.value.toString() === val.toString());
+    return filter[0][label];
+  } catch (e) {
+    console.log(e);
   }
-  let filter = $arr.filter(item => item.value.toString() === val.toString());
-  return filter[0].label;
 };

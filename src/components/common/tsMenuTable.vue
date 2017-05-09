@@ -24,6 +24,7 @@ export default {
 @component-namespace ts{
   @component menuTable{
     border: var(--menuTableHeaderBorder);
+    margin-bottom: 16px;
     @descendent header{
       padding:0 10px;
       background: var(--menuTableHeaderBg);

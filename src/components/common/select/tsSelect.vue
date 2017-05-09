@@ -1,42 +1,35 @@
 <template>
-  <div v-click-outside="clickedOutside" class="ts-select">
-    <div @click="toggleDropdown" class="ts-select-toggle" :class="{'is-open':open, 'is-disabled':disabled}">{{selected}}
-    </div>
-    <transition name="ts-select-fade">
+<div v-click-outside="clickedOutside" class="ts-select">
+  <div @click="toggleDropdown" class="ts-select-toggle" :class="{'is-open':open, 'is-disabled':disabled}">{{selected}}
+  </div>
+  <transition name="ts-select-fade">
     <ul v-if="open">
       <li v-for="item in parsedDataList" @click="setVal(item)" :class="{'is-selected':selected == item.name}">{{item.name}}</li>
     </ul>
-    </transition>
-  </div>
+  </transition>
+</div>
 </template>
 <script>
-  export default {
-    props: ['options', 'dataDefault', 'dataKeyName', 'dataValName', 'disabled', 'value'],
-    data () {
-      return {
-        // 选中
-        selected: '',
-        optionName: 'name',
-        // option的id
-        optionId: 'id',
-        // 是否打开
-        open: false,
-        // 从options复制过来的
-        parsedDataList: []
-      };
-    },
-    mounted () {
-      // set key & value name for options
-      if (this.dataKeyName && this.dataValName) {
-        // 比如设置： data-key-name="label" data-val-name="id"
-        this.optionName = this.dataKeyName;
-        this.optionId = this.dataValName;
-      }
-      // 设置数据
-      this.parseData(this.options);
-      if (this.value) {
+export default {
+  props: ['options', 'dataDefault', 'dataKeyName', 'dataValName', 'disabled', 'value'],
+  data() {
+    return {
+      // 选中
+      selected: '',
+      optionName: 'name',
+      // option的id
+      optionId: 'id',
+      // 是否打开
+      open: false,
+      // 从options复制过来的
+      parsedDataList: []
+    };
+  },
+  watch: {
+    value(val) {
+      if (val) {
         try {
-          let data = this.parsedDataList.filter(item => item.id === this.value);
+          let data = this.parsedDataList.filter(item => item.id.toString() === this.value.toString());
           this.updateValue(data[0]);
         } catch (e) {
           console.log(e);
@@ -45,79 +38,101 @@
         this.updateValue('');
         this.selected = this.dataDefault || ' ';
       }
-    },
-    methods: {
-      // 设置值
-      setVal (val) {
-        if (!this.disabled) {
-          // 更新
-          this.updateValue(val);
-          // 关闭
-          this.toggleDropdown();
-        }
-      },
-      // 更新数据
-      updateValue (data) {
-        this.selected = data.name;
-        this.$emit('input', data.id);
-      },
-      // toggle显示
-      toggleDropdown () {
-        if (!this.disabled) {
-          this.open = !this.open;
-        }
-      },
-      // 复制
-      parseData (dataList) {
-        // 如果-
-        if (dataList.length === 0) {
-          return;
-        } else {
-          var retDataList = [];
-          for (var index in Object.keys(dataList)) {
-            var item = dataList[index];
-            var key = this.optionName;
-            var val = this.optionId;
-            retDataList.push({
-              name: item[key],
-              id: item[val]
-            });
-          }
-          this.parsedDataList = retDataList;
-        }
-      },
-      // 点击外部
-      clickedOutside () {
-        this.open = false;
+    }
+  },
+  created() {
+    // set key & value name for options
+    if (this.dataKeyName && this.dataValName) {
+      // 比如设置： data-key-name="label" data-val-name="id"
+      this.optionName = this.dataKeyName;
+      this.optionId = this.dataValName;
+    }
+    // 设置数据
+    this.parseData(this.options);
+    if (this.value) {
+      try {
+        let data = this.parsedDataList.filter(item => item.id.toString() === this.value.toString());
+        this.updateValue(data[0]);
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      this.updateValue('');
+      this.selected = this.dataDefault || ' ';
+    }
+  },
+  methods: {
+    // 设置值
+    setVal(val) {
+      if (!this.disabled) {
+        // 更新
+        this.updateValue(val);
+        // 关闭
+        this.toggleDropdown();
       }
     },
-    directives: {
-      'click-outside': {
-        bind (el, binding, vNode) {
-          if (typeof binding.value !== 'function') {
-            var compName = vNode.context.name;
-            var warn = '[Vue-click-outside:] provided expression ' + binding.expression + ' is not a function, but has to be';
-            if (compName) {
-              warn += 'Found in component ' + compName;
-            }
-            console.warn(warn);
-          }
-          var bubble = binding.modifiers.bubble;
-          var handler = function (e) {
-            if (bubble || (!el.contains(e.target) && el !== e.target)) {
-              binding.value(e);
-            }
-          };
-          el.__vueClickOutside__ = handler;
-          document.addEventListener('click', handler);
-        },
-        unbind (el, binding) {
-          document.removeEventListener('click', el.__vueClickOutside__);
-          el.__vueClickOutside__ = null;
+    // 更新数据
+    updateValue(data) {
+      this.selected = data.name;
+      this.$emit('input', data.id);
+    },
+    // toggle显示
+    toggleDropdown() {
+      if (!this.disabled) {
+        this.open = !this.open;
+      }
+    },
+    // 复制
+    parseData(dataList) {
+      // 如果-
+      if (dataList.length === 0) {
+        return;
+      } else {
+        var retDataList = [];
+        for (var index in Object.keys(dataList)) {
+          var item = dataList[index];
+          var key = this.optionName;
+          var val = this.optionId;
+          retDataList.push({
+            name: item[key],
+            id: item[val]
+          });
         }
+        this.parsedDataList = retDataList;
+      }
+    },
+    // 点击外部
+    clickedOutside() {
+      this.open = false;
+    }
+  },
+  directives: {
+    'click-outside': {
+      bind(el, binding, vNode) {
+        if (typeof binding.value !== 'function') {
+          var compName = vNode.context.name;
+          var warn = '[Vue-click-outside:] provided expression ' + binding.expression + ' is not a function, but has to be';
+          if (compName) {
+            warn += 'Found in component ' + compName;
+          }
+          console.warn(warn);
+        }
+        var bubble = binding.modifiers.bubble;
+        var handler = function(e) {
+          if (bubble || (!el.contains(e.target) && el !== e.target)) {
+            binding.value(e);
+          }
+        };
+        el.__vueClickOutside__ = handler;
+        document.addEventListener('click', handler);
+      },
+      unbind(el, binding) {
+        document.removeEventListener('click', el.__vueClickOutside__);
+        el.__vueClickOutside__ = null;
       }
     }
-  };
+  }
+};
 </script>
 <style lang="css" scoped>
   @import "../../../common/css/var.css";
