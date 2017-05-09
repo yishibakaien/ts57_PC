@@ -19,13 +19,13 @@
 			</ts-filter>
 		</div>
 		<div class="personal-flower-wrap clearfix">
-			<div class="personal-goods-item personal-flower-item" v-for="item in items">
+			<div class="personal-goods-item personal-flower-item" v-for="(item, index) in items">
 				<div class="personal-goods-item-img">
 					<img src="item.productPicUrl" alt="求购" />
 					<span class="states green" v-if="item.supplyShape === 200011">成品</span>
 					<span class="states gray" v-if="item.supplyShape === 200010">胚布</span>
 					<p class="p3"><span class="span1"> &nbsp;&nbsp;{{item.supplyNum}}码</span><span class="span2">昨天&nbsp;&nbsp; </span></p>
-					<i class="dele">删除</i>
+					<i class="dele" @click="deleSupply(index)">删除</i>
 				</div>
 				<p class="info" :title="item.supplyDesc">{{item.supplyDesc}}</p>
 				<p class="company">
@@ -40,7 +40,7 @@
 
 <script>
 	import { pageBar } from '@/components';
-	import { listSupply, countSupply } from '@/common/api/api';
+	import { listSupply, countSupply, favoriteBus } from '@/common/api/api';
 	export default {
 		data() {
 			return {
@@ -56,6 +56,10 @@
 					pageSize: 8,
 					supplyType: -1,
 					supplyShape: -1
+				},
+				favorite: {
+					businessId: '',
+					businessType: 3
 				},
 				items: [],
 				classes: {
@@ -113,6 +117,14 @@
 				_.param.supplyType = parseInt(e);
 				_.pageMax = '';
 				_.param.pageNo = 1;
+				_.listSupplyMethod();
+			},
+			deleSupply(index) {
+				let _ = this;
+				_.favorite.businessId = _.items[index].id;
+				favoriteBus(_.favorite).then((res) => {
+					console.log(res);
+				}).catch();
 				_.listSupplyMethod();
 			},
 			selectFirstPage() {

@@ -68,7 +68,6 @@
 			},
 			updateUserMethod() {
 				let _ = this;
-				console.log(_.param);
 				if (!(_.check.p1 && _.check.p2 && _.check.p3)) {
 					store.commit(types.MODEL_SHOW, true);
 					store.commit(types.MODEL_OPTION, {type: 2, title: '提示', content: '您的输入有误，请检查'});
@@ -76,6 +75,8 @@
 				}
 				updateUser(this.param).then((res) => {
 					if (res.data.code === 0) {
+						store.commit(types.MODEL_SHOW, true);
+						store.commit(types.MODEL_OPTION, {type: 1, title: '提示', content: '您的信息更新成功'});
 						if (_.param.qq) {
 							localStorage.setItem('qq', _.param.qq);
 						};
