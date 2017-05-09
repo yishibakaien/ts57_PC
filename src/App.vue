@@ -1,39 +1,44 @@
 <template>
-	<div>
-		<div class="main-wrapper">
-			<models></models>
-			<topbar></topbar>
+<div>
+  <div class="main-wrapper">
+    <models></models>
+    <topbar></topbar>
 
-			<div class="main">
-				<router-view :message="message"></router-view>
-			</div>
-		</div>
-		<div class="footer-wrapper">
-			<v-footer :message="message"></v-footer>
-		</div>
-		<login-mask></login-mask>
-	</div>
+    <div class="main">
+      <router-view :message="message"></router-view>
+    </div>
+  </div>
+  <div class="footer-wrapper">
+    <v-footer :message="message"></v-footer>
+  </div>
+  <login-mask></login-mask>
+</div>
 </template>
 
 <script>
-	import { topbar, footer, loginMask, models } from '@/components';
+import {
+  topbar,
+  footer,
+  loginMask,
+  models
+} from '@/components';
 
-	export default {
-		data() {
-			return {
-				message: {
-					desc: 'message form app.vue.',
-					showLoading: false
-				}
-			};
-		},
-		components: {
-			topbar,
-			loginMask,
-			models,
-			'vFooter': footer
-		}
-	};
+export default {
+  data() {
+    return {
+      message: {
+        desc: 'message form app.vue.',
+        showLoading: false
+      }
+    };
+  },
+  components: {
+    topbar,
+    loginMask,
+    models,
+    'vFooter': footer
+  }
+};
 </script>
 
 <style lang="stylus" scoped>
@@ -49,7 +54,10 @@
         background #3385ff
 </style>
 <style lang="scss">
+// 字体图标
 @import url("http://at.alicdn.com/t/font_8edxesol4ympwrk9.css");
+// 1px结局
 @import './common/css/1px.scss';
+// reset
 @reset-global pc;
 </style>

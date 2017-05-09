@@ -17,8 +17,13 @@
       </div>
     </ts-checkbox-group>
     <div slot="footer">
-      <ts-button type="primary" :disabled="chooseImg.status" v-if="Edit.status" @click="handleDelAlbumPic">删除</ts-button>
+      <ts-button type="primary" :disabled="chooseImg.status" v-if="Edit.status" @click="handleShowDialog">删除</ts-button>
     </div>
+    <!--  对话框 -->
+    <ts-dialog v-model="ConfirmDialog.show" width="30%" title="提示" @confirm="handleDelAlbumPic" @cancel="handleCancelDelMaterial" class="material-dialog">
+      <p class="material-dialog--title">确认将选中花型素材删除？</p>
+      <p><ts-radio @change.native="handleNoShowDialog"  type="origin" v-model="ConfirmDialog.noShowDialog" label="0"><span class="material-dialog--tip">不再提示<i>(素材相关数据删除后无法恢复)</i></span></ts-radio></p>
+    </ts-dialog>
   </ts-section>
 </template>
 
@@ -41,6 +46,18 @@ export default {
       chooseImg: {
         list: [], // 选中的图片
         status: false // 能否删除的状态
+      },
+      // 对话框
+      ConfirmDialog: {
+        noShowDialog: false,
+        show: false,
+        id: []
+      },
+      // cookie
+      Cookie: {
+        key: 'showDelMaterialDialog',
+        value: 1,
+        day: 7
       },
       // 编辑状态
       Edit: {
@@ -65,13 +82,35 @@ export default {
   },
   async created() {
     this.albumPicsList = (await getAlbumPicsList(this.Params)).data;
+    // 默认创建一个cookie
+    !this.getCookie(this.Cookie.key) ? this.setCookie(this.Cookie.key, this.Cookie.value, this.Cookie.day) : '';
   },
   methods: {
+    // 删除所选素材
     async handleDelAlbumPic() {
       await deleteAlbumPic({
         ids: this.chooseImg.list.join(',')
       });
+      this.chooseImg.list = [];
+      this.ConfirmDialog.show = false;
       this.albumPicsList = (await getAlbumPicsList(this.Params)).data;
+    },
+    // 点击“删除”=>判断cookie是否显示
+    async handleShowDialog() {
+      if (this.getCookie(this.Cookie.key) === '1') {
+        this.ConfirmDialog.show = true;
+      } else {
+        this.handleDelAlbumPic();
+      }
+    },
+    // 取消删除
+    handleCancelDelMaterial() {
+      this.ConfirmDialog.show = false;
+      this.setCookie(this.Cookie.key, this.Cookie.value, this.Cookie.day);
+    },
+    // 设置cookie
+    handleNoShowDialog(e) {
+      this.setCookie(this.Cookie.key, e.target.value, this.Cookie.day);
     }
   }
 };
@@ -86,6 +125,23 @@ export default {
   --material-img-checkbox-position: 10px;
 }
 @component-namespace material{
+  @component dialog{
+    p{
+      text-align: center;
+    }
+    @modifier title{
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+    @modifier tip{
+      font-size: 14px;
+      i{
+        font-size: smaller;
+        color: #3F3F3F;
+      }
+    }
+  }
   @component img{
     margin: 0 18px 18px 0;
     display: inline-block;

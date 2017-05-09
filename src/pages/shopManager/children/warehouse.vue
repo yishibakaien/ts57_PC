@@ -1,4 +1,5 @@
 <template lang="html">
+<div class="warehouse">
   <ts-section>
     <div slot="menu">
       <ts-input style="width:30%" placeholder="输入花型编号搜索" v-model="searchVal">
@@ -54,23 +55,30 @@
           询价次数：<span class="supply-table--collect" @click.self="handleCollectDialog(item.id)">{{item.enquiryNum}}</span>
         </ts-menu-table-item>
         <ts-menu-table-item>
-          <a class="warehouse-table--link" v-if="item.publishStatus!==2" @click="handleProduct({goal:2,ids:item.id,isUp:true})">上架平台</a>
-          <a class="warehouse-table--link" v-if="item.publishStatus!==1" @click="handleProduct({goal:1,ids:item.id,isUp:true})">上架店铺</a>
-          <a class="warehouse-table--link" v-if="item.publishStatus!==0" @click="handleProduct({goal:0,ids:item.id})">下架</a>
+          <a class="warehouse-table--link" v-if="item.publishStatus!==2" @click="handleShelveProduct({goal:2,ids:item.id,isUp:true})">上架平台</a>
+          <a class="warehouse-table--link" v-if="item.publishStatus!==1" @click="handleShelveProduct({goal:1,ids:item.id,isUp:true})">上架店铺</a>
+          <a class="warehouse-table--link" v-if="item.publishStatus!==0" @click="handleShelveProduct({goal:0,ids:item.id})">下架</a>
           <router-link tag="a" class="warehouse-table--link" :to="{path:'addwarehouse',query:{id:item.id}}">
             编辑
           </router-link>
-          <a class="warehouse-table--link" v-if="item.publishStatus===0" @click="handleProduct({ids:item.id},'delete')">删除</a>
+          <a class="warehouse-table--link" v-if="item.publishStatus===0" @click="handleShowDialog([item.id])">删除</a>
         </ts-menu-table-item>
       </ts-menu-table>
       </ts-checkbox-group>
     </div>
     <div slot="footer" class="warehouse-footer--button" v-if="chooseItem.length>0">
-      <ts-button type="primary" @click="handleProduct({goal:2,ids:chooseItem,isUp:true})">上架平台</ts-button>
-      <ts-button type="primary" @click="handleProduct({goal:1,ids:chooseItem,isUp:true})">上架店铺</ts-button>
-      <ts-button type="cancel"  @click="handleProduct({ids:chooseItem},type='delete')">删除</ts-button>
+      <ts-button type="primary" @click="handleShelveProduct({goal:2,ids:chooseItem,isUp:true})">上架平台</ts-button>
+      <ts-button type="primary" @click="handleShelveProduct({goal:1,ids:chooseItem,isUp:true})">上架店铺</ts-button>
+      <ts-button type="cancel"  @click="handleShowDialog(chooseItem)">删除</ts-button>
     </div>
+
   </ts-section>
+  <!--  对话框 -->
+  <ts-dialog v-model="ConfirmDialog.show" width="30%" title="提示" @confirm="handleDelProduct" @cancel="handleCancelDelProduct" class="warehouse-dialog">
+    <p class="warehouse-dialog--title">确认将选中花型删除？</p>
+    <p><ts-radio @change.native="handleNoShowDialog"  type="origin" v-model="ConfirmDialog.noShowDialog" label="0"><span class="warehouse-dialog--tip">不再提示<i>(花型相关数据删除后无法恢复)</i></span></ts-radio></p>
+  </ts-dialog>
+  </div>
 </template>
 
 <script>
@@ -107,14 +115,29 @@ export default {
       Filter: {
         categorys: '',
         publishStatuss: ''
+      },
+      // 对话框
+      ConfirmDialog: {
+        noShowDialog: false,
+        show: false,
+        id: []
+      },
+      // cookie
+      Cookie: {
+        key: 'showDelProductDialog',
+        value: 1,
+        day: 7
       }
     };
   },
   async created() {
     // 获取花型列表
     this.productList = (await getProductList(this.Params)).data;
+    // 默认创建一个cookie
+    !this.getCookie(this.Cookie.key) ? this.setCookie(this.Cookie.key, this.Cookie.value, this.Cookie.day) : '';
   },
   methods: {
+    // 搜索
     async handleSearch() {
       this.Params = Object.assign({}, this.Params, {
         productNo: this.searchVal,
@@ -138,25 +161,41 @@ export default {
     // goal	上下架到哪	number	上架：1--店铺 2--平台 下架：0--仓库 1--店铺
     // ids	id串	string	逗号隔开
     // isUp	上架类型	boolean	true--上架 false--下架（默认）
-    // type="delete":删除花型
-    // ids	id串	string	逗号隔开
-    async handleProduct(params, type = 'shelve') {
-      // 删除
-      if (type === 'delete') {
-        await deleteProduct({
-          ids: [params.ids].join(',')
-        });
-      }
-      // 上下架
-      if (type === 'shelve') {
-        await shelveProduct({
-          goal: params.goal,
-          ids: [params.ids].join(','),
-          isUp: params.isUp
-        });
-      }
+    async handleShelveProduct(params) {
+      await shelveProduct({
+        goal: params.goal,
+        ids: [params.ids].join(','),
+        isUp: params.isUp
+      });
       // 重新花型列表接口
       this.productList = (await getProductList(this.Params)).data;
+    },
+    // 点击“删除”=>判断cookie是否显示
+    async handleShowDialog(item) {
+      this.ConfirmDialog.id = item;
+      if (this.getCookie(this.Cookie.key) === '1') {
+        this.ConfirmDialog.show = true;
+      } else {
+        this.handleDelProduct();
+      }
+    },
+    // 取消删除
+    handleCancelDelProduct() {
+      this.ConfirmDialog.show = false;
+      this.setCookie(this.Cookie.key, this.Cookie.value, this.Cookie.day);
+    },
+    // 删除花型
+    async handleDelProduct() {
+      await deleteProduct({
+        ids: this.ConfirmDialog.id.join(',')
+      });
+      this.ConfirmDialog.show = false;
+      this.chooseItem = [];
+      this.productList = (await getProductList(this.Params)).data;
+    },
+    // 设置cookie
+    handleNoShowDialog(e) {
+      this.setCookie(this.Cookie.key, e.target.value, this.Cookie.day);
     }
   }
 };
@@ -178,6 +217,23 @@ export default {
     @modifier link{
       display: block;
       text-align: center;
+    }
+  }
+  @component dialog{
+    p{
+      text-align: center;
+    }
+    @modifier title{
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+    @modifier tip{
+      font-size: 14px;
+      i{
+        font-size: smaller;
+        color: #3F3F3F;
+      }
     }
   }
   @component photo{

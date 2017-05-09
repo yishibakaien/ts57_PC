@@ -56,6 +56,7 @@ export default {
 @component-namespace ts {
   @component button {
     appearance: none;
+    cursor: pointer;
     box-sizing: border-box;
     color: inherit;
     display: block;

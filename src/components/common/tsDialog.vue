@@ -134,7 +134,7 @@ export default {
       this.$emit('confirm');
     },
     handleClose() {
-      this.$emit('close');
+      this.$emit('cancel');
     }
   },
   mounted() {
