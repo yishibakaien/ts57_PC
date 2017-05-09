@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import {header, nav, login} from '../../../components';
+import {header, nav, login} from '@/components';
 export default {
   components: {
     'vHeader': header,
