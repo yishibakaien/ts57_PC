@@ -94,12 +94,6 @@ export default {
     'addSupplyForm.productPicUrl' (val) {
       this.Pic.text = val ? '修改图片' : '添加图片';
       this.Pic.show = !!val;
-    },
-    addSupplyForm: {
-      handler(val) {
-        val.supplyNum = Number(val.supplyNum);
-      },
-      deep: true
     }
   },
   async created() {

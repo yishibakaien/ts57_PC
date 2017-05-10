@@ -11,19 +11,19 @@
       <ts-filter title="分类">
         <ts-radio-group v-model="Filter.supplyStatus" @change="handleFilterSupplyStatus">
           <ts-radio label="">全部</ts-radio>
-          <ts-radio :label="item.value" v-for="item in DICT.SupplyStatus">{{item.label}}</ts-radio>
+          <ts-radio :label="item.value" :key="item.value" v-for="item in DICT.SupplyStatus">{{item.label}}</ts-radio>
         </ts-radio-group>
       </ts-filter>
       <ts-filter title="面料种类">
         <ts-radio-group v-model="Filter.supplyTypes" @change="handleFilterSupplyTypes">
           <ts-radio label="">全部</ts-radio>
-          <ts-radio :label="item.value" v-for="item in DICT.SupplyType">{{item.label}}</ts-radio>
+          <ts-radio :label="item.value" :key="item.value" v-for="item in DICT.SupplyType">{{item.label}}</ts-radio>
         </ts-radio-group>
       </ts-filter>
       <ts-filter title="供货方式">
         <ts-radio-group v-model="Filter.supplyShapes" @change="handleFilterSupplyShapes">
           <ts-radio label="">全部</ts-radio>
-          <ts-radio :label="item.value" v-for="item in DICT.SupplyShapes">{{item.label}}</ts-radio>
+          <ts-radio :label="item.value" :key="item.value" v-for="item in DICT.SupplyShapes">{{item.label}}</ts-radio>
         </ts-radio-group>
       </ts-filter>
     </div>

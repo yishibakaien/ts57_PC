@@ -61,26 +61,37 @@ const API = {
     listCompany: '/favorite/listCompany', // 获取收藏厂家列表
     listProduct: '/favorite/listProduct' // 获取收藏花型列表
   },
-  // 店铺管理
-  shopManagement: {
+  product: {
     // POST
     listProducts: '/product/listProducts', // 获取花型列表
     addProduct: '/product/addProduct', // 新增花型
     updateProduct: '/product/updateProduct', // 修改花型
     shelveProduct: '/product/shelveProduct', // 花型上下架
     deleteProduct: '/product/deleteProduct', // 删除花型
+    getProduct: '/product/getProduct' // 修改成分
+  },
+  // 成分
+  ingredient: {
     addIngredient: '/ingredient/addIngredient', // 自定义成分
     deleteIngredient: '/ingredient/deleteIngredient', // 删除成分
+    listIngredients: '/ingredient/listIngredients', // 获取成分列表
+    updateIngredient: '/ingredient/updateIngredient' // 修改成分
+  },
+  // 供应
+  companySupply: {
     closeCompanySupply: '/companySupply/closeCompanySupply', // 关闭供应
     releaseCompanySupply: '/companySupply/releaseCompanySupply', // 发布供应
-    listAlbumPics: '/albumPic/listAlbumPics', // 获取素材库图片列表
-    deleteAlbumPic: '/albumPic/deleteAlbumPic', // 删除素材库图片
-    // GET
-    listIngredients: '/ingredient/listIngredients', // 获取成分列表
-    updateIngredient: '/ingredient/updateIngredient', // 修改成分
-    getProduct: '/product/getProduct', // 修改成分
     listCompanySupplys: '/companySupply/listCompanySupplys', // 获取供应列表
     getCompanySupply: '/companySupply/getCompanySupply' // 供应详情
+  },
+  // 素材库
+  albumPic: {
+    listAlbumPics: '/albumPic/listAlbumPics', // 获取素材库图片列表
+    deleteAlbumPic: '/albumPic/deleteAlbumPic' // 删除素材库图片,
+  },
+  // 公司
+  company: {
+    getCompanyInfo: '/company/getCompanyInfo' // 获取档口OR工厂信息
   },
   oss: {
     token: '/file/token' // OSS_token
@@ -224,7 +235,6 @@ export function checkPhone(data) {
 export function getRegSMSCode(data) {
   return _fetch(METHODS.post, data, API.user.getRegSMSCode);
 };
-
 /**
  * 首页部分
  */
@@ -305,17 +315,17 @@ export function listSupply(data) {
 
 // 获取收藏供应各分类统计
 export function countSupply(data) {
-	return _fetch(METHODS.get, data, API.collection.countSupply);
+  return _fetch(METHODS.get, data, API.collection.countSupply);
 };
 
 // 获取收藏花型各分类统计
 export function countProduct(data) {
-	return _fetch(METHODS.get, data, API.collection.countProduct);
+  return _fetch(METHODS.get, data, API.collection.countProduct);
 };
 
 // 收藏或取消
 export function favoriteBus(data) {
-	return _fetch(METHODS.post, data, API.collection.favoriteBus);
+  return _fetch(METHODS.post, data, API.collection.favoriteBus);
 };
 
 // 关闭求购
@@ -333,34 +343,36 @@ export function token() {
 // 店铺管理
 // =======
 // 获取花型列表
-export const getProductList = param => _fetch(METHODS.post, param, API.shopManagement.listProducts);
+export const getProductList = param => _fetch(METHODS.post, param, API.product.listProducts);
 // 获取花型详情
-export const getProduct = id => _fetch(METHODS.get, null, `${API.shopManagement.getProduct}/${id}`);
+export const getProduct = id => _fetch(METHODS.get, null, `${API.product.getProduct}/${id}`);
 // 新增花型
-export const addProducts = param => _fetch(METHODS.post, param, API.shopManagement.addProduct);
+export const addProducts = param => _fetch(METHODS.post, param, API.product.addProduct);
 // 修改花型
-export const updateProduct = param => _fetch(METHODS.post, param, API.shopManagement.updateProduct);
+export const updateProduct = param => _fetch(METHODS.post, param, API.product.updateProduct);
 // 花型上下架
-export const shelveProduct = param => _fetch(METHODS.post, param, API.shopManagement.shelveProduct);
+export const shelveProduct = param => _fetch(METHODS.post, param, API.product.shelveProduct);
 // 删除花型
-export const deleteProduct = param => _fetch(METHODS.post, param, API.shopManagement.deleteProduct);
+export const deleteProduct = param => _fetch(METHODS.post, param, API.product.deleteProduct);
 // 获取成分列表
-export const getIngredientsList = param => _fetch(METHODS.get, param, API.shopManagement.listIngredients);
+export const getIngredientsList = param => _fetch(METHODS.get, param, API.ingredient.listIngredients);
 // 自定义成分
-export const addIngredient = param => _fetch(METHODS.post, param, API.shopManagement.addIngredient);
+export const addIngredient = param => _fetch(METHODS.post, param, API.ingredient.addIngredient);
 // 修改成分
-export const updateIngredient = param => _fetch(METHODS.get, param, API.shopManagement.updateIngredient);
+export const updateIngredient = param => _fetch(METHODS.get, param, API.ingredient.updateIngredient);
 // 删除成分
-export const deleteIngredient = param => _fetch(METHODS.post, param, API.shopManagement.deleteIngredient);
+export const deleteIngredient = param => _fetch(METHODS.post, param, API.ingredient.deleteIngredient);
 // 获取供应列表
-export const getCompanySupplylist = param => _fetch(METHODS.get, param, API.shopManagement.listCompanySupplys);
+export const getCompanySupplylist = param => _fetch(METHODS.get, param, API.companySupply.listCompanySupplys);
 // 关闭供应
-export const closeCompanySupply = param => _fetch(METHODS.post, param, API.shopManagement.closeCompanySupply);
+export const closeCompanySupply = param => _fetch(METHODS.post, param, API.companySupply.closeCompanySupply);
 // 获取供应详情
-export const getCompanySupply = id => _fetch(METHODS.get, null, `${API.shopManagement.getCompanySupply}/${id}`);
+export const getCompanySupply = id => _fetch(METHODS.get, null, `${API.companySupply.getCompanySupply}/${id}`);
 // 发布供应
-export const releaseCompanySupply = param => _fetch(METHODS.post, param, API.shopManagement.releaseCompanySupply);
+export const releaseCompanySupply = param => _fetch(METHODS.post, param, API.companySupply.releaseCompanySupply);
 // 获取素材库图片列表
-export const getAlbumPicsList = param => _fetch(METHODS.post, param, API.shopManagement.listAlbumPics);
+export const getAlbumPicsList = param => _fetch(METHODS.post, param, API.albumPic.listAlbumPics);
 // 删除素材库图片
-export const deleteAlbumPic = param => _fetch(METHODS.post, param, API.shopManagement.deleteAlbumPic);
+export const deleteAlbumPic = param => _fetch(METHODS.post, param, API.albumPic.deleteAlbumPic);
+// 获取档口OR工厂信息
+export const getCompanyInfo = param => _fetch(METHODS.get, param, API.company.getCompanyInfo);

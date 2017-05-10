@@ -288,7 +288,6 @@ export default {
   @component input {
     width: 15%;
     display: inline-block;
-    margin-top: 15px;
   }
   @component dynamic {
     @modifier input {
