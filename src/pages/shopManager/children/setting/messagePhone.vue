@@ -2,11 +2,13 @@
   <div class="messagePhone">
       <ts-section>
         <div slot="title">
-          接受短信号码<span class="pot-warning" @click="messSettingDialog">?</span>
+          接受短信号码<span class="pot-warning" @click="Phone.showNoticeDialog=!Phone.showNoticeDialog">?</span>
         </div>
     <div slot="menu">
-      <ts-button type="primary" @click="editCompany">新增号码</ts-button>
-      <ts-button type="primary" @click="editCompany">短信设置</ts-button>
+      <ts-button type="primary" @click="handleNewPhoneDialog">新增号码</ts-button>
+      <router-link to="/personalCenterPage">
+        <ts-button type="primary">短信设置</ts-button>
+      </router-link>
     </div>
     <div class="message-phone-container" v-for="(n,index) in 2">
       <p class="message-phone-container--left">
@@ -33,8 +35,8 @@
   </ts-dialog>
   <!-- 添加接收短信号码 -->
   <ts-dialog v-model="Phone.showAddDialog" title="添加接收短信号码" @close="cancelAddPhone" @confirm="handleAddPhone">
-    <ts-form :model="PhoneForm" :rules="rules" ref="PhoneForm" label-width="125px" label-position="left">
-      <ts-form-item label="登录密码：" prop="name">
+    <ts-form :model="PhoneForm" :rules="rules" ref="PhoneForm" label-width="150px" label-position="left">
+      <ts-form-item label="登录密码：" prop="password">
         <ts-input v-model="PhoneForm.password" placeholder="请输入登录密码"></ts-input>
       </ts-form-item>
       <ts-form-item label="手机电话：" prop="mobile">
@@ -42,19 +44,25 @@
       </ts-form-item>
       <ts-form-item label="图形验证码：" prop="verifyCode">
         <ts-input v-model="PhoneForm.verifyCode" class="message-phone-input"></ts-input>
-        <ts-image width="106" height="38"></ts-image>
+        <img src="/front/user/getVerifyCode" width="106" height="38">
+        <!-- <ts-image  v-model=""></ts-image> -->
       </ts-form-item>
       <ts-form-item label="短信验证码：" prop="smsCode">
         <ts-input v-model="PhoneForm.smsCode" class="message-phone-input"></ts-input>
         <ts-button type="primary">发送验证码</ts-button>
       </ts-form-item>
-      <ts-button @click="submitForm('PhoneForm')">你好</ts-button>
     </ts-form>
   </ts-dialog>
     </div>
 </template>
 
 <script>
+import {
+  mapGetters
+} from 'vuex';
+import {
+  getVerifyCode
+} from '@/common/api/api';
 export default {
   data() {
     return {
@@ -63,17 +71,50 @@ export default {
         showAddDialog: false,
         showNoticeDialog: false
       },
-      // 表单
+      // 新增号码表单
       PhoneForm: {
         mobile: '',
         password: '',
         verifyCode: '',
         smsCode: ''
       },
-      rules: [{
-
-      }]
+      VerifyCode: '',
+      // 验证规则
+      rules: {
+        mobile: {
+          required: true,
+          message: '请输入正确的手机号码',
+          pattern: /^1[34578]\d{9}$/
+        },
+        password: {
+          required: true,
+          message: '请输入密码'
+        },
+        verifyCode: {
+          required: true,
+          pattern: /^[0-9A-Za-z]*$/,
+          message: '请输入正确的图形验证码'
+        },
+        smsCode: {
+          required: true,
+          pattern: /^[0-9A-Za-z]*$/,
+          message: '请输入正确的短信验证码'
+        }
+      }
     };
+  },
+  methods: {
+    handleNotice() {},
+    cancelAddPhone() {},
+    handleAddPhone() {},
+    // 新增号码的对话框
+    async handleNewPhoneDialog() {
+      this.Phone.showAddDialog = !this.Phone.showAddDialog;
+      this.VerifyCode = getVerifyCode();
+    }
+  },
+  computed: {
+    ...mapGetters(['companyInfo'])
   }
 };
 </script>

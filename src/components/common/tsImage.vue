@@ -1,6 +1,6 @@
 <template lang="html">
   <div @mouseover="isSHow=true" @mouseout="isSHow=false" class="ts-image" :style="{width:width+'px',height:height+'px'}" @click="handleImg">
-    <img :src="type==='local'?value:domain+value"  class="ts-image-img">
+    <img class="ts-image-img" :data-src="picUrl" v-loadImage>
   </div>
 </template>
 
@@ -10,10 +10,16 @@ import {
   ALI_DOMAIN
 } from '@/common/dict/const';
 export default {
-  data() {
-    return {
-      domain: ALI_DOMAIN
-    };
+  computed: {
+    picUrl: {
+      get() {
+        if (this.value.indexOf(ALI_DOMAIN) > -1) {
+          return this.value;
+        } else {
+          return ALI_DOMAIN + this.value;
+        }
+      }
+    }
   },
   mixins: [emitter],
   watch: {
@@ -23,18 +29,7 @@ export default {
   },
   // src--图片SRC
   // width/height--图片宽高
-  // type-类型：主要是判断是否要加ALi前缀，本地不加（默认显示base）,网络加（默认加阿里前缀）
   props: {
-    type: {
-      type: String,
-      default: 'alioss',
-      validator(value) {
-        return [
-          'local',
-          'alioss'
-        ].indexOf(value) > -1;
-      }
-    },
     src: String,
     value: {
       type: String,
@@ -42,6 +37,38 @@ export default {
     },
     height: String,
     width: String
+  },
+  directives: {
+    'loadImage': {
+      bind(el, binding, vnode) {
+        let img = new Image();
+        img.src = el.dataset.src;
+        el.style.cssText = 'transition: "";opacity: 0;';
+        img.onload = function() {
+          if (img.complete) {
+            el.src = img.src;
+            el.style.cssText = 'transition: .5s;opacity: 1;';
+          }
+        };
+        img.onerror = function() {
+          // TODO:加一个错误图片
+        };
+      },
+      update(el, binding) {
+        let img = new Image();
+        img.src = el.dataset.src;
+        el.style.cssText = 'transition: "";opacity: 0;';
+        img.onload = function() {
+          if (img.complete) {
+            el.src = img.src;
+            el.style.cssText = 'transition: .5s;opacity: 1;';
+          }
+        };
+        img.onerror = function() {
+          // TODO:加一个错误图片
+        };
+      }
+    }
   },
   methods: {
     handleImg() {
@@ -55,12 +82,13 @@ export default {
 @import '../../common/css/var.css';
 @component-namespace ts{
   @component image{
-    --color:#fff;
+    color:#fff;
     overflow: hidden;
     display: inline-block;
     position: relative;
     border:1px solid rgba(155,155,155,0.1);
     box-sizing: border-box;
+    vertical-align: middle;
     @descendent img{
       max-width: 100%;
       min-height: 100%;
