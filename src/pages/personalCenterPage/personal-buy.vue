@@ -3,16 +3,16 @@
 		<div>
 			<ts-filter title="分类">
 				<ts-radio-group v-model="Filter.sort" @change="hanleFilterSort">
-					<ts-radio label="null">全部({{classes.totalNum}})</ts-radio>
+					<ts-radio label="">全部({{classes.totalNum}})</ts-radio>
 					<ts-radio label="100010">面料({{classes.mianliao}})</ts-radio>
 					<ts-radio label="100011">大边({{classes.large}})</ts-radio>
 					<ts-radio label="100012">小边({{classes.small}})</ts-radio>
 					<ts-radio label="100013">睫毛({{classes.eyelash}})</ts-radio>
 				</ts-radio-group>
 			</ts-filter>
-			<ts-filter title="面料种类">
+			<ts-filter title="筛选条件">
 				<ts-radio-group v-model="Filter.fabricType" @change="hanleFilterFabric">
-					<ts-radio label="null">全部({{classes.totalNum}})</ts-radio>
+					<ts-radio label="">全部({{classes.totalNum}})</ts-radio>
 					<ts-radio label="1">求购中({{classes.statusBuy}})</ts-radio>
 					<ts-radio label="2">已成交({{classes.statusSuccess}})</ts-radio>
 					<ts-radio label="3">已关闭({{classes.statusClosed}})</ts-radio>
@@ -44,22 +44,20 @@
 
 <script>
 	import { pageBar } from '@/components';
-	import { listProductBuys } from '@/common/api/api';
+	import { myProductBuys } from '@/common/api/api';
 	export default {
 		data() {
 			return {
 				Filter: {
-					sort: 'null',
-					fabricType: 'null'
+					sort: '',
+					fabricType: ''
 				},
 				pageNum: '',
 				pageMax: '',
 				pageSize: '',
 				param: {
-					buyShapes: null,
-					buyStatus: null,
-					buyTypes: null,
-					isMy: 'true',
+					buyStatus: '',
+					buyType: '',
 					pageNo: 1,
 					pageSize: 8
 				},
@@ -84,45 +82,52 @@
 		},
 		created() {
 			let _ = this;
-			listProductBuys(_.param).then((res) => {
-				_.items = res.data.list;
-				_.pageNum = res.data.pageNO;
-				_.pageSize = res.data.pageSize;
-				_.pageMax = res.data.totalPage;
-				_.classes.totalNum = res.data.totalNum;
+			myProductBuys(_.param).then((res) => {
+				_.items = res.data.data.list;
+				_.pageNum = res.data.data.pageNO;
+				_.pageSize = res.data.data.pageSize;
+				_.pageMax = res.data.data.totalPage;
+				_.classes.totalNum = res.data.data.totalNum;
+				_.classes.mianliao = res.data.data.ml;
+				_.classes.large = res.data.data.db;
+				_.classes.small = res.data.data.xb;
+				_.classes.eyelash = res.data.data.jm;
+				_.classes.statusBuy = res.data.data.buying;
+				_.classes.statusSuccess = res.data.data.finish;
+				_.classes.statusClosed = res.data.data.close;
 			}).catch();
 		},
 		methods: {
-			listProductBuysMethod() {
+			myProductBuysMethod() {
 				let _ = this;
-				listProductBuys(_.param).then((res) => {
-					_.items = res.data.list;
-					_.pageNum = res.data.pageNO;
-					_.pageSize = res.data.pageSize;
-					_.pageMax = res.data.totalPage;
+				myProductBuys(_.param).then((res) => {
+					_.items = res.data.data.list;
+					_.pageNum = res.data.data.pageNO;
+					_.pageSize = res.data.data.pageSize;
+					_.pageMax = res.data.data.totalPage;
 				}).catch();
 			},
 			hanleFilterFabric(e) {
 				let _ = this;
-				if (e === 'null') {
-					_.param.buyStatus = null;
+				if (!e) {
+					_.param.buyStatus = '';
 				} else {
 					_.param.buyStatus = parseInt(e);
 				}
 				_.pageMax = '';
 				_.param.pageNo = 1;
-				_.listProductBuysMethod();
+				_.myProductBuysMethod();
 			},
 			hanleFilterSort(e) {
 				let _ = this;
-				if (e === 'null') {
-					_.param.buyTypes = null;
+				if (!e) {
+					_.param.buyType = '';
 				} else {
-					_.param.buyTypes = parseInt(e);
+					_.param.buyType = parseInt(e);
 				}
 				_.pageMax = '';
 				_.param.pageNo = 1;
-				_.listProductBuysMethod();
+				_.myProductBuysMethod();
 			},
 			closeProductBuyMethod() {
 				let _ = this;
@@ -131,12 +136,12 @@
 			selectFirstPage() {
 				let _ = this;
 				_.param.pageNo = 1;
-				this.listProductBuysMethod();
+				this.myProductBuysMethod();
 			},
 			selectLastPage() {
 				let _ = this;
 				_.param.pageNo = _.pageMax;
-				this.listProductBuysMethod();
+				this.myProductBuysMethod();
 			},
 			upPage() {
 				let _ = this;
@@ -145,7 +150,7 @@
 				};
 				--_.pageNum;
 				_.param.pageNo = _.pageNum;
-				this.listProductBuysMethod();
+				this.myProductBuysMethod();
 			},
 			downPage() {
 				let _ = this;
@@ -154,13 +159,13 @@
 				};
 				++_.pageNum;
 				_.param.pageNo = _.pageNum;
-				this.listProductBuysMethod();
+				this.myProductBuysMethod();
 			},
 			selectNumber(num) {
 				let _ = this;
 				_.param.pageNo = 1;
 				_.param.pageSize = num;
-				this.listProductBuysMethod();
+				this.myProductBuysMethod();
 			}
 		}
 	};

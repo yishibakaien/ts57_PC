@@ -3,9 +3,8 @@
     <div class="header-box">
       <div class="brand">
         <div class="brand-img">
-          统搜57
+          <img src="../../../static/images/统搜57.png" alt="logo"/>
         </div>
-        <p class="brand-title">布容错过 坐视布管</p>
       </div>
       <div class="search-wrapper">
         <search></search>

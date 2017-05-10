@@ -10,7 +10,7 @@
 					<ts-radio label="100013">睫毛({{classes.eyelash}})</ts-radio>
 				</ts-radio-group>
 			</ts-filter>
-			<ts-filter title="面料种类">
+			<ts-filter title="库存">
 				<ts-radio-group v-model="Filter.fabricType" @change="hanleFilterFabric">
 					<ts-radio label="-1">全部({{classes.totalNum}})</ts-radio>
 					<ts-radio label="1">有库存({{classes.statusYes}})</ts-radio>

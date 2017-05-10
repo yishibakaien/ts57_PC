@@ -51,6 +51,7 @@ const API = {
     getProductBuy: '/productBuy/getProductBuy', // 求购详情
     listCompanySupplys: '/companySupply/listCompanySupplys', // 获取供应列表
     listBuyTask: '/buyTask/listBuyTask', // 获取接单列表
+    myProductBuys: '/productBuy/myProductBuys', // 获取我的求购列表
     listBuyTaskByBuyId: '/buyTask/listBuyTaskByBuyId' // 获取求购单接单列表
   },
   // 收藏管理
@@ -205,6 +206,11 @@ export function checkPasswd(data) {
   return _fetch(METHODS.post, data, API.user.checkPasswd);
 };
 
+// 获取图形验证码
+export function getVerifyCode(data) {
+  return _fetch(METHODS.get, data, API.user.getVerifyCode);
+};
+
 // 修改个人信息
 export function updateUser(data) {
   return _fetch(METHODS.post, data, API.user.updateUser);
@@ -286,6 +292,11 @@ export function restPasswd(data) {
 // 获取接单列表
 export function listBuyTask(data) {
   return _fetch(METHODS.post, data, API.buy.listBuyTask);
+};
+
+// 获取我的求购列表
+export function myProductBuys(data) {
+  return _fetch(METHODS.post, data, API.buy.myProductBuys);
 };
 
 // 获取收藏花型列表
