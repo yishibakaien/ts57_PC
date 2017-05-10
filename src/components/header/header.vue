@@ -3,7 +3,7 @@
     <div class="header-box">
       <div class="brand">
         <div class="brand-img">
-          <img src="../../../static/images/统搜57.png" alt="logo"/>
+        	<a href="homePage"><img src="../../../static/images/统搜57.png" alt="logo"/></a>
         </div>
       </div>
       <div class="search-wrapper">

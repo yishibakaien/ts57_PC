@@ -222,6 +222,7 @@
 			text-overflow: ellipsis;
 			white-space: nowrap;
 			font-size: 10px;
+			line-height: 30px;
 		}
 	}
 </style>
