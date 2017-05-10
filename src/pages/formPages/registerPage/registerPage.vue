@@ -1,7 +1,6 @@
 <template>
   <div class="register-page">
     <v-header></v-header>
-    <v-nav></v-nav>
     <div class="register-box">
       <div class="register-container">
         <div class="header">
@@ -62,7 +61,7 @@
           <span class="left">公司：</span>
           <div class="right">
             <div class="tip" v-if="tip.companyNameTip">{{tip.companyNameTip}}</div>
-            <input @blur="blurCompanyName" v-model="registerData.companyName" :class="{warn: tip.companyNameTip}" class="input" type="text"  placeholder="情输入你的公司名">
+            <input @blur="blurCompanyName" v-model="registerData.companyName" :class="{warn: tip.companyNameTip}" class="input" type="text"  placeholder="请输入你的公司名">
           </div>
         </div>
 
@@ -91,16 +90,16 @@
 </template>
 
 <script>
-import {header, nav} from '../../../components';
+import {header} from '@/components';
 import {
   testMobile,
   testPWD,
   testName,
   testCompanyName,
   testSMSCode
-} from '../../../common/js/regExp';
+} from '@/common/js/regExp';
 // import axios from 'axios';
-import {getRegSMSCode, reg, checkPhone} from '../../../common/api/api';
+import {getRegSMSCode, reg, checkPhone} from '@/common/api/api';
 export default {
   data() {
     return {
@@ -132,8 +131,7 @@ export default {
     };
   },
   components: {
-    'vHeader': header,
-    'vNav': nav
+    'vHeader': header
   },
   computed: {
     codeBtnText() {
@@ -314,11 +312,11 @@ export default {
   .input
     display inline-block
     position relative
-    height 40px
-    line-height 40px
+    height 34px
+    line-height 34px
     padding-left 16px
     width 326px
-    font-size 16px
+    font-size 14px
     border-radius 3px
     border 1px solid rgba(7, 17, 27, 0.2)
     &::-webkit-input-placeholder
@@ -329,13 +327,13 @@ export default {
   .register-page
     .register-box
       width 100%
-      height 750px
-      background #ff7011
+      height 732px
+      background url(../../../../static/images/beijing.jpg)
       position relative
       .register-container
         position absolute
         padding 20px 48px 32px 42px
-        top 40px
+        top 30px
         left 50%
         transform translate(-50%, 0)
         background #fff
@@ -358,7 +356,7 @@ export default {
             .link
               color #4c93fd
         .list
-          margin 22px 0
+          margin 18px 0
           .left
             display inline-block
             vertical-align top
@@ -367,7 +365,7 @@ export default {
             line-height 40px
             font-size 16px
             color #333
-            text-align center
+            text-align right
           .right
             display inline-block
             position relative
@@ -417,10 +415,10 @@ export default {
             .SMSCode
               position absolute
               width 142px
-              height 42px
-              line-height 42px
+              height 34px
+              line-height 34px
               right 0
-              top 0
+              top 1px
               text-align center
               cursor pointer
               color #fff

@@ -49,7 +49,6 @@ html, body, body > div:first-child {
 .button {
     display: inline-block;
     position: relative;
-    border-radius: 5px;
     width: auto;
     -webkit-appearance: none;
     font-family: inherit;
