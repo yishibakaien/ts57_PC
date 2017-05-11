@@ -8,6 +8,7 @@ import Vue from 'vue';
 // module
 // ======
 import shopManagement from './module/shopManagement';
+import dict from './module/dict';
 // ======
 import {search} from '../common/api/api';
 
@@ -41,7 +42,8 @@ function _formateStockType(str) {
 
 export default new Vuex.Store({
     modules: {
-      shopManagement
+      shopManagement,
+      dict
     },
     state: {
         userName: '',

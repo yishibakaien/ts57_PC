@@ -99,6 +99,53 @@ export const delCookie = (key) => {
     this.set(key, data, -1);
   }
 };
+//
+/**
+    * 主要用来合并两个数组，然后拼接成一个对象：各种字典的具体数量&字典合并
+    * @param  {[type]} params 传对象
+    {
+        countObj: num, //获取数量的对象
+        countRelace: "count", //countObj需要替换的字符
+        dictArr: arr, //字典的json
+        dictReplace: "PT"  //dictArr需要替换的字符
+    }
+    * @return {[type]}        [{label:'面料',value:'1'}]
+    */
+export const getDictNum = (params) => {
+  // Object对象转Map
+  function obj2Map(obj) {
+    let _map = new Map();
+    for (let key of Object.keys(obj)) {
+      _map.set(key.replace(params.countRelace, ''), obj[key]);
+    }
+    return _map;
+  }
+  return params.dictArr.map(item => {
+    return {
+      label: item.name,
+      value: obj2Map(params.countObj).get(item.code.replace(params.dictReplace, ''))
+    };
+  });
+};
+// 交换数组元素
+export const swapItems = (arr, index1, index2) => {
+  arr[index1] = arr.splice(index2, 1, arr[index1])[0];
+  return arr;
+};
+// 上移数组
+export const upMove = (arr, $index) => {
+  if ($index === 0) {
+    return;
+  }
+  return swapItems(arr, $index, $index - 1);
+};
+// 下移数组
+export const downMove = (arr, $index) => {
+  if ($index === arr.length - 1) {
+    return;
+  }
+  return swapItems(arr, $index, $index + 1);
+};
 export default {
   formatDate
 };

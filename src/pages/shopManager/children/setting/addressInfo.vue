@@ -27,6 +27,11 @@ export default {
   computed: {
     ...mapGetters(['companyInfo'])
   },
+  data() {
+    return {
+      addPatternForm: {}
+    };
+  },
   methods: {
     editAddress() {}
   }

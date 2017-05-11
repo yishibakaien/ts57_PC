@@ -90,10 +90,25 @@ const API = {
     listAlbumPics: '/albumPic/listAlbumPics', // 获取素材库图片列表
     deleteAlbumPic: '/albumPic/deleteAlbumPic' // 删除素材库图片,
   },
+  // 花型分类
+  productCategory: {
+    listSystemProductCategory: '/productCategory/listSystemProductCategory', // 系统定义花型分类列表
+    listUserProductCategory: '/productCategory/listUserProductCategory', // 自定义花型分类列表
+    addProductCategory: '/productCategory/addProductCategory', // 新增花型分类
+    updateProductCategory: '/productCategory/updateProductCategory', // 修改花型分类
+    sortProductCategory: '/productCategory/sortProductCategory', // 花型分类排序
+    listBindingProduct: '/productCategoryBanding/listBindingProduct', // 获取分类绑定的花型列表
+    bindingProduct: '/productCategoryBanding/bindingProduct', // 花型分类绑定解绑
+    sortBindingProduct: '/productCategoryBanding/sortBindingProduct' // 分类中的花型排序
+  },
   // 公司
   company: {
     getCompanyInfo: '/company/getCompanyInfo', // 获取档口OR工厂信息
     updateCompany: '/company/updateCompany' // 修改工厂或档口信息
+  },
+  // 数据字典
+  dicTree: {
+    byTypeKey: '/front/dicTree/byTypeKey'
   },
   oss: {
     token: '/file/token' // OSS_token
@@ -351,6 +366,8 @@ export function token() {
     fileType: 1
   }, API.oss.token);
 };
+// 获取数据字典
+export const getDicTree = param => _fetch(METHODS.get, param, API.dicTree.byTypeKey);
 // =======
 // 店铺管理
 // =======
@@ -390,3 +407,19 @@ export const deleteAlbumPic = param => _fetch(METHODS.post, param, API.albumPic.
 export const getCompanyInfo = param => _fetch(METHODS.get, param, API.company.getCompanyInfo);
 // 修改工厂或档口信息
 export const updateCompany = param => _fetch(METHODS.post, param, API.company.updateCompany);
+// 获取系统定义花型分类列表
+export const listSystemProductCategory = param => _fetch(METHODS.get, param, API.productCategory.listSystemProductCategory);
+// 获取自定义花型分类列表
+export const listUserProductCategory = param => _fetch(METHODS.post, param, API.productCategory.listUserProductCategory);
+// 获取分类绑定的花型列表
+export const getBindingProductlist = param => _fetch(METHODS.get, param, API.productCategory.listBindingProduct);
+// 新增花型分类
+export const addProductCategory = param => _fetch(METHODS.post, param, API.productCategory.addProductCategory);
+// 修改花型分类
+export const updateProductCategory = param => _fetch(METHODS.post, param, API.productCategory.updateProductCategory);
+// 花型分类绑定解绑
+export const bindingProduct = param => _fetch(METHODS.get, param, API.productCategory.bindingProduct);
+// 花型分类排序
+export const sortProductCategory = param => _fetch(METHODS.get, param, API.productCategory.sortProductCategory);
+// 分类中的花型排序
+export const sortBindingProduct = param => _fetch(METHODS.get, param, API.productCategory.sortBindingProduct);

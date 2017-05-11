@@ -21,19 +21,22 @@ export default {
   @component filter{
     border: var(--filterBorder);
     border-bottom:none;
-    display: flex;
+    display: table;
+    width: 100%;
     @descendent title{
       border-right: var(--filterBorder);
       background: var(--filterTitileBg);
       width: 14.5%;
       line-height: 56px;
       text-align: center;
-      display: inline-block;
+      vertical-align: middle;
+      display: table-cell;
     }
     @descendent content{
-      flex:1;
-      margin-left: 28px;
-      align-self: center;
+      padding: 12px 0;
+      padding-left: 28px;
+      vertical-align: middle;
+      display: table-cell;
     }
     &:last-child{
       border-bottom: var(--filterBorder)
