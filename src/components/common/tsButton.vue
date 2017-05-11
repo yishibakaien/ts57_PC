@@ -1,5 +1,5 @@
 <template>
-<button class="ts-button" @click="handleClick" :disabled="disabled" :class="['ts-button--'+type,'ts-button--'+size,{'is-disabled':disabled}]">
+<button type="button" class="ts-button" @click.self="handleClick" :disabled="disabled" :class="['ts-button--'+type,'ts-button--'+size,{'is-disabled':disabled}]">
     <span class="ts-button-icon" v-if="icon || $slots.icon">
       <slot name="icon">
         <i v-if="icon" class="iconfont" :class={"iconfont-"+icon}></i>
@@ -55,8 +55,8 @@ export default {
 
 @component-namespace ts {
   @component button {
-    appearance: none;
     cursor: pointer;
+    appearance: none;
     box-sizing: border-box;
     color: inherit;
     display: block;

@@ -132,7 +132,7 @@ export default {
   },
   async created() {
     // 获取花型列表
-    this.productList = (await getProductList(this.Params)).data;
+    this.productList = (await getProductList(this.Params)).data.data;
     // 默认创建一个cookie
     !this.getCookie(this.Cookie.key) ? this.setCookie(this.Cookie.key, this.Cookie.value, this.Cookie.day) : '';
   },
@@ -144,17 +144,17 @@ export default {
         categorys: null,
         publishStatuss: null
       });
-      this.productList = (await getProductList(this.Params)).data;
+      this.productList = (await getProductList(this.Params)).data.data;
     },
     // 添加“分类”条件搜索
     async handleFilterPublishStatus(e) {
       this.Params.publishStatuss = e;
-      this.productList = (await getProductList(this.Params)).data;
+      this.productList = (await getProductList(this.Params)).data.data;
     },
     // 添加“面料”条件搜索
     async handleFilterCategorys(e) {
       this.Params.categorys = !e ? null : [this.Filter.categorys].map(item => parseInt(item));
-      this.productList = (await getProductList(this.Params)).data;
+      this.productList = (await getProductList(this.Params)).data.data;
     },
     // 处理接口处理
     // type=shelve : 花型上下架
@@ -168,7 +168,7 @@ export default {
         isUp: params.isUp
       });
       // 重新花型列表接口
-      this.productList = (await getProductList(this.Params)).data;
+      this.productList = (await getProductList(this.Params)).data.data;
     },
     // 点击“删除”=>判断cookie是否显示
     async handleShowDialog(item) {
@@ -191,7 +191,7 @@ export default {
       });
       this.ConfirmDialog.show = false;
       this.chooseItem = [];
-      this.productList = (await getProductList(this.Params)).data;
+      this.productList = (await getProductList(this.Params)).data.data;
     },
     // 设置cookie
     handleNoShowDialog(e) {

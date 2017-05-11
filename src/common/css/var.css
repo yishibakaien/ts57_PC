@@ -41,6 +41,7 @@
   --input-disabled-color: grey;
   --input-append-color: #666666;
   --input-append-hover-color: #4C93FD;
+  --input-date-picker-color: #4C93FD;
   /*select*/
   --select-height: 32px;
   --select-border: 1px solid #dbdbdb;

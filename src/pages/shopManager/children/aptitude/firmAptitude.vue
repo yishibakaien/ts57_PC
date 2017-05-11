@@ -4,8 +4,8 @@
     <ts-button type="primary">编辑</ts-button>
   </div>
   <div class="aptitude-row">
-    <div class="aptitude-col-4" v-for="n in 4">
-      <ts-image height="200" class="aptitude-img" src="http://n.sinaimg.cn/transform/20150106/n1I3-cesifvy2915370.jpg" />
+    <div class="aptitude-col-4">
+      <!-- <ts-image height="200" class="aptitude-img" v-model="http://n.sinaimg.cn/transform/20150106/n1I3-cesifvy2915370.jpg" /> -->
     </div>
   </div>
 </ts-section>

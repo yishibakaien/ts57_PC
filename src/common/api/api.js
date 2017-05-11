@@ -92,7 +92,8 @@ const API = {
   },
   // 公司
   company: {
-    getCompanyInfo: '/company/getCompanyInfo' // 获取档口OR工厂信息
+    getCompanyInfo: '/company/getCompanyInfo', // 获取档口OR工厂信息
+    updateCompany: '/company/updateCompany' // 修改工厂或档口信息
   },
   oss: {
     token: '/file/token' // OSS_token
@@ -387,3 +388,5 @@ export const getAlbumPicsList = param => _fetch(METHODS.post, param, API.albumPi
 export const deleteAlbumPic = param => _fetch(METHODS.post, param, API.albumPic.deleteAlbumPic);
 // 获取档口OR工厂信息
 export const getCompanyInfo = param => _fetch(METHODS.get, param, API.company.getCompanyInfo);
+// 修改工厂或档口信息
+export const updateCompany = param => _fetch(METHODS.post, param, API.company.updateCompany);

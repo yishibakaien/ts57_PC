@@ -82,7 +82,7 @@ export default {
     }
   },
   async created() {
-    this.albumPicsList = (await getAlbumPicsList(this.Params)).data;
+    this.albumPicsList = (await getAlbumPicsList(this.Params)).data.data;
     // 默认创建一个cookie
     !this.getCookie(this.Cookie.key) ? this.setCookie(this.Cookie.key, this.Cookie.value, this.Cookie.day) : '';
   },
@@ -94,7 +94,7 @@ export default {
       });
       this.chooseImg.list = [];
       this.ConfirmDialog.show = false;
-      this.albumPicsList = (await getAlbumPicsList(this.Params)).data;
+      this.albumPicsList = (await getAlbumPicsList(this.Params)).data.data;
     },
     // 点击“删除”=>判断cookie是否显示
     async handleShowDialog() {

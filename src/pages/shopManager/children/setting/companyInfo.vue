@@ -6,7 +6,7 @@
     <ts-form :model="companyInfoForm" :rules="rules" ref="companyInfoForm" label-width="125px" label-position="left" class="companyInfo-container">
       <div class="companyInfo-container-col">
         <ts-form-item label="商家id:">
-          <p class="companyInfo-formItem-text">{{companyInfoForm.companyExtendBO.companyId}}</p>
+          <p class="companyInfo-formItem-text">{{companyInfoForm.id}}</p>
         </ts-form-item>
         <ts-form-item label="公司名称：" prop="companyName">
           <p v-if="Text.show" class="companyInfo-formItem-text">{{companyInfoForm.companyName}}</p>

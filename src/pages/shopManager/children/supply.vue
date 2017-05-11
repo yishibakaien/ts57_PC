@@ -121,7 +121,7 @@ export default {
     };
   },
   async created() {
-    this.companySupplyList = (await getCompanySupplylist()).data;
+    this.companySupplyList = (await getCompanySupplylist()).data.data;
     // 默认创建一个cookie
     !this.getCookie(this.Cookie.key) ? this.setCookie(this.Cookie.key, this.Cookie.value, this.Cookie.day) : '';
   },
@@ -132,17 +132,17 @@ export default {
     // 添加“分类”条件搜索
     async handleFilterSupplyStatus(e) {
       this.Params.supplyStatus = e;
-      this.productList = (await getCompanySupplylist(this.Params)).data;
+      this.productList = (await getCompanySupplylist(this.Params)).data.data;
     },
     // 添加“面料种类”条件搜索
     async handleFilterSupplyTypes(e) {
       this.Params.supplyTypes = e;
-      this.productList = (await getCompanySupplylist(this.Params)).data;
+      this.productList = (await getCompanySupplylist(this.Params)).data.data;
     },
     // 添加“供货方式”条件搜索
     async handleFilterSupplyShapes(e) {
       this.Params.supplyShapes = e;
-      this.productList = (await getCompanySupplylist(this.Params)).data;
+      this.productList = (await getCompanySupplylist(this.Params)).data.data;
     },
     // 点击“删除”=>判断cookie是否显示
     async handleShowDialog(item) {
@@ -161,11 +161,9 @@ export default {
     // 关闭供应
     async handleCloseSupply() {
       await closeCompanySupply({
-        // TODO: 云龙之后再加
-        //  ids: [params.ids].join(',')
-        id: this.ConfirmDialog.id.join(',')
+        ids: this.ConfirmDialog.id.join(',')
       });
-      this.companySupplyList = (await getCompanySupplylist()).data;
+      this.companySupplyList = (await getCompanySupplylist()).data.data;
       this.ConfirmDialog.show = false;
       this.chooseItem = [];
     },

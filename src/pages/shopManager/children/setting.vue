@@ -1,8 +1,8 @@
 <template>
 <section class="setting">
-  <!-- <company-info></company-info> -->
+  <company-info></company-info>
   <message-phone></message-phone>
-  <!-- <address-info></address-info> -->
+  <address-info></address-info>
 </section>
 </template>
 

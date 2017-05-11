@@ -22,7 +22,7 @@ const actions = {
     commit
   }, params) {
     let data = await getCompanyInfo(params);
-    commit('GET_COMPANY_INFO', data.data);
+    commit('GET_COMPANY_INFO', data.data.data);
   },
   // 获取成分列表
   async getIngredientsList({commit}) {

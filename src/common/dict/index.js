@@ -1,4 +1,68 @@
 const DICT = {
+  // 注册资金
+  RegisteredMoney: [
+    {
+      label: '0-1000万',
+      value: 1
+    }, {
+      label: '1001-5000万',
+      value: 2
+    }, {
+      label: '5001-15000万',
+      value: 3
+    }, {
+      label: '15001万以上',
+      value: 4
+    }
+  ],
+  // 人数
+  Nop: [
+    {
+      label: '0-20',
+      value: 1
+    }, {
+      label: '21-50',
+      value: 2
+    }, {
+      label: '51-100',
+      value: 3
+    }, {
+      label: '101以上',
+      value: 4
+    }
+  ],
+  // 营业额
+  Turnover: [
+    {
+      label: '0-1000万',
+      value: 1
+    }, {
+      label: '1001-5000万',
+      value: 2
+    }, {
+      label: '5001-15000万',
+      value: 3
+    }, {
+      label: '15001万以上',
+      value: 4
+    }
+  ],
+  // 企业类型
+  CompanyType: [
+    {
+      label: '蕾丝生产企业',
+      value: 1
+    }, {
+      label: '贸易企业',
+      value: 2
+    }, {
+      label: '服装生产企业',
+      value: 3
+    }, {
+      label: '其他企业',
+      value: 4
+    }
+  ],
   // 花型分类SupplyType
   SupplyType: [
     {

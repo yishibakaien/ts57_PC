@@ -1,7 +1,7 @@
 <template>
 <div :class="[type === 'textarea' ? 'ts-textarea' : 'ts-input',{'is-disabled': disabled}]">
   <!-- input -->
-  <input v-if="type !== 'textarea'" class="ts-input--inner" :placeholder="placeholder" :disabled="disabled" :readonly="readonly" :maxlength="maxlength" :minlength="minlength" :autocomplete="autoComplete" :autofocus="autofocus"
+  <input v-if="type !== 'textarea'" :type="inputType" class="ts-input--inner" :placeholder="placeholder" :disabled="disabled" :readonly="readonly" :maxlength="maxlength" :minlength="minlength" :autocomplete="autoComplete" :autofocus="autofocus"
     :min="min" :max="max" :step="step" :value="currentValue" ref="input" @input="handleInput" @focus="handleFocus" @blur="handleBlur" :class="{'is-validateEvent':validateEvent}">
     <div class="ts-input--append" v-if="$slots.append">
        <slot name="append"></slot>
@@ -40,6 +40,7 @@ export default {
       type: String,
       default: 'off'
     },
+    inputType: String,
     maxlength: Number,
     minlength: Number,
     max: {},
@@ -97,7 +98,30 @@ export default {
     width: 100%;
     vertical-align: middle;
     margin:2px 0;
+    input[type="date"] {
+    appearance: none;
+    box-shadow: none;
+    font-family: inherit;
+    padding:3px 10px;
+    display: inline-block !important;
+    visibility: visible !important;
+    transition: .5s;
+      &::-webkit-inner-spin-button {
+        display: none;
+      }
+      &::-webkit-calendar-picker-indicator {
+        cursor: pointer;
+        color: var(--input-date-picker-color);
+        &:hover{
+          background:none;
+        }
+      }
+      &::-webkit-clear-button {
+        display: none;
+      }
+    }
     @modifier inner{
+      font-size: inherit;
       appearance: none;
       background-color: var(--input-fill);
       background-image: none;
