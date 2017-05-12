@@ -6,7 +6,7 @@
       <ts-button type="plain" @click="handleEditDialog">编辑分类</ts-button>
     </div>
     <div slot="footer">
-      <ts-button type="primary" @click="handleUnbindProduct({ids:chooseItem})">从本类移出</ts-button>
+      <ts-button type="primary" @click="handleUnbindProduct({ids:chooseItem,unbinding:true,classId:BindingProductList.list[0].category})">从本类移出</ts-button>
     </div>
     <!-- 过滤器 -->
     <div class="classification-filter">
@@ -33,7 +33,7 @@
       <ts-checkbox-group v-model="chooseItem">
         <ts-menu-table>
           <div slot="header-left">
-            <ts-checkbox :label="item.id">#{{item.productNo}}&nbsp{{item.category | filterDict(dicTree.PRODUCT_SHAPE)}}</ts-checkbox>
+            <ts-checkbox :label="item.bandId">#{{item.productNo}}&nbsp{{item.category | filterDict(dicTree.PRODUCT_SHAPE)}}</ts-checkbox>
           </div>
           <div slot="header-right">
             状态：
@@ -53,7 +53,7 @@
             <template v-else>
               <a class="classification-table--link" @click="handleUpMoveProductList(item,index)" v-if="index!==0">上</a>
               <a class="classification-table--link" @click="handleDownMoveProductList(item,index)" v-if="index!==BindingProductList.list.length-1">下</a>
-              <a class="classification-table--link" @click="handleUnbindProduct({ids:item.id})">删</a>
+              <a class="classification-table--link" @click="handleUnbindProduct({ids:item.bandId,unbinding:true,classId:item.category})">删</a>
             </template>
           </ts-menu-table-item>
         </ts-menu-table>
@@ -75,7 +75,7 @@
         <ts-input style="width:230px" :value="item.className" @input="handleInput(item,$event)"></ts-input>
         <i @click="handleUpMoveCategory(item,index)" v-if="index!==0">上</i>
         <i @click="handleDownMoveCategory(item,index)" v-if="index!==Classification.userCategory.length-1">下</i>
-        <i>删</i>
+        <i @click="handleDelCategory(item)">删</i>
       </div>
     </div>
   </ts-dialog>
@@ -84,6 +84,7 @@
 
 <script>
 import {
+  deleteProductCategory,
   listSystemProductCategory,
   listUserProductCategory,
   getBindingProductlist,
@@ -182,6 +183,7 @@ export default {
       this.BindingProductList = (await getBindingProductlist(this.Params)).data.data;
       // 系统分类
       this.Classification.systemCategory = (await listSystemProductCategory()).data.data;
+      this.Params.classId = this.Classification.systemCategory[0].id;
       // 用户分类
       // XXX:PC端做不了分页 只能传一个很高的数字去获取
       this.Classification.userCategory = (await listUserProductCategory({
@@ -213,11 +215,17 @@ export default {
       let downMovedArr = this.downMove(this.Classification.userCategory, index).map(item => item.id);
       this.Classification.MovedIds = downMovedArr.toString();
     },
+    async handleDelCategory(item) {
+      await deleteProductCategory({
+        ids: item.id
+      });
+      this.Classification.userCategory = (await listUserProductCategory({
+        pageNo: 1,
+        pageSize: 1000
+      })).data.data.list;
+    },
     async handleEditDialog() {
       this.Classification.editDialog = true;
-    },
-    handleUnbindProduct(params){
-
     },
     // 关闭对话框
     closeDialog(model) {
@@ -242,11 +250,11 @@ export default {
     productId	取id的值	number	绑定时需要带上，解绑时不需要
     unbinding	是否绑定	boolean	true--解绑 false--绑定（默认）
      */
-    async handleUnbing(item) {
+    async handleUnbindProduct(params) {
       await bindingProduct({
-        classId: item.category,
-        id: item.bandId,
-        unbinding: true
+        classId: params.category,
+        ids: params.ids,
+        unbinding: params.unbinding
       });
     },
     // XXX:函数去抖=> 因为PC端修改分类不能批量修改 所以修改一个等800毫秒后执行

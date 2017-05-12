@@ -93,6 +93,7 @@ const API = {
   // 花型分类
   productCategory: {
     listSystemProductCategory: '/productCategory/listSystemProductCategory', // 系统定义花型分类列表
+    deleteProductCategory: '/productCategory/deleteProductCategory', // 删除花型分类
     listUserProductCategory: '/productCategory/listUserProductCategory', // 自定义花型分类列表
     addProductCategory: '/productCategory/addProductCategory', // 新增花型分类
     updateProductCategory: '/productCategory/updateProductCategory', // 修改花型分类
@@ -423,3 +424,5 @@ export const bindingProduct = param => _fetch(METHODS.get, param, API.productCat
 export const sortProductCategory = param => _fetch(METHODS.get, param, API.productCategory.sortProductCategory);
 // 分类中的花型排序
 export const sortBindingProduct = param => _fetch(METHODS.get, param, API.productCategory.sortBindingProduct);
+// 删除花型分类
+export const deleteProductCategory = param => _fetch(METHODS.post, param, API.productCategory.deleteProductCategory);
