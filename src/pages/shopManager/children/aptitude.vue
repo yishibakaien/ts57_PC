@@ -1,8 +1,8 @@
 <template>
-  <section>
-    <firm-info></firm-info>
-    <firm-aptitude></firm-aptitude>
-  </section>
+<section>
+  <firm-info></firm-info>
+  <firm-aptitude></firm-aptitude>
+</section>
 </template>
 
 <script>
@@ -12,6 +12,9 @@ export default {
   components: {
     FirmInfo,
     FirmAptitude
+  },
+  created() {
+    this.$store.dispatch('getCompanyAptitude');
   }
 };
 </script>

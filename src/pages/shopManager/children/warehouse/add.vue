@@ -1,5 +1,6 @@
 <template lang="html">
   <ts-section :pageTitle="title">
+    <pre>{{addPatternForm}}</pre>
     <ts-form :model="addPatternForm" :rules="rules"  ref="addPatternForm" label-width="125px" label-position="left">
       <ts-form-item label="花型编号：" prop="productNo">
         <ts-input v-model="addPatternForm.productNo" style="width:320px" placeholder="请输入花型编号"></ts-input>
@@ -16,7 +17,7 @@
           <!-- 原有的成分 -->
           <!-- 成分类型ingredientType为1才可以修改／删除 -->
           <div class="add-radio" :key="item.id" v-for="item in ingredientList">
-            <ts-radio :label="item.id.toString()" :key="item.id">
+            <ts-radio :label="item.ingredientName" :key="item.id">
               <span
                 :contenteditable="item.ingredientType=== 1"
                 @input="handleInputIngredient"
@@ -94,7 +95,7 @@ import {
 } from '@/components';
 import {
   addProducts,
-  // getProduct,
+  getProduct,
   getIngredientsList,
   // updateIngredient,
   updateProducts,
@@ -121,7 +122,6 @@ export default {
           message: '请输入正确的价格'
         }],
         productNo: [{
-          pattern: /^[0-9a-zA-Z]*$/,
           required: true,
           message: '请输入正确的花型编号'
         }],
@@ -264,14 +264,14 @@ export default {
       priceUnit: DICT.PriceUnits[2].value
     });
     // 编辑页面
-    // if (this.$route.query.id) {
-    //   let data = await getProduct(this.$route.query.id);
-    //   this.addPatternForm = data.data.data;
-    // }
+    if (this.$route.query.id) {
+      let data = await getProduct(this.$route.query.id);
+      this.addPatternForm = data.data.data;
+    }
     // // 从素材库进来
-    // if (this.$route.query.url) {
-    //   this.addPatternForm.picsUrl = this.$route.query.url;
-    // }
+    if (this.$route.query.url) {
+      this.addPatternForm.picsUrl = this.$route.query.url;
+    }
   }
 };
 </script>
@@ -280,7 +280,7 @@ export default {
 :root {
   --add-radio-close-color: white;
   --add-radio-close-bg: red;
-  --add-radio-close-hover-bg: #ff7478;
+  --add-radio-close-hover-bg: #bc0303;
   --add-radio-close-size: 16px;
 }
 

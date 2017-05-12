@@ -11,13 +11,12 @@ import {
 } from '@/common/dict/const';
 export default {
   computed: {
-    picUrl: {
-      get() {
-        if (this.value.indexOf(ALI_DOMAIN) > -1) {
-          return this.value;
-        } else {
-          return ALI_DOMAIN + this.value;
-        }
+    picUrl() {
+      console.log(this.value.indexOf(ALI_DOMAIN));
+      if (this.value.indexOf(ALI_DOMAIN) > -1) {
+        return this.value;
+      } else {
+        return this.value;
       }
     }
   },
@@ -89,10 +88,14 @@ export default {
     border:1px solid rgba(155,155,155,0.1);
     box-sizing: border-box;
     vertical-align: middle;
+    transition: 1s;
     @descendent img{
       max-width: 100%;
       min-height: 100%;
       vertical-align: middle;
+      &:hover{
+        transform:scale(1.05);
+      }
     }
     @descendent check{
       position: absolute 0 0 0 0;

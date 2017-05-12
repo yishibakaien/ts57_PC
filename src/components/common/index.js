@@ -5,16 +5,17 @@ import tsImage from './tsImage.vue';
 import tsRadio from './radio/tsRadio.vue';
 import tsRadioGroup from './radio/tsRadioGroup.vue';
 import tsSection from './tsSection.vue';
-import tsMenuTable from './tsMenuTable.vue';
-import tsMenuTableItem from './tsMenuTableItem.vue';
+import tsMenuTable from './menutable/tsMenuTable.vue';
+import tsMenuTableItem from './menutable/tsMenuTableItem.vue';
 import tsDialog from './tsDialog.vue';
-import tsTable from './tsTable.vue';
-import tsColumn from './tsColumn.vue';
+import tsTable from './tables/tsTable.vue';
+import tsMessageBox from './messagebox/messagebox';
+import tsColumn from './tables/tsColumn.vue';
 import tsInput from './tsInput.vue';
 import tsSelect from './select/tsSelect.vue';
 import tsButton from './tsButton.vue';
-import tsForm from './tsForm.vue';
-import tsFormItem from './tsFormItem.vue';
+import tsForm from './forms/tsForm.vue';
+import tsFormItem from './forms/tsFormItem.vue';
 import tsPagination from '../pageBar/pageBar.vue';
 const Components = {
   tsSection,
@@ -40,6 +41,7 @@ const install = function(Vue) {
   for (let i in Components) {
     Vue.component(i, Components[i]);
   };
+  Vue.$messagebox = Vue.prototype.$messagebox = tsMessageBox;
 };
 if (typeof window !== 'undefined' && window.Vue) {
   install(window.Vue);

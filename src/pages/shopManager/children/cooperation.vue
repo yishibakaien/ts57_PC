@@ -7,10 +7,10 @@
           O
         </span>
       </ts-input>
-      <ts-button type="primary">新增厂家</ts-button>
+      <ts-button type="primary">新增</ts-button>
     </div>
     <div slot="footer">
-      <!-- TODO:暂时TABLE无法完成全选 -->
+      <!-- FIXME:暂时TABLE无法完成全选 -->
       <!-- <ts-button type="cancel">删除</ts-button> -->
     </div>
     <ts-table :data="data" @th-col-click="thColClick" @body-tr-click="trClick">

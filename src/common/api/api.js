@@ -105,7 +105,9 @@ const API = {
   // 公司
   company: {
     getCompanyInfo: '/company/getCompanyInfo', // 获取档口OR工厂信息
-    updateCompany: '/company/updateCompany' // 修改工厂或档口信息
+    updateCompany: '/company/updateCompany', // 修改工厂或档口信息
+    getCompanyAptitude: '/companyAptitude/getCompanyAptitude', // 查询公司资质信息
+    saveCompanyAptitude: '/companyAptitude/saveCompanyAptitude' // 修改公司资质信息
   },
   // 数据字典
   dicTree: {
@@ -372,6 +374,10 @@ export const getDicTree = param => _fetch(METHODS.get, param, API.dicTree.byType
 // =======
 // 店铺管理
 // =======
+// 查询公司资质信息
+export const getCompanyAptitude = param => _fetch(METHODS.get, param, API.company.getCompanyAptitude);
+// 修改公司资质信息
+export const saveCompanyAptitude = param => _fetch(METHODS.post, param, API.company.saveCompanyAptitude);
 // 获取花型列表
 export const getProductList = param => _fetch(METHODS.post, param, API.product.listProducts);
 // 获取花型详情
