@@ -113,6 +113,11 @@ const API = {
   dicTree: {
     byTypeKey: '/front/dicTree/byTypeKey'
   },
+  // 地理区域
+  area: {
+    byLevel: '/front/area/byLevel',
+    byParent: '/front/area/byParent'
+  },
   oss: {
     token: '/file/token' // OSS_token
   }
@@ -193,12 +198,12 @@ function _fetch(method = METHODS.get, data, url) {
       }
       //			if (res.data.code !== 0 && res.data.message) {
       if (res.data.message) {
-        store.commit(types.MODEL_SHOW, true);
-        store.commit(types.MODEL_OPTION, {
-          type: 2,
-          title: '提示',
-          content: res.data.message
-        });
+        // store.commit(types.MODEL_SHOW, true);
+        // store.commit(types.MODEL_OPTION, {
+        //   type: 2,
+        //   title: '提示',
+        //   content: res.data.message
+        // });
       }
       resolve(res);
     }).catch((res) => {
@@ -371,6 +376,10 @@ export function token() {
 };
 // 获取数据字典
 export const getDicTree = param => _fetch(METHODS.get, param, API.dicTree.byTypeKey);
+// 根据级别获取信息
+export const getAreabyLevel = param => _fetch(METHODS.get, param, API.area.byLevel);
+// 根据父级编码获取信息
+export const getAreabyParent = param => _fetch(METHODS.get, param, API.area.byParent);
 // =======
 // 店铺管理
 // =======
@@ -395,7 +404,7 @@ export const getIngredientsList = param => _fetch(METHODS.get, param, API.ingred
 // 自定义成分
 export const addIngredient = param => _fetch(METHODS.post, param, API.ingredient.addIngredient);
 // 修改成分
-export const updateIngredient = param => _fetch(METHODS.get, param, API.ingredient.updateIngredient);
+export const updateIngredient = param => _fetch(METHODS.post, param, API.ingredient.updateIngredient);
 // 删除成分
 export const deleteIngredient = param => _fetch(METHODS.post, param, API.ingredient.deleteIngredient);
 // 获取供应列表

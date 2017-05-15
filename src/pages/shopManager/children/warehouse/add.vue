@@ -1,7 +1,7 @@
 <template lang="html">
   <ts-section :pageTitle="title">
     <pre>{{addPatternForm}}</pre>
-    <ts-form :model="addPatternForm" :rules="rules"  ref="addPatternForm" label-width="125px" label-position="left">
+    <ts-form :model="addPatternForm" :rules="rules"  ref="addPatternForm" label-width="125px" label-position="left" >
       <ts-form-item label="花型编号：" prop="productNo">
         <ts-input v-model="addPatternForm.productNo" style="width:320px" placeholder="请输入花型编号"></ts-input>
         <!-- TODO：雨嘉说隐藏 -->
@@ -9,7 +9,7 @@
       </ts-form-item>
       <ts-form-item label="花型分类：" prop="category">
         <ts-radio-group bordered v-model="addPatternForm.category">
-          <ts-radio :label="item.value" v-for="item in DICT.SupplyType" :key="item.label">{{item.label}}</ts-radio>
+          <ts-radio :label="item.dicValue" v-for="item in dicTree.PRODUCT_TYPE" :key="item.label">{{item.name}}</ts-radio>
         </ts-radio-group>
       </ts-form-item>
       <ts-form-item label="花型成分：" prop="ingredient">
@@ -20,59 +20,57 @@
             <ts-radio :label="item.ingredientName" :key="item.id">
               <span
                 :contenteditable="item.ingredientType=== 1"
-                @input="handleInputIngredient"
-                @key.enter.native="handleEditIngredient">
+                @keydown="handleInputIngredient(item,$event)">
               {{item.ingredientName}}
               </span>
             </ts-radio>
             <i class="add-radio-close" @click.self="handleDelIngredient(item)" v-if="item.ingredientType=== 1">&times</i>
           </div>
           <!-- 新增的成分 -->
-          <div class="add-radio" :key="item.ingredientName" v-for="(item,index) in newIngredients">
-          <ts-radio :label="item.ingredientName" :key="item.ingredientName" >
+          <!-- v-clickoutside="handleEditIngredient" -->
+          <div class="add-radio">
+          <ts-radio :label="item.ingredientName" :key="item.ingredientName" v-for="(item,index) in newIngredients">
             <span
               contenteditable="plaintext-only"
-              @input="handleInputIngredient"
-              @key.enter.native="handleEditIngredient">
+              @keydown="handleInputIngredient(item,$event)">
             {{item.ingredientName}}
             </span>
-          </ts-radio>
             <i class="add-radio-close" @click.self="handleDelIngredient(item)">&times</i>
+          </ts-radio>
           </div>
           <ts-input :validateEvent="false" placeholder="自定义成分" @keyup.enter.native="handleAddIngredient" class="add-input"></ts-input>
         </ts-radio-group>
       </ts-form-item>
       <ts-form-item label="大货类型：" prop="productShape">
         <ts-radio-group bordered v-model="addPatternForm.productShape">
-          <ts-radio origin :label="item.value" :key="item.value" v-for="item in DICT.SupplyShapes">{{item.label}}</ts-radio>
+          <ts-radio origin :label="item.dicValue" :key="item.value" v-for="item in dicTree.PRODUCT_SHAPE">{{item.name}}</ts-radio>
         </ts-radio-group>
       </ts-form-item>
     <ts-form-item label="库存：" prop="isStock" class="add-dynamic">
       <ts-radio-group v-model="addPatternForm.isStock" class="add-dynamic--radioGroup">
-        <ts-radio :label="item.value" :key="item.label" v-for="item in DICT.isStock" type="origin">{{item.label}}</ts-radio>
+        <ts-radio :label="item.dicValue" :key="item.dicValue" v-for="item in dicTree.PRODUCT_UNIT" type="origin">{{item.name}}</ts-radio>
       </ts-radio-group>
       <ts-form-item prop="stock" labelWidth="0" v-if="addPatternForm.isStock===1" class="add-dynamic--input">
           <ts-input v-model="addPatternForm.stock" style="width:150px" placeholder="请输入库存数量"></ts-input>
-          <ts-select style="width:20%" data-key-name="label" data-val-name="value" placeholder="选择单位" :options='DICT.StockUnits' v-model="addPatternForm.stockUnit"></ts-select>
+          <ts-select style="width:20%" data-key-name="name" data-val-name="dicValue" placeholder="选择单位" :options='dicTree.PRODUCT_UNIT' v-model="addPatternForm.stockUnit"></ts-select>
       </ts-form-item>
     </ts-form-item>
       <ts-form-item label="上架至：" prop="publishStatus">
         <ts-radio-group bordered v-model="addPatternForm.publishStatus">
-          <ts-radio :label="item.value" :key="item.value" v-for="item in DICT.PublishStatus">{{item.label}}</ts-radio>
+          <ts-radio :label="item.dicValue" :key="item.dicValue" v-for="item in DICT.PublishStatus">{{item.label}}</ts-radio>
         </ts-radio-group>
       </ts-form-item>
-      <!-- TODO:花型图片 -->
       <ts-form-item label="花型图片：" prop="picsUrl">
-        <ts-image width="200" height="200" v-model="addPatternForm.picsUrl" type="local" v-show="Pic.show"></ts-image>
+        <ts-image width="200" height="200" :src="addPatternForm.picsUrl" type="local" v-show="Pic.show"></ts-image>
           <label class="add-upload-button">
             {{Pic.text}}
-            <aliUpload id="addPic" @doUpload="uploadImg"></aliUpload>
+            <ts-aliupload id="addPic" @doUpload="uploadImg"></ts-aliupload>
           </label>
       </ts-form-item>
     <p class="add-list-title">选填内容</p>
     <ts-form-item label="价格：" prop="price">
       <ts-input v-model="addPatternForm.price" style="width:320px" placeholder="请输入单价"></ts-input>
-      <ts-select style="width:12%" data-key-name="label" data-val-name="value" placeholder="选择单位" :options='DICT.PriceUnits' v-model="addPatternForm.priceUnit" ></ts-select>
+      <ts-select style="width:12%" data-key-name="name" data-val-name="dicValue" placeholder="选择单位" :options='dicTree.dicValue' v-model="addPatternForm.priceUnit" ></ts-select>
     </ts-form-item>
     <ts-form-item label="幅宽：" prop="width">
       <ts-input v-model="addPatternForm.width" style="width:320px" placeholder="请输入幅宽"></ts-input>
@@ -91,19 +89,18 @@
 
 <script>
 import {
-  aliUpload
-} from '@/components';
-import {
   addProducts,
   getProduct,
   getIngredientsList,
-  // updateIngredient,
-  updateProducts,
+  updateIngredient,
+  updateProduct,
   addIngredient,
   deleteIngredient
 } from '@/common/api/api';
 import DICT from '@/common/dict';
 import Emitter from '@/common/js/mixins/emitter';
+import Clickoutside from '@/common/js/clickoutside';
+import {mapGetters} from 'vuex';
 export default {
   data() {
     return {
@@ -193,8 +190,8 @@ export default {
       }
     };
   },
-  components: {
-    aliUpload
+  directives: {
+    Clickoutside
   },
   watch: {
     'addPatternForm.picsUrl' (val) {
@@ -203,17 +200,30 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['dicTree']),
     title() {
       return this.$route.query.id ? '修改花型' : '新增花型';
     }
   },
   mixins: [Emitter],
   methods: {
-    handleInputIngredient(e) {
-      console.log(e);
+    async handleInputIngredient(item, event) {
+      // enter就提交
+      if (event.which === 13) {
+        event.preventDefault();
+        let res = await updateIngredient({
+          id: item.id,
+          ingredientName: event.target.innerText
+        });
+        // 最多8个字 => 如果报错就会恢复之前的名字
+        if (res.data.code === 1004001) {
+          event.target.innerHTML = item.ingredientName;
+        }
+        return;
+      }
     },
     handleEditIngredient(e) {
-      e.preventDefault();
+      console.log(e);
     },
     async handleDelIngredient(item) {
       let ingredientIndex = this.ingredientList.findIndex(i => i.id === item.id);
@@ -248,7 +258,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(async(valid) => {
         if (valid) {
-          this.$route.query.id ? await updateProducts(this.addPatternForm) : await addProducts(this.addPatternForm);
+          this.$route.query.id ? await updateProduct(this.addPatternForm) : await addProducts(this.addPatternForm);
           await this.$router.go(-1);
         } else {
           return false;
@@ -260,8 +270,8 @@ export default {
     this.ingredientList = (await getIngredientsList()).data.data;
     // 默认会选中第一个值
     this.addPatternForm = Object.assign({}, this.addPatternForm, {
-      stockUnit: DICT.StockUnits[2].value,
-      priceUnit: DICT.PriceUnits[2].value
+      stockUnit: DICT.StockUnits[2].dicValue,
+      priceUnit: DICT.PriceUnits[2].dicValue
     });
     // 编辑页面
     if (this.$route.query.id) {

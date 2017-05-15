@@ -25,6 +25,7 @@
         <!-- {{$slots.default}} -->
         <slot name="footer"></slot>
       </div>
+
     </div>
   </div>
 </transition>
@@ -190,7 +191,7 @@ export default {
       text-align: center;
       background-color:var(--dialogFooterBg);
       box-sizing: border-box;
-      height: 40px;
+      max-height: 40px;
       align-items: center;
       display: flex;
       padding-left: 10px;

@@ -1,7 +1,7 @@
 <template>
 <ts-section pageTitle="企业详细信息">
   <div slot="menu">
-    <ts-button type="primary" @click="editCompany">编辑</ts-button>
+    <ts-button type="primary" @click="editCompany">{{Text.show?'编辑':'保存'}}</ts-button>
   </div>
   <ts-form :model="companyInfoForm" :rules="rules" ref="companyInfoForm" label-width="125px" label-position="left" class="companyInfo-container">
     <div class="companyInfo-container-col">

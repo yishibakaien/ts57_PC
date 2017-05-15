@@ -6,10 +6,11 @@
   <div class="aptitude-row">
     <div class="aptitude-col-4 aptitude-container" v-for="(item,index) in srcImg">
       <i class="aptitude-container-close" @click.self="handleDelAptitude(item)" v-if="Close.isShow">&times</i>
-      <ts-image height="200" class="aptitude-img" v-model="srcImg[index]" />
+      <ts-image height="200" class="aptitude-img" :src="item" />
     </div>
-    <div class="aptitude-plus-img">
-    </div>
+    <label class="aptitude-plus-img">
+        <ts-aliupload id="firmApitude" @doUpload="uploadImg"></ts-aliupload>
+    </label>
   </div>
 </ts-section>
 </template>
@@ -18,6 +19,9 @@
 import {
   // saveCompanyAptitude,
 } from '@/common/api/api';
+import {
+  ALI_DOMAIN
+} from '@/common/dict/const';
 import {
   mapGetters
 } from 'vuex';
@@ -30,18 +34,27 @@ export default {
       },
       // 显示关闭的按钮
       showClose: false,
-      srcImg: ['http://n.sinaimg.cn/transform/20150106/n1I3-cesifvy2915370.jpg', 'http://n.sinaimg.cn/transform/20150106/n1I3-cesifvy2915370.jpg',
-      'http://n.sinaimg.cn/transform/20150106/n1I3-cesifvy2915370.jpg', 'http://n.sinaimg.cn/transform/20150106/n1I3-cesifvy2915370.jpg']
+      srcImg: ['../../../../../static/images/modles/modle1_back.png']
     };
   },
   methods: {
+    // 上传图片
+    uploadImg(e) {
+      // 放到表单
+      console.log(e);
+      this.srcImg.push(ALI_DOMAIN + e.ossUrl[e.ossUrl.length - 1]);
+      // this.addPatternForm.picsUrl = e.ossUrl[e.ossUrl.length - 1];
+    },
     handleDelAptitude(i) {
-      this.$messagebox.confirm('确定删除吗？').then(action => {
-        this.srcImg.splice(i, 1);
+      this.$toast({
+        showClose: true,
+        message: '警告哦，这是一条警告消息',
+        type: 'warning'
       });
     },
     handleEditAptitude() {
       // this.aptitude.aptitudeUrl
+      this.Close.isShow = !this.Close.isShow;
     }
   },
   computed: {
@@ -88,6 +101,7 @@ export default {
     font-size: 100px;
     font-weight: 100;
     cursor: pointer;
+    transition: .5s;
     color: rgba(155,155,155,0.8);
     &:hover{
       color:rgba(155,155,155,1);
@@ -107,12 +121,12 @@ export default {
       border-radius: 50%;
       text-align: center;
       font-size: 17px;
+      z-index: 2;
       cursor: pointer;
       background: var(--aptitude-close-bg);
       color: var(--aptitude-close-color);
       size: var(--aptitude-close-size) var(--aptitude-close-size);
       transition: .3s;
-      z-index: 1;
       &:hover {
         background: var(--aptitude-close-hover-bg);
       }

@@ -15,7 +15,7 @@ export const filterDict = (val, $arr, label = 'label') => {
     if (!val && val.length === 0) {
       return val;
     }
-    let filter = $arr.filter(item => item.value.toString() === val.toString());
+    let filter = $arr.filter(item => item.dicValue.toString() === val.toString());
     return filter[0][label];
   } catch (e) {
   }

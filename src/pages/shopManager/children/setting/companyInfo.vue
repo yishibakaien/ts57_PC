@@ -1,7 +1,7 @@
 <template lang="html">
   <ts-section pageTitle="企业信息">
     <div slot="menu">
-      <ts-button type="primary" @click="editCompany">{{Text.show?'':''}}</ts-button>
+      <ts-button type="primary" @click="editCompany">{{Text.show?'编辑':'保存'}}</ts-button>
     </div>
     <ts-form :model="companyInfoForm" :rules="rules" ref="companyInfoForm" label-width="125px" label-position="left" class="companyInfo-container">
       <div class="companyInfo-container-col">
@@ -17,11 +17,11 @@
           <ts-input v-else v-model="companyInfoForm.contactTel" style="width:250px"></ts-input>
         </ts-form-item>
         <ts-form-item label="店铺头像：" prop="companyHeadIcon">
-          <ts-image width="200" height="200" v-model="companyInfoForm.companyHeadIcon" type="local"></ts-image>
-          <label class="companyInfo-upload--button" v-if="!Text.show">
-            <ts-button type="primary">修改店铺头像</ts-button>
-            <!-- <aliUpload id="uploadCompanyHeadIcon" @doUpload="uploadImg"></aliUpload> -->
-          </label>
+          <ts-image width="90" height="90" :src="companyInfoForm.companyHeadIcon" v-show="Pic.avatar.show"></ts-image>
+            <label class="companyInfo-upload-button" v-if="!Text.show">
+              {{Pic.avatar.text}}
+              <ts-aliupload :id="Pic.avatar.id" @doUpload="uploadAvatar"></ts-aliupload>
+            </label>
         </ts-form-item>
       </div>
       <div class="companyInfo-container-col">
@@ -37,18 +37,21 @@
           <ts-input v-else v-model="companyInfoForm.fax" style="width:250px"></ts-input>
         </ts-form-item>
         <ts-form-item label="店招：" prop="companyBanner">
-          <ts-image v-model="companyInfoForm.companyBanner" width="224" height="112"></ts-image>
-          <label class="companyInfo-upload--button" v-if="!Text.show">
-            <ts-button type="primary">修改店招</ts-button>
-            <!-- <aliUpload id="upload" @doUpload="uploadImg"></aliUpload> -->
-          </label>
+          <ts-image width="224" height="112" :src="companyInfoForm.companyBanner" v-show="Pic.banner.show"></ts-image>
+            <label class="companyInfo-upload-button" v-if="!Text.show">
+              {{Pic.banner.text}}
+              <ts-aliupload :id="Pic.banner.id" @doUpload="uploadBanner"></ts-aliupload>
+            </label>
         </ts-form-item>
       </div>
-      <ts-form-item label="厂家风采：" prop="productPicUrl">
-        <ts-image width="120" height="120" class="companyInfo-img" :value="i" v-for="i in companyInfoForm.companyPic"></ts-image>
-        <label class="companyInfo-upload--button is-block" v-if="!Text.show">
-          <ts-button type="primary">修改厂家风采</ts-button>
-          <!-- <aliUpload id="upload" @doUpload="uploadImg"></aliUpload> -->
+      <ts-form-item label="厂家风采：" prop="productPicUrl" style="width:100%">
+        <div class="companyInfo-views-container" v-for="(item,index) in companyInfoForm.companyPic" :key="item">
+          <ts-image width="120" height="120" class="companyInfo-views-img" :src="item"></ts-image>
+          <i class="companyInfo-views-close" @click.self="handleDelViews(item,index)" v-if="!Text.show">&times</i>
+        </div>
+        <label class="companyInfo-upload-button companyInfo-plus-img" v-if="!Text.show,companyInfoForm.companyPic.length<9">
+          <!-- {{Pic.banner.text}} -->
+          <ts-aliupload :id="Pic.views.id" @doUpload="uploadViews"></ts-aliupload>
         </label>
       </ts-form-item>
     </ts-form>
@@ -59,6 +62,12 @@
 import {
   mapGetters
 } from 'vuex';
+import {
+  ALI_DOMAIN
+} from '@/common/dict/const';
+import {
+  updateCompany
+} from '@/common/api/api';
 export default {
   data() {
     return {
@@ -69,12 +78,36 @@ export default {
         fax: '',
         companyAbbreviation: '',
         phone: '',
+        companyPic: [],
+        companyHeadIcon: '',
         contactTel: '',
         companyName: ''
+      },
+      // 删除厂家风采
+      Close: {
+        show: false
       },
       // 是否显示文字
       Text: {
         show: true
+      },
+      // 上传图片
+      Pic: {
+        avatar: {
+          text: '添加头像',
+          id: 'avatar',
+          show: false
+        },
+        banner: {
+          text: '添加店招',
+          id: 'banner',
+          show: false
+        },
+        views: {
+          text: '添加厂家风采',
+          id: 'views',
+          show: false
+        }
       },
       // 验证规则
       rules: {}
@@ -84,26 +117,90 @@ export default {
     ...mapGetters(['companyInfo'])
   },
   methods: {
-    editCompany() {
+    async editCompany() {
       this.Text.show = !this.Text.show;
+      if (this.Text.show) {
+        let res = await updateCompany(this.companyInfo);
+        !res.data.code ? await this.$store.dispatch('getCompanyInfo') : '';
+      }
+    },
+    // 上传图片
+    uploadAvatar(e) {
+      this.companyInfoForm.companyHeadIcon = ALI_DOMAIN + e.ossUrl[e.ossUrl.length - 1];
+    },
+    // 上传店招
+    uploadBanner(e) {
+      this.companyInfoForm.companyBanner = ALI_DOMAIN + e.ossUrl[e.ossUrl.length - 1];
+    },
+    // 上传厂家风采
+    uploadViews(e) {
+      this.companyInfoForm.companyPic.push(ALI_DOMAIN + e.ossUrl[e.ossUrl.length - 1]);
+    },
+    // 删除厂家风采图片
+    handleDelViews(item, index) {
+      this.$messagebox.confirm('确定删除该图片吗？').then(action => {
+        this.companyInfoForm.companyPic.splice(index, 1);
+      });
     }
   },
-  created() {
-    this.companyInfoForm = this.companyInfo;
+  watch: {
+    companyInfo(val) {
+      this.companyInfoForm = val;
+    },
+    // 店招变化时候
+    'companyInfoForm.companyHeadIcon' (val) {
+      this.Pic.avatar.text = val ? '修改头像' : '添加头像';
+      this.Pic.avatar.show = !!val;
+    },
+    // 店招变化时候
+    'companyInfoForm.companyBanner' (val) {
+      this.Pic.banner.text = val ? '修改店招' : '添加店招';
+      this.Pic.banner.show = !!val;
+    },
+    // 风采时候
+    'companyInfoForm.companyPic' (val) {
+      this.Pic.views.text = val ? '修改风采' : '添加风采';
+      this.Pic.views.show = !!val;
+    }
   }
 };
 </script>
 
 
 <style lang="css" scoped>
+:root {
+  --add-radio-close-color: white;
+  --add-radio-close-bg: red;
+  --add-radio-close-hover-bg: #bc0303;
+  --add-radio-close-size: 16px;
+}
 @component-namespace companyInfo{
-  @component img{
-    margin-right: 16px;
-    margin-bottom: 16px;
+  @component views{
+    @descendent container{
+      display: inline-block;
+      margin: 0 16px 16px 0;
+      position: relative;
+    }
+    @descendent close{
+      position: absolute -8px * * -8px;
+      border-radius: 50%;
+      text-align: center;
+      font-size: 14px;
+      cursor: pointer;
+      background: var(--add-radio-close-bg);
+      color: var(--add-radio-close-color);
+      size: var(--add-radio-close-size) var(--add-radio-close-size);
+      transition: .3s;
+      z-index: 1;
+      &:hover {
+        background: var(--add-radio-close-hover-bg);
+      }
+    }
   }
   @component upload{
     @modifier button{
       vertical-align: 12px;
+      position: relative;
       @when block{
         display: block;
       }
@@ -119,6 +216,43 @@ export default {
     flex-wrap: wrap;
     @descendent col{
       flex:1;
+    }
+  }
+  @component upload {
+    @descendent button {
+      color: #4C93FD;
+      height: 38px;
+      line-height: 38px;
+      cursor: pointer;
+      transition: .5s;
+      position: relative;
+      &:hover {
+        color: #105bca;
+      }
+    }
+  }
+  @component plus-img{
+    display: inline-block;
+    size:120px 120px;
+    margin-left: -3px;
+    border: 1px solid rgba(155,155,155,0.2);
+    position: relative;
+    font-size: 100px;
+    font-weight: 100;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: .5s;
+    vertical-align: middle;
+    color: rgba(155,155,155,0.8);
+    &:hover{
+      color:rgba(155,155,155,1);
+    }
+    &:after{
+      position:absolute;
+      top:50%;
+      left: 50%;
+      transform: translate(-50%,-60%);
+      content:"+";
     }
   }
 }

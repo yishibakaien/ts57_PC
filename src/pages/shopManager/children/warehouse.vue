@@ -18,28 +18,30 @@
       <ts-filter title="分类">
         <ts-radio-group v-model="Filter.publishStatuss" @change="handleFilterPublishStatus">
           <ts-radio label="">全部</ts-radio>
-          <ts-radio :label="item.value" :key="item.value" v-for="item in DICT.PublishStatus">{{item.label2}}</ts-radio>
+          <ts-radio :label="item.dicValue" :key="item.value" v-for="item in DICT.PublishStatus">{{item.label}}</ts-radio>
         </ts-radio-group>
       </ts-filter>
       <ts-filter title="面料种类">
         <ts-radio-group v-model="Filter.categorys" @change="handleFilterCategorys">
           <ts-radio label="">全部</ts-radio>
-          <ts-radio :label="item.value" :key="item.value" v-for="item in DICT.SupplyType">{{item.label}}</ts-radio>
+          <ts-radio :label="item.dicValue" :key="item.value" v-for="item in dicTree.PRODUCT_TYPE">{{item.name}}</ts-radio>
         </ts-radio-group>
       </ts-filter>
     </div>
+    <span class="supply-table--collect" @click.self="handleCollectDialog">8</span>
     <!-- 表格 -->
-    <div class="warehouse-table" v-for="item in productList.list">
+    <div class="warehouse-table">
+      <ts-menu :prop="productList.list">
       <ts-checkbox-group v-model="chooseItem">
-      <ts-menu-table>
+      <ts-menu-table v-for="item in productList.list" :key="item.id">
         <div slot="header-left">
-          <ts-checkbox :label="item.id">#{{item.productNo}}&nbsp{{item.category | filterDict(DICT.SupplyType)}}</ts-checkbox>
+          <ts-checkbox :label="item.id">#{{item.productNo}}&nbsp{{item.category | filterDict(dicTree.PRODUCT_TYPE,'name')}}</ts-checkbox>
         </div>
         <div slot="header-right">
           状态：<b>{{item.publishStatus | filterDict(DICT.PublishStatus,'label2')}}</b>
         </div>
         <ts-menu-table-item width="310" class="supply-table--avatar">
-          <ts-image width="80" height="80" v-model="item.picsUrl"></ts-image>
+          <ts-image width="80" height="80" :src="item.picsUrl"></ts-image>
         </ts-menu-table-item>
         <!-- PublishStatus -->
         <ts-menu-table-item>
@@ -52,7 +54,7 @@
           <span v-else>价格面议</span>
         </ts-menu-table-item>
         <ts-menu-table-item>
-          询价次数：<span class="supply-table--collect" @click.self="handleCollectDialog(item.id)">{{item.enquiryNum}}</span>
+          询价次数：<span class="supply-table--collect" @click.self="handleCollectDialog(item.id)">8</span>
         </ts-menu-table-item>
         <ts-menu-table-item>
           <a class="warehouse-table--link" v-if="item.publishStatus!==2" @click="handleShelveProduct({goal:2,ids:item.id,isUp:true})">上架平台</a>
@@ -65,14 +67,41 @@
         </ts-menu-table-item>
       </ts-menu-table>
       </ts-checkbox-group>
+      </ts-menu>
     </div>
     <div slot="footer" class="warehouse-footer--button" v-if="chooseItem.length>0">
-      <ts-button type="primary" @click="handleShelveProduct({goal:2,ids:chooseItem,isUp:true})">上架平台</ts-button>
-      <ts-button type="primary" @click="handleShelveProduct({goal:1,ids:chooseItem,isUp:true})">上架店铺</ts-button>
-      <ts-button type="cancel"  @click="handleShowDialog(chooseItem)">删除</ts-button>
+      <div class="">
+        <ts-button type="primary" @click="handleShelveProduct({goal:2,ids:chooseItem,isUp:true})">上架平台</ts-button>
+        <ts-button type="primary" @click="handleShelveProduct({goal:1,ids:chooseItem,isUp:true})">上架店铺</ts-button>
+        <ts-button type="cancel"  @click="handleShowDialog(chooseItem)">删除</ts-button>
+      </div>
+      <ts-pagination></ts-pagination>
     </div>
 
   </ts-section>
+  <!--  对话框 -->
+  <ts-dialog v-model="CollectDialog.show" width="60%" class="warehouse-dialog" @confirm="CollectDialog.show=false">
+    <div slot="title" class="warehouse-collect-dialog--title">
+      <div class="left">
+        <strong>花型询价记录</strong>
+        <ts-image width='100' :canView="false" height="100" src="static/images/modles/modle1_all.png"></ts-image>
+        #22222 庙里
+      </div>
+      <ts-button type="cancel" @click="CollectDialog.show=!CollectDialog.show">关闭</ts-button>
+    </div>
+    <ts-table :data="CollectDialog.data" @th-col-click="collectThClick" @body-tr-click="collectTrClick">
+      <ts-column slot data-key="person" align="center" name="询价人"></ts-column>
+      <ts-column slot data-key="type" align="center" name="身份"></ts-column>
+      <ts-column slot data-key="num" align="center" name="采购类型"></ts-column>
+      <ts-column slot data-key="num" align="center" name="采购数量"></ts-column>
+      <ts-column slot data-key="num" align="center" name="联系电话"></ts-column>
+      <ts-column slot data-key="num" align="center" name="询价时间"></ts-column>
+    </ts-table>
+    <div class="warehouse-collect-dialog-footer">
+      <span>共200条询价</span>
+    </div>
+    <div slot="footer"></div>
+  </ts-dialog>
   <!--  对话框 -->
   <ts-dialog v-model="ConfirmDialog.show" width="30%" title="提示" @confirm="handleDelProduct" @cancel="handleCancelDelProduct" class="warehouse-dialog">
     <p class="warehouse-dialog--title">确认将选中花型删除？</p>
@@ -88,6 +117,9 @@ import {
   deleteProduct,
   getProductList
 } from '@/common/api/api';
+import {
+  mapGetters
+} from 'vuex';
 export default {
   data() {
     return {
@@ -116,6 +148,29 @@ export default {
         categorys: '',
         publishStatuss: ''
       },
+      // 询价次数
+      CollectDialog: {
+        show: false,
+        data: [{
+          id: 1,
+          img: 'http://avatar.csdn.net/E/4/6/1_wangxiaohu__.jpg',
+          person: '张三',
+          iden: '厂家',
+          type: '建扬',
+          num: '1000码',
+          tel: '1988900',
+          time: '2017-03-32'
+        }, {
+          id: 1,
+          img: 'http://avatar.csdn.net/E/4/6/1_wangxiaohu__.jpg',
+          person: '张四',
+          iden: '厂家',
+          type: '建扬',
+          num: '1000码',
+          tel: '1988900',
+          time: '2017-03-32'
+        }]
+      },
       // 对话框
       ConfirmDialog: {
         noShowDialog: false,
@@ -130,6 +185,9 @@ export default {
       }
     };
   },
+  computed: {
+    ...mapGetters(['dicTree'])
+  },
   async created() {
     // 获取花型列表
     this.productList = (await getProductList(this.Params)).data.data;
@@ -137,6 +195,8 @@ export default {
     !this.getCookie(this.Cookie.key) ? this.setCookie(this.Cookie.key, this.Cookie.value, this.Cookie.day) : '';
   },
   methods: {
+    collectThClick() {},
+    collectTrClick() {},
     // 搜索
     async handleSearch() {
       this.Params = Object.assign({}, this.Params, {
@@ -145,6 +205,10 @@ export default {
         publishStatuss: null
       });
       this.productList = (await getProductList(this.Params)).data.data;
+    },
+    // 打开花型询价记录
+    handleCollectDialog() {
+      this.CollectDialog.show = !this.CollectDialog.show;
     },
     // 添加“分类”条件搜索
     async handleFilterPublishStatus(e) {
@@ -217,6 +281,23 @@ export default {
     @modifier link{
       display: block;
       text-align: center;
+    }
+  }
+  @component collect-dialog{
+    @descendent footer{
+      margin-top: 10px;
+    }
+    @modifier title{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      strong{
+        margin-right: 10px;
+      }
+      .ts-image{
+        margin:0 10px 0 20px;
+        position: relative;
+      }
     }
   }
   @component dialog{

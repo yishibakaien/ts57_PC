@@ -1,15 +1,16 @@
 <template>
-<div v-click-outside="clickedOutside" class="ts-select">
+<div v-clickoutside="clickedOutside" class="ts-select">
   <div @click="toggleDropdown" class="ts-select-toggle" :class="{'is-open':open, 'is-disabled':disabled}">{{selected}}
   </div>
   <transition name="ts-select-fade">
-    <ul v-if="open">
+    <ul v-if="open" class="ts-select-wrapper">
       <li v-for="item in parsedDataList" @click="setVal(item)" :class="{'is-selected':selected == item.name}">{{item.name}}</li>
     </ul>
   </transition>
 </div>
 </template>
 <script>
+import Clickoutside from '@/common/js/clickoutside';
 export default {
   props: ['options', 'dataDefault', 'dataKeyName', 'dataValName', 'disabled', 'value'],
   data() {
@@ -29,7 +30,7 @@ export default {
     value(val) {
       if (val) {
         try {
-          let data = this.parsedDataList.filter(item => item.id.toString() === this.value.toString());
+          let data = this.parseData(this.options).filter(item => item.id.toString() === val.toString());
           this.updateValue(data[0]);
         } catch (e) {
           console.log(e);
@@ -38,7 +39,13 @@ export default {
         this.updateValue('');
         this.selected = this.dataDefault || ' ';
       }
+    },
+    options(val) {
+      this.parseData(val);
     }
+  },
+  directives: {
+    Clickoutside
   },
   created() {
     // set key & value name for options
@@ -47,8 +54,8 @@ export default {
       this.optionName = this.dataKeyName;
       this.optionId = this.dataValName;
     }
-    // 设置数据
     this.parseData(this.options);
+    // 设置数据
     if (this.value) {
       try {
         let data = this.parsedDataList.filter(item => item.id.toString() === this.value.toString());
@@ -69,6 +76,7 @@ export default {
         this.updateValue(val);
         // 关闭
         this.toggleDropdown();
+        this.$emit('change', val);
       }
     },
     // 更新数据
@@ -99,37 +107,12 @@ export default {
           });
         }
         this.parsedDataList = retDataList;
+        return retDataList;
       }
     },
     // 点击外部
     clickedOutside() {
       this.open = false;
-    }
-  },
-  directives: {
-    'click-outside': {
-      bind(el, binding, vNode) {
-        if (typeof binding.value !== 'function') {
-          var compName = vNode.context.name;
-          var warn = '[Vue-click-outside:] provided expression ' + binding.expression + ' is not a function, but has to be';
-          if (compName) {
-            warn += 'Found in component ' + compName;
-          }
-          console.warn(warn);
-        }
-        var bubble = binding.modifiers.bubble;
-        var handler = function(e) {
-          if (bubble || (!el.contains(e.target) && el !== e.target)) {
-            binding.value(e);
-          }
-        };
-        el.__vueClickOutside__ = handler;
-        document.addEventListener('click', handler);
-      },
-      unbind(el, binding) {
-        document.removeEventListener('click', el.__vueClickOutside__);
-        el.__vueClickOutside__ = null;
-      }
     }
   }
 };
@@ -143,7 +126,10 @@ export default {
     width: 100%;
     cursor: pointer;
     vertical-align: middle;
-    /*vertical-align: middle;*/
+    @descendent wrapper{
+      max-height: 300px;
+      overflow: auto;
+    }
     @descendent toggle{
       border: 1px solid #cfcfcf;
       min-height: 32px;
@@ -185,7 +171,7 @@ export default {
       position: absolute * 0 * 0;
       border: 1px solid #cfcfcf;
       border-top: none;
-      z-index: 3;
+      z-index: 199;
       background: #fff;
       box-sizing: border-box;
     }

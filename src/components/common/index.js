@@ -6,10 +6,13 @@ import tsRadio from './radio/tsRadio.vue';
 import tsRadioGroup from './radio/tsRadioGroup.vue';
 import tsSection from './tsSection.vue';
 import tsMenuTable from './menutable/tsMenuTable.vue';
+import tsMenu from './menutable/tsMenu.vue';
+import tsAliupload from '../aliUpload/aliUpload.vue';
 import tsMenuTableItem from './menutable/tsMenuTableItem.vue';
 import tsDialog from './tsDialog.vue';
 import tsTable from './tables/tsTable.vue';
 import tsMessageBox from './messagebox/messagebox';
+import tsToast from './toast/toast';
 import tsColumn from './tables/tsColumn.vue';
 import tsInput from './tsInput.vue';
 import tsSelect from './select/tsSelect.vue';
@@ -19,6 +22,7 @@ import tsFormItem from './forms/tsFormItem.vue';
 import tsPagination from '../pageBar/pageBar.vue';
 const Components = {
   tsSection,
+  tsToast,
   tsRadioGroup,
   tsRadio,
   tsImage,
@@ -34,7 +38,9 @@ const Components = {
   tsPagination,
   tsInput,
   tsSelect,
+  tsMenu,
   tsForm,
+  tsAliupload,
   tsFormItem
 };
 const install = function(Vue) {
@@ -42,6 +48,7 @@ const install = function(Vue) {
     Vue.component(i, Components[i]);
   };
   Vue.$messagebox = Vue.prototype.$messagebox = tsMessageBox;
+  Vue.$toast = Vue.prototype.$toast = tsToast;
 };
 if (typeof window !== 'undefined' && window.Vue) {
   install(window.Vue);

@@ -9,7 +9,7 @@
         <!-- 多选  -->
         <ts-checkbox v-show="Edit.status" :label="item.id" class="material-img-checkbox">{{item.text}}</ts-checkbox>
         <!-- 图片 -->
-        <ts-image type="local" v-model="item.photoUrl" width="160" height="160" :key="item.id"></ts-image>
+        <ts-image type="local" :src="item.photoUrl" width="160" height="160" :key="item.id"></ts-image>
         <!-- “入仓”提示 -->
         <router-link :to="{path:'addwarehouse',query:{url:item.photoUrl}}" tag="span" class="material-img-tip" v-show="!Edit.status">
           <i class="logo icon-dangkou"></i>

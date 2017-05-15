@@ -16,7 +16,12 @@
 
 <script>
 export default {
-  props: ['prop']
+  props: ['prop'],
+  watch: {
+    prop(val) {
+      console.log(val.length);
+    }
+  }
 };
 </script>
 

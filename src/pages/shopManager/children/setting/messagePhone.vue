@@ -11,10 +11,10 @@
       </router-link>
     </div>
     <ts-form :model="PhoneForm" :rules="rules" ref="PhoneForm" label-width="200px" label-position="left">
-      <ts-form-item :label="'短信接收号码_'+index+1" prop="phone" v-for="(n,index) in phoneList">
-        <ts-input :value="n" style="width:200px" @input="handleInput" placeholder="请输入手机号码"></ts-input>
-        <ts-button type="plain" @click="handleEditPhone(index)">修改</ts-button>
-        <ts-button type="plain" v-if="phoneList.length>1"  @click="handleDELPhone">删除</ts-button>
+      <ts-form-item :label="`短信接收号码_${index+1}`" :key="index" prop="phone" v-for="(item,index) in phoneList">
+        <ts-input :value="item" style="width:200px" @input="handleInput" placeholder="请输入手机号码"></ts-input>
+        <ts-button type="plain" @click="handleEditPhone(item,index)">修改</ts-button>
+        <ts-button type="plain" v-if="phoneList.length>1" @click="handleDELPhone(item,index)">删除</ts-button>
       </ts-form-item>
     </ts-form>
     <div v-if="phoneList.length<=0">
@@ -35,21 +35,13 @@
     </article>
   </ts-dialog>
   <!-- 添加接收短信号码 -->
-  <ts-dialog v-model="Phone.showAddDialog" title="添加接收短信号码" @cancel="cancelAddPhone" @confirm="handleAddPhone">
+  <ts-dialog v-model="Phone.showAddDialog" title="添加接收短信号码" @cancel="cancelAddPhone" @confirm="handleAddPhone('PhoneForm')">
     <ts-form :model="PhoneForm" :rules="rules" ref="PhoneForm" label-width="150px" label-position="left">
       <ts-form-item label="登录密码：" prop="password">
-        <ts-input v-model="PhoneForm.password" placeholder="请输入登录密码"></ts-input>
+        <ts-input inputType="password" v-model="PhoneForm.password" placeholder="请输入登录密码"></ts-input>
       </ts-form-item>
       <ts-form-item label="手机电话：" prop="mobile">
         <ts-input v-model="PhoneForm.mobile" placeholder="请输入手机电话"></ts-input>
-      </ts-form-item>
-      <!-- <ts-form-item label="图形验证码：" prop="verifyCode">
-        <ts-input v-model="PhoneForm.verifyCode" class="message-phone-input"></ts-input>
-        <img ref="VerifyCode" alt="" width="106" height="38">
-      </ts-form-item> -->
-      <ts-form-item label="短信验证码：" prop="smsCode">
-        <ts-input v-model="PhoneForm.smsCode" class="message-phone-input" :disabled="testPhone"></ts-input>
-        <ts-button type="primary" @click.stop="hanldeSendSmscode" :disabled="Code.disabledButton||testPhone">{{Code.buttonText}}</ts-button>
       </ts-form-item>
     </ts-form>
   </ts-dialog>
@@ -61,15 +53,13 @@ import {
   mapGetters
 } from 'vuex';
 import {
-  getRegSMSCode,
-  updateCompany
+  updateCompany,
+  checkPasswd
 } from '@/common/api/api';
 export default {
   data() {
+    // 检查手机号码
     var valiMobile = async(rule, value, callback) => {
-      if (!value) {
-        return callback(new Error('手机号不能为空'));
-      }
       if (!/^1[34578]\d{9}$/.test(value)) {
         return callback(new Error('请输入正确的手机号码'));
       }
@@ -78,15 +68,19 @@ export default {
       }
       callback();
     };
-    // var valiPassword = async(rule, value, callback) => {
-    //   if (!value) {
-    //     return callback(new Error('密码不能为空'));
-    //   }
-    //   if (this.phoneList.indexOf(value) > -1) {
-    //     return callback(new Error('不能输入已有短信接收号码'));
-    //   }
-    //   callback();
-    // };
+    // 检查密码
+    var valiPassword = async(rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('请输入密码'));
+      }
+      let res = await checkPasswd({
+        userPasswd: value
+      });
+      if (!res.data.data) {
+        return callback(new Error('密码不正确！请输入正确的密码'));
+      }
+      callback();
+    };
     return {
       // 电话
       Phone: {
@@ -97,16 +91,7 @@ export default {
       // 新增号码表单
       PhoneForm: {
         mobile: '',
-        password: '',
-        smsCode: ''
-      },
-      // 接收短信的电话号码
-      // 验证码
-      Code: {
-        time: 60,
-        showButtonText: true,
-        buttonText: '发送验证码',
-        disabledButton: false
+        password: ''
       },
       // 验证规则
       rules: {
@@ -117,17 +102,8 @@ export default {
         },
         password: {
           required: true,
-          message: '请输入密码'
-        },
-        phone: {
-          required: true,
-          pattern: /^1[34578]\d{9}$/,
-          message: '请输入正确的手机号码'
-        },
-        smsCode: {
-          required: true,
-          pattern: /^[0-9A-Za-z]*$/,
-          message: '请输入正确的短信验证码'
+          trigger: 'blur',
+          validator: valiPassword
         }
       }
     };
@@ -137,55 +113,56 @@ export default {
     handleInput(e) {
       this.Phone.number = e.target.value;
     },
-    async handleEditPhone(index) {
+    async handleEditPhone(item, index) {
       // 数组转为字符串
-      let ids = this.companyInfo.noticeList.splice(index, 1, this.Phone.number).join(',');
-      await updateCompany({
+      let ids = this.companyInfo.noticeList.split(',').splice(index, 1, this.Phone.number).toString();
+      let res = await updateCompany({
         noticeList: ids
       });
-      await this.$store.dispatch('getCompanyInfo');
+      !res.data.code ? await this.$store.dispatch('getCompanyInfo') : '';
     },
     // 删除绑定的号码
-    handleDELPhone() {},
+    handleDELPhone(item, index) {
+      this.$messagebox.confirm(`确认终止${item}接收平台相关业务短信？`).then(async(action) => {
+        this.phoneList.splice(index, 1);
+        let res = await updateCompany({
+          noticeList: this.phoneList
+        });
+        !res.data.code ? await this.$store.dispatch('getCompanyInfo') : '';
+      });
+    },
     // 取消添加号码
     cancelAddPhone() {
       this.Phone.showAddDialog = false;
     },
-    handleAddPhone() {},
+    // 新增短信接收号码
+    handleAddPhone(formName) {
+      this.$refs[formName].validate(async(valid) => {
+        if (valid) {
+          let res = await updateCompany({
+            noticeList: this.phoneList.concat(this.PhoneForm.mobile).toString()
+          });
+          if (!res.data.code) {
+            this.Phone.showAddDialog = !this.Phone.showAddDialog;
+            await this.$store.dispatch('getCompanyInfo');
+          } else {
+            this.$toast.error(res.data.message);
+          }
+        } else {
+          return false;
+        }
+      });
+    },
     // 新增号码的对话框
     async handleNewPhoneDialog() {
       this.Phone.showAddDialog = !this.Phone.showAddDialog;
-    },
-    // 发送验证码
-    async hanldeSendSmscode() {
-      await getRegSMSCode({
-        mobile: this.PhoneForm.mobile
-      });
-      for (let i = 1; i <= this.Code.time; i++) {
-        setTimeout(() => {
-          let now = this.Code.time - i;
-          console.log(now);
-          if (now < 1) {
-            this.Code.disabledButton = false;
-            this.Code.buttonText = '发送验证码';
-          } else {
-            this.Code.disabledButton = true;
-            this.Code.buttonText = `重新发送（${now}）秒`;
-          }
-        }, i * 1000);
-      }
     }
   },
   computed: {
     ...mapGetters(['companyInfo']),
-    // 检测电话是否合理 => 合理不禁用
-    testPhone() {
-      return !(/^1[3|5|8][0-9]{9}$/.test(this.PhoneForm.mobile));
-    },
     // 电话列表 字符串转为数组
     phoneList() {
-      // let noticeList = this.companyInfo.noticeList;
-      let noticeList = '123453123,2131412312';
+      let noticeList = this.companyInfo.noticeList;
       return !noticeList ? [] : noticeList.split(',');
     }
   }

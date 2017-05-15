@@ -6,19 +6,13 @@
       <ts-button type="plain" @click="handleEditDialog">编辑分类</ts-button>
     </div>
     <div slot="footer">
-      <ts-button type="primary" @click="handleUnbindProduct({ids:chooseItem,unbinding:true,classId:BindingProductList.list[0].category})">从本类移出</ts-button>
+      <ts-button v-show="chooseItem.length>0" type="primary" @click="handleUnbindProduct({ids:chooseItem,unbinding:true,classId:BindingProductList.list[0].category})">从本类移出</ts-button>
     </div>
     <!-- 过滤器 -->
     <div class="classification-filter">
       <ts-filter title="分类">
         <ts-radio-group v-model="Params.classId">
-          <ts-radio :label="item.id" v-for="item in ProductCategory">{{item.className}}</ts-radio>
-        </ts-radio-group>
-      </ts-filter>
-      <ts-filter title="面料种类">
-        <ts-radio-group v-model="Params.fabricType">
-          <ts-radio label="">全部</ts-radio>
-          <ts-radio :label="item.id" v-for="item in dicTree.PRODUCT_SHAPE">{{item.name}}</ts-radio>
+          <ts-radio :label="item.id" v-for="item in ProductCategory" :key="item.id">{{item.className}}</ts-radio>
         </ts-radio-group>
       </ts-filter>
     </div>
@@ -29,35 +23,37 @@
     </div>
     <!--列表  -->
     <!-- 表格 -->
-    <div class="warehouse-table" v-for="(item,index) in BindingProductList.list">
-      <ts-checkbox-group v-model="chooseItem">
-        <ts-menu-table>
-          <div slot="header-left">
-            <ts-checkbox :label="item.bandId">#{{item.productNo}}&nbsp{{item.category | filterDict(dicTree.PRODUCT_SHAPE)}}</ts-checkbox>
-          </div>
-          <div slot="header-right">
-            状态：
-          </div>
-          <ts-menu-table-item width="600" class="supply-table--avatar">
-            <ts-image width="80" height="80" v-model="item.picsUrl"></ts-image>
-          </ts-menu-table-item>
-          <!-- Price -->
-          <ts-menu-table-item>
-            <span v-if="item.price>0">{{item.price}}元／{{item.priceUnit|filterDict(dicTree.PRODUCT_UNIT)}}</span>
-            <span v-else>价格面议</span>
-          </ts-menu-table-item>
-          <ts-menu-table-item>
-            <template v-if="!Params.unbinding">
+    <div class="warehouse-table">
+      <ts-menu :prop="BindingProductList.list">
+        <ts-checkbox-group v-model="chooseItem">
+          <ts-menu-table v-for="(item,index) in BindingProductList.list" :key="item.id">
+            <div slot="header-left">
+              <ts-checkbox :label="item.bandId">#{{item.productNo}}&nbsp{{item.category | filterDict(dicTree.PRODUCT_SHAPE)}}</ts-checkbox>
+            </div>
+            <div slot="header-right">
+              状态：
+            </div>
+            <ts-menu-table-item width="600" class="supply-table--avatar">
+              <ts-image width="80" height="80" :src="item.picsUrl"></ts-image>
+            </ts-menu-table-item>
+            <!-- Price -->
+            <ts-menu-table-item>
+              <span v-if="item.price>0">{{item.price}}元/{{item.priceUnit|filterDict(dicTree.PRODUCT_UNIT,'name')}}</span>
+              <span v-else>价格面议</span>
+            </ts-menu-table-item>
+            <ts-menu-table-item>
+              <template v-if="!Params.unbinding">
               <a class="classification-table--link">加</a>
             </template>
-            <template v-else>
+              <template v-else>
               <a class="classification-table--link" @click="handleUpMoveProductList(item,index)" v-if="index!==0">上</a>
               <a class="classification-table--link" @click="handleDownMoveProductList(item,index)" v-if="index!==BindingProductList.list.length-1">下</a>
               <a class="classification-table--link" @click="handleUnbindProduct({ids:item.bandId,unbinding:true,classId:item.category})">删</a>
             </template>
-          </ts-menu-table-item>
-        </ts-menu-table>
-      </ts-checkbox-group>
+            </ts-menu-table-item>
+          </ts-menu-table>
+        </ts-checkbox-group>
+      </ts-menu>
     </div>
   </ts-section>
   <!-- 新增分类 -->
@@ -170,7 +166,7 @@ export default {
   computed: {
     ...mapGetters(['dicTree']),
     getColumnCount() {
-      return this.Classification.userCategory.length > 10 ? 2 : 1;
+      return this.Classification.userCategory.length > 8 ? 2 : 1;
     },
     // 产品所有分类
     ProductCategory() {

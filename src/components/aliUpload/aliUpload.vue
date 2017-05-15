@@ -65,7 +65,7 @@
 		}
 	};
 </script>
-<style type="text/css">
+<style type="text/css" scoped>
 	.oss-file {
 		float: left;
 	}
