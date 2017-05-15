@@ -132,6 +132,7 @@ div.personal-class:nth-child(2) {
 }
 
 .personal-goods-item-img {
+	height: 204px;
 	position: relative;
 	overflow: hidden;
 }

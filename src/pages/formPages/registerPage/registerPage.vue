@@ -415,7 +415,7 @@ export default {
             .SMSCode
               position absolute
               width 142px
-              height 34px
+              height 36px
               line-height 34px
               right 0
               top 1px
