@@ -127,8 +127,12 @@
 					} else if (res.data.code === 2000004) {
 						this.showPicCode = true;
 						this.getVerifyCodeMethod();
+					} else {
+						this.getVerifyCodeMethod();
 					}
-				}, (res) => {});
+				}, (res) => {
+					this.getVerifyCodeMethod();
+				});
 			},
 			showLoginfunc() {
 				this.showLogin = true;
