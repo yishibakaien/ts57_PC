@@ -19,7 +19,7 @@ import tsSelect from './select/tsSelect.vue';
 import tsButton from './tsButton.vue';
 import tsForm from './forms/tsForm.vue';
 import tsFormItem from './forms/tsFormItem.vue';
-import tsPagination from '../pageBar/pageBar.vue';
+import tsPagination from './tsPagation.vue';
 const Components = {
   tsSection,
   tsToast,

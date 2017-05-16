@@ -1,25 +1,20 @@
 <template lang="html">
   <div @mouseover="isSHow=true" @mouseout="isSHow=false" class="ts-image" :style="{width:width+'px',height:height+'px'}" @click="handleImg">
-    <img class="ts-image-img" :src="picUrl" :class="{'is-view':showOriginPic}">
+    <img class="ts-image-img" :src="src" :class="{'is-view':showOriginPic}">
   </div>
 </template>
 
 <script>
 import emitter from '@/common/js/mixins/emitter';
 import Popup from '@/common/js/utils/popup/';
-import {
-  ALI_DOMAIN
-} from '@/common/dict/const';
+// import {
+//   ALI_DOMAIN
+// } from '@/common/dict/const';
 export default {
   data() {
     return {
       showOriginPic: false
     };
-  },
-  computed: {
-    picUrl() {
-      return this.src.indexOf(ALI_DOMAIN) < 0 ? this.src : this.src;
-    }
   },
   mixins: [emitter, Popup],
   watch: {
@@ -159,6 +154,7 @@ export default {
     vertical-align: middle;
     @descendent img{
       max-width: 100%;
+      min-height:100%;
       vertical-align: middle;
       transition: all 0.3s;
       animation: imgfade .4s;

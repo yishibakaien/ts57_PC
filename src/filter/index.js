@@ -31,3 +31,42 @@ export const filterDate = value => {
     return '';
   }
 };
+
+export const customTime = item => {
+  // =======now
+  let nowTime = new Date().getTime();
+  let minuteTime = 60 * 1000;
+  let hourTime = 60 * minuteTime;
+  let dayTime = 24 * hourTime;
+  let monthTime = dayTime * 30;
+  let yearTime = monthTime * 12;
+  // =======history
+  let publish = new Date(item);
+  let publishTime = publish.getTime();
+  let date = publish.getDate();
+  let year = publish.getFullYear();
+  let month = publish.getMonth() < 9
+    ? `0${publish.getMonth() + 1}`
+    : publish.getMonth() + 1;
+  let historyTime = parseInt(nowTime) - parseInt(publishTime);
+  let descTime;
+  if (historyTime >= yearTime) {
+    // 按年算
+    descTime = `${year}-${month}-${date}`;
+  } else if (historyTime < yearTime && historyTime >= monthTime) {
+    // 按月算
+    descTime = `${month}-${date}`;
+  } else if (historyTime < monthTime && historyTime >= dayTime) {
+    // 按天算
+    descTime = parseInt(historyTime / dayTime) + '天前';
+  } else if (historyTime < dayTime && historyTime >= hourTime) {
+    // 按小时算
+    descTime = parseInt(historyTime / hourTime) + '小时前';
+  } else if (historyTime < hourTime && historyTime >= minuteTime) {
+    // 按分钟算
+    descTime = parseInt(historyTime / minuteTime) + '分钟前';
+  } else {
+    descTime = '刚刚';
+  }
+  return descTime;
+};

@@ -1,5 +1,4 @@
 <template lang="html">
-
   <div class="ts-menutable-box" :style="{width:boxWidth}">
     <slot></slot>
   </div>
@@ -41,6 +40,7 @@ export default {
     display: table-cell;
     vertical-align: middle;
     text-align: center;
+    word-break: break-all;
     .ts-image{
       float: left;
     }
