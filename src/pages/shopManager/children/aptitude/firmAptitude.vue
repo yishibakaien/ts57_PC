@@ -4,11 +4,11 @@
     <ts-button type="primary" @click="handleEditAptitude">{{Close.buttonText}}</ts-button>
   </div>
   <div class="aptitude-row">
-    <div class="aptitude-col-4 aptitude-container" v-for="(item,index) in srcImg">
-      <i class="aptitude-container-close" @click.self="handleDelAptitude(item)" v-if="Close.isShow">&times</i>
+    <div class="aptitude-col-4 aptitude-container" v-for="(item,index) in aptitudeFirm.aptitudeUrl">
+      <i class="aptitude-container-close" @click.self="handleDelAptitude(item, index)" v-if="Close.isShow">&times</i>
       <ts-image height="200" class="aptitude-img" :src="item" />
     </div>
-    <label class="aptitude-plus-img">
+    <label class="aptitude-plus-img" v-if="Close.isShow">
         <ts-aliupload id="firmApitude" @doUpload="uploadImg"></ts-aliupload>
     </label>
   </div>
@@ -17,7 +17,7 @@
 
 <script>
 import {
-  // saveCompanyAptitude,
+  saveCompanyAptitude
 } from '@/common/api/api';
 import {
   ALI_DOMAIN
@@ -32,30 +32,33 @@ export default {
         buttonText: '编辑',
         isShow: false
       },
+      aptitudeFirm: {
+        aptitudeUrl: []
+      },
       // 显示关闭的按钮
-      showClose: false,
-      srcImg: ['../../../../../static/images/modles/modle1_back.png']
+      showClose: false
     };
   },
   methods: {
     // 上传图片
     uploadImg(e) {
       // 放到表单
-      console.log(e);
-      this.srcImg.push(ALI_DOMAIN + e.ossUrl[e.ossUrl.length - 1]);
-      // this.addPatternForm.picsUrl = e.ossUrl[e.ossUrl.length - 1];
+      this.aptitudeFirm.aptitudeUrl.push(ALI_DOMAIN + e.ossUrl[e.ossUrl.length - 1]);
     },
-    handleDelAptitude(i) {
-      this.$toast({
-        showClose: true,
-        message: '警告哦，这是一条警告消息',
-        type: 'warning'
+    handleDelAptitude(item, index) {
+      this.$messagebox.confirm('确定删除该图片吗？').then(action => {
+        this.aptitudeFirm.aptitudeUrl.splice(index, 1);
       });
     },
-    handleEditAptitude() {
-      // this.aptitude.aptitudeUrl
+    async handleEditAptitude() {
       this.Close.isShow = !this.Close.isShow;
+      if (this.Close.isShow) {
+        await saveCompanyAptitude(this.aptitudeFirm);
+      }
     }
+  },
+  created() {
+    this.aptitudeFirm.aptitudeUrl = this.aptitude.aptitudeUrl;
   },
   computed: {
     ...mapGetters(['aptitude'])

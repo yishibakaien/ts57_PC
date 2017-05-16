@@ -3,8 +3,7 @@
   <ts-section>
     <div slot="menu">
       <ts-input style="width:30%" placeholder="输入花型编号搜索" v-model="searchVal">
-        <!-- <span slot="append" @click.capture="handleSearch">O</span> -->
-        <ts-button slot="append" size="small" @click.capture="handleSearch">O</ts-button>
+        <ts-button slot="append" size="small" @click="handleSearch">O</ts-button>
       </ts-input>
       <ts-button type="warning" class="warehouse-photo--search">
         <span class="icon-xiangji"></span>
@@ -199,12 +198,14 @@ export default {
     collectTrClick() {},
     // 搜索
     async handleSearch() {
-      this.Params = Object.assign({}, this.Params, {
-        productNo: this.searchVal,
-        categorys: null,
-        publishStatuss: null
-      });
-      this.productList = (await getProductList(this.Params)).data.data;
+      if (this.searchVal.trim()) {
+        this.Params = Object.assign({}, this.Params, {
+          productNo: this.searchVal,
+          categorys: null,
+          publishStatuss: null
+        });
+        this.productList = (await getProductList(this.Params)).data.data;
+      }
     },
     // 打开花型询价记录
     handleCollectDialog() {

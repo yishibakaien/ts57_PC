@@ -1,6 +1,5 @@
 <template lang="html">
   <ts-section :pageTitle="title">
-    <pre>{{addPatternForm}}</pre>
     <ts-form :model="addPatternForm" :rules="rules"  ref="addPatternForm" label-width="125px" label-position="left" >
       <ts-form-item label="花型编号：" prop="productNo">
         <ts-input v-model="addPatternForm.productNo" style="width:320px" placeholder="请输入花型编号"></ts-input>
@@ -16,29 +15,26 @@
         <ts-radio-group bordered v-model="addPatternForm.ingredient">
           <!-- 原有的成分 -->
           <!-- 成分类型ingredientType为1才可以修改／删除 -->
-          <div class="add-radio" :key="item.id" v-for="item in ingredientList">
+          <div v-clickoutside="handleClickoutside">
+          <div class="add-radio" v-for="item in ingredientList">
             <ts-radio :label="item.ingredientName" :key="item.id">
               <span
                 :contenteditable="item.ingredientType=== 1"
-                @keydown="handleInputIngredient(item,$event)">
+                @keydown="handlePreventInput"
+                @keyup="handleInputIngredient(item,$event)">
               {{item.ingredientName}}
               </span>
             </ts-radio>
-            <i class="add-radio-close" @click.self="handleDelIngredient(item)" v-if="item.ingredientType=== 1">&times</i>
+            <i class="add-radio-close" @click.self="handleDelIngredient(item,'Ingredient')" v-if="item.ingredientType=== 1">&times</i>
           </div>
           <!-- 新增的成分 -->
-          <!-- v-clickoutside="handleEditIngredient" -->
-          <div class="add-radio">
-          <ts-radio :label="item.ingredientName" :key="item.ingredientName" v-for="(item,index) in newIngredients">
-            <span
-              contenteditable="plaintext-only"
-              @keydown="handleInputIngredient(item,$event)">
-            {{item.ingredientName}}
-            </span>
-            <i class="add-radio-close" @click.self="handleDelIngredient(item)">&times</i>
-          </ts-radio>
+            <ts-radio :label="item.ingredientName" :key="item.ingredientName" v-for="(item,index) in newIngredients">
+              <span contenteditable="plaintext-only" @keydown="handlePreventInput" @keyup="handleInputIngredient(item,$event)">
+              {{item.ingredientName}}  </span>
+              <i class="add-radio-close" @click.self="handleDelIngredient(item,'newIngredient')">&times</i>
+            </ts-radio>
+            <ts-input :validateEvent="false" placeholder="自定义成分" @keyup.enter.native="handleAddIngredient" class="add-input" v-model="EditIngredient.newIngredient" @input="handleInputAddIngredient" v-clickoutside="handleAddIngredient"></ts-input>
           </div>
-          <ts-input :validateEvent="false" placeholder="自定义成分" @keyup.enter.native="handleAddIngredient" class="add-input"></ts-input>
         </ts-radio-group>
       </ts-form-item>
       <ts-form-item label="大货类型：" prop="productShape">
@@ -48,11 +44,11 @@
       </ts-form-item>
     <ts-form-item label="库存：" prop="isStock" class="add-dynamic">
       <ts-radio-group v-model="addPatternForm.isStock" class="add-dynamic--radioGroup">
-        <ts-radio :label="item.dicValue" :key="item.dicValue" v-for="item in dicTree.PRODUCT_UNIT" type="origin">{{item.name}}</ts-radio>
+        <ts-radio :label="item.dicValue" :key="item.dicValue" v-for="item in DICT.isStock" type="origin">{{item.label}}</ts-radio>
       </ts-radio-group>
       <ts-form-item prop="stock" labelWidth="0" v-if="addPatternForm.isStock===1" class="add-dynamic--input">
           <ts-input v-model="addPatternForm.stock" style="width:150px" placeholder="请输入库存数量"></ts-input>
-          <ts-select style="width:20%" data-key-name="name" data-val-name="dicValue" placeholder="选择单位" :options='dicTree.PRODUCT_UNIT' v-model="addPatternForm.stockUnit"></ts-select>
+          <ts-select style="width:20%" data-key-name="name" data-val-name="dicValue" placeholder="选择单位" :options='CopyDICTUnit' v-model="addPatternForm.stockUnit"></ts-select>
       </ts-form-item>
     </ts-form-item>
       <ts-form-item label="上架至：" prop="publishStatus">
@@ -69,8 +65,8 @@
       </ts-form-item>
     <p class="add-list-title">选填内容</p>
     <ts-form-item label="价格：" prop="price">
-      <ts-input v-model="addPatternForm.price" style="width:320px" placeholder="请输入单价"></ts-input>
-      <ts-select style="width:12%" data-key-name="name" data-val-name="dicValue" placeholder="选择单位" :options='dicTree.dicValue' v-model="addPatternForm.priceUnit" ></ts-select>
+      <ts-input v-model="prince" style="width:320px" placeholder="请输入单价"></ts-input>
+      <ts-select style="width:12%" data-key-name="name" data-val-name="dicValue" placeholder="选择单位" :options='CopyDICTUnit' v-model="addPatternForm.priceUnit" ></ts-select>
     </ts-form-item>
     <ts-form-item label="幅宽：" prop="width">
       <ts-input v-model="addPatternForm.width" style="width:320px" placeholder="请输入幅宽"></ts-input>
@@ -97,10 +93,15 @@ import {
   addIngredient,
   deleteIngredient
 } from '@/common/api/api';
+import {
+  ALI_DOMAIN
+} from '@/common/dict/const';
 import DICT from '@/common/dict';
 import Emitter from '@/common/js/mixins/emitter';
 import Clickoutside from '@/common/js/clickoutside';
-import {mapGetters} from 'vuex';
+import {
+  mapGetters
+} from 'vuex';
 export default {
   data() {
     return {
@@ -115,7 +116,7 @@ export default {
       },
       rules: {
         price: [{
-          pattern: /^[-+]?\d*[.]?\d{0,9}$/,
+          pattern: /^[-+]?\d*[.]?\d{0,2}$/,
           message: '请输入正确的价格'
         }],
         productNo: [{
@@ -171,6 +172,15 @@ export default {
       },
       ingredientList: [],
       newIngredients: [],
+      // 编辑的成分 => 专门处理clickoutside时用的也能提交
+      EditIngredient: {
+        isTyping: false,
+        content: '',
+        newIngredient: '',
+        addStatus: false
+      },
+      // 深拷贝复制一份库存单位
+      CopyDICTUnit: [],
       // 表单
       addPatternForm: {
         category: '',
@@ -197,62 +207,161 @@ export default {
     'addPatternForm.picsUrl' (val) {
       this.Pic.text = val ? '修改图片' : '添加图片';
       this.Pic.show = !!val;
+    },
+    'addPatternForm.stockUnit' (val) {
+      this.addPatternForm.priceUnit = val;
+    },
+    'addPatternForm.category' (val) {
+      let PTJM = '100013';
+      let PUT = '400012';
+      let PSPB = '200010';
+      let PUSG = '400011';
+      // 如果面料是睫毛 => 那就显示‘条’单位
+      if (val !== PTJM) {
+        this.CopyDICTUnit = this.CopyDICTUnit.filter(item => item.dicValue !== PUT);
+      } else if (this.addPatternForm.productShape === PSPB) {
+        // 如果有选了胚布 => 那就只显示公斤
+        this.CopyDICTUnit = this.CopyDICTUnit.filter(item => item.dicValue === PUSG);
+      } else {
+        // 如果不是睫毛 => 显示所有
+        this.CopyDICTUnit = JSON.parse(JSON.stringify(this.dicTree.PRODUCT_UNIT));
+      }
+      this.addPatternForm = Object.assign({}, this.addPatternForm, {
+        stockUnit: this.CopyDICTUnit[0].dicValue
+      });
+    },
+    'addPatternForm.productShape' (val) {
+      let PSPB = '200010';
+      let PUSG = '400011';
+      let PUT = '400012';
+      let PTJM = '100013';
+      // 如果是胚布 => 只显示公斤
+      if (val === PSPB) {
+        this.CopyDICTUnit = this.CopyDICTUnit.filter(item => item.dicValue === PUSG);
+      } else if (this.addPatternForm.category === PTJM) {
+        // 如果面料是睫毛 => 把‘条’也显示
+        this.CopyDICTUnit = this.dicTree.PRODUCT_UNIT;
+      } else {
+        // 什么没选的情况下 => 条是隐藏的
+        this.CopyDICTUnit = this.dicTree.PRODUCT_UNIT.filter(item => item.dicValue !== PUT);
+      }
+      this.addPatternForm = Object.assign({}, this.addPatternForm, {
+        stockUnit: this.CopyDICTUnit[0].dicValue
+      });
     }
+    // 单位的过滤
   },
   computed: {
     ...mapGetters(['dicTree']),
     title() {
       return this.$route.query.id ? '修改花型' : '新增花型';
+    },
+    prince: {
+      get() {
+        if ((this.addPatternForm.price / 100 === 0) || isNaN(this.addPatternForm.price)) {
+          return '';
+        }
+        return this.addPatternForm.price / 100;
+      },
+      set(val) {
+        this.addPatternForm.price = val * 100;
+      }
     }
   },
   mixins: [Emitter],
   methods: {
+    async handleClickoutside(item) {
+      if (this.EditIngredient.isTyping) {
+        let res = await updateIngredient({
+          id: this.EditIngredient.content.id,
+          ingredientName: this.EditIngredient.content.ingredientName.trim()
+        });
+        // 最多8个字 => 如果报错就会恢复之前的名字
+        if (res.data.code === 1004001) {
+          this.$toast.error(res.data.message);
+          event.target.innerHTML = this.EditIngredient.content.ingredientName;
+        } else {
+          this.$toast(res.data.message);
+        }
+        this.EditIngredient.isTyping = !this.EditIngredient.isTyping;
+        console.log(this.EditIngredient.isTyping);
+      }
+    },
+    handlePreventInput(event) {
+      if (event.which === 13) {
+        event.preventDefault();
+      }
+    },
+    // 触发keydown =>
     async handleInputIngredient(item, event) {
+      // 正在记录写的内容
+      this.EditIngredient.isTyping = true;
+      this.EditIngredient.content = {
+        ingredientName: event.target.innerText,
+        id: item.id
+      };
       // enter就提交
       if (event.which === 13) {
         event.preventDefault();
         let res = await updateIngredient({
           id: item.id,
-          ingredientName: event.target.innerText
+          ingredientName: event.target.innerText.trim()
         });
         // 最多8个字 => 如果报错就会恢复之前的名字
         if (res.data.code === 1004001) {
           event.target.innerHTML = item.ingredientName;
+          this.$toast.error(res.data.message);
+        } else {
+          this.$toast(res.data.message);
         }
         return;
       }
     },
-    handleEditIngredient(e) {
-      console.log(e);
-    },
-    async handleDelIngredient(item) {
-      let ingredientIndex = this.ingredientList.findIndex(i => i.id === item.id);
-      this.ingredientList.splice(ingredientIndex, 1);
-      await deleteIngredient({
-        ids: item.id.toString()
-      });
+    async handleDelIngredient(item, type) {
+      if (type !== 'newIngredient') {
+        let ingredientIndex = this.ingredientList.findIndex(i => i.id === item.id);
+        this.ingredientList.splice(ingredientIndex, 1);
+      } else {
+        let ingredientIndex = this.newIngredients.findIndex(i => i.ingredientName === item.ingredientName);
+        this.newIngredients.splice(ingredientIndex, 1);
+      }
+      // 新增是没有id => so加个判断条件
+      if (item.id) {
+        await deleteIngredient({
+          ids: item.id.toString()
+        });
+      }
     },
     // 上传图片
     uploadImg(e) {
       // 放到表单
-      this.addPatternForm.picsUrl = e.ossUrl[e.ossUrl.length - 1];
+      this.addPatternForm.picsUrl = ALI_DOMAIN + e.ossUrl[e.ossUrl.length - 1];
     },
-    // Enter健新增自定义成分
-    async handleAddIngredient(e) {
-      let value = e.target.value;
-      let newIngredientsIndex = this.newIngredients.findIndex(item => item.ingredientName === value);
-      let oldIngredientsIndex = this.ingredientList.findIndex(item => item.ingredientName === value);
-      this.newIngredients.push({
-        ingredientName: value
-      });
-      // 如果重复了不准新增
-      if (newIngredientsIndex === -1 && oldIngredientsIndex === -1) {
-        this.addPatternForm.ingredient = e.target.value;
+    handleInputAddIngredient(e) {
+      if (e.length > 0) {
+        this.EditIngredient.addStatus = true;
       }
-      // 提交后台
-      await addIngredient({
-        ingredientName: value
-      });
+    },
+    // Enter健&&click外部新增自定义成分
+    async handleAddIngredient() {
+      if (this.EditIngredient.addStatus) {
+        let value = this.EditIngredient.newIngredient;
+        let newIngredientsIndex = this.newIngredients.findIndex(item => item.ingredientName === value);
+        let oldIngredientsIndex = this.ingredientList.findIndex(item => item.ingredientName === value);
+        // 如果重复了不准新增
+        if (newIngredientsIndex === -1 && oldIngredientsIndex === -1) {
+          this.addPatternForm.ingredient = value;
+          this.newIngredients.push({
+            ingredientName: value
+          });
+          this.EditIngredient.addStatus = false;
+          this.EditIngredient.newIngredient = '';
+        }
+        // 提交后台
+        await addIngredient({
+          ingredientName: value
+        });
+      }
     },
     // 提交表单
     submitForm(formName) {
@@ -267,12 +376,16 @@ export default {
     }
   },
   async created() {
-    this.ingredientList = (await getIngredientsList()).data.data;
+    // ======
+    // 库存单位 首先隐藏条 当选择面料为睫毛的时候才显示
+    let units = JSON.parse(JSON.stringify(this.dicTree.PRODUCT_UNIT));
+    this.CopyDICTUnit = units.filter(item => item.dicValue !== `400012`);
+    // ======
     // 默认会选中第一个值
     this.addPatternForm = Object.assign({}, this.addPatternForm, {
-      stockUnit: DICT.StockUnits[2].dicValue,
-      priceUnit: DICT.PriceUnits[2].dicValue
+      stockUnit: DICT.StockUnits[0].dicValue
     });
+    this.ingredientList = (await getIngredientsList()).data.data;
     // 编辑页面
     if (this.$route.query.id) {
       let data = await getProduct(this.$route.query.id);
@@ -318,9 +431,6 @@ export default {
     padding-left: 10px;
   }
   @component radio {
-    display: inline-block;
-    position: relative;
-    margin-top: 10px;
     &+label {
       margin-left: 20px;
     }
