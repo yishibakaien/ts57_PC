@@ -7,7 +7,8 @@
         </div>
       </div>
       <div class="search-wrapper">
-        <search></search>
+        <!--<search></search>-->
+        <slot></slot>
       </div>
       <div class="concat">
         <div class="tel">400-801-3357</div>
@@ -20,17 +21,17 @@
 </template>
 
 <script>
-import search from '../search/search';
+// import search from '../search/search';
 export default {
-    components: {
-        search
-    }
+//  components: {
+//      search
+//  }
 };
 </script>
 
 <style lang="stylus" scoped>
   .header
-    position relative
+    /*position relative*/
     box-sizing border-box
     height 120px
     width 100%
@@ -50,9 +51,12 @@ export default {
           font-size 18px
           color #999
       .search-wrapper
-        position absolute
+        /*position absolute
         margin-left 300px
-        margin-top 40px
+        margin-top 40px*/
+        float left
+        margin 40px 0 0 140px
+        width 700px
       .concat
         float right
         height 120px

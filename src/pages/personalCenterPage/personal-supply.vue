@@ -79,10 +79,10 @@
 		created() {
 			let _ = this;
 			listSupply(_.param).then((res) => {
-				_.items = res.data.list;
-				_.pageNum = res.data.pageNO;
-				_.pageSize = res.data.pageSize;
-				_.pageMax = res.data.totalPage;
+				_.items = res.data.data.list;
+				_.pageNum = res.data.data.pageNO;
+				_.pageSize = res.data.data.pageSize;
+				_.pageMax = res.data.data.totalPage;
 			}).catch();
 			countSupply().then((res) => {
 				console.log(res.data.data);
@@ -99,10 +99,10 @@
 			listSupplyMethod() {
 				let _ = this;
 				listSupply(_.param).then((res) => {
-					_.items = res.data.list;
-					_.pageNum = res.data.pageNO;
-					_.pageSize = res.data.pageSize;
-					_.pageMax = res.data.totalPage;
+					_.items = res.data.data.list;
+					_.pageNum = res.data.data.pageNO;
+					_.pageSize = res.data.data.pageSize;
+					_.pageMax = res.data.data.totalPage;
 				}).catch();
 			},
 			hanleFilterFabric(e) {
@@ -210,12 +210,13 @@
 	.company {
 		border-top: 1px solid #d1d1d1;
 		img {
+			float: left;
 			width: 30px;
 			height: 30px;
 			border-radius: 50%;
 		}
 		span {
-			display: inline-block;
+			float: left;
 			padding-left: 10px;
 			width: 150px;
 			overflow: hidden;

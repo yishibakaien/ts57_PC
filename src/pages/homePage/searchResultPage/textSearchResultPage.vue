@@ -1,6 +1,8 @@
 <template>
   <div class="text-search-result-page">
-    <v-header></v-header>
+    <v-header>
+    	<search></search>
+    </v-header>
     <v-nav></v-nav>
     <div class="text-search-result-page-box">
       <p class="search-value">全部结果 > {{result.searchText}}</p>
@@ -22,13 +24,14 @@
 import {
   header,
   nav,
+  search,
   baseItem,
   filter,
   paginator
-} from '../../../components';
+} from '@/components';
 // // api 请求
-import {search} from '../../../common/api/api';
-import * as types from '../../../store/types';
+import {searchMtd} from '@/common/api/api';
+import * as types from '@/store/types';
 
 export default {
   data() {
@@ -62,6 +65,7 @@ export default {
   components: {
     vHeader: header,
     vNav: nav,
+    search,
     baseItem,
     vFilter: filter,
     paginator
@@ -82,7 +86,7 @@ export default {
   methods: {
     // 字组件 分页器 注册的事件
     goPage(n) {
-      search({
+      searchMtd({
         keywords: localStorage.searchText,
         category: localStorage.category || '',
         stockType: localStorage.stockType || 0,

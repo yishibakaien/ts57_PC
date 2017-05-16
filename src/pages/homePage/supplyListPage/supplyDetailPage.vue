@@ -1,6 +1,8 @@
 <template>
   <div class="supply-detail-page">
-    <v-header></v-header>
+    <v-header>
+    	<search></search>
+    </v-header>
     <v-nav></v-nav>
     <div class="supply-detail-page-box">
       我是供应详情页面
@@ -11,13 +13,15 @@
 <script>
 import {
   header,
-  nav
-} from '../../../components';
+  nav,
+  search
+} from '@/components';
 
 export default {
   components: {
     'vHeader': header,
-    'vNav': nav
+    'vNav': nav,
+    search
   }
 };
 </script>

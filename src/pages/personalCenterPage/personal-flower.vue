@@ -76,11 +76,10 @@
 				_.pageNum = res.data.pageNO;
 				_.pageSize = res.data.pageSize;
 				_.pageMax = res.data.totalPage;
-				_.classes.totalNum = res.data.totalNum;
-				console.log(_.pageMax);
 			}).catch((res) => {});
 			countProduct().then((res) => {
 				console.log(res.data.data);
+				_.classes.totalNum = res.data.data.countProduct;
 				_.classes.mianliao = res.data.data.countML;
 				_.classes.large = res.data.data.countDB;
 				_.classes.small = res.data.data.countXB;

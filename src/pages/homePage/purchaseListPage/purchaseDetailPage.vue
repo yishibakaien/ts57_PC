@@ -1,7 +1,9 @@
 
 <template>
   <div class="purchase-detail-page">
-    <v-header></v-header>
+    <v-header>
+    	<search></search>
+    </v-header>
     <v-nav></v-nav>
     <div class="purchase-detail-page-box">
       <div class="purchase-detail-left">
@@ -17,13 +19,15 @@
 <script>
 import {
   header,
-  nav
-} from '../../../components';
+  nav,
+  search
+} from '@/components';
 
 export default {
   components: {
     'vHeader': header,
-    'vNav': nav
+    'vNav': nav,
+    search
   }
 };
 </script>

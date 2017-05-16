@@ -1,6 +1,8 @@
 <template>
   <div class="homePage">
-    <v-header></v-header>
+    <v-header>
+    	<search></search>
+    </v-header>
     <v-nav></v-nav>
     <div class="swiper">
         <banner :items="imgs" :width="1200" :height="300" :pagination="true" :auto-play="true" :speed="3000" :sync="false"></banner>
@@ -35,21 +37,22 @@
 import {
   header,
   nav,
+  search,
   fixedTopbar,
   banner,
   purchaseList,
   supplyList,
   entryList,
   qualityCompanyList
-} from '../../components';
+} from '@/components';
 // api 请求
 import {
   listHomeBanners,
   listProductBuys,
   listCompanySupplys,
   findNewCompanyByIndex
-} from '../../common/api/api';
-import * as types from '../../store/types';
+} from '@/common/api/api';
+import * as types from '@/store/types';
 
 let imgs = [
   {
@@ -83,6 +86,7 @@ export default {
   components: {
     'vHeader': header,
     'vNav': nav,
+    search,
     fixedTopbar,
     banner,
     purchaseList,

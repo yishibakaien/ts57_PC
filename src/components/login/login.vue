@@ -66,12 +66,12 @@
 	import * as reg from '@/common/js/regExp';
 	import * as types from '@/store/types';
 
-	import { login } from '@/common/api/api';
+	import { login, getVerifyCode } from '@/common/api/api';
 	export default {
 		data() {
 			return {
 				showPicCode: false,
-				imgCode: 'http://192.168.1.11:8080/front/user/getVerifyCode',
+				imgCode: '',
 				telTip: '',
 				passwordTip: '',
 				userData: {
@@ -105,7 +105,9 @@
 				}
 			},
 			getVerifyCodeMethod() {
-				this.imgCode += '?t=' + new Date();
+				getVerifyCode().then((res) => {
+					this.imgCode = 'data:image/jpeg;base64,' + res.data.data;
+				}).catch();
 			},
 			loginMethod() {
 				if (!reg.testMobile(this.userData.userMobile) || !reg.testPWD(this.userData.userPWD)) {

@@ -1,7 +1,9 @@
 
 <template>
   <div class="purchase-list-page">
-    <v-header></v-header>
+    <v-header>
+    	<search></search>
+    </v-header>
     <v-nav></v-nav>
     <div class="purchase-list-page-box">
       我是求购列表页面
@@ -39,8 +41,9 @@
 <script>
 import {
   header,
-  nav
-} from '../../../components';
+  nav,
+  search
+} from '@/components';
 
 import purchaseItem from './purchaseItem';
 export default {
@@ -57,6 +60,7 @@ export default {
   components: {
     'vHeader': header,
     'vNav': nav,
+    search,
     purchaseItem
   }
 };

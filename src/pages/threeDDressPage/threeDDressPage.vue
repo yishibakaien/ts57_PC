@@ -1,6 +1,8 @@
 <template>
   <div class="threeDDress">
-    <v-header></v-header>
+    <v-header>
+    	<search></search>
+    </v-header>
     <v-nav></v-nav>
     <div class="dress-box">
 
@@ -70,7 +72,7 @@
 </template>
 
 <script>
-import { header, nav } from '../../components';
+import { header, nav, search } from '@/components';
 import uploadPicture from '../../common/js/uploadPicture';
 // import blackTip from '../../common/js/blackTip';
 
@@ -149,7 +151,8 @@ export default {
   },
   components: {
     'vHeader': header,
-    'vNav': nav
+    'vNav': nav,
+    search
   }
 };
 </script>

@@ -1,15 +1,24 @@
 <template>
   <div class="register-page">
-    <v-header></v-header>
+    <v-header>
+    	<div class="fl reg-title">
+				<p>欢迎注册</p>
+				<router-link to="homePage">返回首页</router-link>
+			</div>
+			<div class="fr reg-path">
+				<span>已有账号？</span>
+				<router-link to="loginPage" class="login">请登录</router-link>
+			</div>
+    </v-header>
     <div class="register-box">
       <div class="register-container">
-        <div class="header">
+        <!--<div class="header">
           <h1 class="title">欢迎注册</h1>
           <div class="right">
             <span class="text">已有账号?</span>
             <router-link to="./loginPage" class="link">请登录</router-link>
           </div>
-        </div>
+        </div>-->
 
         <div class="choose-type list">
           <span class="left">选择身份：</span>
@@ -308,6 +317,37 @@ export default {
 };
 </script>
 
+<style lang="scss" scoped>
+	.reg-title {
+		margin-left: -110px;
+		padding-left: 30px;
+		border-left: 1px solid #ccc;
+		p {
+			color: #333;
+			font-size: 20px;
+			line-height: 30px;
+		}
+		a {
+			font-size: 16px;
+			color: #4c93fd;
+			line-height: 24px;
+		}
+	}
+	.reg-path {
+		a {
+			position: relative;
+			top: 10px;
+			font-size: 20px;
+			color: #4c93fd;
+		}
+		span {
+			position: relative;
+			top: 10px;
+			font-size: 20px;
+			color: #999;
+		}
+	}
+</style>
 <style lang="stylus" scoped>
   .input
     display inline-block

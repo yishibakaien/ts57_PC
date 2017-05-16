@@ -12,6 +12,7 @@ const API = {
   user: {
     reg: '/front/user/reg', // 注册
     login: '/front/user/login', // 登录
+    findPassWd: '/front/user/findPassWd', // 找回密码
     checkPhone: '/front/user/checkPhone', // 检查手机号码是否存在
     changeMobile: '/user/changeMobile', // 修改手机号码
     updateUser: '/user/updateUser', // 修改用户信息
@@ -60,7 +61,9 @@ const API = {
     favoriteBus: '/favorite/favoriteBus', // 收藏或取消
     listSupply: 'favorite/listSupply', // 获取收藏供应列表
     listCompany: '/favorite/listCompany', // 获取收藏厂家列表
-    listProduct: '/favorite/listProduct' // 获取收藏花型列表
+    listProduct: '/favorite/listProduct', // 获取收藏花型列表
+    countProduct: '/favorite/countProduct', // 统计收藏花型各分类数量
+    countSupply: '/favorite/countSupply' // 统计收藏供应各分类数量
   },
   product: {
     // POST
@@ -166,7 +169,7 @@ function _fetch(method = METHODS.get, data, url) {
   if (url === API.user.login) {
     // 如果是登录的请求则删除掉请求头中的x-token
     try {
-      delete _headers['x-token'];
+//    delete _headers['x-token'];
     } catch (e) {}
   }
   let param;
@@ -198,12 +201,12 @@ function _fetch(method = METHODS.get, data, url) {
       }
       //			if (res.data.code !== 0 && res.data.message) {
       if (res.data.message) {
-        // store.commit(types.MODEL_SHOW, true);
-        // store.commit(types.MODEL_OPTION, {
-        //   type: 2,
-        //   title: '提示',
-        //   content: res.data.message
-        // });
+           store.commit(types.MODEL_SHOW, true);
+           store.commit(types.MODEL_OPTION, {
+             type: 2,
+             title: '提示',
+             content: res.data.message
+           });
       }
       resolve(res);
     }).catch((res) => {
@@ -236,6 +239,16 @@ export function reg(data) {
   return _fetch(METHODS.post, data, API.user.reg);
 };
 
+// 找回密码
+export function findPassWd(data) {
+  return _fetch(METHODS.post, data, API.user.findPassWd);
+};
+
+// 获取找回密码短信验证码
+export function getFindSMSCode(data) {
+  return _fetch(METHODS.post, data, API.user.getFindSMSCode);
+};
+
 // 校验密码
 export function checkPasswd(data) {
   return _fetch(METHODS.post, data, API.user.checkPasswd);
@@ -243,7 +256,7 @@ export function checkPasswd(data) {
 
 // 获取图形验证码
 export function getVerifyCode(data) {
-  return _fetch(METHODS.get, data, API.user.getVerifyCode);
+  return _fetch(METHODS.post, data, API.user.getVerifyCode);
 };
 
 // 修改个人信息
@@ -291,7 +304,7 @@ export function findNewCompanyByIndex(data) {
  * 搜索部分
  */
 // 文本搜索
-export function search(data) {
+export function searchMtd(data) {
   return _fetch(METHODS.post, data, API.search.search);
 }
 

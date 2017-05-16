@@ -1,6 +1,8 @@
 <template>
 	<div class="personal">
-		<v-header/>
+		<v-header>
+			<search></search>
+		</v-header>
 		<v-nav/>
 		<!--personal-conent-->
 		<div class="personal-container  clearfix">
@@ -28,7 +30,7 @@
 <script>
 	import '@/common/css/personal.css';
 	
-	import { header, nav } from '@/components';
+	import { header, nav, search } from '@/components';
 	import { getUserInfo } from '@/common/api/api';
 	
 	import {
@@ -104,6 +106,7 @@
 		components: {
 			'vHeader': header,
 			'vNav': nav,
+			search,
 			personalAccount,
 			personalMobile,
 			personalPassword,

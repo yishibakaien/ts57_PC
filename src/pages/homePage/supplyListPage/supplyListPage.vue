@@ -1,6 +1,8 @@
 <template>
   <div class="supply-list-page">
-    <v-header></v-header>
+    <v-header>
+    	<search></search>
+    </v-header>
     <v-nav></v-nav>
     <div class="supply-list-page-box">
       我是供应列表页面
@@ -32,8 +34,9 @@
 <script>
 import {
   header,
-  nav
-} from '../../../components';
+  nav,
+  search
+} from '@/components';
 import supplyItem from './supplyItem';
 export default {
   data() {
@@ -47,6 +50,7 @@ export default {
   components: {
     'vHeader': header,
     'vNav': nav,
+    search,
     supplyItem
   }
 };

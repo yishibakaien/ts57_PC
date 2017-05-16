@@ -1,6 +1,8 @@
 <template>
   <div class="find">
-    <v-header></v-header>
+    <v-header>
+    	<search></search>
+    </v-header>
     <v-nav></v-nav>
     <div class="find-box">
       I am find.
@@ -9,11 +11,12 @@
 </template>
 
 <script>
-import {header, nav} from '../../components';
+import {header, nav, search} from '@/components';
 export default {
   components: {
     'vHeader': header,
-    'vNav': nav
+    'vNav': nav,
+    search
   },
   created() {
     console.log('I am findPage and created');
