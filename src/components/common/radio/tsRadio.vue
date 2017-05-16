@@ -91,11 +91,12 @@ export default {
   @component radio{
     position: relative;
     display: inline-block;
-    height:34px;
+    height:32px;
+    vertical-align: middle;
     padding:10px;
     font-size: 14px;
     box-sizing: border-box;
-    margin-right:20px;
+    margin:6px 20px 6px 0;
     text-align: center;
     cursor: pointer;
     @modifier inner{

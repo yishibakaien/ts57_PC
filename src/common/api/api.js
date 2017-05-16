@@ -107,7 +107,8 @@ const API = {
     getCompanyInfo: '/company/getCompanyInfo', // 获取档口OR工厂信息
     updateCompany: '/company/updateCompany', // 修改工厂或档口信息
     getCompanyAptitude: '/companyAptitude/getCompanyAptitude', // 查询公司资质信息
-    saveCompanyAptitude: '/companyAptitude/saveCompanyAptitude' // 修改公司资质信息
+    saveCompanyAptitude: '/companyAptitude/saveCompanyAptitude', // 修改公司资质信息
+    updateCompanyExtend: '/company/updateCompanyExtend' // 修改工厂或档口详细信息
   },
   // 数据字典
   dicTree: {
@@ -117,6 +118,9 @@ const API = {
   area: {
     byLevel: '/front/area/byLevel',
     byParent: '/front/area/byParent'
+  },
+  enquiry: {
+    getEnquiryList: '/enquiry/list' // 询价列表
   },
   oss: {
     token: '/file/token' // OSS_token
@@ -205,6 +209,7 @@ function _fetch(method = METHODS.get, data, url) {
         //   content: res.data.message
         // });
       }
+      if (res.data.code !== 0) {}
       resolve(res);
     }).catch((res) => {
       store.commit(types.MODEL_OPTION, {
@@ -383,10 +388,14 @@ export const getAreabyParent = param => _fetch(METHODS.get, param, API.area.byPa
 // =======
 // 店铺管理
 // =======
+// 询价列表
+export const getEnquiryList = param => _fetch(METHODS.post, param, API.enquiry.getEnquiryList);
 // 查询公司资质信息
 export const getCompanyAptitude = param => _fetch(METHODS.get, param, API.company.getCompanyAptitude);
 // 修改公司资质信息
 export const saveCompanyAptitude = param => _fetch(METHODS.post, param, API.company.saveCompanyAptitude);
+// 修改工厂或档口详细信息
+export const updateCompanyExtend = param => _fetch(METHODS.post, param, API.company.updateCompanyExtend);
 // 获取花型列表
 export const getProductList = param => _fetch(METHODS.post, param, API.product.listProducts);
 // 获取花型详情

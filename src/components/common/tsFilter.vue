@@ -33,7 +33,7 @@ export default {
       display: table-cell;
     }
     @descendent content{
-      padding: 12px 0;
+      padding: 6px 0;
       padding-left: 28px;
       vertical-align: middle;
       display: table-cell;

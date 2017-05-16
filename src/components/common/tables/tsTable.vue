@@ -8,7 +8,7 @@
     </thead>
     <tbody>
       <tr v-for="(trData,rowIndex) in tables(data,rule)" :class="'row_'+(rowIndex+1)" @click="bodyTrClick(data[rowIndex])">
-        <td v-for="(tdData,colIndex) in trData" :style="getStyle(rule[colIndex])" :class="'col_'+(colIndex+1)" >
+        <td v-for="(tdData,colIndex) in trData" :style="getStyle(rule[colIndex])" :class="'col_'+(colIndex+1)">
           <ts-image :src="tdData" v-if="rule[colIndex].image" :width="imgWidth" :height="imgHeight"></ts-image>
           <span v-else>{{tdData}}</span>
           <template v-if="tdData===null && rule[colIndex].action">
@@ -20,16 +20,28 @@
       </tr>
     </tbody>
   </table>
+  <div class="table-empty" v-if="empty">
+    <span>暂无数据</span>
+  </div>
   <slot></slot>
 </div>
 </template>
 <script>
-import {parseText, isObject} from '@/common/js/utils';
+import {
+  parseText,
+  isObject
+} from '@/common/js/utils';
 export default {
   data() {
     return {
-      rule: []
+      rule: [],
+      empty: false
     };
+  },
+  watch: {
+    data(val) {
+      this.empty = val.length <= 0;
+    }
   },
   props: {
     data: [Object, Array],
@@ -76,17 +88,20 @@ export default {
       }
       return tdData;
     },
+    // 表格的数据
     tables(data, rule) {
-      let arr = data.slice(0);
-      let _arr = [];
-      arr.forEach(trData => {
-        let __arr = [];
-        for (let i = 0; i < rule.length; i++) {
-          __arr.push(trData[rule[i].dataKey] || null);
-        }
-        _arr.push(__arr);
-      });
-      return _arr;
+      if (data) {
+        let arr = data.slice(0);
+        let _arr = [];
+        arr.forEach(trData => {
+          let __arr = [];
+          for (let i = 0; i < rule.length; i++) {
+            __arr.push(trData[rule[i].dataKey] || null);
+          }
+          _arr.push(__arr);
+        });
+        return _arr;
+      }
     },
     getStyle(col) {
       return {
@@ -95,12 +110,15 @@ export default {
         'height': col.height
       };
     },
+    // 列click
     thColClick(item) {
       this.$emit('th-col-click', item);
     },
+    // 行click
     bodyTrClick(item) {
       this.$emit('body-tr-click', item);
     },
+    // 操作action
     fireAction(action, rowData) {
       if (typeof action.func === 'string') {
         if (this.$parent[action.func]) {
@@ -128,8 +146,8 @@ table {
 tr {
   border-bottom: 1px solid #e4e4e4;
   transition: .5s;
-  &:hover{
-  background: #F8F8F8;
+  &:hover {
+    background: #F8F8F8;
   }
 }
 
@@ -141,16 +159,32 @@ th {
 
 th {
   background: #F8F8F8;
-  box-shadow: 0 1px 0 0 rgba(209,209,209,0.50);
+  box-shadow: 0 1px 0 0 rgba(209, 209, 209, 0.50);
   font-weight: 400;
 }
-.handleAction{
+
+.handleAction {
   display: inline-block;
   padding: 8px 4px;
   cursor: pointer;
   transition: .3s;
-  &:hover{
-    color:#4C93FD;
+  &:hover {
+    color: #4C93FD;
+  }
+}
+
+@component-namespace table {
+  @component empty {
+    min-height: 60px;
+    height: 100%;
+    position: relative;
+    text-align: center;
+    border: 1px solid #D1D1D1;
+    border-top: none;
+    & span {
+      position: absolute 50% * * 50%;
+      transform: translate(-50%, -50%);
+    }
   }
 }
 </style>

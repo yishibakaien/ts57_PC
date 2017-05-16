@@ -13,16 +13,16 @@
       <!-- FIXME:暂时TABLE无法完成全选 -->
       <!-- <ts-button type="cancel">删除</ts-button> -->
     </div>
-    <ts-table :data="data" @th-col-click="thColClick" @body-tr-click="trClick">
+    <ts-table :data="Cooperation.list" @th-col-click="handleThCoorClick" @body-tr-click="handleTrCoorClick">
       <ts-column slot data-key="person" align="center" name="厂家名称"></ts-column>
       <ts-column slot data-key="type" align="center" name="联系电话"></ts-column>
       <ts-column slot data-key="num" align="center" name="仓库中该厂家花型数量"></ts-column>
-      <ts-column slot align="center" name="操作" action="[{'text':'修改','func':'editCompany'},{'text':'删除','func':'delCompany'}]"></ts-column>
+      <ts-column slot align="center" name="操作" action="[{'text':'修改','func':'handleEditCompany'},{'text':'删除','func':'handleDelCompany'}]"></ts-column>
     </ts-table>
   </ts-section>
   <!-- 对话框 -->
   <ts-dialog v-model="showEditDialog" title="修改厂家信息">
-    <ts-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="125px" label-position="left">
+    <ts-form :model="companyInfoForm" :rules="rules" ref="ruleForm" label-width="125px" label-position="left">
       <ts-form-item label="厂家名称" prop="name">
         <ts-input v-model="ruleForm.name"></ts-input>
       </ts-form-item>
@@ -36,7 +36,13 @@
     </ts-form>
   </ts-dialog>
   <ts-dialog v-model="showDelDialog" title="提示" :confirmText="删除" @confirm="handleDel">
-    <span>确认删除该合作厂家信息？</span>
+    <span></span>
+  </ts-dialog>
+  <ts-dialog v-model="ConfirmDialog.show" width="30%" title="提示" @confirm="handleDelCoor" @cancel="handleCancelDelCoor" class="warehouse-dialog">
+    <p class="warehouse-dialog--title">确认删除该合作厂家信息？</p>
+    <p>
+      <ts-radio @change.native="handleNoShowDialog" type="origin" v-model="ConfirmDialog.noShowDialog" label="0"><span class="warehouse-dialog--tip">不再提示<i>(删除后厂家信息将无法恢)</i></span></ts-radio>
+    </p>
   </ts-dialog>
 </div>
 </template>
@@ -45,8 +51,37 @@
 export default {
   data() {
     return {
-      showEditDialog: false
+      showEditDialog: false,
+      showDelDialog: false,
+      // 规则
+      rules: {},
+      // 表格
+      companyInfoForm: {},
+      // 对话框
+      ConfirmDialog: {
+        noShowDialog: false,
+        show: false,
+        id: []
+      },
+      // cookie
+      Cookie: {
+        key: 'showDelCoorDialog',
+        value: 1,
+        day: 7
+      }
     };
+  },
+  async created() {
+    !this.getCookie(this.Cookie.key) ? this.setCookie(this.Cookie.key, this.Cookie.value, this.Cookie.day) : '';
+  },
+  methods: {
+    handleThCoorClick() {},
+    handleTrCoorClick() {},
+    handleEditCompany() {},
+    handleDelCompany() {},
+    handleDelCoor() {},
+    handleCancelDelCoor() {},
+    handleNoShowDialog() {}
   }
 };
 </script>
