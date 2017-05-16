@@ -1,6 +1,8 @@
 <template lang="html">
   <div class="shop">
-    <v-header></v-header>
+    <v-header>
+    	<search></search>
+    </v-header>
     <v-nav></v-nav>
     <section class="shopManager-container">
         <div class="shopManager-container-left">
@@ -14,12 +16,13 @@
 </template>
 
 <script>
-	import { header, nav } from '@/components';
+	import { header, nav, search } from '@/components';
   import shopManagerNav from './children/nav';
 export default {
   components: {
     'vHeader': header,
     'vNav': nav,
+    search,
     shopManagerNav
   }
 };
