@@ -61,8 +61,10 @@
         </ts-checkbox-group>
       </ts-menu>
     </div>
-    <div slot="footer" v-if="chooseItem.length>0">
-      <ts-button type="primary" @click="handleShowDialog(chooseItem)">关闭</ts-button>
+    <div slot="footer" class="supply-footer">
+      <ts-button type="primary" @click="handleShowDialog(chooseItem)" v-if="chooseItem.length>0">关闭</ts-button>
+      <ts-pagination class="supply-footer--pagation" @change="handleChangeCurrent" @page-size-change="handleChangePageSize" :current="companySupplyList.pageNO" :totalPages="companySupplyList.totalPage">
+      </ts-pagination>
     </div>
   </ts-section>
   <!--  供应收藏记录对话框 -->
@@ -139,6 +141,14 @@ export default {
     handleCollectDialog() {
       this.showDialog = true;
     },
+    async handleChangeCurrent(current) {
+      this.Params.pageNo = current;
+      this.companySupplyList = (await getCompanySupplylist(this.Params)).data.data;
+    },
+    async handleChangePageSize(size) {
+      this.Params.pageSize = size;
+      this.companySupplyList = (await getCompanySupplylist(this.Params)).data.data;
+    },
     // 添加“分类”条件搜索
     async handleFilterSupplyStatus(e) {
       this.Params.supplyStatus = !e ? null : e;
@@ -205,6 +215,13 @@ export default {
         font-size: smaller;
         color: #3F3F3F;
       }
+    }
+  }
+  @component footer{
+    display: flex;
+    @modifier pagation{
+      flex:1;
+      text-align: right;
     }
   }
   @component table{

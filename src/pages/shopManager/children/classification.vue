@@ -5,8 +5,10 @@
       <ts-button type="primary" @click="Classification.newDialog=true">新增分类</ts-button>
       <ts-button type="plain" @click="handleEditDialog">编辑分类</ts-button>
     </div>
-    <div slot="footer">
+    <div slot="footer" class="classification-footer">
       <ts-button v-show="chooseItem.length>0" type="primary" @click="handleUnbindProduct({ids:chooseItem,unbinding:true,classId:BindingProductList.list[0].category})">从本类移出</ts-button>
+      <ts-pagination class="classification-footer--pagation" @change="handleChangeCurrent" @page-size-change="handleChangePageSize" :current="BindingProductList.pageNO" :totalPages="BindingProductList.totalPage">
+      </ts-pagination>
     </div>
     <!-- 过滤器 -->
     <div class="classification-filter">
@@ -60,7 +62,7 @@
   <ts-dialog v-model="Classification.newDialog" title="新增分类" @confirm="handleNew('newClassification')" @cancel="closeNew" width="30%">
     <ts-form :model="Classification" :rules="rules" ref="newClassification">
       <ts-form-item prop="text">
-        <ts-input v-focus autofocus v-model="Classification.text" placeholder="请输入分类名称，限定8个字以内" :maxlength="8"></ts-input>
+        <ts-input autofocus v-model="Classification.text" placeholder="请输入分类名称，限定8个字以内" :maxlength="8"></ts-input>
       </ts-form-item>
     </ts-form>
   </ts-dialog>
@@ -175,8 +177,6 @@ export default {
   },
   methods: {
     async index() {
-      // 获取分类的列表
-      this.BindingProductList = (await getBindingProductlist(this.Params)).data.data;
       // 系统分类
       this.Classification.systemCategory = (await listSystemProductCategory()).data.data;
       this.Params.classId = this.Classification.systemCategory[0].id;
@@ -186,6 +186,18 @@ export default {
         pageNo: 1,
         pageSize: 1000
       })).data.data.list;
+      // 获取分类的列表
+      this.BindingProductList = (await getBindingProductlist(this.Params)).data.data;
+    },
+    // 分页处理
+    // =========
+    async handleChangeCurrent(current) {
+      this.Params.pageNo = current;
+      this.BindingProductList = (await getBindingProductlist(this.Params)).data.data;
+    },
+    async handleChangePageSize(size) {
+      this.Params.pageSize = size;
+      this.BindingProductList = (await getBindingProductlist(this.Params)).data.data;
     },
     // 花型：上移
     handleUpMoveProductList(item, index) {
@@ -254,12 +266,12 @@ export default {
       });
     },
     // XXX:函数去抖=> 因为PC端修改分类不能批量修改 所以修改一个等800毫秒后执行
-    handleInput: debounce(function(item, event) {
-      updateProductCategory({
+    handleInput: debounce(async function(item, event) {
+      await updateProductCategory({
         className: event,
         id: item.id
       });
-    }, 1 * 1000),
+    }, 1500),
     // 新增分类
     handleNew(formName) {
       this.$refs[formName].validate(async(valid) => {
@@ -273,15 +285,18 @@ export default {
         }
       });
     },
+
     async handleEdit(formName) {
-      await sortProductCategory({
-        ids: this.Classification.MovedIds
-      });
-      this.Classification.userCategory = (await listUserProductCategory({
-        pageNo: 1,
-        pageSize: 1000
-      })).data.data.list;
-      await this.index();
+      if (this.Classification.MovedIds) {
+        await sortProductCategory({
+          ids: this.Classification.MovedIds
+        });
+        this.Classification.userCategory = (await listUserProductCategory({
+          pageNo: 1,
+          pageSize: 1000
+        })).data.data.list;
+        await this.index();
+      }
       this.closeDialog('editDialog');
     }
   }
@@ -293,6 +308,13 @@ export default {
   @component showName{
     margin: 15px 0 20px 0;
     color:#666666;
+  }
+  @component footer{
+    display: flex;
+    @modifier pagation{
+      flex:1;
+      text-align: right;
+    }
   }
   @component edit-dialog{
     @modifier column{

@@ -3,6 +3,7 @@ import {baseURL, headers} from '../config/config';
 import store from '../../store/store';
 import * as types from '../../store/types';
 import axios from 'axios';
+import Toast from '@/components/common/toast/toast';
 //   import OSS from 'ali-oss';
 // import fs from 'fs';
 axios.defaults.baseURL = '/api';
@@ -203,23 +204,26 @@ function _fetch(method = METHODS.get, data, url) {
           store.commit(types.LOGIN, token);
         }
       }
-      //			if (res.data.code !== 0 && res.data.message) {
       if (res.data.message) {
-           store.commit(types.MODEL_SHOW, true);
-           store.commit(types.MODEL_OPTION, {
-             type: 2,
-             title: '提示',
-             content: res.data.message
-           });
+        Toast({
+          type: !res.data.code
+            ? 'success'
+            : 'error',
+          message: res.data.message
+        });
       }
-      if (res.data.code !== 0) {}
+      //			if (res.data.code !== 0 && res.data.message) {
+      // if (res.data.message) {
+      // store.commit(types.MODEL_SHOW, true);
+      // store.commit(types.MODEL_OPTION, {
+      //   type: 2,
+      //   title: '提示',
+      //   content: res.data.message
+      // });
+      // }
       resolve(res);
     }).catch((res) => {
-      store.commit(types.MODEL_OPTION, {
-        type: 1,
-        title: '提示',
-        content: '请检查网络'
-      });
+      Toast.error('请检查网络');
       reject(res);
     });
   });

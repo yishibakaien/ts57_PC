@@ -8,7 +8,7 @@
       </ts-form-item>
       <ts-form-item label="花型分类：" prop="category">
         <ts-radio-group bordered v-model="addPatternForm.category">
-          <ts-radio :label="item.dicValue" v-for="item in dicTree.PRODUCT_TYPE" :key="item.label">{{item.name}}</ts-radio>
+          <ts-radio :label="item.dicValue" v-for="item in dicTree.PRODUCT_TYPE" :key="item.dicValue">{{item.name}}</ts-radio>
         </ts-radio-group>
       </ts-form-item>
       <ts-form-item label="花型成分：" prop="ingredient">
@@ -431,11 +431,13 @@ export default {
     padding-left: 10px;
   }
   @component radio {
+    display: inline-block;
+    position: relative;
     &+label {
       margin-left: 20px;
     }
     @descendent close {
-      position: absolute -8px * * -8px;
+      position: absolute 0 * * -8px;
       border-radius: 50%;
       text-align: center;
       font-size: 14px;

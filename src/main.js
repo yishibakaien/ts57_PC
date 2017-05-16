@@ -22,6 +22,7 @@ Vue.config.productionTip = false;
 // 注册过滤器
 Object.keys(filters).forEach(k => Vue.filter(k, filters[k]));
 Object.keys(utils).forEach(k => { Vue.prototype[k] = utils[k]; });
+Object.keys(filters).forEach(k => { Vue.prototype[k] = filters[k]; });
 // 初始化vue-amap
 AMap.initAMapApiLoader({
   // 高德的key

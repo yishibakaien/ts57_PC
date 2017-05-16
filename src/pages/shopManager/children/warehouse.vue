@@ -12,6 +12,7 @@
         <ts-button type="primary">新增花型</ts-button>
       </router-link>
     </div>
+    {{1478908800000 | customTime}}
     <!-- 品种过滤器 -->
     <div class="warehouse-filter">
       <ts-filter title="分类">
@@ -27,7 +28,6 @@
         </ts-radio-group>
       </ts-filter>
     </div>
-    <span class="supply-table--collect" @click.self="handleCollectDialog">8</span>
     <!-- 表格 -->
     <div class="warehouse-table">
       <ts-menu :prop="productList.list">
@@ -49,11 +49,11 @@
         </ts-menu-table-item>
         <!-- Price -->
         <ts-menu-table-item>
-          <span v-if="item.price>0">{{item.price}}元／{{item.priceUnit|filterDict(DICT.PriceUnits)}}</span>
+          <span v-if="item.price>0">{{item.price*100}}元／{{item.priceUnit|filterDict(DICT.PriceUnits)}}</span>
           <span v-else>价格面议</span>
         </ts-menu-table-item>
         <ts-menu-table-item>
-          询价次数：<span class="supply-table--collect" @click.self="handleCollectDialog(item.id)">8</span>
+          询价次数：<a class="supply-table--collect" @click.self="handleCollect(item)">{{item.askCount}}</a>
         </ts-menu-table-item>
         <ts-menu-table-item>
           <a class="warehouse-table--link" v-if="item.publishStatus!==2" @click="handleShelveProduct({goal:2,ids:item.id,isUp:true})">上架平台</a>
@@ -68,36 +68,49 @@
       </ts-checkbox-group>
       </ts-menu>
     </div>
-    <div slot="footer" class="warehouse-footer--button" v-if="chooseItem.length>0">
-      <div class="">
+    <div slot="footer" class="warehouse-footer">
+      <div v-if="chooseItem.length>0">
         <ts-button type="primary" @click="handleShelveProduct({goal:2,ids:chooseItem,isUp:true})">上架平台</ts-button>
         <ts-button type="primary" @click="handleShelveProduct({goal:1,ids:chooseItem,isUp:true})">上架店铺</ts-button>
         <ts-button type="cancel"  @click="handleShowDialog(chooseItem)">删除</ts-button>
       </div>
-      <ts-pagination></ts-pagination>
+      <ts-pagination
+      class="warehouse-footer--pagation"
+      @change="handleChangeCurrent"
+      @page-size-change="handleChangePageSize"
+      :current="productList.pageNO"
+      :totalPages="productList.totalPage">
+      </ts-pagination>
     </div>
-
   </ts-section>
   <!--  对话框 -->
-  <ts-dialog v-model="CollectDialog.show" width="60%" class="warehouse-dialog" @confirm="CollectDialog.show=false">
+  <ts-dialog v-model="Collect.show" width="80%" class="warehouse-dialog" @confirm="Collect.show=false">
     <div slot="title" class="warehouse-collect-dialog--title">
       <div class="left">
         <strong>花型询价记录</strong>
-        <ts-image width='100' :canView="false" height="100" src="static/images/modles/modle1_all.png"></ts-image>
-        #22222 庙里
+        <ts-image width='100' :canView="false" height="100" :src="Collect.productItem.picsUrl" style="vertical-align:bottom"></ts-image>
+        #{{Collect.productItem.productNo}} {{Collect.productItem.category | filterDict(dicTree.PRODUCT_TYPE,'name')}}
       </div>
-      <ts-button type="cancel" @click="CollectDialog.show=!CollectDialog.show">关闭</ts-button>
+      <ts-button type="cancel" @click="Collect.show=!Collect.show">关闭</ts-button>
     </div>
-    <ts-table :data="CollectDialog.data" @th-col-click="collectThClick" @body-tr-click="collectTrClick">
-      <ts-column slot data-key="person" align="center" name="询价人"></ts-column>
-      <ts-column slot data-key="type" align="center" name="身份"></ts-column>
-      <ts-column slot data-key="num" align="center" name="采购类型"></ts-column>
-      <ts-column slot data-key="num" align="center" name="采购数量"></ts-column>
-      <ts-column slot data-key="num" align="center" name="联系电话"></ts-column>
-      <ts-column slot data-key="num" align="center" name="询价时间"></ts-column>
+    <ts-table :data="Collect.data.list">
+      <ts-column slot data-key="userName" align="center" name="询价人"></ts-column>
+      <ts-column slot data-key="userType" align="center" name="身份"></ts-column>
+      <ts-column slot data-key="purchaseType" align="center" name="采购类型"></ts-column>
+      <ts-column slot data-key="purchaseNum" align="center" name="采购数量"></ts-column>
+      <ts-column slot data-key="phone" align="center" name="联系电话"></ts-column>
+      <ts-column slot data-key="createDate" align="center" name="询价时间">
+      </ts-column>
     </ts-table>
-    <div class="warehouse-collect-dialog-footer">
-      <span>共200条询价</span>
+    <div class="warehouse-collect-dialog-footer warehouse-footer">
+      <span>共{{Collect.data.totalNum}}条询价</span>
+      <ts-pagination
+      class="warehouse-footer--pagation"
+      @change="handleChangeCurrent"
+      @page-size-change="handleChangePageSize"
+      :current="Collect.data.pageNO"
+      :totalPages="Collect.data.totalPage">
+      </ts-pagination>
     </div>
     <div slot="footer"></div>
   </ts-dialog>
@@ -148,27 +161,10 @@ export default {
         publishStatuss: ''
       },
       // 询价次数
-      CollectDialog: {
+      Collect: {
         show: false,
-        data: [{
-          id: 1,
-          img: 'http://avatar.csdn.net/E/4/6/1_wangxiaohu__.jpg',
-          person: '张三',
-          iden: '厂家',
-          type: '建扬',
-          num: '1000码',
-          tel: '1988900',
-          time: '2017-03-32'
-        }, {
-          id: 1,
-          img: 'http://avatar.csdn.net/E/4/6/1_wangxiaohu__.jpg',
-          person: '张四',
-          iden: '厂家',
-          type: '建扬',
-          num: '1000码',
-          tel: '1988900',
-          time: '2017-03-32'
-        }]
+        productItem: {},
+        data: {}
       },
       // 对话框
       ConfirmDialog: {
@@ -187,15 +183,55 @@ export default {
   computed: {
     ...mapGetters(['dicTree'])
   },
+  watch: {
+    'Collect.data.list': {
+      handler(val) {
+        val.forEach(item => {
+          item.createDate = this.filterDate(item.createDate);
+          item.unit = this.filterDict(item.unit, this.dicTree.PRODUCT_UNIT);
+        });
+      },
+      deep: true
+    }
+  },
   async created() {
+    this.Collect.data = {
+      'list': [{
+        companyId: 68422,
+        createDate: 74655,
+        id: 80428,
+        phone: '测试内容2p2c',
+        productId: 75861,
+        productNo: '测试内容6iu1',
+        purchaseNum: 18458,
+        purchaseType: 16684,
+        unit: 400010,
+        userId: 40336,
+        userName: '测试内容rqc7',
+        userType: 46506
+      }],
+      'pageNO': 3,
+      'pageSize': 10138,
+      'totalNum': 15,
+      'totalPage': 15
+    };
     // 获取花型列表
     this.productList = (await getProductList(this.Params)).data.data;
     // 默认创建一个cookie
     !this.getCookie(this.Cookie.key) ? this.setCookie(this.Cookie.key, this.Cookie.value, this.Cookie.day) : '';
   },
   methods: {
-    collectThClick() {},
-    collectTrClick() {},
+    // 分页处理
+    // =========
+    async handleChangeCurrent(current) {
+      this.Params.pageNo = current;
+      this.productList = (await getProductList(this.Params)).data.data;
+    },
+    async handleChangePageSize(size) {
+      this.Params.pageSize = size;
+      this.productList = (await getProductList(this.Params)).data.data;
+    },
+    // ========
     // 搜索
     async handleSearch() {
       if (this.searchVal.trim()) {
@@ -208,8 +244,9 @@ export default {
       }
     },
     // 打开花型询价记录
-    handleCollectDialog() {
-      this.CollectDialog.show = !this.CollectDialog.show;
+    handleCollect(item) {
+      this.Collect.show = !this.Collect.show;
+      this.Collect.productItem = item;
     },
     // 添加“分类”条件搜索
     async handleFilterPublishStatus(e) {
@@ -272,10 +309,15 @@ export default {
     margin-bottom: 24px;
   }
   @component footer{
+    display: flex;
     @modifier button{
       button{
         margin-right:32px;
       }
+    }
+    @modifier pagation{
+      flex:1;
+      text-align: right;
     }
   }
   @component table{
@@ -290,7 +332,7 @@ export default {
     }
     @modifier title{
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       justify-content: space-between;
       strong{
         margin-right: 10px;

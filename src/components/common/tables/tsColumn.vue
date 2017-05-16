@@ -1,6 +1,7 @@
 <template>
-<span>
-</span>
+  <span>
+    <slot></slot>
+  </span>
 </template>
 <script>
 export default {

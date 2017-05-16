@@ -101,9 +101,10 @@ export default {
           var item = dataList[index];
           var key = this.optionName;
           var val = this.optionId;
+          // 可能为数组也可能为数组对象
           retDataList.push({
-            name: item[key],
-            id: item[val]
+            name: item[key] || item,
+            id: item[val] || item
           });
         }
         this.parsedDataList = retDataList;
@@ -125,6 +126,7 @@ export default {
     display: inline-block;
     width: 100%;
     cursor: pointer;
+    text-align: left;
     vertical-align: middle;
     @descendent wrapper{
       max-height: 300px;
@@ -159,9 +161,10 @@ export default {
         }
       }
       @when disabled{
-        background-color: #eee;
+        background-color: #f8f8f8;
         color: #bbb;
-        border-radius: 4px;
+        cursor: not-allowed;
+        border: 1px solid #eef1f6;
       }
     }
     ul{

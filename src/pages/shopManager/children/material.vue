@@ -17,8 +17,15 @@
         </router-link>
       </div>
     </ts-checkbox-group>
-    <div slot="footer">
+    <div slot="footer" class="material-footer">
       <ts-button type="primary" :disabled="chooseImg.status" v-if="Edit.status" @click="handleShowDialog">删除</ts-button>
+      <ts-pagination
+      class="material-footer--pagation"
+      @change="handleChangeCurrent"
+      @page-size-change="handleChangePageSize"
+      :current="albumPicsList.pageNO"
+      :totalPages="albumPicsList.totalPage">
+      </ts-pagination>
     </div>
     <!--  对话框 -->
     <ts-dialog v-model="ConfirmDialog.show" width="30%" title="提示" @confirm="handleDelAlbumPic" @cancel="handleCancelDelMaterial" class="material-dialog">
@@ -87,6 +94,17 @@ export default {
     !this.getCookie(this.Cookie.key) ? this.setCookie(this.Cookie.key, this.Cookie.value, this.Cookie.day) : '';
   },
   methods: {
+    // 分页处理
+    // =========
+    async handleChangeCurrent(current) {
+      this.Params.pageNo = current;
+      this.albumPicsList = (await getAlbumPicsList(this.Params)).data.data;
+    },
+    async handleChangePageSize(size) {
+      this.Params.pageSize = size;
+      this.albumPicsList = (await getAlbumPicsList(this.Params)).data.data;
+    },
+    // ========
     // 删除所选素材
     async handleDelAlbumPic() {
       await deleteAlbumPic({
@@ -126,6 +144,13 @@ export default {
   --material-img-checkbox-position: 10px;
 }
 @component-namespace material{
+  @component footer{
+    display: flex;
+    @modifier pagation{
+      flex:1;
+      text-align: right;
+    }
+  }
   @component dialog{
     p{
       text-align: center;
