@@ -5,8 +5,8 @@
     </div>
     <div class="right-list">
       <list-tile :title-text="titleText"></list-tile>
-      <div class="item-wrapper"  v-for="item in [1,2,3,4,5,6,7,8,9]">
-        <company-list-item></company-list-item>
+      <div class="item-wrapper"  v-for="item in message">
+        <company-list-item :message="item"></company-list-item>
       </div>
     </div>
   </div>
@@ -30,9 +30,7 @@ export default {
     companyListItem
   },
   props: {
-    message: {
-      type: Object
-    }
+    message: {}
   }
 };
 </script>

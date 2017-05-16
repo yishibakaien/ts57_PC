@@ -49,7 +49,7 @@
 					<p class="statusSty" v-if="item.status == 3">删除</p>
 				</div>
 				<p class="info">{{item.leaveWord}}</p>
-				<p><span>求购 <i>200</i> 码</span><span class="time">1小时前</span></p>
+				<p><span>求购 <i>200</i> 码</span><span class="time">{{item.createDate}}</span></p>
 			</div>
 		</div>
 		<pageBar v-if="pageMax >= 1" :pageNum="pageNum" :pageMax="pageMax" :number="pageSize" v-on:upPage="upPage" v-on:downPage="downPage" v-on:selectFirstPage="selectFirstPage" v-on:selectLastPage="selectLastPage" v-on:selectNumber="selectNumber"></pageBar>

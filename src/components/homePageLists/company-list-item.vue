@@ -2,7 +2,7 @@
   <div class="company-list-item">
     <div class="company-item">
       <div class="company-logo-box">
-        <img class="company-logo" src="/static/images/pattern.jpg">
+        <img class="company-logo" :src="message.companyHeadIcon">
       </div>
     </div>
   </div>

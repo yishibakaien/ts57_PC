@@ -135,6 +135,7 @@ div.personal-class:nth-child(2) {
 	height: 204px;
 	position: relative;
 	overflow: hidden;
+	border-bottom: 1px solid #ccc;
 }
 
 .personal-goods-item-img:hover p {
