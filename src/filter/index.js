@@ -17,6 +17,17 @@ export const filterDict = (val, $arr, label = 'label') => {
     }
     let filter = $arr.filter(item => item.dicValue.toString() === val.toString());
     return filter[0][label];
-  } catch (e) {
+  } catch (e) {}
+};
+// 时间转换
+export const filterDate = value => {
+  if (value) {
+    let tmpDate = new Date(value);
+    let year = tmpDate.getFullYear();
+    let mathon = tmpDate.getMonth() + 1;
+    let day = tmpDate.getDate();
+    return year + '-' + mathon + '-' + day;
+  } else {
+    return '';
   }
 };

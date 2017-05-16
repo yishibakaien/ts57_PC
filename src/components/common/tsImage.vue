@@ -138,6 +138,16 @@ export default {
     transform: translate3d(-50%, -50%, 0) scale(0.5);
   }
 }
+@keyframes imgfade {
+  0% {
+    opacity: 0;
+    transform:scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform:scale(1);
+  }
+}
 @component-namespace ts{
   @component image{
     color:#fff;
@@ -150,11 +160,18 @@ export default {
     @descendent img{
       max-width: 100%;
       vertical-align: middle;
+      transition: all 0.3s;
+      animation: imgfade .4s;
+      &:hover{
+        transform:scale(1.05);
+      }
       @when view{
         transition:transform .8s;
         transform:translate(-50%, -50%) scale(0.5);
         position: fixed 50% 0 0 50%;
         animation: dialogfade .5s;
+        perspective: 1000;
+        backface-visibility: hidden;
         -webkit-user-select: none;
         backface-visibility: hidden;
         background: #fff;

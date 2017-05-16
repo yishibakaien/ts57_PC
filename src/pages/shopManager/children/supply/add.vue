@@ -13,7 +13,7 @@
     </ts-form-item>
     <ts-form-item label="供应数量：" prop="supplyNum">
       <ts-input v-model="addSupplyForm.supplyNum" style="width:320px"></ts-input>
-      <ts-select style="width:12%" data-key-name="name" data-val-name="dicValue" :options='dicTree.PRODUCT_UNIT' v-model="addSupplyForm.supplyUnit"></ts-select>
+      <ts-select style="width:12%" data-key-name="name" data-val-name="dicValue" :options='CopyDICTUnit' v-model="addSupplyForm.supplyUnit"></ts-select>
     </ts-form-item>
     <ts-form-item label="花型图片：" prop="productPicUrl">
       <ts-image width="200" height="200" :src="addSupplyForm.productPicUrl" v-show='Pic.show' type="local"></ts-image>
@@ -41,6 +41,12 @@ import {
 import {
   releaseCompanySupply
 } from '@/common/api/api';
+import {
+  ALI_DOMAIN
+} from '@/common/dict/const';
+import {
+  mapGetters
+} from 'vuex';
 export default {
   data() {
     return {
@@ -80,6 +86,8 @@ export default {
         show: false,
         text: '添加图片'
       },
+      // 深拷贝复制一份库存单位
+      CopyDICTUnit: [],
       addSupplyForm: {
         supplyType: '',
         supplyUnit: '',
@@ -94,6 +102,44 @@ export default {
     'addSupplyForm.productPicUrl' (val) {
       this.Pic.text = val ? '修改图片' : '添加图片';
       this.Pic.show = !!val;
+    },
+    'addSupplyForm.supplyType' (val) {
+      let PTJM = '100013';
+      let PUT = '400012';
+      let PSPB = '200010';
+      let PUSG = '400011';
+      // 如果面料是睫毛 => 那就显示‘条’单位
+      if (val !== PTJM) {
+        this.CopyDICTUnit = this.CopyDICTUnit.filter(item => item.dicValue !== PUT);
+      } else if (this.addSupplyForm.productShape === PSPB) {
+        // 如果有选了胚布 => 那就只显示公斤
+        this.CopyDICTUnit = this.CopyDICTUnit.filter(item => item.dicValue === PUSG);
+      } else {
+        // 如果不是睫毛 => 显示所有
+        this.CopyDICTUnit = JSON.parse(JSON.stringify(this.dicTree.PRODUCT_UNIT));
+      }
+      this.addSupplyForm = Object.assign({}, this.addSupplyForm, {
+        stockUnit: this.CopyDICTUnit[0].dicValue
+      });
+    },
+    'addSupplyForm.supplyShapes' (val) {
+      let PSPB = '200010';
+      let PUSG = '400011';
+      let PUT = '400012';
+      let PTJM = '100013';
+      // 如果是胚布 => 只显示公斤
+      if (val === PSPB) {
+        this.CopyDICTUnit = this.CopyDICTUnit.filter(item => item.dicValue === PUSG);
+      } else if (this.addSupplyForm.category === PTJM) {
+        // 如果面料是睫毛 => 把‘条’也显示
+        this.CopyDICTUnit = this.dicTree.PRODUCT_UNIT;
+      } else {
+        // 什么没选的情况下 => 条是隐藏的
+        this.CopyDICTUnit = this.dicTree.PRODUCT_UNIT.filter(item => item.dicValue !== PUT);
+      }
+      this.addSupplyForm = Object.assign({}, this.addSupplyForm, {
+        supplyUnit: this.CopyDICTUnit[0].dicValue
+      });
     }
   },
   async created() {
@@ -104,11 +150,21 @@ export default {
     //   let data = await getCompanySupply(this.$route.query.id);
     //   this.addSupplyForm = data.data.data;
     // }
+    // ======
+    // 库存单位 首先隐藏条 当选择面料为睫毛的时候才显示
+    let units = JSON.parse(JSON.stringify(this.dicTree.PRODUCT_UNIT));
+    this.CopyDICTUnit = units.filter(item => item.dicValue !== `400012`);
+    // ======
+    // 默认会选中第一个值
+    this.addSupplyForm = Object.assign({}, this.addSupplyForm, {
+      supplyUnit: DICT.StockUnits[0].dicValue
+    });
   },
   components: {
     aliUpload
   },
   computed: {
+    ...mapGetters(['dicTree']),
     title() {
       return this.$route.query.id ? '修改供应' : '发布供应';
     }
@@ -119,7 +175,7 @@ export default {
       // 显示Base64
       // this.Pic.src = e.base64Url[e.base64Url.length - 1];
       // 放到表单
-      this.addSupplyForm.productPicUrl = e.ossUrl[e.ossUrl.length - 1];
+      this.addSupplyForm.productPicUrl = ALI_DOMAIN + e.ossUrl[e.ossUrl.length - 1];
     },
     // 提交表单
     submitForm(formName) {

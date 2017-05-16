@@ -121,8 +121,8 @@ export default {
       display: inline-block;
       font-size: 12px;
       padding: 0 12px;
-      height: 32px;
-      min-width: 32px;
+      height: 30px;
+      min-width: 30px;
     }
     @when disabled {
       opacity: .6;
