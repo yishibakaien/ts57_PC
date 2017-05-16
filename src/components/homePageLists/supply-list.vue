@@ -15,7 +15,7 @@
       </div>
       <div class="brand-body">
         <textarea class="input" maxlength="60" placeholder="请填写需求购买花型的详细描述，如花高，宽幅等信息" v-model="text"></textarea>
-        <button @click="releaseSupply" class="button button-plain button-block button-plain-orange">发布供应</button>
+        <button @click="releaseSupply" class="button button-plain button-block button-plain-blue">发布供应</button>
       </div>
     </div>
     <div class="right-list">
@@ -34,7 +34,6 @@ export default {
   data() {
     return {
       titleText: {
-        color: '#ff9c31',
         title: '最新供应',
         extend: '更多供应',
         type: 'supply'
@@ -65,15 +64,13 @@ export default {
     listTile
   },
   props: {
-    supplyListObj: {
-      type: Object
-    }
+    supplyListObj: {}
   }
 };
 </script>
 
 <style lang="stylus" scoped>
-basecolor = #ff9c31
+basecolor = #4c93fd
 .supply-list
   display flex
   box-sizing border-box

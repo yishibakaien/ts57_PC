@@ -32,7 +32,7 @@
 
 				</div>
 				<p class="info">{{ item.buyDesc }}</p>
-				<p><span>求购 <i>{{ item.buyNum }}</i> 码</span><span class="time">1小时前</span></p>
+				<p><span>求购 <i>{{ item.buyNum }}</i> 码</span><span class="time">{{aaa}}</span></p>
 				<div class="tipsModel" v-show="tipShow">
 
 				</div>
@@ -45,6 +45,7 @@
 <script>
 	import { pageBar } from '@/components';
 	import { myProductBuys } from '@/common/api/api';
+//	import { formatDate } from '@/common/js/utils';
 	export default {
 		data() {
 			return {
@@ -73,8 +74,7 @@
 					statusClosed: 0
 				},
 				tipShow: false,
-				a: 1,
-				b: 3
+				aaa: ''
 			};
 		},
 		components: {

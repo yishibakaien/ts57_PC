@@ -23,7 +23,7 @@
       </div>
       <div class="list">
         <!-- 优质厂家 -->
-        <quality-company-list></quality-company-list>
+        <quality-company-list :message="companys"></quality-company-list>
       </div>
       <button class="button button-block button-blue" @click="seeDetail">花型详情(需要登录才能浏览)</button>
       <button @click="logout" class="button button-block button-red" v-if="showBtn">退出登录</button>
@@ -50,7 +50,8 @@ import {
   listHomeBanners,
   listProductBuys,
   listCompanySupplys,
-  findNewCompanyByIndex
+  findNewCompanyByIndex,
+  qualityCompanyList1
 } from '@/common/api/api';
 import * as types from '@/store/types';
 
@@ -80,7 +81,8 @@ export default {
       bannerImgs: [], // 真正的轮播图
       purchaseListObj: {}, // 求购列表
       supplyListObj: {}, // 供应列表
-      newCompanyList: [] // 最新入驻
+      newCompanyList: [], // 最新入驻
+      companys: [] // 优质厂家
     };
   },
   components: {
@@ -95,6 +97,12 @@ export default {
     qualityCompanyList
   },
   created() {
+  // 优质厂家
+  qualityCompanyList1().then((res) => {
+  console.log('优质厂家', res);
+  this.companys = res.data.data;
+  }).catch();
+  // banner
     listHomeBanners().then(res => {
       console.log('首页banner', res);
       let bannerArr = res.data.data;
@@ -119,10 +127,11 @@ export default {
       // 这里需要格式化 type 以便于后面 baseItem 逐渐分辨到底是 supply 还是 buy
       let data = {
         type: 'buy',
-        data: res.data.list
+        data: res.data.data.list
       };
       this.purchaseListObj = data;
     });
+    // 获取供应列表
     listCompanySupplys({
       supplyStatus: 1, // 供应状态 1--供应中 2--已关闭
       pageNo: 0,
@@ -132,7 +141,7 @@ export default {
       // 这里需要格式化 type 以便于后面 baseItem 逐渐分辨到底是 supply 还是 buy
       let data = {
         type: 'supply',
-        data: res.data.list
+        data: res.data.data.list
       };
       this.supplyListObj = data;
     });

@@ -3,7 +3,7 @@
     <div class="header-box">
       <div class="brand">
         <div class="brand-img">
-        	<a href="homePage"><img src="../../../static/images/统搜57.png" alt="logo"/></a>
+        	<router-link to="homePage"><img src="../../../static/images/统搜57.png" alt="logo"/></router-link>
         </div>
       </div>
       <div class="search-wrapper">
@@ -30,6 +30,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+
   .header
     /*position relative*/
     box-sizing border-box

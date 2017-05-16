@@ -34,7 +34,7 @@
           </div>
         </div>
         <div class="entry-button-box">
-          <button class="button button-plain button-block button-plain-pink">申请入驻</button>
+          <button class="button button-plain button-block button-plain-blue">申请入驻</button>
         </div>
       </div>
     </div>
@@ -55,7 +55,6 @@ export default {
     return {
       titleText: {
         title: '厂家入驻',
-        color: '#ff7478',
         extend: '更多厂家',
         type: 'entry'
       }
@@ -74,7 +73,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-basecolor = #ff7478
+basecolor = #4c93fd
 .entry-list
   display flex
   box-sizing border-box

@@ -1,9 +1,9 @@
 <template>
   <div class="list-title">
-    <span class="title-name" :style="{color: titleText.color}">{{titleText.title}}</span>
+    <span class="title-name">{{titleText.title}}</span>
     <div class="right-nav" @click="goListPage">
       <span class="right-nav-text">{{titleText.extend}}</span>
-      <i class="iconfont" :style="{background: titleText.color}">字</i>
+      <i class="iconfont">字</i>
     </div>
   </div>
 </template>
@@ -38,6 +38,7 @@ export default {
     font-size 24px
     line-height 24px
     margin-left 32px
+    color #4c93fd
   .right-nav
     float right
     margin-right 16px
@@ -54,6 +55,7 @@ export default {
       vertical-align top
       height 24px
       width 24px
+      background #4c93fd
       font-size 24px
       line-height 24px
       color #fff
