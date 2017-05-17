@@ -3,7 +3,7 @@
   <ts-section>
     <div slot="menu">
       <ts-input style="width:30%" placeholder="输入花型编号搜索" v-model="searchVal">
-        <ts-button slot="append" size="small" @click="handleSearch">O</ts-button>
+        <ts-button slot="append" size="small" @click="handleSearch"><i class="icon-sousuo"></i></ts-button>
       </ts-input>
       <ts-button type="warning" class="warehouse-photo--search">
         <span class="icon-xiangji"></span>
@@ -33,7 +33,8 @@
       <ts-checkbox-group v-model="chooseItem">
       <ts-menu-table v-for="item in productList.list" :key="item.id">
         <div slot="header-left">
-          <ts-checkbox :label="item.id">#{{item.productNo}}&nbsp{{item.category | filterDict(dicTree.PRODUCT_TYPE,'name')}}</ts-checkbox>
+          <ts-checkbox :label="item.id" v-if="Filter.publishStatuss!==''">#{{item.productNo}}&nbsp{{item.category | filterDict(dicTree.PRODUCT_TYPE,'name')}}</ts-checkbox>
+          <span v-else>#{{item.productNo}}&nbsp{{item.category | filterDict(dicTree.PRODUCT_TYPE,'name')}}</span>
         </div>
         <div slot="header-right">
           状态：<b>{{item.publishStatus | filterDict(DICT.PublishStatus,'label2')}}</b>
@@ -52,7 +53,7 @@
           <span v-else>价格面议</span>
         </ts-menu-table-item>
         <ts-menu-table-item>
-          询价次数：<a class="supply-table--collect" @click.self="handleCollect(item)">{{item.askCount}}</a>
+          询价次数：<a class="warehouse-table--collect" @click.self="handleCollect(item)">{{item.askCount}}</a>
         </ts-menu-table-item>
         <ts-menu-table-item>
           <a class="warehouse-table--link" v-if="item.publishStatus!==2" @click="handleShelveProduct({goal:2,ids:item.id,isUp:true})">上架平台</a>
@@ -68,10 +69,11 @@
       </ts-menu>
     </div>
     <div slot="footer" class="warehouse-footer">
-      <div v-if="chooseItem.length>0">
-        <ts-button type="primary" @click="handleShelveProduct({goal:2,ids:chooseItem,isUp:true})">上架平台</ts-button>
-        <ts-button type="primary" @click="handleShelveProduct({goal:1,ids:chooseItem,isUp:true})">上架店铺</ts-button>
-        <ts-button type="cancel"  @click="handleShowDialog(chooseItem)">删除</ts-button>
+      <div v-if="Filter.publishStatuss!==''">
+        <ts-button type="primary" :disabled="chooseItem.length<=0" v-if="Filter.publishStatuss!==2" @click="handleShelveProduct({goal:2,ids:chooseItem,isUp:true})">上架平台</ts-button>
+        <ts-button type="primary" :disabled="chooseItem.length<=0" v-if="Filter.publishStatuss!==1" @click="handleShelveProduct({goal:1,ids:chooseItem,isUp:true})">上架店铺</ts-button>
+        <ts-button type="cancel" :disabled="chooseItem.length<=0" v-if="Filter.publishStatuss!==0" @click="handleShelveProduct({goal:0,ids:chooseItem})">下架</ts-button>
+        <ts-button type="cancel" :disabled="chooseItem.length<=0" v-if="Filter.publishStatuss===0" @click="handleShowDialog(chooseItem)">删除</ts-button>
       </div>
       <ts-pagination
       class="warehouse-footer--pagation"
@@ -86,8 +88,8 @@
   <ts-dialog v-model="Collect.show" width="80%" class="warehouse-dialog" @confirm="Collect.show=false">
     <div slot="title" class="warehouse-collect-dialog--title">
       <div class="left">
-        <strong>花型询价记录</strong>
-        <ts-image width='100' :canView="false" height="100" :src="Collect.productItem.picsUrl" style="vertical-align:bottom"></ts-image>
+        花型询价记录
+        <ts-image width='72' :canView="false" height="72" :src="Collect.productItem.picsUrl" style="vertical-align:bottom"></ts-image>
         #{{Collect.productItem.productNo}} {{Collect.productItem.category | filterDict(dicTree.PRODUCT_TYPE,'name')}}
       </div>
       <ts-button type="cancel" @click="Collect.show=!Collect.show">关闭</ts-button>
@@ -103,7 +105,6 @@
     </ts-table>
     <div class="warehouse-collect-dialog-footer warehouse-footer">
       <span>共{{Collect.data.totalNum}}条询价</span>
-      <pre>{{Collect.data}}</pre>
       <ts-pagination
       class="warehouse-footer--pagation"
       @change="handleChangeAskListCurrent"
@@ -150,6 +151,8 @@ export default {
       searchVal: '',
       // 选择的项目
       chooseItem: [],
+      // 参数
+      // =======
       Params: {
         publishStatuss: null,
         pageSize: 10,
@@ -162,6 +165,7 @@ export default {
         pageSize: '10',
         productId: ''
       },
+      // =========
       // 过滤器
       Filter: {
         categorys: '',
@@ -209,10 +213,16 @@ export default {
     }
   },
   async created() {
+    if (sessionStorage.getItem('warehouse-filter')) {
+      this.Filter = JSON.parse(sessionStorage.getItem('warehouse-filter'));
+    }
     // 获取花型列表
     this.productList = (await getProductList(this.Params)).data.data;
     // 默认创建一个cookie
     !this.getCookie(this.Cookie.key) ? this.setCookie(this.Cookie.key, this.Cookie.value, this.Cookie.day) : '';
+  },
+  beforeDestroy() {
+    sessionStorage.setItem('warehouse-filter', JSON.stringify(this.Filter));
   },
   methods: {
     // 分页处理
@@ -227,11 +237,11 @@ export default {
     },
     async handleChangeAskListCurrent(current) {
       this.ParamsAskList.current = current;
-      this.productList = (await getProductList(this.Params)).data.data;
+      this.Collect.data = (await getProductList(this.ParamsAskList)).data.data;
     },
     async handleChangeAskListPageSize(size) {
       this.ParamsAskList.pageSize = size;
-      this.productList = (await getProductList(this.Params)).data.data;
+      this.Collect.data = (await getProductList(this.ParamsAskList)).data.data;
     },
     // ========
     // 搜索
@@ -278,6 +288,7 @@ export default {
         ids: [params.ids].join(','),
         isUp: params.isUp
       });
+      this.chooseItem = [];
       // 重新花型列表接口
       this.productList = (await getProductList(this.Params)).data.data;
     },
@@ -335,6 +346,13 @@ export default {
       display: block;
       text-align: center;
     }
+    @modifier collect{
+      cursor: pointer;
+      color:#4C93FD;
+      &:hover{
+        color:blue;
+      }
+    }
   }
   @component collect-dialog{
     @descendent footer{
@@ -344,9 +362,7 @@ export default {
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
-      strong{
-        margin-right: 10px;
-      }
+      padding: 10px 0;
       .ts-image{
         margin:0 10px 0 20px;
         position: relative;

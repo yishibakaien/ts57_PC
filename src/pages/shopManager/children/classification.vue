@@ -48,12 +48,12 @@
           <!-- 操作 -->
           <ts-menu-table-item>
             <template v-if="Params.unbinding">
-            <a class="classification-table--link" @click="handleShowDialog(item.id)">加</a>
+            <a class="classification-table--link" @click="handleShowDialog(item.id)"><i class="icon-fangda"></i></a>
             </template>
             <template v-else>
-            <a class="classification-table--link" @click="handleUpMoveProductList(item,index)" v-if="index!==0">上</a>
-            <a class="classification-table--link" @click="handleDownMoveProductList(item,index)" v-if="index!==BindingProductList.list.length-1">下</a>
-            <a class="classification-table--link" @click="handleUnbindProduct({ids:item.bandId,unbinding:true,classId:Params.classId})">删</a>
+            <a class="classification-table--link" @click="handleUpMoveProductList(item,index)" v-if="index!==0"><i class="icon-yishang"></i></a>
+            <a class="classification-table--link" @click="handleDownMoveProductList(item,index)" v-if="index!==BindingProductList.list.length-1"><i class="icon-xiayi"></i></a>
+            <a class="classification-table--link" @click="handleUnbindProduct({ids:item.bandId,unbinding:true,classId:Params.classId})"><i class="icon-shanchu_hui"></i></a>
           </template>
           </ts-menu-table-item>
         </ts-menu-table>
@@ -79,9 +79,9 @@
       <div class="classification-edit-dialog--column" :style="{'column-count':getColumnCount}">
         <div class="classification-edit-dialog--item onepx-b" v-for="(item,index) in Classification.userCategory">
           <ts-input style="width:230px" :value="item.className" @input="handleInput(item,$event)"></ts-input>
-          <i @click="handleUpMoveCategory(item,index)" v-if="index!==0">上</i>
-          <i @click="handleDownMoveCategory(item,index)" v-if="index!==Classification.userCategory.length-1">下</i>
-          <i @click="handleDelCategory(item)">删</i>
+          <i @click="handleUpMoveCategory(item,index)" v-if="index!==0"><i class="icon-yishang"></i></i>
+          <i @click="handleDownMoveCategory(item,index)" v-if="index!==Classification.userCategory.length-1"><i class="icon-xiayi"></i></i>
+          <i @click="handleDelCategory(item)"><i class="icon-shanchu_hui"></i></i>
         </div>
       </div>
     </ts-dialog>
@@ -161,6 +161,9 @@ export default {
       }
     };
   },
+  beforeDestroy() {
+    sessionStorage.setItem('classification-filter', JSON.stringify(this.Params.classId));
+  },
   watch: {
     // 每当Params发生变化都会请求数据
     Params: {
@@ -190,10 +193,6 @@ export default {
   },
   computed: {
     ...mapGetters(['dicTree']),
-    // 由于params.binding如果为false显示已绑定的数据跟我的checkbox相反
-    paramsBind() {
-      return !this.Params.unbinding;
-    },
     // 编辑分类的对话框：超过8个显示2列，否则1列
     getColumnCount() {
       return this.Classification.userCategory.length > 8 ? 2 : 1;
@@ -207,25 +206,21 @@ export default {
     async index() {
       // 系统分类
       this.Classification.systemCategory = (await listSystemProductCategory()).data.data;
-      this.Params.classId = this.Classification.systemCategory[0].id;
+      this.Params.classId = !sessionStorage.getItem('classification-filter') ? this.Classification.systemCategory[0].id : JSON.parse(sessionStorage.getItem('classification-filter'));
       // 用户分类
       // XXX:PC端做不了分页 只能传一个很高的数字去获取
       this.Classification.userCategory = (await listUserProductCategory({
         pageNo: 1,
         pageSize: 1000
       })).data.data.list;
-      // 获取分类的列表
-      // this.BindingProductList = (await getBindingProductlist(this.Params)).data.data;
     },
     // 分页处理
     // =========
     async handleChangeCurrent(current) {
       this.Params.pageNo = current;
-      // this.BindingProductList = (await getBindingProductlist(this.Params)).data.data;
     },
     async handleChangePageSize(size) {
       this.Params.pageSize = size;
-      // this.BindingProductList = (await getBindingProductlist(this.Params)).data.data;
     },
     // 花型：上移
     handleUpMoveProductList(item, index) {
@@ -379,11 +374,9 @@ export default {
         }
       }
       &:after{
-        position: absolute;
-        height: 80%;
+        /*position: absolute;*/
         content: "|";
-        width: 1px;
-        right: -3px;
+        margin-left: 4px;
         transform: translate(-50%,0);
       }
     }

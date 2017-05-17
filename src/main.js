@@ -21,8 +21,8 @@ Vue.use(AMap);
 Vue.use(jhComponents);
 Vue.use(VueLazyload, {
   preLoad: 1.3,
-  error: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1495606067&di=0b9d830f466d3569bce60fb77597aae3&imgtype=jpg&er=1&src=http%3A%2F%2Fphotocdn.sohu.com%2F20150906%2Fmp30743538_1441527062905_24.jpeg',
-  loading: '/static/images/clock.svg',
+  error: '/static/images/assets/shibaitupian.svg',
+  loading: '/static/images/assets/clock.svg',
   attempt: 1
 });
 Vue.config.productionTip = false;

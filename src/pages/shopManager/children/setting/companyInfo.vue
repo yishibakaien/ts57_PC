@@ -17,7 +17,7 @@
           <ts-input v-else v-model="companyInfoForm.contactTel" style="width:250px"></ts-input>
         </ts-form-item>
         <ts-form-item label="店铺头像：" prop="companyHeadIcon">
-          <ts-image width="90" height="90" :src="companyInfoForm.companyHeadIcon" v-show="Pic.avatar.show"></ts-image>
+          <ts-image width="90" height="90" :src="companyInfoForm.companyHeadIcon"></ts-image>
             <label class="companyInfo-upload-button" v-if="!Text.show">
               {{Pic.avatar.text}}
               <ts-aliupload :id="Pic.avatar.id" @doUpload="uploadAvatar"></ts-aliupload>
@@ -37,7 +37,7 @@
           <ts-input v-else v-model="companyInfoForm.fax" style="width:250px"></ts-input>
         </ts-form-item>
         <ts-form-item label="店招：" prop="companyBanner">
-          <ts-image width="224" height="112" :src="companyInfoForm.companyBanner" v-show="Pic.banner.show"></ts-image>
+          <ts-image width="224" height="112" :src="companyInfoForm.companyBanner"></ts-image>
             <label class="companyInfo-upload-button" v-if="!Text.show">
               {{Pic.banner.text}}
               <ts-aliupload :id="Pic.banner.id" @doUpload="uploadBanner"></ts-aliupload>

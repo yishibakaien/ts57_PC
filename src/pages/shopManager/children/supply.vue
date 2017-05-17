@@ -52,7 +52,7 @@
             </ts-menu-table-item>
             <!-- 收藏次数 -->
             <ts-menu-table-item>
-              收藏次数：<span class="supply-table--collect" @click.self="handleCollectDialog(item.id)">{{item.enquiryNum}}</span>
+              收藏次数：<span class="supply-table--collect" @click.self="handleCollect(item.id)">{{item.favoriteCount}}</span>
             </ts-menu-table-item>
             <ts-menu-table-item>
               <a class="supply-table--link" @click="handleShowDialog(item.id)">关闭</a>
@@ -62,14 +62,33 @@
       </ts-menu>
     </div>
     <div slot="footer" class="supply-footer">
-      <ts-button type="primary" @click="handleShowDialog(chooseItem)" v-if="chooseItem.length>0">关闭</ts-button>
+      <ts-button type="primary" @click="handleShowDialog(chooseItem)" :disabled="chooseItem.length<=0">关闭</ts-button>
       <ts-pagination class="supply-footer--pagation" @change="handleChangeCurrent" @page-size-change="handleChangePageSize" :current="companySupplyList.pageNO" :totalPages="companySupplyList.totalPage">
       </ts-pagination>
     </div>
   </ts-section>
   <!--  供应收藏记录对话框 -->
-  <ts-dialog v-model="showDialog" title="供应收藏记录">
-    <span>这是一段信息</span>
+  <ts-dialog v-model="Collect.show" width="80%" class="supply-dialog" @confirm="Collect.show=false">
+    <div slot="title" class="supply-collect-dialog--title">
+      <div class="left">
+        <strong>花型询价记录</strong>
+        <ts-image width='72' :canView="false" height="72" :src="Collect.productItem.picsUrl" style="vertical-align:bottom"></ts-image>
+        #{{Collect.productItem.productNo}} {{Collect.productItem.category | filterDict(dicTree.PRODUCT_TYPE,'name')}}
+      </div>
+      <ts-button type="cancel" @click="Collect.show=!Collect.show">关闭</ts-button>
+    </div>
+    <ts-table :data="Collect.data.list">
+      <ts-column slot data-key="userMobile" align="center" name="手机号码"></ts-column>
+      <ts-column slot data-key="userName" align="center" name="姓名"></ts-column>
+      <ts-column slot data-key="USERATYPE" align="center" name="身份"></ts-column>
+      <ts-column slot data-key="favDate" align="center" name="收藏时间"></ts-column>
+    </ts-table>
+    <div class="supply-collect-dialog-footer supply-footer">
+      <span>共{{Collect.data.totalNum}}条收藏</span>
+      <ts-pagination class="supply-footer--pagation" @change="handleChangeFavListCurrent" @page-size-change="handleChangeFavListPageSize" :current="Collect.data.pageNO" :totalPages="Collect.data.totalPage">
+      </ts-pagination>
+    </div>
+    <div slot="footer"></div>
   </ts-dialog>
   <!--  删除提示的对话框 -->
   <ts-dialog v-model="ConfirmDialog.show" width="30%" title="提示" @confirm="handleCloseSupply" @cancel="handleCancelDelSupply" class="supply-dialog">
@@ -83,6 +102,7 @@
 <script>
 import {
   closeCompanySupply,
+  getSupplyByFavList,
   getCompanySupplylist
 } from '@/common/api/api';
 import {
@@ -98,19 +118,32 @@ export default {
         SupplyStatus: DICT.SupplyStatus,
         SupplyShapes: DICT.SupplyShapes
       },
+      // =========
+      // 传参
       Params: {
-        isMy: false,
         supplyTypes: null,
         supplyStatus: null,
         supplyShapes: null,
         pageSize: 10,
         pageNo: 1
       },
+      ParamsFavList: {
+        pageNo: '1',
+        pageSize: '10',
+        productId: ''
+      },
+      // =========
       // 对话框
       ConfirmDialog: {
         noShowDialog: false,
         show: false,
         id: []
+      },
+      // 收藏次数
+      Collect: {
+        show: false,
+        productItem: {},
+        data: {}
       },
       // cookie
       Cookie: {
@@ -125,11 +158,13 @@ export default {
         supplyStatus: '',
         supplyShapes: '',
         supplyTypes: ''
-      },
-      showDialog: false
+      }
     };
   },
   async created() {
+    if (sessionStorage.getItem('supply-filter')) {
+      this.Filter = JSON.parse(sessionStorage.getItem('supply-filter'));
+    }
     this.companySupplyList = (await getCompanySupplylist()).data.data;
     // 默认创建一个cookie
     !this.getCookie(this.Cookie.key) ? this.setCookie(this.Cookie.key, this.Cookie.value, this.Cookie.day) : '';
@@ -137,9 +172,21 @@ export default {
   computed: {
     ...mapGetters(['dicTree'])
   },
+  beforeDestroy() {
+    sessionStorage.setItem('supply-filter', JSON.stringify(this.Filter));
+  },
   methods: {
-    handleCollectDialog() {
-      this.showDialog = true;
+    // 打开花型收藏记录
+    async handleCollect(id) {
+      this.Collect.show = !this.Collect.show;
+      if (this.Collect.show) {
+        this.Collect.productItem = id;
+        this.Collect.data = (await getSupplyByFavList({
+          id: id,
+          pageSize: this.ParamsFavList.pageSize,
+          pageNo: this.ParamsFavList.pageNo
+        })).data.data;
+      }
     },
     // 分页处理
     // =========
@@ -150,6 +197,14 @@ export default {
     async handleChangePageSize(size) {
       this.Params.pageSize = size;
       this.companySupplyList = (await getCompanySupplylist(this.Params)).data.data;
+    },
+    async handleChangeFavListCurrent(current) {
+      this.ParamsFavList.current = current;
+      this.Collect.data = (await getSupplyByFavList(this.ParamsFavList)).data.data;
+    },
+    async handleChangeFavListPageSize(size) {
+      this.ParamsFavList.pageSize = size;
+      this.Collect.data = (await getSupplyByFavList(this.ParamsFavList)).data.data;
     },
     // ========
     // 添加“分类”条件搜索
@@ -217,6 +272,24 @@ export default {
       i{
         font-size: smaller;
         color: #3F3F3F;
+      }
+    }
+  }
+  @component collect-dialog{
+    @descendent footer{
+      margin-top: 10px;
+    }
+    @modifier title{
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding-bottom: 10px;
+      strong{
+        margin-right: 10px;
+      }
+      .ts-image{
+        margin:0 10px 0 20px;
+        position: relative;
       }
     }
   }

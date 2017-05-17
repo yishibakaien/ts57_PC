@@ -1,5 +1,5 @@
 'use strict';
-import { baseURL, headers } from '../config/config';
+import {baseURL, headers} from '../config/config';
 import store from '../../store/store';
 import * as types from '../../store/types';
 import axios from 'axios';
@@ -83,8 +83,9 @@ const API = {
   companySupply: {
     closeCompanySupply: '/companySupply/closeCompanySupply', // 关闭供应
     releaseCompanySupply: '/companySupply/releaseCompanySupply', // 发布供应
-    listCompanySupplys: '/companySupply/listCompanySupplys', // 获取供应列表
-    getCompanySupply: '/companySupply/getCompanySupply' // 供应详情
+    listMyCompanySupplys: '/companySupply/listMyCompanySupplys', // 我的供应列表
+    getCompanySupply: '/companySupply/getCompanySupply', // 供应详情
+    getSupplyByFavList: '/companySupply/getSupplyByFavList' // 获取供应收藏人列表
   },
   // 素材库
   albumPic: {
@@ -131,8 +132,8 @@ const API = {
 };
 
 const METHODS = {
-	get: 'GET',
-	post: 'POST'
+  get: 'GET',
+  post: 'POST'
 };
 
 /**
@@ -144,18 +145,18 @@ const METHODS = {
  * @return {object || string}         格式化后的data
  */
 function _formatData(method, data) {
-	//  console.log('请求data', data);
-	if (!data) {
-		//      console.log('请求data为空', data);
-		return '';
-	}
-	let _data = Object.assign({}, data);
-	if (method === METHODS.get) {
-		//      console.log('get请求data', _data);
-		return _data;
-	} else if (method === METHODS.post) {
-		return JSON.stringify(_data);
-	}
+  //  console.log('请求data', data);
+  if (!data) {
+    //      console.log('请求data为空', data);
+    return '';
+  }
+  let _data = Object.assign({}, data);
+  if (method === METHODS.get) {
+    //      console.log('get请求data', _data);
+    return _data;
+  } else if (method === METHODS.post) {
+    return JSON.stringify(_data);
+  }
 }
 
 /**
@@ -166,67 +167,69 @@ function _formatData(method, data) {
  * @return {promise}        Promise 对象
  */
 function _fetch(method = METHODS.get, data, url) {
-	// console.info('api-ajaxToken', store.state.ajaxToken);
-	let _headers = Object.assign({
-		'x-token': store.state.ajaxToken || ''
-	}, headers);
-	if (url === API.user.login) {
-		// 如果是登录的请求则删除掉请求头中的x-token
-		try {
-			//    delete _headers['x-token'];
-		} catch (e) {}
-	}
-	let param;
-	if (method === METHODS.get) {
-		param = {
-			method: method,
-			url: baseURL + url,
-			headers: _headers,
-			params: _formatData(method, data)
-		};
-	}
-	if (method === METHODS.post) {
-		param = {
-			method: method,
-			url: baseURL + url,
-			headers: _headers,
-			data: _formatData(method, data)
-		};
-	}
-	return new Promise((resolve, reject) => {
-		axios(param).then((res) => {
-			let token = res.headers['x-token'];
-			if (token) {
-				store.commit(types.AJAX, token);
-				// 让ajaxToken 和 accessToken 保持一致
-				if (store.state.accessToken) {
-					store.commit(types.LOGIN, token);
-				}
-			}
-			if (res.data.message) {
-				Toast({
-					type: !res.data.code ? 'success' : 'error',
-					message: res.data.message
-				});
-			}
-			if (res.data.code === 210018) {
-				store.commit(types.LOGOUT);
-			}
-			//			if (res.data.code !== 0 && res.data.message) {
-			// if (res.data.message) {
-			// store.commit(types.MODEL_SHOW, true);
-			// store.commit(types.MODEL_OPTION, {
-			//   type: 2,
-			//   title: '提示',
-			//   content: res.data.message
-			// });
-			// }
-			resolve(res);
-		}).catch((res) => {
-			Toast.error('请检查网络');
-			reject(res);
-		});
-	});
+  // console.info('api-ajaxToken', store.state.ajaxToken);
+  let _headers = Object.assign({
+    'x-token': store.state.ajaxToken || ''
+  }, headers);
+  if (url === API.user.login) {
+    // 如果是登录的请求则删除掉请求头中的x-token
+    try {
+      //    delete _headers['x-token'];
+    } catch (e) {}
+  }
+  let param;
+  if (method === METHODS.get) {
+    param = {
+      method: method,
+      url: baseURL + url,
+      headers: _headers,
+      params: _formatData(method, data)
+    };
+  }
+  if (method === METHODS.post) {
+    param = {
+      method: method,
+      url: baseURL + url,
+      headers: _headers,
+      data: _formatData(method, data)
+    };
+  }
+  return new Promise((resolve, reject) => {
+    axios(param).then((res) => {
+      let token = res.headers['x-token'];
+      if (token) {
+        store.commit(types.AJAX, token);
+        // 让ajaxToken 和 accessToken 保持一致
+        if (store.state.accessToken) {
+          store.commit(types.LOGIN, token);
+        }
+      }
+      if (res.data.message) {
+        Toast({
+          type: !res.data.code
+            ? 'success'
+            : 'error',
+          message: res.data.message
+        });
+      }
+      if (res.data.code === 210018) {
+        store.commit(types.LOGOUT);
+      }
+      //			if (res.data.code !== 0 && res.data.message) {
+      // if (res.data.message) {
+      // store.commit(types.MODEL_SHOW, true);
+      // store.commit(types.MODEL_OPTION, {
+      //   type: 2,
+      //   title: '提示',
+      //   content: res.data.message
+      // });
+      // }
+      resolve(res);
+    }).catch((res) => {
+      Toast.error('请检查网络');
+      reject(res);
+    });
+  });
 }
 
 /**
@@ -239,79 +242,79 @@ function _fetch(method = METHODS.get, data, url) {
  */
 // 登录
 export function login(data) {
-	// alert('调用fetch');
-	return _fetch(METHODS.post, data, API.user.login);
+  // alert('调用fetch');
+  return _fetch(METHODS.post, data, API.user.login);
 };
 
 // 注册
 export function reg(data) {
-	return _fetch(METHODS.post, data, API.user.reg);
+  return _fetch(METHODS.post, data, API.user.reg);
 };
 
 // 找回密码
 export function findPassWd(data) {
-	return _fetch(METHODS.post, data, API.user.findPassWd);
+  return _fetch(METHODS.post, data, API.user.findPassWd);
 };
 
 // 获取找回密码短信验证码
 export function getFindSMSCode(data) {
-	return _fetch(METHODS.post, data, API.user.getFindSMSCode);
+  return _fetch(METHODS.post, data, API.user.getFindSMSCode);
 };
 
 // 校验密码
 export function checkPasswd(data) {
-	return _fetch(METHODS.post, data, API.user.checkPasswd);
+  return _fetch(METHODS.post, data, API.user.checkPasswd);
 };
 
 // 获取图形验证码
 export function getVerifyCode(data) {
-	return _fetch(METHODS.post, data, API.user.getVerifyCode);
+  return _fetch(METHODS.post, data, API.user.getVerifyCode);
 };
 
 // 修改个人信息
 export function updateUser(data) {
-	return _fetch(METHODS.post, data, API.user.updateUser);
+  return _fetch(METHODS.post, data, API.user.updateUser);
 };
 
 // 获取用户信息
 export function getUserInfo(data) {
-	return _fetch(METHODS.post, data, API.user.getUserInfo);
+  return _fetch(METHODS.post, data, API.user.getUserInfo);
 };
 
 // 检验手机号码是否存在
 export function checkPhone(data) {
-	return _fetch(METHODS.get, data, API.user.checkPhone);
+  return _fetch(METHODS.get, data, API.user.checkPhone);
 };
 
 // 获取注册短信验证码
 export function getRegSMSCode(data) {
-	return _fetch(METHODS.post, data, API.user.getRegSMSCode);
+  return _fetch(METHODS.post, data, API.user.getRegSMSCode);
 };
 /**
  * 首页部分
  */
 // 获取首页banner
 export function listHomeBanners(data) {
-	return _fetch(METHODS.get, data, API.home.listHomeBanners);
+  return _fetch(METHODS.get, data, API.home.listHomeBanners);
 };
 
 // 获取求购列表
 export function listProductBuys(data) {
-	return _fetch(METHODS.get, data, API.buy.listProductBuys);
+  return _fetch(METHODS.get, data, API.buy.listProductBuys);
 }
 
 // 获取供应列表
 export function listCompanySupplys(data) {
-	return _fetch(METHODS.get, data, API.buy.listCompanySupplys);
+  return _fetch(METHODS.get, data, API.buy.listCompanySupplys);
 }
 
 export function findNewCompanyByIndex(data) {
-	return _fetch(METHODS.post, data, API.home.findNewCompanyByIndex);
+  return _fetch(METHODS.post, data, API.home.findNewCompanyByIndex);
 }
 
 // 优质厂家
 export function qualityCompanyList1(data) {
-	return _fetch(METHODS.get, data, API.home.qualityCompanyList);
+  return _fetch(METHODS.get, data, API.home.qualityCompanyList);
 }
 
 /**
@@ -319,7 +322,7 @@ export function qualityCompanyList1(data) {
  */
 // 文本搜索
 export function searchMtd(data) {
-	return _fetch(METHODS.post, data, API.search.search);
+  return _fetch(METHODS.post, data, API.search.search);
 }
 
 /**
@@ -327,79 +330,79 @@ export function searchMtd(data) {
  */
 // 获取修改手机短信
 export function changeSMSCode(data) {
-	return _fetch(METHODS.post, data, API.user.changeSMSCode);
+  return _fetch(METHODS.post, data, API.user.changeSMSCode);
 };
 
 // 设置短信
 export function setMsg(data) {
-	return _fetch(METHODS.post, data, API.user.setMsg);
+  return _fetch(METHODS.post, data, API.user.setMsg);
 };
 
 // 获取短信设置
 export function getMsgSetting(data) {
-	return _fetch(METHODS.get, data, API.user.getMsgSetting);
+  return _fetch(METHODS.get, data, API.user.getMsgSetting);
 };
 
 // 修改手机号
 export function changeMobile(data) {
-	return _fetch(METHODS.post, data, API.user.changeMobile);
+  return _fetch(METHODS.post, data, API.user.changeMobile);
 };
 
 // 修改密码
 export function restPasswd(data) {
-	return _fetch(METHODS.post, data, API.user.restPasswd);
+  return _fetch(METHODS.post, data, API.user.restPasswd);
 };
 
 // 获取接单列表
 export function listBuyTask(data) {
-	return _fetch(METHODS.post, data, API.buy.listBuyTask);
+  return _fetch(METHODS.post, data, API.buy.listBuyTask);
 };
 
 // 获取我的求购列表
 export function myProductBuys(data) {
-	return _fetch(METHODS.post, data, API.buy.myProductBuys);
+  return _fetch(METHODS.post, data, API.buy.myProductBuys);
 };
 
 // 获取收藏花型列表
 export function listProduct(data) {
-	return _fetch(METHODS.post, data, API.collection.listProduct);
+  return _fetch(METHODS.post, data, API.collection.listProduct);
 };
 
 // 获取收藏厂家列表
 export function listCompany(data) {
-	return _fetch(METHODS.post, data, API.collection.listCompany);
+  return _fetch(METHODS.post, data, API.collection.listCompany);
 };
 
 // 获取收藏供应列表
 export function listSupply(data) {
-	return _fetch(METHODS.post, data, API.collection.listSupply);
+  return _fetch(METHODS.post, data, API.collection.listSupply);
 };
 
 // 获取收藏供应各分类统计
 export function countSupply(data) {
-	return _fetch(METHODS.get, data, API.collection.countSupply);
+  return _fetch(METHODS.get, data, API.collection.countSupply);
 };
 
 // 获取收藏花型各分类统计
 export function countProduct(data) {
-	return _fetch(METHODS.get, data, API.collection.countProduct);
+  return _fetch(METHODS.get, data, API.collection.countProduct);
 };
 
 // 收藏或取消
 export function favoriteBus(data) {
-	return _fetch(METHODS.post, data, API.collection.favoriteBus);
+  return _fetch(METHODS.post, data, API.collection.favoriteBus);
 };
 
 // 关闭求购
 export function closeProductBuy(data) {
-	return _fetch(METHODS.post, data, API.buy.closeProductBuy);
+  return _fetch(METHODS.post, data, API.buy.closeProductBuy);
 }
 
 // 获取oss_token
 export function token() {
-	return _fetch(METHODS.post, {
-		fileType: 1
-	}, API.oss.token);
+  return _fetch(METHODS.post, {
+    fileType: 1
+  }, API.oss.token);
 };
 // 获取数据字典
 export const getDicTree = param => _fetch(METHODS.get, param, API.dicTree.byTypeKey);
@@ -442,8 +445,10 @@ export const addIngredient = param => _fetch(METHODS.post, param, API.ingredient
 export const updateIngredient = param => _fetch(METHODS.post, param, API.ingredient.updateIngredient);
 // 删除成分
 export const deleteIngredient = param => _fetch(METHODS.post, param, API.ingredient.deleteIngredient);
-// 获取供应列表
-export const getCompanySupplylist = param => _fetch(METHODS.get, param, API.companySupply.listCompanySupplys);
+// 我的供应列表
+export const getCompanySupplylist = param => _fetch(METHODS.get, param, API.companySupply.listMyCompanySupplys);
+// 获取供应收藏人列表
+export const getSupplyByFavList = param => _fetch(METHODS.get, param, API.companySupply.getSupplyByFavList);
 // 关闭供应
 export const closeCompanySupply = param => _fetch(METHODS.post, param, API.companySupply.closeCompanySupply);
 // 获取供应详情
