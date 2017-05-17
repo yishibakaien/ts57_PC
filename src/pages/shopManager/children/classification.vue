@@ -26,68 +26,66 @@
     </div>
     <!--列表  -->
     <!-- 表格 -->
-    <div class="classification-table">
-      <ts-menu :prop="BindingProductList.list">
-        <ts-checkbox-group v-model="chooseItem">
-          <ts-menu-table v-for="(item,index) in BindingProductList.list" :key="item.id">
-            <div slot="header-left">
-              <ts-checkbox :label="item.id">#{{item.productNo}}&nbsp{{item.category | filterDict(dicTree.PRODUCT_SHAPE)}}</ts-checkbox>
-            </div>
-            <div slot="header-right">
-              状态：
-              <span v-if="!item.classList.length">无</span>
-              <span class="classification-table--classList" v-for="i in item.classList">{{i}}</span>
-            </div>
-            <ts-menu-table-item width="600" class="classification-table--avatar">
-              <ts-image width="80" height="80" :src="item.picsUrl"></ts-image>
-            </ts-menu-table-item>
-            <!-- Price -->
-            <ts-menu-table-item>
-              <span v-if="item.price>0">{{item.price}}元/{{item.priceUnit|filterDict(dicTree.PRODUCT_UNIT,'name')}}</span>
-              <span v-else>价格面议</span>
-            </ts-menu-table-item>
-            <!-- 操作 -->
-            <ts-menu-table-item>
-              <template v-if="Params.unbinding">
-              <a class="classification-table--link" @click="handleShowDialog(item.id)">加</a>
-              </template>
-              <template v-else>
-              <a class="classification-table--link" @click="handleUpMoveProductList(item,index)" v-if="index!==0">上</a>
-              <a class="classification-table--link" @click="handleDownMoveProductList(item,index)" v-if="index!==BindingProductList.list.length-1">下</a>
-              <a class="classification-table--link" @click="handleUnbindProduct({ids:item.bandId,unbinding:true,classId:Params.classId})">删</a>
+    <ts-menu :prop="BindingProductList.list">
+      <ts-checkbox-group v-model="chooseItem">
+        <ts-menu-table v-for="(item,index) in BindingProductList.list" :key="item.id">
+          <div slot="header-left">
+            <ts-checkbox :label="item.id">#{{item.productNo}}&nbsp{{item.category | filterDict(dicTree.PRODUCT_SHAPE)}}</ts-checkbox>
+          </div>
+          <div slot="header-right">
+            状态：
+            <span v-if="!item.classList.length">无</span>
+            <span class="classification-table--classList" v-for="i in item.classList">{{i}}</span>
+          </div>
+          <ts-menu-table-item width="580" class="classification-table--avatar">
+            <ts-image width="80" height="80" :src="item.picsUrl"></ts-image>
+          </ts-menu-table-item>
+          <!-- Price -->
+          <ts-menu-table-item>
+            <span v-if="item.price>0">{{item.price}}元/{{item.priceUnit|filterDict(dicTree.PRODUCT_UNIT,'name')}}</span>
+            <span v-else>价格面议</span>
+          </ts-menu-table-item>
+          <!-- 操作 -->
+          <ts-menu-table-item>
+            <template v-if="Params.unbinding">
+            <a class="classification-table--link" @click="handleShowDialog(item.id)">加</a>
             </template>
-            </ts-menu-table-item>
-          </ts-menu-table>
-        </ts-checkbox-group>
-      </ts-menu>
-    </div>
-  </ts-section>
-  <!-- 新增分类 -->
-  <ts-dialog v-model="Classification.newDialog" title="新增分类" @confirm="handleNew('newClassification')" @cancel="closeNew" width="30%">
-    <ts-form :model="Classification" :rules="rules" ref="newClassification">
-      <ts-form-item prop="text">
-        <ts-input autofocus v-model="Classification.text" placeholder="请输入分类名称，限定8个字以内" :maxlength="8"></ts-input>
-      </ts-form-item>
-    </ts-form>
-  </ts-dialog>
-  <!-- 花型加入 -->
-  <ts-dialog v-model="ConfirmDialog.show" width="30%" title="提示" @cancel="handleCancelBind" @confirm="handleBind" class="classification-dialog">
-    <p class="classification-dialog--title">确认将选中花型加入&nbsp;{{Params.classId | filterClassName(ProductCategory)}}&nbsp;分类</p>
-    <p>
-      <ts-radio @change.native="handleNoShowDialog" type="origin" v-model="ConfirmDialog.noShowDialog" label="0"><span class="classification-dialog--tip">不再提示<i>(一款花型可以加入自定义分类)</i></span></ts-radio>
-    </p>
-  </ts-dialog>
-  <!-- 编辑分类 -->
-  <ts-dialog v-model="Classification.editDialog" class="classification-edit-dialog" title="编辑分类" @cancel="closeEdit" @confirm="handleEdit" :width="getColumnCount*30+'%'">
-    <div class="classification-edit-dialog--column" :style="{'column-count':getColumnCount}">
-      <div class="classification-edit-dialog--item onepx-b" v-for="(item,index) in Classification.userCategory">
-        <ts-input style="width:230px" :value="item.className" @input="handleInput(item,$event)"></ts-input>
-        <i @click="handleUpMoveCategory(item,index)" v-if="index!==0">上</i>
-        <i @click="handleDownMoveCategory(item,index)" v-if="index!==Classification.userCategory.length-1">下</i>
-        <i @click="handleDelCategory(item)">删</i>
+            <template v-else>
+            <a class="classification-table--link" @click="handleUpMoveProductList(item,index)" v-if="index!==0">上</a>
+            <a class="classification-table--link" @click="handleDownMoveProductList(item,index)" v-if="index!==BindingProductList.list.length-1">下</a>
+            <a class="classification-table--link" @click="handleUnbindProduct({ids:item.bandId,unbinding:true,classId:Params.classId})">删</a>
+          </template>
+          </ts-menu-table-item>
+        </ts-menu-table>
+      </ts-checkbox-group>
+    </ts-menu>
+    <!-- 新增分类 -->
+    <ts-dialog v-model="Classification.newDialog" title="新增分类" @confirm="handleNew('newClassification')" @cancel="closeNew" width="30%" v-if="false">
+      <ts-form :model="Classification" :rules="rules" ref="newClassification">
+        <ts-form-item prop="text">
+          <ts-input autofocus v-model="Classification.text" placeholder="请输入分类名称，限定8个字以内" :maxlength="8"></ts-input>
+        </ts-form-item>
+      </ts-form>
+    </ts-dialog>
+    <!-- 花型加入 -->
+    <ts-dialog v-model="ConfirmDialog.show" width="30%" title="提示" @cancel="handleCancelBind" @confirm="handleBind" class="classification-dialog" v-if="false">
+      <p class="classification-dialog--title">确认将选中花型加入&nbsp;{{Params.classId | filterClassName(ProductCategory)}}&nbsp;分类</p>
+      <p>
+        <ts-radio @change.native="handleNoShowDialog" type="origin" v-model="ConfirmDialog.noShowDialog" label="0"><span class="classification-dialog--tip">不再提示<i>(一款花型可以加入自定义分类)</i></span></ts-radio>
+      </p>
+    </ts-dialog>
+    <!-- 编辑分类 -->
+    <ts-dialog v-model="Classification.editDialog" class="classification-edit-dialog" title="编辑分类" @cancel="closeEdit" @confirm="handleEdit" :width="getColumnCount*30+'%'" v-if="false">
+      <div class="classification-edit-dialog--column" :style="{'column-count':getColumnCount}">
+        <div class="classification-edit-dialog--item onepx-b" v-for="(item,index) in Classification.userCategory">
+          <ts-input style="width:230px" :value="item.className" @input="handleInput(item,$event)"></ts-input>
+          <i @click="handleUpMoveCategory(item,index)" v-if="index!==0">上</i>
+          <i @click="handleDownMoveCategory(item,index)" v-if="index!==Classification.userCategory.length-1">下</i>
+          <i @click="handleDelCategory(item)">删</i>
+        </div>
       </div>
-    </div>
-  </ts-dialog>
+    </ts-dialog>
+  </ts-section>
 </div>
 </template>
 
