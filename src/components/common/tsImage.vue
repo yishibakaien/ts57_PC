@@ -1,6 +1,6 @@
 <template lang="html">
   <div @mouseover="isSHow=true" @mouseout="isSHow=false" class="ts-image" :style="{width:width+'px',height:height+'px'}" @click="handleImg">
-    <img class="ts-image-img" :src="src" :class="{'is-view':showOriginPic}">
+    <img class="ts-image-img" v-lazy="src" :class="{'is-view':showOriginPic}">
   </div>
 </template>
 
@@ -54,42 +54,42 @@ export default {
       default: true
     }
   },
-  directives: {
-    'loadImage': {
-      bind(el, binding, vnode) {
-        let img = new Image();
-        img.src = el.dataset.src;
-        el.style.cssText = 'transition:"";opacity: 0';
-        img.onload = function() {
-          if (img.complete) {
-            el.src = img.src;
-            el.removeAttribute('data-src');
-            el.style.cssText = 'transition:.5s;opacity: 1';
-          }
-        };
-        img.onerror = function() {
-          // TODO:加一个错误图片
-        };
-      },
-      update(el, binding) {
-        let img = new Image();
-        img.src = el.dataset.src;
-        if (!img.src) {
-          el.style.cssText = 'transition:"";opacity: 0';
-          img.onload = function() {
-            if (img.complete) {
-              el.src = img.src;
-              el.removeAttribute('data-src');
-              el.style.cssText = 'transition:.5s;opacity: 1';
-            }
-          };
-          img.onerror = function() {
-            // TODO:加一个错误图片
-          };
-        }
-      }
-    }
-  },
+  // directives: {
+  //   'loadImage': {
+  //     bind(el, binding, vnode) {
+  //       let img = new Image();
+  //       img.src = el.dataset.src;
+  //       el.style.cssText = 'transition:"";opacity: 0';
+  //       img.onload = function() {
+  //         if (img.complete) {
+  //           el.src = img.src;
+  //           el.removeAttribute('data-src');
+  //           el.style.cssText = 'transition:.5s;opacity: 1';
+  //         }
+  //       };
+  //       img.onerror = function() {
+  //         // TODO:加一个错误图片
+  //       };
+  //     },
+  //     update(el, binding) {
+  //       let img = new Image();
+  //       img.src = el.dataset.src;
+  //       if (!img.src) {
+  //         el.style.cssText = 'transition:"";opacity: 0';
+  //         img.onload = function() {
+  //           if (img.complete) {
+  //             el.src = img.src;
+  //             el.removeAttribute('data-src');
+  //             el.style.cssText = 'transition:.5s;opacity: 1';
+  //           }
+  //         };
+  //         img.onerror = function() {
+  //           // TODO:加一个错误图片
+  //         };
+  //       }
+  //     }
+  //   }
+  // },
   methods: {
     doClose() {
       this.$el.style.zIndex = 0;

@@ -29,13 +29,12 @@ export default {
 @import '../../../common/css/var.css';
 @component-namespace ts{
   @component menuTable{
-    border: var(--menuTableHeaderBorder);
+    border: var(--menuTableBorder);
     margin-bottom: 16px;
     @descendent header{
       padding:0 10px;
       background: var(--menuTableHeaderBg);
       line-height: 40px;
-      border-bottom: var(--menuTableHeaderBorder);
       display: flex;
       @modifier right{
         flex:1;

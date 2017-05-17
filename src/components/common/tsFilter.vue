@@ -19,27 +19,31 @@ export default {
 @import '../../common/css/var.css';
 @component-namespace ts{
   @component filter{
-    border: var(--filterBorder);
-    border-bottom:none;
+    border-top: var(--filterDottedBorder);
+    border-left: var(--filterSolidBorder);
+    border-right: var(--filterSolidBorder);
+    border-bottom: none;
     display: table;
     width: 100%;
+    &:last-child{
+      border-bottom: var(--filterSolidBorder);
+    }
+    &:first-child{
+      border-top: var(--filterSolidBorder);
+    }
     @descendent title{
-      border-right: var(--filterBorder);
       background: var(--filterTitileBg);
-      width: 14.5%;
-      line-height: 56px;
-      text-align: center;
-      vertical-align: middle;
+      width: 12%;
+      text-align: left;
+      padding-left: 15px;
+      line-height: 40px;
       display: table-cell;
     }
     @descendent content{
-      padding: 6px 0;
+      padding: 1px 0;
       padding-left: 28px;
       vertical-align: middle;
       display: table-cell;
-    }
-    &:last-child{
-      border-bottom: var(--filterBorder)
     }
   }
 }

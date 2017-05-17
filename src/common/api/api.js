@@ -121,7 +121,9 @@ const API = {
     byParent: '/front/area/byParent'
   },
   enquiry: {
-    getEnquiryList: '/enquiry/list' // 询价列表
+    getEnquiryList: '/enquiry/list', // 询价列表
+    enquiryEskUser: '/enquiry/askUser', // 询价人详情
+    getAskListByProductId: '/enquiry/getAskListByProductId' // 根据产品ID获取询价记录
   },
   oss: {
     token: '/file/token' // OSS_token
@@ -394,6 +396,10 @@ export const getAreabyParent = param => _fetch(METHODS.get, param, API.area.byPa
 // =======
 // 询价列表
 export const getEnquiryList = param => _fetch(METHODS.post, param, API.enquiry.getEnquiryList);
+// 询价人详情
+export const enquiryEskUser = param => _fetch(METHODS.get, param, API.enquiry.enquiryEskUser);
+// 根据产品ID获取询价记录
+export const getAskListByProductId = param => _fetch(METHODS.get, param, API.enquiry.getAskListByProductId);
 // 查询公司资质信息
 export const getCompanyAptitude = param => _fetch(METHODS.get, param, API.company.getCompanyAptitude);
 // 修改公司资质信息

@@ -99,7 +99,7 @@ export default {
         SupplyShapes: DICT.SupplyShapes
       },
       Params: {
-        isMy: true,
+        isMy: false,
         supplyTypes: null,
         supplyStatus: null,
         supplyShapes: null,
@@ -141,6 +141,8 @@ export default {
     handleCollectDialog() {
       this.showDialog = true;
     },
+    // 分页处理
+    // =========
     async handleChangeCurrent(current) {
       this.Params.pageNo = current;
       this.companySupplyList = (await getCompanySupplylist(this.Params)).data.data;
@@ -149,6 +151,7 @@ export default {
       this.Params.pageSize = size;
       this.companySupplyList = (await getCompanySupplylist(this.Params)).data.data;
     },
+    // ========
     // 添加“分类”条件搜索
     async handleFilterSupplyStatus(e) {
       this.Params.supplyStatus = !e ? null : e;

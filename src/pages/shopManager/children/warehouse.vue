@@ -12,7 +12,6 @@
         <ts-button type="primary">新增花型</ts-button>
       </router-link>
     </div>
-    {{1478908800000 | customTime}}
     <!-- 品种过滤器 -->
     <div class="warehouse-filter">
       <ts-filter title="分类">
@@ -95,19 +94,20 @@
     </div>
     <ts-table :data="Collect.data.list">
       <ts-column slot data-key="userName" align="center" name="询价人"></ts-column>
-      <ts-column slot data-key="userType" align="center" name="身份"></ts-column>
-      <ts-column slot data-key="purchaseType" align="center" name="采购类型"></ts-column>
-      <ts-column slot data-key="purchaseNum" align="center" name="采购数量"></ts-column>
+      <ts-column slot data-key="USERATYPE" align="center" name="身份"></ts-column>
+      <ts-column slot data-key="PURCHASETYPE" align="center" name="采购类型"></ts-column>
+      <ts-column slot data-key="PURCHASENUM" align="center" name="采购数量"></ts-column>
       <ts-column slot data-key="phone" align="center" name="联系电话"></ts-column>
       <ts-column slot data-key="createDate" align="center" name="询价时间">
       </ts-column>
     </ts-table>
     <div class="warehouse-collect-dialog-footer warehouse-footer">
       <span>共{{Collect.data.totalNum}}条询价</span>
+      <pre>{{Collect.data}}</pre>
       <ts-pagination
       class="warehouse-footer--pagation"
-      @change="handleChangeCurrent"
-      @page-size-change="handleChangePageSize"
+      @change="handleChangeAskListCurrent"
+      @page-size-change="handleChangeAskListPageSize"
       :current="Collect.data.pageNO"
       :totalPages="Collect.data.totalPage">
       </ts-pagination>
@@ -127,7 +127,8 @@ import DICT from '@/common/dict';
 import {
   shelveProduct,
   deleteProduct,
-  getProductList
+  getProductList,
+  getAskListByProductId
 } from '@/common/api/api';
 import {
   mapGetters
@@ -141,6 +142,7 @@ export default {
         PriceUnits: DICT.PriceUnits,
         StockUnits: DICT.StockUnits,
         SupplyType: DICT.SupplyType,
+        userType: DICT.userType,
         PublishStatus: DICT.PublishStatus,
         isStock: DICT.isStock
       },
@@ -154,6 +156,11 @@ export default {
         productNo: null,
         pageNo: 1,
         categorys: null
+      },
+      ParamsAskList: {
+        pageNo: '1',
+        pageSize: '10',
+        productId: ''
       },
       // 过滤器
       Filter: {
@@ -184,37 +191,24 @@ export default {
     ...mapGetters(['dicTree'])
   },
   watch: {
+    // 加工数据
+    // TODO：table支持slot的时候就不这样写
     'Collect.data.list': {
       handler(val) {
-        val.forEach(item => {
-          item.createDate = this.filterDate(item.createDate);
-          item.unit = this.filterDict(item.unit, this.dicTree.PRODUCT_UNIT);
-        });
+        if (val) {
+          val.forEach(item => {
+            item.createDate = this.filterDate(item.createDate);
+            item.UNITS = this.filterDicts(item.unit, this.dicTree.PRODUCT_UNIT, 'name');
+            item.PURCHASENUM = `${item.purchaseNum} ${item.UNITS}`;
+            item.PURCHASETYPE = this.filterDicts(item.purchaseType, DICT.purchaseType);
+            item.USERATYPE = this.filterDicts(item.userType, DICT.userType);
+          });
+        }
       },
       deep: true
     }
   },
   async created() {
-    this.Collect.data = {
-      'list': [{
-        companyId: 68422,
-        createDate: 74655,
-        id: 80428,
-        phone: '测试内容2p2c',
-        productId: 75861,
-        productNo: '测试内容6iu1',
-        purchaseNum: 18458,
-        purchaseType: 16684,
-        unit: 400010,
-        userId: 40336,
-        userName: '测试内容rqc7',
-        userType: 46506
-      }],
-      'pageNO': 3,
-      'pageSize': 10138,
-      'totalNum': 15,
-      'totalPage': 15
-    };
     // 获取花型列表
     this.productList = (await getProductList(this.Params)).data.data;
     // 默认创建一个cookie
@@ -231,6 +225,14 @@ export default {
       this.Params.pageSize = size;
       this.productList = (await getProductList(this.Params)).data.data;
     },
+    async handleChangeAskListCurrent(current) {
+      this.ParamsAskList.current = current;
+      this.productList = (await getProductList(this.Params)).data.data;
+    },
+    async handleChangeAskListPageSize(size) {
+      this.ParamsAskList.pageSize = size;
+      this.productList = (await getProductList(this.Params)).data.data;
+    },
     // ========
     // 搜索
     async handleSearch() {
@@ -244,9 +246,16 @@ export default {
       }
     },
     // 打开花型询价记录
-    handleCollect(item) {
+    async handleCollect(item) {
       this.Collect.show = !this.Collect.show;
-      this.Collect.productItem = item;
+      if (this.Collect.show) {
+        this.Collect.productItem = item;
+        this.Collect.data = (await getAskListByProductId({
+          productId: item.id,
+          pageSize: this.ParamsAskList.pageSize,
+          pageNo: this.ParamsAskList.pageNo
+        })).data.data;
+      }
     },
     // 添加“分类”条件搜索
     async handleFilterPublishStatus(e) {
@@ -273,7 +282,7 @@ export default {
       this.productList = (await getProductList(this.Params)).data.data;
     },
     // 点击“删除”=>判断cookie是否显示
-    async handleShowDialog(item) {
+    handleShowDialog(item) {
       this.ConfirmDialog.id = item;
       if (this.getCookie(this.Cookie.key) === '1') {
         this.ConfirmDialog.show = true;
@@ -310,6 +319,7 @@ export default {
   }
   @component footer{
     display: flex;
+    align-items: center;
     @modifier button{
       button{
         margin-right:32px;

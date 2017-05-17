@@ -35,7 +35,7 @@ export default {
     background: #fff;
     padding:10px;
     box-sizing: border-box;
-    line-height: 200%;
+    line-height: 150%;
     max-width: 80%;
     display: table-cell;
     vertical-align: middle;
