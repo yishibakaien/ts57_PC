@@ -27,7 +27,7 @@
 					<p class="p3"><span class="borderS">找相似</span><span>试衣</span></p>
 				</div>
 				<p class="info">{{item.companyName}}</p>
-				<p><span>#{{item.productNo}}</span><span class="time">1小时前</span></p>
+				<p><span>#{{item.productNo}}</span><span class="time">{{item.createDate | customTime}}</span></p>
 			</div>
 		</div>
 		<pageBar v-if="classes.totalNum > 1" :pageNum="pageNum" :pageMax="pageMax" :number="pageSize" v-on:upPage="upPage" v-on:downPage="downPage" v-on:selectFirstPage="selectFirstPage" v-on:selectLastPage="selectLastPage" v-on:selectNumber="selectNumber"></pageBar>

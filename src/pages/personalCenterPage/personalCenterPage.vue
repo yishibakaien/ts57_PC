@@ -213,7 +213,7 @@
 				content: '';
 				display: block;
 				margin: 28px auto;
-				height: 2px;
+				height: 1px;
 				width: 112px;
 				background: #d1d1d1;
 			}

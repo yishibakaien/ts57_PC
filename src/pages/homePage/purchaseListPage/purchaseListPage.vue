@@ -29,19 +29,19 @@
 			<div>
 				<ts-filter title="求购分类">
 					<ts-radio-group v-model="Filter.sort" @change="hanleFilterSort">
-						<ts-radio label="">全部()</ts-radio>
-						<ts-radio label="100010">面料()</ts-radio>
-						<ts-radio label="100011">大边()</ts-radio>
-						<ts-radio label="100012">小边()</ts-radio>
-						<ts-radio label="100013">睫毛()</ts-radio>
+						<ts-radio label="">全部</ts-radio>
+						<ts-radio label="100010">面料</ts-radio>
+						<ts-radio label="100011">大边</ts-radio>
+						<ts-radio label="100012">小边</ts-radio>
+						<ts-radio label="100013">睫毛</ts-radio>
 					</ts-radio-group>
 				</ts-filter>
 				<ts-filter title="求购布样">
 					<ts-radio-group v-model="Filter.fabricType" @change="hanleFilterFabric">
-						<ts-radio label="">全部()</ts-radio>
-						<ts-radio label="1">接单中()</ts-radio>
-						<ts-radio label="2">已成交()</ts-radio>
-						<ts-radio label="3">已关闭()</ts-radio>
+						<ts-radio label="">全部</ts-radio>
+						<ts-radio label="1">接单中</ts-radio>
+						<ts-radio label="2">已成交</ts-radio>
+						<ts-radio label="3">已关闭</ts-radio>
 					</ts-radio-group>
 				</ts-filter>
 				<ts-filter title="供货方式">
@@ -53,10 +53,11 @@
 			</div>
 			<!-- 列表 -->
 			<div class="pruchase-list-item-wrapper clearfix">
-				<div class="item-wrapper" v-for="item in [1,1,1,1,1,1,1]">
-					<purchase-item></purchase-item>
+				<div class="item-wrapper" v-for="item in items">
+					<purchase-item :item="item"></purchase-item>
 				</div>
 			</div>
+			<pagination :page="pageData" v-on:selectedPageNum="selectedPageNum1"></pagination>
 		</div>
 	</div>
 </template>
@@ -65,8 +66,10 @@
 	import {
 		header,
 		nav,
-		search
+		search,
+		pagination
 	} from '@/components';
+	import { listProductBuys } from '@/common/api/api';
 
 	import purchaseItem from './purchaseItem';
 	export default {
@@ -77,19 +80,38 @@
 					fabricType: '',
 					supplyShapes: ''
 				},
-				categoryItems: ['全部', '面料', '大边', '小边', '睫毛'],
-				componentItems: ['全部', '成品', '胚布'],
-				isStartUpItems: ['全部', '接受', '不接受'],
-				categoryActiveItem: '全部',
-				componentActiveItem: '全部',
-				isStartUpActiveItem: '全部'
+				param: {
+					buyShapes: null,
+					buyStatus: null,
+					buyTypes: null,
+					isStartUp: null,
+					isMy: false,
+					pageNo: 1,
+					pageSize: 25
+				},
+				items: [],
+				pageData: {
+					pageNumArr: [],
+					maxNum: {
+						type: Number
+					},
+					pageNO: 1
+				}
 			};
 		},
 		components: {
 			'vHeader': header,
 			'vNav': nav,
 			search,
+			pagination,
 			purchaseItem
+		},
+		created() {
+			listProductBuys(this.param).then((res) => {
+				this.items = res.data.data.list;
+				this.pageData.maxNum = res.data.data.totalPage;
+				this.pageData.pageNO = res.data.data.pageNO;
+			}).catch();
 		},
 		methods: {
 			hanleFilterSort(e) {
@@ -99,6 +121,9 @@
 				console.log(e);
 			},
 			hanleFilterFabric(e) {
+				console.log(e);
+			},
+			selectedPageNum1(e) {
 				console.log(e);
 			}
 		}

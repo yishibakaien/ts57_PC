@@ -1,13 +1,12 @@
 <template>
-  <div class="supply-list-page">
-    <v-header>
-    	<search></search>
-    </v-header>
-    <v-nav></v-nav>
-    <div class="supply-list-page-box">
-      我是供应列表页面
-      <!-- 筛选器 -->
-      <div class="filter-container">
+	<div class="supply-list-page">
+		<v-header>
+			<search></search>
+		</v-header>
+		<v-nav></v-nav>
+		<div class="supply-list-page-box">
+			<!-- 筛选器 -->
+			<!--<div class="filter-container">
         <div class="category filter-list">
           <p class="filter-title">供应分类</p>
           <p class="filter-detail">
@@ -20,42 +19,87 @@
             <span class="item" v-for="item in componentItems" :class="{active: componentActiveItem===item}">{{item}}</span>
           </p>
         </div>
-      </div>
-      <!-- 列表 -->
-      <div class="supply-list-item-wrapper clearfix">
-        <div class="item-wrapper" v-for="item in [1,1,1,1,1,1,1]">
-          <supply-item></supply-item>
-        </div>
-      </div>
-    </div>
-  </div>
+      </div>-->
+			<div>
+				<ts-filter title="求购分类">
+					<ts-radio-group v-model="Filter.sort" @change="hanleFilterSort">
+						<ts-radio label="">全部</ts-radio>
+						<ts-radio label="100010">面料</ts-radio>
+						<ts-radio label="100011">大边</ts-radio>
+						<ts-radio label="100012">小边</ts-radio>
+						<ts-radio label="100013">睫毛</ts-radio>
+					</ts-radio-group>
+				</ts-filter>
+				<ts-filter title="求购布样">
+					<ts-radio-group v-model="Filter.fabricType" @change="hanleFilterFabric">
+						<ts-radio label="">全部</ts-radio>
+						<ts-radio label="1">接单中</ts-radio>
+						<ts-radio label="2">已成交</ts-radio>
+						<ts-radio label="3">已关闭</ts-radio>
+					</ts-radio-group>
+				</ts-filter>
+			</div>
+			<!-- 列表 -->
+			<div class="supply-list-item-wrapper clearfix">
+				<div class="item-wrapper" v-for="item in items">
+					<supply-item :item="item"></supply-item>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>
-import {
-  header,
-  nav,
-  search
-} from '@/components';
-import supplyItem from './supplyItem';
-export default {
-  data() {
-    return {
-      categoryItems: ['全部', '面料', '大边', '小边', '睫毛'],
-      componentItems: ['全部', '成品', '胚布'],
-      categoryActiveItem: '全部',
-      componentActiveItem: '全部'
-    };
-  },
-  components: {
-    'vHeader': header,
-    'vNav': nav,
-    search,
-    supplyItem
-  }
-};
+	import {
+		header,
+		nav,
+		search
+	} from '@/components';
+	import supplyItem from './supplyItem';
+	import {listCompanySupplys} from '@/common/api/api';
+	export default {
+		data() {
+			return {
+				Filter: {
+					sort: '',
+					fabricType: ''
+				},
+				param: {
+					isMy: false,
+					supplyShapes: null,
+					supplyStatus: null,
+					supplyTypes: null,
+					pageNo: 1,
+					pageSize: 25
+				},
+				items: [],
+				categoryItems: ['全部', '面料', '大边', '小边', '睫毛'],
+				componentItems: ['全部', '成品', '胚布'],
+				categoryActiveItem: '全部',
+				componentActiveItem: '全部'
+			};
+		},
+		components: {
+			'vHeader': header,
+			'vNav': nav,
+			search,
+			supplyItem
+		},
+		created() {
+			listCompanySupplys(this.param).then((res) => {
+				this.items = res.data.data.list;
+			}).catch();
+		},
+		methods: {
+			hanleFilterSort(e) {
+				console.log(e);
+			},
+			hanleFilterFabric(e) {
+				console.log(e);
+			}
+		}
+	};
 </script>
-
 <style lang="stylus" scoped>
   .supply-list-page
     background #fff

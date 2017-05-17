@@ -39,7 +39,7 @@ const API = {
 	},
 	// 供应求购
 	buy: {
-		listProductBuys: '/productBuy/listProductBuys', // 获取求购列表
+		listProductBuys: '/productBuy/listHomeProductBuys', // 获取求购列表
 		getCompanySupply: '/companySupply/getCompanySupply', // 供应详情
 		closeProductBuy: '/productBuy/closeProductBuy', // 关闭求购
 		deleteCompanySupply: '/companySupply/deleteCompanySupply', // 删除供应
@@ -52,7 +52,7 @@ const API = {
 		orderBuyTask: '/buyTask/orderBuyTask', // 接单
 		getBuyTask: '/buyTask/getBuyTask', // 接单详情
 		getProductBuy: '/productBuy/getProductBuy', // 求购详情
-		listCompanySupplys: '/companySupply/listCompanySupplys', // 获取供应列表
+		listCompanySupplys: '/companySupply/listHomeCompanySupplys', // 获取供应列表
 		listBuyTask: '/buyTask/listBuyTask', // 获取接单列表
 		myProductBuys: '/productBuy/myProductBuys', // 获取我的求购列表
 		listBuyTaskByBuyId: '/buyTask/listBuyTaskByBuyId' // 获取求购单接单列表
@@ -168,66 +168,67 @@ function _formatData(method, data) {
  * @return {promise}        Promise 对象
  */
 function _fetch(method = METHODS.get, data, url) {
-  // console.info('api-ajaxToken', store.state.ajaxToken);
-  let _headers = Object.assign({
-    'x-token': store.state.ajaxToken || ''
-  }, headers);
-  if (url === API.user.login) {
-    // 如果是登录的请求则删除掉请求头中的x-token
-    try {
-//    delete _headers['x-token'];
-    } catch (e) {}
-  }
-  let param;
-  if (method === METHODS.get) {
-    param = {
-      method: method,
-      url: baseURL + url,
-      headers: _headers,
-      params: _formatData(method, data)
-    };
-  }
-  if (method === METHODS.post) {
-    param = {
-      method: method,
-      url: baseURL + url,
-      headers: _headers,
-      data: _formatData(method, data)
-    };
-  }
-  return new Promise((resolve, reject) => {
-    axios(param).then((res) => {
-      let token = res.headers['x-token'];
-      if (token) {
-        store.commit(types.AJAX, token);
-        // 让ajaxToken 和 accessToken 保持一致
-        if (store.state.accessToken) {
-          store.commit(types.LOGIN, token);
-        }
-      }
-      if (res.data.message) {
-        Toast({
-          type: !res.data.code
-            ? 'success'
-            : 'error',
-          message: res.data.message
-        });
-      }
-      //			if (res.data.code !== 0 && res.data.message) {
-      // if (res.data.message) {
-      // store.commit(types.MODEL_SHOW, true);
-      // store.commit(types.MODEL_OPTION, {
-      //   type: 2,
-      //   title: '提示',
-      //   content: res.data.message
-      // });
-      // }
-      resolve(res);
-    }).catch((res) => {
-      Toast.error('请检查网络');
-      reject(res);
-    });
-  });
+	// console.info('api-ajaxToken', store.state.ajaxToken);
+	let _headers = Object.assign({
+		'x-token': store.state.ajaxToken || ''
+	}, headers);
+	if (url === API.user.login) {
+		// 如果是登录的请求则删除掉请求头中的x-token
+		try {
+			//    delete _headers['x-token'];
+		} catch (e) {}
+	}
+	let param;
+	if (method === METHODS.get) {
+		param = {
+			method: method,
+			url: baseURL + url,
+			headers: _headers,
+			params: _formatData(method, data)
+		};
+	}
+	if (method === METHODS.post) {
+		param = {
+			method: method,
+			url: baseURL + url,
+			headers: _headers,
+			data: _formatData(method, data)
+		};
+	}
+	return new Promise((resolve, reject) => {
+		axios(param).then((res) => {
+			let token = res.headers['x-token'];
+			if (token) {
+				store.commit(types.AJAX, token);
+				// 让ajaxToken 和 accessToken 保持一致
+				if (store.state.accessToken) {
+					store.commit(types.LOGIN, token);
+				}
+			}
+			if (res.data.message) {
+				Toast({
+					type: !res.data.code ? 'success' : 'error',
+					message: res.data.message
+				});
+			}
+			if (res.data.code === 210018) {
+				store.commit(types.LOGOUT);
+			}
+			//			if (res.data.code !== 0 && res.data.message) {
+			// if (res.data.message) {
+			// store.commit(types.MODEL_SHOW, true);
+			// store.commit(types.MODEL_OPTION, {
+			//   type: 2,
+			//   title: '提示',
+			//   content: res.data.message
+			// });
+			// }
+			resolve(res);
+		}).catch((res) => {
+			Toast.error('请检查网络');
+			reject(res);
+		});
+	});
 }
 
 /**
