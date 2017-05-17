@@ -1,7 +1,7 @@
 <template>
-<label :class="[{'is-active':model==label},{'is-disbaled':isDisabled},{'is-origin':type==='origin'}]" class="ts-radio" v-if="type!=='origin'">
+<label :class="[{'is-active':model===label},{'is-disbaled':isDisabled},{'is-origin':type==='origin'}]" class="ts-radio" v-if="type!=='origin'">
     <input type="radio" :value="label" :name="name" v-model="model" :disabled="isDisabled" class="ts-radio-input">
-    <span :style="value==label?activeStyle:null" class="ts-radio--inner">
+    <span :style="value===label?activeStyle:null" class="ts-radio--inner">
       <slot></slot>
     </span>
 </label>
@@ -91,10 +91,11 @@ export default {
   @component radio{
     position: relative;
     display: inline-block;
-    height:32px;
+    min-height: 22px;
+    line-height: 22px;
     vertical-align: middle;
-    padding:10px;
-    font-size: 14px;
+    padding:0 8px;
+    font-size: 13px;
     box-sizing: border-box;
     margin:6px 20px 6px 0;
     text-align: center;

@@ -34,13 +34,12 @@ import {
 export default {
   data() {
     return {
-      rule: [],
-      empty: false
+      rule: []
     };
   },
-  watch: {
-    data(val) {
-      this.empty = val.length <= 0;
+  computed: {
+    empty() {
+      return !this.data || (this.data.length <= 0);
     }
   },
   props: {

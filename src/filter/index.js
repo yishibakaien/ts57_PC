@@ -19,6 +19,17 @@ export const filterDict = (val, $arr, label = 'label') => {
     return filter[0][label];
   } catch (e) {}
 };
+export const filterDicts = (val, $arr, label = 'label') => {
+  try {
+    if (!val && val.length === 0) {
+      return val;
+    }
+    let filter = $arr.filter(item => item.dicValue.toString() === val.toString());
+    return filter[0][label];
+  } catch (e) {
+    // console.log(e);
+  }
+};
 // 时间转换
 export const filterDate = value => {
   if (value) {

@@ -134,8 +134,8 @@ export default {
     }
     @descendent toggle{
       border: 1px solid #cfcfcf;
-      min-height: 32px;
-      line-height: 32px;
+      min-height: 30px;
+      line-height: 30px;
       padding: 0 10px;
       box-sizing: border-box;
       &:after{

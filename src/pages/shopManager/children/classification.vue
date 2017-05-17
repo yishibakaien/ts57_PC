@@ -6,7 +6,8 @@
       <ts-button type="plain" @click="handleEditDialog">编辑分类</ts-button>
     </div>
     <div slot="footer" class="classification-footer">
-      <ts-button v-show="chooseItem.length>0" type="primary" @click="handleUnbindProduct({ids:chooseItem,unbinding:true,classId:BindingProductList.list[0].category})">从本类移出</ts-button>
+      <ts-button :disabled="chooseItem.length<=0" type="primary" v-show="Params.unbinding" @click="handleUnbindProduct({ids:chooseItem,unbinding:true,classId:Params.classId})">从本类移出</ts-button>
+      <ts-button :disabled="chooseItem.length<=0" v-show="!Params.unbinding" type="primary" @click="handleShowDialog(chooseItem)" v-if="false">加入本类</ts-button>
       <ts-pagination class="classification-footer--pagation" @change="handleChangeCurrent" @page-size-change="handleChangePageSize" :current="BindingProductList.pageNO" :totalPages="BindingProductList.totalPage">
       </ts-pagination>
     </div>
@@ -20,22 +21,24 @@
     </div>
     <!-- 显示分类的名字 -->
     <div class="classification-showName">
-      <span>分类名称：{{Filter.sort | filterClassName(ProductCategory)}}</span>
-      <ts-checkbox v-model="Params.unbinding">本类花型</ts-checkbox>
+      <span style="margin-right:10px;">分类名称：{{Params.classId | filterClassName(ProductCategory)}}</span>
+      <ts-checkbox v-model="Params.unbinding">非本类花型</ts-checkbox>
     </div>
     <!--列表  -->
     <!-- 表格 -->
-    <div class="warehouse-table">
+    <div class="classification-table">
       <ts-menu :prop="BindingProductList.list">
         <ts-checkbox-group v-model="chooseItem">
           <ts-menu-table v-for="(item,index) in BindingProductList.list" :key="item.id">
             <div slot="header-left">
-              <ts-checkbox :label="item.bandId">#{{item.productNo}}&nbsp{{item.category | filterDict(dicTree.PRODUCT_SHAPE)}}</ts-checkbox>
+              <ts-checkbox :label="item.id">#{{item.productNo}}&nbsp{{item.category | filterDict(dicTree.PRODUCT_SHAPE)}}</ts-checkbox>
             </div>
             <div slot="header-right">
               状态：
+              <span v-if="!item.classList.length">无</span>
+              <span class="classification-table--classList" v-for="i in item.classList">{{i}}</span>
             </div>
-            <ts-menu-table-item width="600" class="supply-table--avatar">
+            <ts-menu-table-item width="600" class="classification-table--avatar">
               <ts-image width="80" height="80" :src="item.picsUrl"></ts-image>
             </ts-menu-table-item>
             <!-- Price -->
@@ -43,14 +46,15 @@
               <span v-if="item.price>0">{{item.price}}元/{{item.priceUnit|filterDict(dicTree.PRODUCT_UNIT,'name')}}</span>
               <span v-else>价格面议</span>
             </ts-menu-table-item>
+            <!-- 操作 -->
             <ts-menu-table-item>
-              <template v-if="!Params.unbinding">
-              <a class="classification-table--link">加</a>
-            </template>
+              <template v-if="Params.unbinding">
+              <a class="classification-table--link" @click="handleShowDialog(item.id)">加</a>
+              </template>
               <template v-else>
               <a class="classification-table--link" @click="handleUpMoveProductList(item,index)" v-if="index!==0">上</a>
               <a class="classification-table--link" @click="handleDownMoveProductList(item,index)" v-if="index!==BindingProductList.list.length-1">下</a>
-              <a class="classification-table--link" @click="handleUnbindProduct({ids:item.bandId,unbinding:true,classId:item.category})">删</a>
+              <a class="classification-table--link" @click="handleUnbindProduct({ids:item.bandId,unbinding:true,classId:Params.classId})">删</a>
             </template>
             </ts-menu-table-item>
           </ts-menu-table>
@@ -65,6 +69,13 @@
         <ts-input autofocus v-model="Classification.text" placeholder="请输入分类名称，限定8个字以内" :maxlength="8"></ts-input>
       </ts-form-item>
     </ts-form>
+  </ts-dialog>
+  <!-- 花型加入 -->
+  <ts-dialog v-model="ConfirmDialog.show" width="30%" title="提示" @cancel="handleCancelBind" @confirm="handleBind" class="classification-dialog">
+    <p class="classification-dialog--title">确认将选中花型加入&nbsp;{{Params.classId | filterClassName(ProductCategory)}}&nbsp;分类</p>
+    <p>
+      <ts-radio @change.native="handleNoShowDialog" type="origin" v-model="ConfirmDialog.noShowDialog" label="0"><span class="classification-dialog--tip">不再提示<i>(一款花型可以加入自定义分类)</i></span></ts-radio>
+    </p>
   </ts-dialog>
   <!-- 编辑分类 -->
   <ts-dialog v-model="Classification.editDialog" class="classification-edit-dialog" title="编辑分类" @cancel="closeEdit" @confirm="handleEdit" :width="getColumnCount*30+'%'">
@@ -104,7 +115,19 @@ export default {
         classId: null,
         pageNo: 1,
         pageSize: 10,
-        unbinding: true
+        unbinding: false
+      },
+      // cookie
+      Cookie: {
+        key: 'showInsertDialog',
+        value: 1,
+        day: 7
+      },
+      // 控制对话框cookie => 花型加入到分类
+      ConfirmDialog: {
+        noShowDialog: false,
+        show: false,
+        id: []
       },
       // 列表数据
       BindingProductList: {},
@@ -164,9 +187,16 @@ export default {
   },
   created() {
     this.index();
+    !this.getCookie(this.Cookie.key) ? this.setCookie(this.Cookie.key, this.Cookie.value, this.Cookie.day) : '';
+    console.log(this.getCookie(this.Cookie.key));
   },
   computed: {
     ...mapGetters(['dicTree']),
+    // 由于params.binding如果为false显示已绑定的数据跟我的checkbox相反
+    paramsBind() {
+      return !this.Params.unbinding;
+    },
+    // 编辑分类的对话框：超过8个显示2列，否则1列
     getColumnCount() {
       return this.Classification.userCategory.length > 8 ? 2 : 1;
     },
@@ -187,17 +217,17 @@ export default {
         pageSize: 1000
       })).data.data.list;
       // 获取分类的列表
-      this.BindingProductList = (await getBindingProductlist(this.Params)).data.data;
+      // this.BindingProductList = (await getBindingProductlist(this.Params)).data.data;
     },
     // 分页处理
     // =========
     async handleChangeCurrent(current) {
       this.Params.pageNo = current;
-      this.BindingProductList = (await getBindingProductlist(this.Params)).data.data;
+      // this.BindingProductList = (await getBindingProductlist(this.Params)).data.data;
     },
     async handleChangePageSize(size) {
       this.Params.pageSize = size;
-      this.BindingProductList = (await getBindingProductlist(this.Params)).data.data;
+      // this.BindingProductList = (await getBindingProductlist(this.Params)).data.data;
     },
     // 花型：上移
     handleUpMoveProductList(item, index) {
@@ -258,11 +288,13 @@ export default {
     productId	取id的值	number	绑定时需要带上，解绑时不需要
     unbinding	是否绑定	boolean	true--解绑 false--绑定（默认）
      */
-    async handleUnbindProduct(params) {
-      await bindingProduct({
-        classId: params.category,
-        ids: params.ids,
-        unbinding: params.unbinding
+    handleUnbindProduct(params) {
+      this.$messagebox.confirm('确认将选中花型从本类移出?').then(async action => {
+        await bindingProduct({
+          classId: params.classId,
+          ids: params.ids,
+          unbinding: params.unbinding
+        });
       });
     },
     // XXX:函数去抖=> 因为PC端修改分类不能批量修改 所以修改一个等800毫秒后执行
@@ -285,7 +317,6 @@ export default {
         }
       });
     },
-
     async handleEdit(formName) {
       if (this.Classification.MovedIds) {
         await sortProductCategory({
@@ -298,6 +329,35 @@ export default {
         await this.index();
       }
       this.closeDialog('editDialog');
+    },
+    // 点击“加入”=>判断cookie是否显示
+    handleShowDialog(item) {
+      this.ConfirmDialog.id = item;
+      if (this.getCookie(this.Cookie.key) === '1') {
+        this.ConfirmDialog.show = true;
+      } else {
+        this.handleBind();
+      }
+    },
+    // 取消绑定
+    handleCancelBind() {
+      this.ConfirmDialog.show = false;
+      this.setCookie(this.Cookie.key, this.Cookie.value, this.Cookie.day);
+    },
+    // 分类与花型绑定
+    async handleBind() {
+      await bindingProduct({
+        classId: this.Params.classId,
+        isHot: this.Params.classId === this.ProductCategory.filter(item => item.className === '爆款')[0].id,
+        productId: this.ConfirmDialog.id.toString()
+      });
+      this.ConfirmDialog.show = false;
+      this.chooseItem = [];
+      this.BindingProductList = (await getBindingProductlist(this.Params)).data.data;
+    },
+    // 设置cookie
+    handleNoShowDialog(e) {
+      this.setCookie(this.Cookie.key, e.target.value, this.Cookie.day);
     }
   }
 };
@@ -309,11 +369,49 @@ export default {
     margin: 15px 0 20px 0;
     color:#666666;
   }
+  @component table{
+    @modifier classList{
+      margin-right: 6px;
+      position: relative;
+      &:last-child{
+        position:static;
+        margin-right: 0;
+        &:after{
+          content:'';
+        }
+      }
+      &:after{
+        position: absolute;
+        height: 80%;
+        content: "|";
+        width: 1px;
+        right: -3px;
+        transform: translate(-50%,0);
+      }
+    }
+  }
   @component footer{
     display: flex;
     @modifier pagation{
       flex:1;
       text-align: right;
+    }
+  }
+  @component dialog{
+    p{
+      text-align: center;
+    }
+    @modifier title{
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+    @modifier tip{
+      font-size: 14px;
+      i{
+        font-size: smaller;
+        color: #3F3F3F;
+      }
     }
   }
   @component edit-dialog{

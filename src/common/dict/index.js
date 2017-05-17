@@ -216,6 +216,26 @@ const DICT = {
       dicValue: 2
     }
   ],
+  // 询价人身份
+  userType: [
+    {
+      label: '工厂',
+      dicValue: 1
+    }, {
+      label: '档口',
+      dicValue: 2
+    }
+  ],
+  // 采购类型
+  purchaseType: [
+    {
+      label: '剪样',
+      dicValue: 1
+    }, {
+      label: '大货',
+      dicValue: 2
+    }
+  ],
   // 设备数量
   MachineNum: [
     {

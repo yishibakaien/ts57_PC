@@ -9,127 +9,125 @@ import Toast from '@/components/common/toast/toast';
 axios.defaults.baseURL = '/api';
 
 const API = {
-	// 用户模块API
-	user: {
-		reg: '/front/user/reg', // 注册
-		login: '/front/user/login', // 登录
-		findPassWd: '/front/user/findPassWd', // 找回密码
-		checkPhone: '/front/user/checkPhone', // 检查手机号码是否存在
-		changeMobile: '/user/changeMobile', // 修改手机号码
-		updateUser: '/user/updateUser', // 修改用户信息
-		restPasswd: '/user/restPasswd', // 修改密码
-		checkPasswd: '/user/checkPasswd', // 校验密码
-		changeSMSCode: '/user/changeSMSCode', // 获取修改手机短信
-		getVerifyCode: '/front/user/getVerifyCode', // 获取图片验证码
-		getFindSMSCode: '/front/user/getFindSMSCode', // 获取找回短信
-		getRegSMSCode: '/front/user/getRegSMSCode', // 获取注册短信
-		getUserInfo: '/user/getUserInfo', // 获取用户最新信息
-		getMsgSetting: '/msg/getMsgSetting', // 获取短信设置
-		setMsg: '/msg/setMsg' // 设置短信开关
-	},
-	// 首页
-	home: {
-		listHomeBanners: '/homeBanner/listHomeBanners', // 首页banner
-		findNewCompanyByIndex: '/company/findNewCompanyByIndex', // 获取最新入驻厂家列表
-		qualityCompanyList: '/company/qualityCompanyList' // 优质厂家列表
-	},
-	// 搜索
-	search: {
-		search: '/product/search' // 文本搜索
-	},
-	// 供应求购
-	buy: {
-		listProductBuys: '/productBuy/listProductBuys', // 获取求购列表
-		getCompanySupply: '/companySupply/getCompanySupply', // 供应详情
-		closeProductBuy: '/productBuy/closeProductBuy', // 关闭求购
-		deleteCompanySupply: '/companySupply/deleteCompanySupply', // 删除供应
-		deleteBuyTask: '/buyTask/deleteBuyTask', // 删除接单
-		deleteProductBuy: '/productBuy/deleteProductBuy', // 删除求购
-		releaseCompanySupply: '/companySupply/releaseCompanySupply', // 发布供应
-		releaseProductBuy: '/productBuy/releaseProductBuy', // 发布求购
-		cancelBuyTask: '/buyTask/cancelBuyTask', // 取消接单
-		finishProductBuy: '/productBuy/finishProductBuy', // 完成接单
-		orderBuyTask: '/buyTask/orderBuyTask', // 接单
-		getBuyTask: '/buyTask/getBuyTask', // 接单详情
-		getProductBuy: '/productBuy/getProductBuy', // 求购详情
-		listCompanySupplys: '/companySupply/listCompanySupplys', // 获取供应列表
-		listBuyTask: '/buyTask/listBuyTask', // 获取接单列表
-		myProductBuys: '/productBuy/myProductBuys', // 获取我的求购列表
-		listBuyTaskByBuyId: '/buyTask/listBuyTaskByBuyId' // 获取求购单接单列表
-	},
-	// 收藏管理
-	collection: {
-		batchCancel: '/favorite/batchCancel', // 批量取消收藏
-		favoriteBus: '/favorite/favoriteBus', // 收藏或取消
-		listSupply: 'favorite/listSupply', // 获取收藏供应列表
-		listCompany: '/favorite/listCompany', // 获取收藏厂家列表
-		listProduct: '/favorite/listProduct', // 获取收藏花型列表
-		countProduct: '/favorite/countProduct', // 统计收藏花型各分类数量
-		countSupply: '/favorite/countSupply' // 统计收藏供应各分类数量
-	},
-	product: {
-		// POST
-		listProducts: '/product/listProducts', // 获取花型列表
-		addProduct: '/product/addProduct', // 新增花型
-		updateProduct: '/product/updateProduct', // 修改花型
-		shelveProduct: '/product/shelveProduct', // 花型上下架
-		deleteProduct: '/product/deleteProduct', // 删除花型
-		getProduct: '/product/getProduct' // 修改成分
-	},
-	// 成分
-	ingredient: {
-		addIngredient: '/ingredient/addIngredient', // 自定义成分
-		deleteIngredient: '/ingredient/deleteIngredient', // 删除成分
-		listIngredients: '/ingredient/listIngredients', // 获取成分列表
-		updateIngredient: '/ingredient/updateIngredient' // 修改成分
-	},
-	// 供应
-	companySupply: {
-		closeCompanySupply: '/companySupply/closeCompanySupply', // 关闭供应
-		releaseCompanySupply: '/companySupply/releaseCompanySupply', // 发布供应
-		listCompanySupplys: '/companySupply/listCompanySupplys', // 获取供应列表
-		getCompanySupply: '/companySupply/getCompanySupply' // 供应详情
-	},
-	// 素材库
-	albumPic: {
-		listAlbumPics: '/albumPic/listAlbumPics', // 获取素材库图片列表
-		deleteAlbumPic: '/albumPic/deleteAlbumPic' // 删除素材库图片,
-	},
-	// 花型分类
-	productCategory: {
-		listSystemProductCategory: '/productCategory/listSystemProductCategory', // 系统定义花型分类列表
-		deleteProductCategory: '/productCategory/deleteProductCategory', // 删除花型分类
-		listUserProductCategory: '/productCategory/listUserProductCategory', // 自定义花型分类列表
-		addProductCategory: '/productCategory/addProductCategory', // 新增花型分类
-		updateProductCategory: '/productCategory/updateProductCategory', // 修改花型分类
-		sortProductCategory: '/productCategory/sortProductCategory', // 花型分类排序
-		listBindingProduct: '/productCategoryBanding/listBindingProduct', // 获取分类绑定的花型列表
-		bindingProduct: '/productCategoryBanding/bindingProduct', // 花型分类绑定解绑
-		sortBindingProduct: '/productCategoryBanding/sortBindingProduct' // 分类中的花型排序
-	},
-	// 公司
-	company: {
-		getCompanyInfo: '/company/getCompanyInfo', // 获取档口OR工厂信息
-		updateCompany: '/company/updateCompany', // 修改工厂或档口信息
-		getCompanyAptitude: '/companyAptitude/getCompanyAptitude', // 查询公司资质信息
-		saveCompanyAptitude: '/companyAptitude/saveCompanyAptitude', // 修改公司资质信息
-		updateCompanyExtend: '/company/updateCompanyExtend' // 修改工厂或档口详细信息
-	},
-	// 数据字典
-	dicTree: {
-		byTypeKey: '/front/dicTree/byTypeKey'
-	},
-	// 地理区域
-	area: {
-		byLevel: '/front/area/byLevel',
-		byParent: '/front/area/byParent'
-	},
-	enquiry: {
-		getEnquiryList: '/enquiry/list' // 询价列表
-	},
-	oss: {
-		token: '/file/token' // OSS_token
-	}
+  // 用户模块API
+  user: {
+    reg: '/front/user/reg', // 注册
+    login: '/front/user/login', // 登录
+    checkPhone: '/front/user/checkPhone', // 检查手机号码是否存在
+    changeMobile: '/user/changeMobile', // 修改手机号码
+    updateUser: '/user/updateUser', // 修改用户信息
+    restPasswd: '/user/restPasswd', // 修改密码
+    checkPasswd: '/user/checkPasswd', // 校验密码
+    changeSMSCode: '/user/changeSMSCode', // 获取修改手机短信
+    getVerifyCode: '/front/user/getVerifyCode', // 获取图片验证码
+    getFindSMSCode: '/front/user/getFindSMSCode', // 获取找回短信
+    getRegSMSCode: '/front/user/getRegSMSCode', // 获取注册短信
+    getUserInfo: '/user/getUserInfo', // 获取用户最新信息
+    getMsgSetting: '/msg/getMsgSetting', // 获取短信设置
+    setMsg: '/msg/setMsg' // 设置短信开关
+  },
+  // 首页
+  home: {
+    listHomeBanners: '/homeBanner/listHomeBanners', // 首页banner
+    findNewCompanyByIndex: '/company/findNewCompanyByIndex' // 获取最新入驻厂家列表
+  },
+  // 搜索
+  search: {
+    search: '/product/search' // 文本搜索
+  },
+  // 供应求购
+  buy: {
+    listProductBuys: '/productBuy/listProductBuys', // 获取求购列表
+    getCompanySupply: '/companySupply/getCompanySupply', // 供应详情
+    closeProductBuy: '/productBuy/closeProductBuy', // 关闭求购
+    deleteCompanySupply: '/companySupply/deleteCompanySupply', // 删除供应
+    deleteBuyTask: '/buyTask/deleteBuyTask', // 删除接单
+    deleteProductBuy: '/productBuy/deleteProductBuy', // 删除求购
+    releaseCompanySupply: '/companySupply/releaseCompanySupply', // 发布供应
+    releaseProductBuy: '/productBuy/releaseProductBuy', // 发布求购
+    cancelBuyTask: '/buyTask/cancelBuyTask', // 取消接单
+    finishProductBuy: '/productBuy/finishProductBuy', // 完成接单
+    orderBuyTask: '/buyTask/orderBuyTask', // 接单
+    getBuyTask: '/buyTask/getBuyTask', // 接单详情
+    getProductBuy: '/productBuy/getProductBuy', // 求购详情
+    listCompanySupplys: '/companySupply/listCompanySupplys', // 获取供应列表
+    listBuyTask: '/buyTask/listBuyTask', // 获取接单列表
+    myProductBuys: '/productBuy/myProductBuys', // 获取我的求购列表
+    listBuyTaskByBuyId: '/buyTask/listBuyTaskByBuyId' // 获取求购单接单列表
+  },
+  // 收藏管理
+  collection: {
+    batchCancel: '/favorite/batchCancel', // 批量取消收藏
+    favoriteBus: '/favorite/favoriteBus', // 收藏或取消
+    listSupply: 'favorite/listSupply', // 获取收藏供应列表
+    listCompany: '/favorite/listCompany', // 获取收藏厂家列表
+    listProduct: '/favorite/listProduct' // 获取收藏花型列表
+  },
+  product: {
+    // POST
+    listProducts: '/product/listProducts', // 获取花型列表
+    addProduct: '/product/addProduct', // 新增花型
+    updateProduct: '/product/updateProduct', // 修改花型
+    shelveProduct: '/product/shelveProduct', // 花型上下架
+    deleteProduct: '/product/deleteProduct', // 删除花型
+    getProduct: '/product/getProduct' // 修改成分
+  },
+  // 成分
+  ingredient: {
+    addIngredient: '/ingredient/addIngredient', // 自定义成分
+    deleteIngredient: '/ingredient/deleteIngredient', // 删除成分
+    listIngredients: '/ingredient/listIngredients', // 获取成分列表
+    updateIngredient: '/ingredient/updateIngredient' // 修改成分
+  },
+  // 供应
+  companySupply: {
+    closeCompanySupply: '/companySupply/closeCompanySupply', // 关闭供应
+    releaseCompanySupply: '/companySupply/releaseCompanySupply', // 发布供应
+    listCompanySupplys: '/companySupply/listCompanySupplys', // 获取供应列表
+    getCompanySupply: '/companySupply/getCompanySupply' // 供应详情
+  },
+  // 素材库
+  albumPic: {
+    listAlbumPics: '/albumPic/listAlbumPics', // 获取素材库图片列表
+    deleteAlbumPic: '/albumPic/deleteAlbumPic' // 删除素材库图片,
+  },
+  // 花型分类
+  productCategory: {
+    listSystemProductCategory: '/productCategory/listSystemProductCategory', // 系统定义花型分类列表
+    deleteProductCategory: '/productCategory/deleteProductCategory', // 删除花型分类
+    listUserProductCategory: '/productCategory/listUserProductCategory', // 自定义花型分类列表
+    addProductCategory: '/productCategory/addProductCategory', // 新增花型分类
+    updateProductCategory: '/productCategory/updateProductCategory', // 修改花型分类
+    sortProductCategory: '/productCategory/sortProductCategory', // 花型分类排序
+    listBindingProduct: '/productCategoryBanding/listBindingProduct', // 获取分类绑定的花型列表
+    bindingProduct: '/productCategoryBanding/bindingProduct', // 花型分类绑定解绑
+    sortBindingProduct: '/productCategoryBanding/sortBindingProduct' // 分类中的花型排序
+  },
+  // 公司
+  company: {
+    getCompanyInfo: '/company/getCompanyInfo', // 获取档口OR工厂信息
+    updateCompany: '/company/updateCompany', // 修改工厂或档口信息
+    getCompanyAptitude: '/companyAptitude/getCompanyAptitude', // 查询公司资质信息
+    saveCompanyAptitude: '/companyAptitude/saveCompanyAptitude', // 修改公司资质信息
+    updateCompanyExtend: '/company/updateCompanyExtend' // 修改工厂或档口详细信息
+  },
+  // 数据字典
+  dicTree: {
+    byTypeKey: '/front/dicTree/byTypeKey'
+  },
+  // 地理区域
+  area: {
+    byLevel: '/front/area/byLevel',
+    byParent: '/front/area/byParent'
+  },
+  enquiry: {
+    getEnquiryList: '/enquiry/list', // 询价列表
+    enquiryEskUser: '/enquiry/askUser', // 询价人详情
+    getAskListByProductId: '/enquiry/getAskListByProductId' // 根据产品ID获取询价记录
+  },
+  oss: {
+    token: '/file/token' // OSS_token
+  }
 };
 
 const METHODS = {
@@ -413,6 +411,10 @@ export const getAreabyParent = param => _fetch(METHODS.get, param, API.area.byPa
 // =======
 // 询价列表
 export const getEnquiryList = param => _fetch(METHODS.post, param, API.enquiry.getEnquiryList);
+// 询价人详情
+export const enquiryEskUser = param => _fetch(METHODS.get, param, API.enquiry.enquiryEskUser);
+// 根据产品ID获取询价记录
+export const getAskListByProductId = param => _fetch(METHODS.get, param, API.enquiry.getAskListByProductId);
 // 查询公司资质信息
 export const getCompanyAptitude = param => _fetch(METHODS.get, param, API.company.getCompanyAptitude);
 // 修改公司资质信息

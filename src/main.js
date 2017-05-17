@@ -8,6 +8,7 @@ import store from './store/store';
 import * as filters from './filter/';
 import * as utils from '@/common/js/utils';
 import {GAODE_MAP_KEY} from '@/common/dict/const';
+import VueLazyload from 'vue-lazyload';
 // import models from '@/common/js/tipsModels';
 // import axios from 'axios';
 
@@ -18,6 +19,12 @@ import jhComponents from '@/Components/common/index.js';
 import AMap from 'vue-amap';
 Vue.use(AMap);
 Vue.use(jhComponents);
+Vue.use(VueLazyload, {
+  preLoad: 1.3,
+  error: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1495606067&di=0b9d830f466d3569bce60fb77597aae3&imgtype=jpg&er=1&src=http%3A%2F%2Fphotocdn.sohu.com%2F20150906%2Fmp30743538_1441527062905_24.jpeg',
+  loading: '/static/images/clock.svg',
+  attempt: 1
+});
 Vue.config.productionTip = false;
 // 注册过滤器
 Object.keys(filters).forEach(k => Vue.filter(k, filters[k]));

@@ -7,9 +7,9 @@
         <span class="ts-dialog--title">{{title}}</span>
         <slot name="title">
         </slot>
-        <div class="ts-dialog--headerbtn" v-if="!titleNeedCenter">
-          <i v-if="showClose" class="ts-dialog--close" @click="close">&times</i>
-        </div>
+        <!-- <div class="ts-dialog--headerbtn" v-if=""> -->
+          <i v-if="showClose,!titleNeedCenter" class="ts-dialog--close" @click="close">&times</i>
+        <!-- </div> -->
       </div>
       <!-- 正文内容 -->
       <div class="ts-dialog--body" v-if="rendered">
@@ -164,29 +164,30 @@ export default {
       margin: 0;
     }
       @modifier header{
-      padding: 10px;
+      padding:0 10px;
       box-sizing: border-box;
       min-height: 44px;
+      line-height: 44px;
     }
       @modifier close{
       cursor: pointer;
       color: #333;
       font-size: 1.4rem;
+      float: right;
       &:hover{
         color:grey;
       }
     }
        @modifier title{
-      vertical-align: sub;
       color: #333;
       }
       @modifier body{
       padding: 20px;
       font-size: 16px;
     }
-      @modifier headerbtn{
+      /*@modifier headerbtn{
       float: right;
-    }
+    }*/
       @modifier footer{
       text-align: center;
       background-color:var(--dialogFooterBg);

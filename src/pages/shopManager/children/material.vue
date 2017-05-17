@@ -146,6 +146,7 @@ export default {
 @component-namespace material{
   @component footer{
     display: flex;
+    align-items: center;
     @modifier pagation{
       flex:1;
       text-align: right;

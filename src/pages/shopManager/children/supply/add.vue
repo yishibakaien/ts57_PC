@@ -23,7 +23,7 @@
         </label>
     </ts-form-item>
     <ts-form-item label="供应说明：" prop="supplyDesc">
-      <ts-input type="textarea" :rows="4" v-model="addSupplyForm.supplyDesc" placeholder="请输入供应说明"></ts-input>
+      <ts-input type="textarea" :rows="4" :maxlength='50' v-model="addSupplyForm.supplyDesc" placeholder="请输入供应说明"></ts-input>
     </ts-form-item>
   </ts-form>
   <div slot="footer">
@@ -66,7 +66,7 @@ export default {
         supplyNum: [{
           required: true,
           pattern: /^[0-9]*$/,
-          message: '请选择正确的供应数量'
+          message: '请输入正确的供应数量'
         }],
         supplyShapes: [{
           required: true,
@@ -74,7 +74,11 @@ export default {
         }],
         supplyDesc: [{
           required: true,
-          message: '请输入供应说明'
+          message: '请输入供应说明（最多50个字）'
+        }, {
+          min: 1,
+          max: 50,
+          message: '请输入1-50个字'
         }],
         productPicUrl: [{
           required: true,

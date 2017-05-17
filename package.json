@@ -16,6 +16,7 @@
     "lodash.debounce": "^4.0.8",
     "vue": "^2.2.2",
     "vue-amap": "^0.2.4",
+    "vue-lazyload": "^1.0.3",
     "vue-router": "^2.3.0",
     "vuex": "^2.3.0"
   },

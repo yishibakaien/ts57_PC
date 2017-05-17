@@ -8,6 +8,9 @@
       <i class="aptitude-container-close" @click.self="handleDelAptitude(item, index)" v-if="Close.isShow">&times</i>
       <ts-image height="200" class="aptitude-img" :src="item" />
     </div>
+    <div class="aptitude-container" v-if="!aptitudeFirm.aptitudeUrl,!Close.isShow">
+      暂无资质图片
+    </div>
     <label class="aptitude-plus-img" v-if="Close.isShow">
         <ts-aliupload id="firmApitude" @doUpload="uploadImg"></ts-aliupload>
     </label>
@@ -52,7 +55,7 @@ export default {
     },
     async handleEditAptitude() {
       this.Close.isShow = !this.Close.isShow;
-      if (this.Close.isShow) {
+      if (!this.Close.isShow && this.aptitudeFirm.aptitudeUrl) {
         await saveCompanyAptitude(this.aptitudeFirm);
       }
     }

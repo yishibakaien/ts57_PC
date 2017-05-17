@@ -121,7 +121,7 @@ export default {
       }
     }
     @modifier inner{
-      font-size: inherit;
+      font-size: 12px;
       appearance: none;
       background-color: var(--input-fill);
       background-image: none;
