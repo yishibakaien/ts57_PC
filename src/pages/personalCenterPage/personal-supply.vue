@@ -24,7 +24,7 @@
 					<img src="item.productPicUrl" alt="求购" />
 					<span class="states green" v-if="item.supplyShape === 200011">成品</span>
 					<span class="states gray" v-if="item.supplyShape === 200010">胚布</span>
-					<p class="p3"><span class="span1"> &nbsp;&nbsp;{{item.supplyNum}}码</span><span class="span2">昨天&nbsp;&nbsp; </span></p>
+					<p class="p3"><span class="span1"> &nbsp;&nbsp;{{item.supplyNum}}码</span><span class="span2">{{item.createDate | customTime}}&nbsp;&nbsp; </span></p>
 					<i class="dele" @click="deleSupply(index)">删除</i>
 				</div>
 				<p class="info" :title="item.supplyDesc">{{item.supplyDesc}}</p>

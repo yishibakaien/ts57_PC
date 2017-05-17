@@ -2,30 +2,36 @@
 <template>
   <div class="purchase-item">
     <div class="purchase-item-image-wrapper">
-      <img class="image" alt="购买项">
+      <img :src="item.buyPicUrl" class="image" alt="购买项" />
       <p class="info">
-        <span class="number">2000码</span>
-        <span class="status">求购中</span>
+        <span class="number">{{item.buyNum}}码</span>
+        <span class="status" v-if="item.buyStatus === 1">求购中</span>
+        <span class="status" v-if="item.buyStatus === 2">已完成</span>
+        <span class="status" v-if="item.buyStatus === 3">已关闭</span>
       </p>
     </div>
-    <p class="purchase-item-title">大量购买，有多少要多少大量购买，有多少要多少大量求购，有多少要多少啊啊啊啊啊啊
+    <p class="purchase-item-title" :title="item.buyDesc">{{item.buyDesc}}
     </p>
     <div class="purchase-item-person">
-      <span class="name">谭华美</span>
-      <span class="time">2017-05-08</span>
+      <span class="name">{{item.username}}</span>
+      <span class="time">{{item.createDate | customTime}}</span>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+	props: {
+		item: {}
+	}
+};
 </script>
 
 <style lang="stylus" scoped>
 .purchase-item
   box-sizing border-box
   width 232px
-  height 354px
+  height 328px
   padding 16px
   background #fff
   border 1px solid #d8d8d8
@@ -63,10 +69,11 @@ export default {};
     position relative
     margin 16px 0
     width 200px
-    height 50px
+    height 25px
     line-height 25px
     overflow hidden
     text-overflow ellipsis
+    white-space nowrap
 
   .purchase-item-person
     padding 6px 0

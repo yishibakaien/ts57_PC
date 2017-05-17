@@ -111,7 +111,6 @@
 			},
 			loginMethod() {
 				if (!reg.testMobile(this.userData.userMobile) || !reg.testPWD(this.userData.userPWD)) {
-					alert('账号或密码格式错误，请重试！');
 					return;
 				}
 				login(this.userData).then((res) => {

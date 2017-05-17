@@ -2,30 +2,40 @@
 <template>
   <div class="supply-item">
     <div class="supply-item-image-wrapper">
-      <img class="image" alt="供应项">
+      <img :src="item.productPicUrl" class="image" alt="供应项">
       <p class="info">
-        <span class="number">2000码</span>
-        <span class="time">昨天</span>
+        <span class="number">
+        	{{item.supplyNum}}
+        	<span v-if="item.supplyUnit === 400010">码</span>
+        	<span v-if="item.supplyUnit === 400011">公斤</span>
+        	<span v-if="item.supplyUnit === 400012">条</span>
+        	<span v-if="item.supplyUnit === 400013">吨</span>
+        </span>
+        <span class="time">{{item.createDate | customTime}}</span>
       </p>
     </div>
-    <p class="supply-item-title">大量供应，有多少要多少大量供应，有多少要多少大量求购，有多少要多少啊啊啊啊啊啊
+    <p class="supply-item-title" :title="item.supplyDesc">{{item.supplyDesc}}
     </p>
     <div class="supply-item-company">
-      <img class="company-avatar">
-      <span class="company-name">福建坐视布管蕾丝花边福建坐视布管蕾丝花边</span>
+      <img :src="item.userHeadIcon" class="company-avatar" />
+      <span class="company-name">{{item.username}}</span>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+	props: {
+		item: {}
+	}
+};
 </script>
 
 <style lang="stylus" scoped>
 .supply-item
   box-sizing border-box
   width 232px
-  height 354px
+  height 335px
   padding 16px
   background #fff
   border 1px solid #d8d8d8
@@ -63,10 +73,11 @@ export default {};
     position relative
     margin 16px 0
     width 200px
-    height 50px
+    height 25px
     line-height 25px
     overflow hidden
     text-overflow ellipsis
+    white-space nowrap
 
   .supply-item-company
     padding 6px 0
