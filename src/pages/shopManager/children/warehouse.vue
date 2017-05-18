@@ -16,13 +16,13 @@
     <div class="warehouse-filter">
       <ts-filter title="分类">
         <ts-radio-group v-model="Filter.publishStatuss" @change="handleFilterPublishStatus">
-          <ts-radio label=null>全部</ts-radio>
+          <ts-radio label='all'>全部</ts-radio>
           <ts-radio :label="item.dicValue" :key="item.value" v-for="item in DICT.PublishStatus">{{item.label}}</ts-radio>
         </ts-radio-group>
       </ts-filter>
       <ts-filter title="面料种类">
         <ts-radio-group v-model="Filter.categorys" @change="handleFilterCategorys">
-          <ts-radio label="">全部</ts-radio>
+          <ts-radio label='all'>全部</ts-radio>
           <ts-radio :label="item.dicValue" :key="item.value" v-for="item in dicTree.PRODUCT_TYPE">{{item.name}}</ts-radio>
         </ts-radio-group>
       </ts-filter>
@@ -269,7 +269,7 @@ export default {
     },
     // 添加“分类”条件搜索
     async handleFilterPublishStatus(e) {
-      this.Params.publishStatuss = e;
+      this.Params.publishStatuss = e === 'all' ? null : e;
       this.productList = (await getProductList(this.Params)).data.data;
     },
     // 添加“面料”条件搜索

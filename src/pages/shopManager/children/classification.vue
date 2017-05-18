@@ -61,7 +61,7 @@
     </ts-menu>
   </ts-section>
   <!-- 新增分类 -->
-  <ts-dialog v-model="Classification.newDialog" title="新增分类" @confirm="handleNew('newClassification')" @cancel="closeNew" width="30%" v-if="false">
+  <ts-dialog v-model="Classification.newDialog" title="新增分类" @confirm="handleNew('newClassification')" @cancel="closeNew" width="30%">
     <ts-form :model="Classification" :rules="rules" ref="newClassification">
       <ts-form-item prop="text">
         <ts-input autofocus v-model="Classification.text" placeholder="请输入分类名称，限定8个字以内" :maxlength="8"></ts-input>
@@ -69,14 +69,14 @@
     </ts-form>
   </ts-dialog>
   <!-- 花型加入 -->
-  <ts-dialog v-model="ConfirmDialog.show" width="30%" title="提示" @cancel="handleCancelBind" @confirm="handleBind" class="classification-dialog" v-if="false">
+  <ts-dialog v-model="ConfirmDialog.show" width="30%" title="提示" @cancel="handleCancelBind" @confirm="handleBind" class="classification-dialog">
     <p class="classification-dialog--title">确认将选中花型加入&nbsp;{{Params.classId | filterClassName(ProductCategory)}}&nbsp;分类</p>
     <p>
       <ts-radio @change.native="handleNoShowDialog" type="origin" v-model="ConfirmDialog.noShowDialog" label="0"><span class="classification-dialog--tip">不再提示<i>(一款花型可以加入自定义分类)</i></span></ts-radio>
     </p>
   </ts-dialog>
   <!-- 编辑分类 -->
-  <ts-dialog v-model="Classification.editDialog" class="classification-edit-dialog" title="编辑分类" @cancel="closeEdit" @confirm="handleEdit" :width="getColumnCount*30+'%'" v-if="false">
+  <ts-dialog v-model="Classification.editDialog" class="classification-edit-dialog" title="编辑分类" @cancel="closeEdit" @confirm="handleEdit" :width="getColumnCount*30+'%'">
     <div class="classification-edit-dialog--column" :style="{'column-count':getColumnCount}">
       <div class="classification-edit-dialog--item onepx-b" v-for="(item,index) in Classification.userCategory">
         <ts-input style="width:230px" :value="item.className" @input="handleInput(item,$event)"></ts-input>
@@ -412,7 +412,7 @@ export default {
     @modifier item{
       padding:14px 0;
       i{
-        margin-left:14px;
+        margin-left:8px;
         cursor: pointer;
         transition: .5s;
         &:hover{

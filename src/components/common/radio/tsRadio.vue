@@ -1,7 +1,7 @@
 <template>
-<label :class="[{'is-active':model===label},{'is-disbaled':isDisabled},{'is-origin':type==='origin'}]" class="ts-radio" v-if="type!=='origin'">
+<label :class="[{'is-active':model==label},{'is-disbaled':isDisabled},{'is-origin':type==='origin'}]" class="ts-radio" v-if="type!=='origin'">
     <input type="radio" :value="label" :name="name" v-model="model" :disabled="isDisabled" class="ts-radio-input">
-    <span :style="value===label?activeStyle:null" class="ts-radio--inner">
+    <span :style="value==label?activeStyle:null" class="ts-radio--inner">
       <slot></slot>
     </span>
 </label>
