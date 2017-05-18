@@ -53,9 +53,8 @@ export default {
         color #fff
         background #3385ff
 </style>
-<style lang="scss">
+<style lang="css">
 @import './common/css/font.css';
 @import 'static/css/pc_reset.css';
-// 1px结局
-@import './common/css/1px.scss';
+@import './common/css/1px.css';
 </style>
