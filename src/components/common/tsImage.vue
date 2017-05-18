@@ -54,42 +54,6 @@ export default {
       default: true
     }
   },
-  // directives: {
-  //   'loadImage': {
-  //     bind(el, binding, vnode) {
-  //       let img = new Image();
-  //       img.src = el.dataset.src;
-  //       el.style.cssText = 'transition:"";opacity: 0';
-  //       img.onload = function() {
-  //         if (img.complete) {
-  //           el.src = img.src;
-  //           el.removeAttribute('data-src');
-  //           el.style.cssText = 'transition:.5s;opacity: 1';
-  //         }
-  //       };
-  //       img.onerror = function() {
-  //         // TODO:加一个错误图片
-  //       };
-  //     },
-  //     update(el, binding) {
-  //       let img = new Image();
-  //       img.src = el.dataset.src;
-  //       if (!img.src) {
-  //         el.style.cssText = 'transition:"";opacity: 0';
-  //         img.onload = function() {
-  //           if (img.complete) {
-  //             el.src = img.src;
-  //             el.removeAttribute('data-src');
-  //             el.style.cssText = 'transition:.5s;opacity: 1';
-  //           }
-  //         };
-  //         img.onerror = function() {
-  //           // TODO:加一个错误图片
-  //         };
-  //       }
-  //     }
-  //   }
-  // },
   methods: {
     doClose() {
       this.$el.style.zIndex = 0;
@@ -172,23 +136,6 @@ export default {
         backface-visibility: hidden;
         background: #fff;
       }
-    }
-    @descendent check{
-      position: absolute 0 0 0 0;
-      width: 100%;
-      height: 100%;
-      color: red;
-      @modifier side{
-        position: absolute 4px * * 4px;
-      }
-    }
-    @descendent bottom{
-      position: absolute * 0 0 0;
-      line-height: 28px;
-      text-align: center;
-      cursor: pointer;
-      transition: 0.3s;
-      color: var(--imageColor) var(--imageBtBg);
     }
   }
 }

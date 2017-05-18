@@ -26,41 +26,39 @@
     </div>
     <!--列表  -->
     <!-- 表格 -->
-    <div class="classification-table">
-      <ts-menu :prop="BindingProductList.list">
-        <ts-checkbox-group v-model="chooseItem">
-          <ts-menu-table v-for="(item,index) in BindingProductList.list" :key="item.id">
-            <div slot="header-left">
-              <ts-checkbox :label="item.id">#{{item.productNo}}&nbsp{{item.category | filterDict(dicTree.PRODUCT_SHAPE)}}</ts-checkbox>
-            </div>
-            <div slot="header-right">
-              状态：
-              <span v-if="!item.classList.length">无</span>
-              <span class="classification-table--classList" v-for="i in item.classList">{{i}}</span>
-            </div>
-            <ts-menu-table-item width="600" class="classification-table--avatar">
-              <ts-image width="80" height="80" :src="item.picsUrl"></ts-image>
-            </ts-menu-table-item>
-            <!-- Price -->
-            <ts-menu-table-item>
-              <span v-if="item.price>0">{{item.price}}元/{{item.priceUnit|filterDict(dicTree.PRODUCT_UNIT,'name')}}</span>
-              <span v-else>价格面议</span>
-            </ts-menu-table-item>
-            <!-- 操作 -->
-            <ts-menu-table-item>
-              <template v-if="Params.unbinding">
-              <a class="classification-table--link" @click="handleShowDialog(item.id)">加</a>
-              </template>
-              <template v-else>
-              <a class="classification-table--link" @click="handleUpMoveProductList(item,index)" v-if="index!==0">上</a>
-              <a class="classification-table--link" @click="handleDownMoveProductList(item,index)" v-if="index!==BindingProductList.list.length-1">下</a>
-              <a class="classification-table--link" @click="handleUnbindProduct({ids:item.bandId,unbinding:true,classId:Params.classId})">删</a>
+    <ts-menu :prop="BindingProductList.list">
+      <ts-checkbox-group v-model="chooseItem">
+        <ts-menu-table v-for="(item,index) in BindingProductList.list" :key="item.id">
+          <div slot="header-left">
+            <ts-checkbox :label="item.id">#{{item.productNo}}&nbsp{{item.category | filterDict(dicTree.PRODUCT_SHAPE)}}</ts-checkbox>
+          </div>
+          <div slot="header-right">
+            状态：
+            <span v-if="!item.classList.length">无</span>
+            <span class="classification-table--classList" v-for="i in item.classList">{{i}}</span>
+          </div>
+          <ts-menu-table-item width="580" class="classification-table--avatar">
+            <ts-image width="80" height="80" :src="item.picsUrl"></ts-image>
+          </ts-menu-table-item>
+          <!-- Price -->
+          <ts-menu-table-item>
+            <span v-if="item.price>0">{{item.price}}元/{{item.priceUnit|filterDict(dicTree.PRODUCT_UNIT,'name')}}</span>
+            <span v-else>价格面议</span>
+          </ts-menu-table-item>
+          <!-- 操作 -->
+          <ts-menu-table-item>
+            <template v-if="Params.unbinding">
+            <a class="classification-table--link" @click="handleShowDialog(item.id)"><i class="icon-fangda"></i></a>
             </template>
-            </ts-menu-table-item>
-          </ts-menu-table>
-        </ts-checkbox-group>
-      </ts-menu>
-    </div>
+            <template v-else>
+            <a class="classification-table--link" @click="handleUpMoveProductList(item,index)" v-if="index!==0"><i class="icon-yishang"></i></a>
+            <a class="classification-table--link" @click="handleDownMoveProductList(item,index)" v-if="index!==BindingProductList.list.length-1"><i class="icon-xiayi"></i></a>
+            <a class="classification-table--link" @click="handleUnbindProduct({ids:item.bandId,unbinding:true,classId:Params.classId})"><i class="icon-shanchu_hui"></i></a>
+          </template>
+          </ts-menu-table-item>
+        </ts-menu-table>
+      </ts-checkbox-group>
+    </ts-menu>
   </ts-section>
   <!-- 新增分类 -->
   <ts-dialog v-model="Classification.newDialog" title="新增分类" @confirm="handleNew('newClassification')" @cancel="closeNew" width="30%">
@@ -78,13 +76,13 @@
     </p>
   </ts-dialog>
   <!-- 编辑分类 -->
-  <ts-dialog v-model="Classification.editDialog" class="classification-edit-dialog" title="编辑分类" @cancel="closeEdit" @confirm="handleEdit" :width="getColumnCount*30+'%'">
+  <ts-dialog v-model="Classification.editDialog" class="classification-edit-dialog" title="编辑分类" @cancel="closeEdit" @close="closeEdit" @confirm="handleEdit" :width="getColumnCount*30+'%'">
     <div class="classification-edit-dialog--column" :style="{'column-count':getColumnCount}">
       <div class="classification-edit-dialog--item onepx-b" v-for="(item,index) in Classification.userCategory">
         <ts-input style="width:230px" :value="item.className" @input="handleInput(item,$event)"></ts-input>
-        <i @click="handleUpMoveCategory(item,index)" v-if="index!==0">上</i>
-        <i @click="handleDownMoveCategory(item,index)" v-if="index!==Classification.userCategory.length-1">下</i>
-        <i @click="handleDelCategory(item)">删</i>
+        <i @click="handleUpMoveCategory(item,index)" v-if="index!==0"><i class="icon-yishang"></i></i>
+        <i @click="handleDownMoveCategory(item,index)" v-if="index!==Classification.userCategory.length-1"><i class="icon-xiayi"></i></i>
+        <i @click="handleDelCategory(item)"><i class="icon-shanchu_hui"></i></i>
       </div>
     </div>
   </ts-dialog>
@@ -163,6 +161,9 @@ export default {
       }
     };
   },
+  beforeDestroy() {
+    sessionStorage.setItem('classification-filter', JSON.stringify(this.Params.classId));
+  },
   watch: {
     // 每当Params发生变化都会请求数据
     Params: {
@@ -192,10 +193,6 @@ export default {
   },
   computed: {
     ...mapGetters(['dicTree']),
-    // 由于params.binding如果为false显示已绑定的数据跟我的checkbox相反
-    paramsBind() {
-      return !this.Params.unbinding;
-    },
     // 编辑分类的对话框：超过8个显示2列，否则1列
     getColumnCount() {
       return this.Classification.userCategory.length > 8 ? 2 : 1;
@@ -209,25 +206,21 @@ export default {
     async index() {
       // 系统分类
       this.Classification.systemCategory = (await listSystemProductCategory()).data.data;
-      this.Params.classId = this.Classification.systemCategory[0].id;
+      this.Params.classId = !sessionStorage.getItem('classification-filter') ? this.Classification.systemCategory[0].id : JSON.parse(sessionStorage.getItem('classification-filter'));
       // 用户分类
       // XXX:PC端做不了分页 只能传一个很高的数字去获取
       this.Classification.userCategory = (await listUserProductCategory({
         pageNo: 1,
         pageSize: 1000
       })).data.data.list;
-      // 获取分类的列表
-      // this.BindingProductList = (await getBindingProductlist(this.Params)).data.data;
     },
     // 分页处理
     // =========
     async handleChangeCurrent(current) {
       this.Params.pageNo = current;
-      // this.BindingProductList = (await getBindingProductlist(this.Params)).data.data;
     },
     async handleChangePageSize(size) {
       this.Params.pageSize = size;
-      // this.BindingProductList = (await getBindingProductlist(this.Params)).data.data;
     },
     // 花型：上移
     handleUpMoveProductList(item, index) {
@@ -381,11 +374,9 @@ export default {
         }
       }
       &:after{
-        position: absolute;
-        height: 80%;
+        /*position: absolute;*/
         content: "|";
-        width: 1px;
-        right: -3px;
+        margin-left: 4px;
         transform: translate(-50%,0);
       }
     }
@@ -421,7 +412,7 @@ export default {
     @modifier item{
       padding:14px 0;
       i{
-        margin-left:14px;
+        margin-left:8px;
         cursor: pointer;
         transition: .5s;
         &:hover{

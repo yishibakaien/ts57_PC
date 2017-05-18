@@ -27,12 +27,15 @@
             </ts-radio>
             <i class="add-radio-close" @click.self="handleDelIngredient(item,'Ingredient')" v-if="item.ingredientType=== 1">&times</i>
           </div>
-          <!-- 新增的成分 -->
-            <ts-radio :label="item.ingredientName" :key="item.ingredientName" v-for="(item,index) in newIngredients">
+          <div class="add-radio" v-for="(item,index) in newIngredients">
+            <ts-radio :label="item.ingredientName">
               <span contenteditable="plaintext-only" @keydown="handlePreventInput" @keyup="handleInputIngredient(item,$event)">
               {{item.ingredientName}}  </span>
-              <i class="add-radio-close" @click.self="handleDelIngredient(item,'newIngredient')">&times</i>
             </ts-radio>
+            <i class="add-radio-close" @click.self="handleDelIngredient(item,'newIngredient')">&times</i>
+          </div>
+          <!-- 新增的成分 -->
+
             <ts-input :validateEvent="false" placeholder="自定义成分" @keyup.enter.native="handleAddIngredient" class="add-input" v-model="EditIngredient.newIngredient" @input="handleInputAddIngredient" v-clickoutside="handleAddIngredient"></ts-input>
           </div>
         </ts-radio-group>
@@ -47,7 +50,7 @@
         <ts-radio :label="item.dicValue" :key="item.dicValue" v-for="item in DICT.isStock" type="origin">{{item.label}}</ts-radio>
       </ts-radio-group>
       <ts-form-item prop="stock" labelWidth="0" v-if="addPatternForm.isStock===1" class="add-dynamic--input">
-          <ts-input v-model="addPatternForm.stock" style="width:150px" placeholder="请输入库存数量"></ts-input>
+          <ts-input v-model="addPatternForm.stock" :maxlength="9" style="width:150px" placeholder="请输入库存数量"></ts-input>
           <ts-select style="width:20%" data-key-name="name" data-val-name="dicValue" placeholder="选择单位" :options='CopyDICTUnit' v-model="addPatternForm.stockUnit"></ts-select>
       </ts-form-item>
     </ts-form-item>
@@ -116,7 +119,7 @@ export default {
       },
       rules: {
         price: [{
-          pattern: /^[-+]?\d*[.]?\d{0,2}$/,
+          pattern: /^[+]?\d*[.]?\d{0,2}$/,
           message: '请输入正确的价格'
         }],
         productNo: [{
@@ -144,16 +147,16 @@ export default {
           message: '请至少选择一个大货类型'
         }],
         width: [{
-          pattern: /^[-+]?\d*[.]?\d{0,9}$/,
+          pattern: /^[+]?\d*[.]?\d{0,9}$/,
           message: '请输入正确的幅宽'
         }],
         stock: [{
-          pattern: /^[-+]?\d*[.]?\d{0,9}$/,
+          pattern: /^[0-9]*[1-9][0-9]*$/,
           message: '请输入正确的库存数量',
           required: true
         }],
         height: [{
-          pattern: /^[-+]?\d*[.]?\d{0,9}$/,
+          pattern: /^[+]?\d*[.]?\d{0,9}$/,
           message: '请输入正确的花高'
         }],
         picsUrl: [{
@@ -162,7 +165,7 @@ export default {
           trigger: 'change'
         }],
         outRate: [{
-          pattern: /^[-+]?\d*[.]?\d{0,9}$/,
+          pattern: /^[+]?\d*[.]?\d{0,9}$/,
           message: '请输入正确的出码率'
         }]
       },
@@ -270,11 +273,11 @@ export default {
   },
   mixins: [Emitter],
   methods: {
-    async handleClickoutside(item) {
+    async handleClickoutside() {
       if (this.EditIngredient.isTyping) {
         let res = await updateIngredient({
           id: this.EditIngredient.content.id,
-          ingredientName: this.EditIngredient.content.ingredientName.trim()
+          ingredientName: this.EditIngredient.content.ingredientName
         });
         // 最多8个字 => 如果报错就会恢复之前的名字
         if (res.data.code === 1004001) {
@@ -284,7 +287,6 @@ export default {
           this.$toast(res.data.message);
         }
         this.EditIngredient.isTyping = !this.EditIngredient.isTyping;
-        console.log(this.EditIngredient.isTyping);
       }
     },
     handlePreventInput(event) {
@@ -297,9 +299,13 @@ export default {
       // 正在记录写的内容
       this.EditIngredient.isTyping = true;
       this.EditIngredient.content = {
-        ingredientName: event.target.innerText,
+        ingredientName: event.target.innerText.trim(),
         id: item.id
       };
+      // 输入空白格的时候要去掉空白格的内容
+      if (event.which === 32) {
+        event.target.innerText = event.target.innerText.trim();
+      }
       // enter就提交
       if (event.which === 13) {
         event.preventDefault();
@@ -433,14 +439,14 @@ export default {
   @component radio {
     display: inline-block;
     position: relative;
-    &+label {
+    /*&+label {
       margin-left: 20px;
-    }
+    }*/
     @descendent close {
       position: absolute 0 * * -8px;
       border-radius: 50%;
       text-align: center;
-      font-size: 14px;
+      line-height: 1;
       cursor: pointer;
       background: var(--add-radio-close-bg);
       color: var(--add-radio-close-color);

@@ -18,7 +18,6 @@ import supplyListPage from './homePage/supplyListPage/supplyListPage';
 // 供应详情页
 import supplyDetailPage from './homePage/supplyListPage/supplyDetailPage';
 
-import findPage from './findPage/findPage';
 import threeDDressPage from './threeDDressPage/threeDDressPage';
 import personalCenterPage from './personalCenterPage/personalCenterPage';
 
@@ -30,7 +29,6 @@ import forgotPasswordPage from './formPages/forgotPasswordPage/forgotPasswordPag
 export {
   homePage,
   textSearchResultPage,
-  findPage,
   threeDDressPage,
   personalCenterPage,
   loginPage,

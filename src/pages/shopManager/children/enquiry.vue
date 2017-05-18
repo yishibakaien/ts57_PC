@@ -3,7 +3,7 @@
     <ts-section>
       <div slot="menu">
         <ts-input style="width:40%" placeholder="输入手机号码/姓名/花型编号查询" v-model="Params.keywords">
-          <ts-button slot="append" size="small" @click="handleSearch">O</ts-button>
+          <ts-button slot="append" size="small" @click="handleSearch"><i class="icon-sousuo"></i></ts-button>
         </ts-input>
       </div>
         <ts-table :data="EnquiryList.list">
@@ -39,10 +39,6 @@
           <div class="right">{{enquiryEskUser.companyName}}</div>
           <div class="left">企业类型：</div>
           <div class="right">{{enquiryEskUser.companyType|filterDict(DICT.userType)}}</div>
-          <div class="left">负责人：</div>
-          <div class="right">{{enquiryEskUser.companyPerson}}</div>
-          <div class="left">联系电话：</div>
-          <div class="right">{{enquiryEskUser.userMobile}}</div>
           <div class="left">详细地址：</div>
           <div class="right">{{enquiryEskUser.address}}</div>
           <div class="left"></div>

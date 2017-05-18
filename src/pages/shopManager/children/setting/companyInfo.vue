@@ -5,9 +5,6 @@
     </div>
     <ts-form :model="companyInfoForm" :rules="rules" ref="companyInfoForm" label-width="125px" label-position="left" class="companyInfo-container">
       <div class="companyInfo-container-col">
-        <ts-form-item label="商家id:">
-          <p class="companyInfo-formItem-text">{{companyInfoForm.id}}</p>
-        </ts-form-item>
         <ts-form-item label="公司名称：" prop="companyName">
           <p v-if="Text.show" class="companyInfo-formItem-text">{{companyInfoForm.companyName}}</p>
           <ts-input v-else v-model="companyInfoForm.companyName" style="width:250px"></ts-input>
@@ -16,8 +13,12 @@
           <p class="companyInfo-formItem-text" v-if="Text.show">{{companyInfoForm.contactTel}}</p>
           <ts-input v-else v-model="companyInfoForm.contactTel" style="width:250px"></ts-input>
         </ts-form-item>
+        <ts-form-item label="公司主营：" prop="companyBusiness">
+          <p v-if="Text.show" class="companyInfo-formItem-text">{{companyInfoForm.companyExtendBO.companyBusiness}}</p>
+          <ts-input v-else v-model="companyInfoForm.companyExtendBO.companyBusiness" style="width:250px"></ts-input>
+        </ts-form-item>
         <ts-form-item label="店铺头像：" prop="companyHeadIcon">
-          <ts-image width="90" height="90" :src="companyInfoForm.companyHeadIcon" v-show="Pic.avatar.show"></ts-image>
+          <ts-image width="90" height="90" :src="companyInfoForm.companyHeadIcon"></ts-image>
             <label class="companyInfo-upload-button" v-if="!Text.show">
               {{Pic.avatar.text}}
               <ts-aliupload :id="Pic.avatar.id" @doUpload="uploadAvatar"></ts-aliupload>
@@ -37,19 +38,25 @@
           <ts-input v-else v-model="companyInfoForm.fax" style="width:250px"></ts-input>
         </ts-form-item>
         <ts-form-item label="店招：" prop="companyBanner">
-          <ts-image width="224" height="112" :src="companyInfoForm.companyBanner" v-show="Pic.banner.show"></ts-image>
+          <ts-image width="224" height="112" :src="companyInfoForm.companyBanner"></ts-image>
             <label class="companyInfo-upload-button" v-if="!Text.show">
               {{Pic.banner.text}}
               <ts-aliupload :id="Pic.banner.id" @doUpload="uploadBanner"></ts-aliupload>
             </label>
         </ts-form-item>
       </div>
+      <div style="width:90%">
+        <ts-form-item label="公司简介：" prop="companyProfile">
+          <p v-if="Text.show" class="companyInfo-formItem-text">{{companyInfoForm.companyProfile}}</p>
+          <ts-input v-else type="textarea" :rows="2" :maxlength='50' v-model="companyInfoForm.companyProfile" placeholder="请输入公司简介（最多50个字）"></ts-input>
+        </ts-form-item>
+      </div>
       <ts-form-item label="厂家风采：" prop="productPicUrl" style="width:100%">
-        <div class="companyInfo-views-container" v-for="(item,index) in companyInfoForm.companyPic" :key="item">
-          <ts-image width="120" height="120" class="companyInfo-views-img" :src="item"></ts-image>
+        <div class="companyInfo-views-container" v-for="(item,index) in companyInfoForm.presence" :key="item">
+          <ts-image width="120" height="120" class="companyInfo-views-img" :src="item.picUrl"></ts-image>
           <i class="companyInfo-views-close" @click.self="handleDelViews(item,index)" v-if="!Text.show">&times</i>
         </div>
-        <label class="companyInfo-upload-button companyInfo-plus-img" v-if="!Text.show,companyInfoForm.companyPic.length<9">
+        <label class="companyInfo-upload-button companyInfo-plus-img" v-if="!Text.show&&companyInfoForm.presence.length<9">
           <!-- {{Pic.banner.text}} -->
           <ts-aliupload :id="Pic.views.id" @doUpload="uploadViews"></ts-aliupload>
         </label>
@@ -76,9 +83,12 @@ export default {
       companyInfoForm: {
         companyBanner: '',
         fax: '',
+        companyExtendBO: {
+          companyBusiness: ''
+        },
         companyAbbreviation: '',
         phone: '',
-        companyPic: [],
+        presence: [],
         companyHeadIcon: '',
         contactTel: '',
         companyName: ''
@@ -120,7 +130,7 @@ export default {
     async editCompany() {
       this.Text.show = !this.Text.show;
       if (this.Text.show) {
-        let res = await updateCompany(this.companyInfo);
+        let res = await updateCompany(this.companyInfoForm);
         !res.data.code ? await this.$store.dispatch('getCompanyInfo') : '';
       }
     },
@@ -134,18 +144,21 @@ export default {
     },
     // 上传厂家风采
     uploadViews(e) {
-      this.companyInfoForm.companyPic.push(ALI_DOMAIN + e.ossUrl[e.ossUrl.length - 1]);
+      this.companyInfoForm.presence.push({
+        picUrl: ALI_DOMAIN + e.ossUrl[e.ossUrl.length - 1],
+        picName: e.ossUrl[e.ossUrl.length - 1]
+      });
     },
     // 删除厂家风采图片
     handleDelViews(item, index) {
       this.$messagebox.confirm('确定删除该图片吗？').then(action => {
-        this.companyInfoForm.companyPic.splice(index, 1);
+        this.companyInfoForm.presence.splice(index, 1);
       });
     }
   },
   watch: {
     companyInfo(val) {
-      this.companyInfoForm = val;
+      this.companyInfoForm = Object.assign({}, val);
     },
     // 店招变化时候
     'companyInfoForm.companyHeadIcon' (val) {
@@ -158,7 +171,7 @@ export default {
       this.Pic.banner.show = !!val;
     },
     // 风采时候
-    'companyInfoForm.companyPic' (val) {
+    'companyInfoForm.presence' (val) {
       this.Pic.views.text = val ? '修改风采' : '添加风采';
       this.Pic.views.show = !!val;
     }
@@ -182,7 +195,7 @@ export default {
       position: relative;
     }
     @descendent close{
-      position: absolute -8px * * -8px;
+      position: absolute -6px * * -6px;
       border-radius: 50%;
       text-align: center;
       font-size: 14px;

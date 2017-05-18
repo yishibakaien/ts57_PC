@@ -1,5 +1,5 @@
 'use strict';
-import { baseURL, headers } from '../config/config';
+import {baseURL, headers} from '../config/config';
 import store from '../../store/store';
 import * as types from '../../store/types';
 import axios from 'axios';
@@ -9,133 +9,133 @@ import Toast from '@/components/common/toast/toast';
 axios.defaults.baseURL = '/api';
 
 const API = {
-	// 用户模块API
-	user: {
-		reg: '/front/user/reg', // 注册
-		login: '/front/user/login', // 登录
-		checkPhone: '/front/user/checkPhone', // 检查手机号码是否存在
-		changeMobile: '/user/changeMobile', // 修改手机号码
-		updateUser: '/user/updateUser', // 修改用户信息
-		restPasswd: '/user/restPasswd', // 修改密码
-		checkPasswd: '/user/checkPasswd', // 校验密码
-		changeSMSCode: '/user/changeSMSCode', // 获取修改手机短信
-		getVerifyCode: '/front/user/getVerifyCode', // 获取图片验证码
-		getFindSMSCode: '/front/user/getFindSMSCode', // 获取找回短信
-		getRegSMSCode: '/front/user/getRegSMSCode', // 获取注册短信
-		getUserInfo: '/user/getUserInfo', // 获取用户最新信息
-		getMsgSetting: '/msg/getMsgSetting', // 获取短信设置
-		setMsg: '/msg/setMsg' // 设置短信开关
-	},
-	// 首页
-	home: {
-		listHomeBanners: '/homeBanner/listHomeBanners', // 首页banner
-		findNewCompanyByIndex: '/company/findNewCompanyByIndex', // 获取最新入驻厂家列表
-		qualityCompanyList: '/company/qualityCompanyList' // 获取优质厂家
-	},
-	// 搜索
-	search: {
-		search: '/product/search' // 文本搜索
-	},
-	// 供应求购
-	buy: {
-		listProductBuys: '/productBuy/listHomeProductBuys', // 获取求购列表
-		getCompanySupply: '/companySupply/getCompanySupply', // 供应详情
-		closeProductBuy: '/productBuy/closeProductBuy', // 关闭求购
-		deleteCompanySupply: '/companySupply/deleteCompanySupply', // 删除供应
-		deleteBuyTask: '/buyTask/deleteBuyTask', // 删除接单
-		deleteProductBuy: '/productBuy/deleteProductBuy', // 删除求购
-		releaseProductBuy: '/productBuy/releaseProductBuy', // 发布求购
-		cancelBuyTask: '/buyTask/cancelBuyTask', // 取消接单
-		finishProductBuy: '/productBuy/finishProductBuy', // 完成接单
-		orderBuyTask: '/buyTask/orderBuyTask', // 接单
-		getBuyTask: '/buyTask/getBuyTask', // 接单详情
-		getProductBuy: '/productBuy/getProductBuy', // 求购详情
-		listCompanySupplys: '/companySupply/listHomeCompanySupplys', // 获取供应列表
-		listBuyTask: '/buyTask/listBuyTask', // 获取接单列表
-		myProductBuys: '/productBuy/myProductBuys', // 获取我的求购列表
-		listBuyTaskByBuyId: '/buyTask/listBuyTaskByBuyId' // 获取求购单接单列表
-	},
-	// 收藏管理
-	collection: {
-		batchCancel: '/favorite/batchCancel', // 批量取消收藏
-		favoriteBus: '/favorite/favoriteBus', // 收藏或取消
-		listSupply: 'favorite/listSupply', // 获取收藏供应列表
-		listCompany: '/favorite/listCompany', // 获取收藏厂家列表
-		listProduct: '/favorite/listProduct' // 获取收藏花型列表
-	},
-	product: {
-		// POST
-		listProducts: '/product/listProducts', // 获取花型列表
-		addProduct: '/product/addProduct', // 新增花型
-		updateProduct: '/product/updateProduct', // 修改花型
-		shelveProduct: '/product/shelveProduct', // 花型上下架
-		deleteProduct: '/product/deleteProduct', // 删除花型
-		getProduct: '/product/getProduct' // 修改成分
-	},
-	// 成分
-	ingredient: {
-		addIngredient: '/ingredient/addIngredient', // 自定义成分
-		deleteIngredient: '/ingredient/deleteIngredient', // 删除成分
-		listIngredients: '/ingredient/listIngredients', // 获取成分列表
-		updateIngredient: '/ingredient/updateIngredient' // 修改成分
-	},
-	// 供应
-	companySupply: {
-		closeCompanySupply: '/companySupply/closeCompanySupply', // 关闭供应
-		releaseCompanySupply: '/companySupply/releaseCompanySupply', // 发布供应
-		listMyCompanySupplys: '/companySupply/listMyCompanySupplys', // 我的供应列表
-		getCompanySupply: '/companySupply/getCompanySupply', // 供应详情
-		getSupplyByFavList: '/companySupply/getSupplyByFavList' // 获取供应收藏人列表
-	},
-	// 素材库
-	albumPic: {
-		listAlbumPics: '/albumPic/listAlbumPics', // 获取素材库图片列表
-		addAlbumPic: '/albumPic/addAlbumPic', // 素材库上传图片
-		getAlbum: '/album/getAlbum', // 查询素材库id
-		deleteAlbumPic: '/albumPic/deleteAlbumPic' // 删除素材库图片,
-	},
-	// 花型分类
-	productCategory: {
-		listSystemProductCategory: '/productCategory/listSystemProductCategory', // 系统定义花型分类列表
-		deleteProductCategory: '/productCategory/deleteProductCategory', // 删除花型分类
-		listUserProductCategory: '/productCategory/listUserProductCategory', // 自定义花型分类列表
-		addProductCategory: '/productCategory/addProductCategory', // 新增花型分类
-		updateProductCategory: '/productCategory/updateProductCategory', // 修改花型分类
-		sortProductCategory: '/productCategory/sortProductCategory', // 花型分类排序
-		listBindingProduct: '/productCategoryBanding/listBindingProduct', // 获取分类绑定的花型列表
-		bindingProduct: '/productCategoryBanding/bindingProduct', // 花型分类绑定解绑
-		sortBindingProduct: '/productCategoryBanding/sortBindingProduct' // 分类中的花型排序
-	},
-	// 公司
-	company: {
-		getCompanyInfo: '/company/getCompanyInfo', // 获取档口OR工厂信息
-		updateCompany: '/company/updateCompany', // 修改工厂或档口信息
-		getCompanyAptitude: '/companyAptitude/getCompanyAptitude', // 查询公司资质信息
-		saveCompanyAptitude: '/companyAptitude/saveCompanyAptitude', // 修改公司资质信息
-		updateCompanyExtend: '/company/updateCompanyExtend' // 修改工厂或档口详细信息
-	},
-	// 数据字典
-	dicTree: {
-		byTypeKey: '/front/dicTree/byTypeKey'
-	},
-	// 地理区域
-	area: {
-		byLevel: '/front/area/byLevel',
-		byParent: '/front/area/byParent'
-	},
-	enquiry: {
-		getEnquiryList: '/enquiry/list', // 询价列表
-		enquiryEskUser: '/enquiry/askUser', // 询价人详情
-		getAskListByProductId: '/enquiry/getAskListByProductId' // 根据产品ID获取询价记录
-	},
-	oss: {
-		token: '/file/token' // OSS_token
-	}
+  // 用户模块API
+  user: {
+    reg: '/front/user/reg', // 注册
+    login: '/front/user/login', // 登录
+    checkPhone: '/front/user/checkPhone', // 检查手机号码是否存在
+    changeMobile: '/user/changeMobile', // 修改手机号码
+    updateUser: '/user/updateUser', // 修改用户信息
+    restPasswd: '/user/restPasswd', // 修改密码
+    checkPasswd: '/user/checkPasswd', // 校验密码
+    changeSMSCode: '/user/changeSMSCode', // 获取修改手机短信
+    getVerifyCode: '/front/user/getVerifyCode', // 获取图片验证码
+    getFindSMSCode: '/front/user/getFindSMSCode', // 获取找回短信
+    getRegSMSCode: '/front/user/getRegSMSCode', // 获取注册短信
+    getUserInfo: '/user/getUserInfo', // 获取用户最新信息
+    getMsgSetting: '/msg/getMsgSetting', // 获取短信设置
+    setMsg: '/msg/setMsg' // 设置短信开关
+  },
+  // 首页
+  home: {
+    listHomeBanners: '/homeBanner/listHomeBanners', // 首页banner
+    findNewCompanyByIndex: '/company/findNewCompanyByIndex' // 获取最新入驻厂家列表
+  },
+  // 搜索
+  search: {
+    search: '/product/search' // 文本搜索
+  },
+  // 供应求购
+  buy: {
+    listProductBuys: '/productBuy/listHomeProductBuys', // 获取求购列表
+    getCompanySupply: '/companySupply/getCompanySupply', // 供应详情
+    closeProductBuy: '/productBuy/closeProductBuy', // 关闭求购
+    deleteCompanySupply: '/companySupply/deleteCompanySupply', // 删除供应
+    deleteBuyTask: '/buyTask/deleteBuyTask', // 删除接单
+    deleteProductBuy: '/productBuy/deleteProductBuy', // 删除求购
+    releaseCompanySupply: '/companySupply/releaseCompanySupply', // 发布供应
+    releaseProductBuy: '/productBuy/releaseProductBuy', // 发布求购
+    cancelBuyTask: '/buyTask/cancelBuyTask', // 取消接单
+    finishProductBuy: '/productBuy/finishProductBuy', // 完成接单
+    orderBuyTask: '/buyTask/orderBuyTask', // 接单
+    getBuyTask: '/buyTask/getBuyTask', // 接单详情
+    getProductBuy: '/productBuy/getProductBuy', // 求购详情
+    listCompanySupplys: '/companySupply/listHomeCompanySupplys', // 获取供应列表
+    listBuyTask: '/buyTask/listBuyTask', // 获取接单列表
+    myProductBuys: '/productBuy/myProductBuys', // 获取我的求购列表
+    listBuyTaskByBuyId: '/buyTask/listBuyTaskByBuyId' // 获取求购单接单列表
+  },
+  // 收藏管理
+  collection: {
+    batchCancel: '/favorite/batchCancel', // 批量取消收藏
+    favoriteBus: '/favorite/favoriteBus', // 收藏或取消
+    listSupply: 'favorite/listSupply', // 获取收藏供应列表
+    listCompany: '/favorite/listCompany', // 获取收藏厂家列表
+    listProduct: '/favorite/listProduct' // 获取收藏花型列表
+  },
+  product: {
+    // POST
+    listProducts: '/product/listProducts', // 获取花型列表
+    addProduct: '/product/addProduct', // 新增花型
+    updateProduct: '/product/updateProduct', // 修改花型
+    shelveProduct: '/product/shelveProduct', // 花型上下架
+    deleteProduct: '/product/deleteProduct', // 删除花型
+    getProduct: '/product/getProduct' // 修改成分
+  },
+  // 成分
+  ingredient: {
+    addIngredient: '/ingredient/addIngredient', // 自定义成分
+    deleteIngredient: '/ingredient/deleteIngredient', // 删除成分
+    listIngredients: '/ingredient/listIngredients', // 获取成分列表
+    updateIngredient: '/ingredient/updateIngredient' // 修改成分
+  },
+  // 供应
+  companySupply: {
+    closeCompanySupply: '/companySupply/closeCompanySupply', // 关闭供应
+    releaseCompanySupply: '/companySupply/releaseCompanySupply', // 发布供应
+    listMyCompanySupplys: '/companySupply/listMyCompanySupplys', // 我的供应列表
+    getCompanySupply: '/companySupply/getCompanySupply', // 供应详情
+    getSupplyByFavList: '/companySupply/getSupplyByFavList' // 获取供应收藏人列表
+  },
+  // 素材库
+  albumPic: {
+    listAlbumPics: '/albumPic/listAlbumPics', // 获取素材库图片列表
+    addAlbumPic: '/albumPic/addAlbumPic', // 素材库上传图片
+    getAlbum: '/album/getAlbum', // 查询素材库id
+    deleteAlbumPic: '/albumPic/deleteAlbumPic' // 删除素材库图片,
+  },
+  // 花型分类
+  productCategory: {
+    listSystemProductCategory: '/productCategory/listSystemProductCategory', // 系统定义花型分类列表
+    deleteProductCategory: '/productCategory/deleteProductCategory', // 删除花型分类
+    listUserProductCategory: '/productCategory/listUserProductCategory', // 自定义花型分类列表
+    addProductCategory: '/productCategory/addProductCategory', // 新增花型分类
+    updateProductCategory: '/productCategory/updateProductCategory', // 修改花型分类
+    sortProductCategory: '/productCategory/sortProductCategory', // 花型分类排序
+    listBindingProduct: '/productCategoryBanding/listBindingProduct', // 获取分类绑定的花型列表
+    bindingProduct: '/productCategoryBanding/bindingProduct', // 花型分类绑定解绑
+    sortBindingProduct: '/productCategoryBanding/sortBindingProduct' // 分类中的花型排序
+  },
+  // 公司
+  company: {
+    getCompanyInfo: '/company/getCompanyInfo', // 获取档口OR工厂信息
+    updateCompany: '/company/updateCompany', // 修改工厂或档口信息
+    getCompanyAptitude: '/companyAptitude/getCompanyAptitude', // 查询公司资质信息
+    saveCompanyAptitude: '/companyAptitude/saveCompanyAptitude', // 修改公司资质信息
+    updateCompanyExtend: '/company/updateCompanyExtend' // 修改工厂或档口详细信息
+  },
+  // 数据字典
+  dicTree: {
+    byTypeKey: '/front/dicTree/byTypeKey'
+  },
+  // 地理区域
+  area: {
+    byLevel: '/front/area/byLevel',
+    byParent: '/front/area/byParent'
+  },
+  enquiry: {
+    getEnquiryList: '/enquiry/list', // 询价列表
+    enquiryEskUser: '/enquiry/askUser', // 询价人详情
+    getAskListByProductId: '/enquiry/getAskListByProductId' // 根据产品ID获取询价记录
+  },
+  oss: {
+    token: '/file/token' // OSS_token
+  }
 };
 
 const METHODS = {
-	get: 'GET',
-	post: 'POST'
+  get: 'GET',
+  post: 'POST'
 };
 
 /**
@@ -147,18 +147,18 @@ const METHODS = {
  * @return {object || string}         格式化后的data
  */
 function _formatData(method, data) {
-	//  console.log('请求data', data);
-	if (!data) {
-		//      console.log('请求data为空', data);
-		return '';
-	}
-	let _data = Object.assign({}, data);
-	if (method === METHODS.get) {
-		//      console.log('get请求data', _data);
-		return _data;
-	} else if (method === METHODS.post) {
-		return JSON.stringify(_data);
-	}
+  //  console.log('请求data', data);
+  if (!data) {
+    //      console.log('请求data为空', data);
+    return '';
+  }
+  let _data = Object.assign({}, data);
+  if (method === METHODS.get) {
+    //      console.log('get请求data', _data);
+    return _data;
+  } else if (method === METHODS.post) {
+    return JSON.stringify(_data);
+  }
 }
 
 /**
@@ -233,79 +233,79 @@ function _fetch(method = METHODS.get, data, url) {
  */
 // 登录
 export function login(data) {
-	// alert('调用fetch');
-	return _fetch(METHODS.post, data, API.user.login);
+  // alert('调用fetch');
+  return _fetch(METHODS.post, data, API.user.login);
 };
 
 // 注册
 export function reg(data) {
-	return _fetch(METHODS.post, data, API.user.reg);
+  return _fetch(METHODS.post, data, API.user.reg);
 };
 
 // 找回密码
 export function findPassWd(data) {
-	return _fetch(METHODS.post, data, API.user.findPassWd);
+  return _fetch(METHODS.post, data, API.user.findPassWd);
 };
 
 // 获取找回密码短信验证码
 export function getFindSMSCode(data) {
-	return _fetch(METHODS.post, data, API.user.getFindSMSCode);
+  return _fetch(METHODS.post, data, API.user.getFindSMSCode);
 };
 
 // 校验密码
 export function checkPasswd(data) {
-	return _fetch(METHODS.post, data, API.user.checkPasswd);
+  return _fetch(METHODS.post, data, API.user.checkPasswd);
 };
 
 // 获取图形验证码
 export function getVerifyCode(data) {
-	return _fetch(METHODS.post, data, API.user.getVerifyCode);
+  return _fetch(METHODS.post, data, API.user.getVerifyCode);
 };
 
 // 修改个人信息
 export function updateUser(data) {
-	return _fetch(METHODS.post, data, API.user.updateUser);
+  return _fetch(METHODS.post, data, API.user.updateUser);
 };
 
 // 获取用户信息
 export function getUserInfo(data) {
-	return _fetch(METHODS.post, data, API.user.getUserInfo);
+  return _fetch(METHODS.post, data, API.user.getUserInfo);
 };
 
 // 检验手机号码是否存在
 export function checkPhone(data) {
-	return _fetch(METHODS.get, data, API.user.checkPhone);
+  return _fetch(METHODS.get, data, API.user.checkPhone);
 };
 
 // 获取注册短信验证码
 export function getRegSMSCode(data) {
-	return _fetch(METHODS.post, data, API.user.getRegSMSCode);
+  return _fetch(METHODS.post, data, API.user.getRegSMSCode);
 };
 /**
  * 首页部分
  */
 // 获取首页banner
 export function listHomeBanners(data) {
-	return _fetch(METHODS.get, data, API.home.listHomeBanners);
+  return _fetch(METHODS.get, data, API.home.listHomeBanners);
 };
 
 // 获取求购列表
 export function listProductBuys(data) {
-	return _fetch(METHODS.get, data, API.buy.listProductBuys);
+  return _fetch(METHODS.get, data, API.buy.listProductBuys);
 }
 
 // 获取供应列表
 export function listCompanySupplys(data) {
-	return _fetch(METHODS.get, data, API.buy.listCompanySupplys);
+  return _fetch(METHODS.get, data, API.buy.listCompanySupplys);
 }
 
 export function findNewCompanyByIndex(data) {
-	return _fetch(METHODS.post, data, API.home.findNewCompanyByIndex);
+  return _fetch(METHODS.post, data, API.home.findNewCompanyByIndex);
 }
 
 // 优质厂家
 export function qualityCompanyList1(data) {
-	return _fetch(METHODS.get, data, API.home.qualityCompanyList);
+  return _fetch(METHODS.get, data, API.home.qualityCompanyList);
 }
 
 /**
@@ -313,7 +313,7 @@ export function qualityCompanyList1(data) {
  */
 // 文本搜索
 export function searchMtd(data) {
-	return _fetch(METHODS.post, data, API.search.search);
+  return _fetch(METHODS.post, data, API.search.search);
 }
 
 /**
@@ -321,79 +321,79 @@ export function searchMtd(data) {
  */
 // 获取修改手机短信
 export function changeSMSCode(data) {
-	return _fetch(METHODS.post, data, API.user.changeSMSCode);
+  return _fetch(METHODS.post, data, API.user.changeSMSCode);
 };
 
 // 设置短信
 export function setMsg(data) {
-	return _fetch(METHODS.post, data, API.user.setMsg);
+  return _fetch(METHODS.post, data, API.user.setMsg);
 };
 
 // 获取短信设置
 export function getMsgSetting(data) {
-	return _fetch(METHODS.get, data, API.user.getMsgSetting);
+  return _fetch(METHODS.get, data, API.user.getMsgSetting);
 };
 
 // 修改手机号
 export function changeMobile(data) {
-	return _fetch(METHODS.post, data, API.user.changeMobile);
+  return _fetch(METHODS.post, data, API.user.changeMobile);
 };
 
 // 修改密码
 export function restPasswd(data) {
-	return _fetch(METHODS.post, data, API.user.restPasswd);
+  return _fetch(METHODS.post, data, API.user.restPasswd);
 };
 
 // 获取接单列表
 export function listBuyTask(data) {
-	return _fetch(METHODS.post, data, API.buy.listBuyTask);
+  return _fetch(METHODS.post, data, API.buy.listBuyTask);
 };
 
 // 获取我的求购列表
 export function myProductBuys(data) {
-	return _fetch(METHODS.post, data, API.buy.myProductBuys);
+  return _fetch(METHODS.post, data, API.buy.myProductBuys);
 };
 
 // 获取收藏花型列表
 export function listProduct(data) {
-	return _fetch(METHODS.post, data, API.collection.listProduct);
+  return _fetch(METHODS.post, data, API.collection.listProduct);
 };
 
 // 获取收藏厂家列表
 export function listCompany(data) {
-	return _fetch(METHODS.post, data, API.collection.listCompany);
+  return _fetch(METHODS.post, data, API.collection.listCompany);
 };
 
 // 获取收藏供应列表
 export function listSupply(data) {
-	return _fetch(METHODS.post, data, API.collection.listSupply);
+  return _fetch(METHODS.post, data, API.collection.listSupply);
 };
 
 // 获取收藏供应各分类统计
 export function countSupply(data) {
-	return _fetch(METHODS.get, data, API.collection.countSupply);
+  return _fetch(METHODS.get, data, API.collection.countSupply);
 };
 
 // 获取收藏花型各分类统计
 export function countProduct(data) {
-	return _fetch(METHODS.get, data, API.collection.countProduct);
+  return _fetch(METHODS.get, data, API.collection.countProduct);
 };
 
 // 收藏或取消
 export function favoriteBus(data) {
-	return _fetch(METHODS.post, data, API.collection.favoriteBus);
+  return _fetch(METHODS.post, data, API.collection.favoriteBus);
 };
 
 // 关闭求购
 export function closeProductBuy(data) {
-	return _fetch(METHODS.post, data, API.buy.closeProductBuy);
+  return _fetch(METHODS.post, data, API.buy.closeProductBuy);
 }
 
 // 获取oss_token
 export function token() {
-	return _fetch(METHODS.post, {
-		fileType: 1
-	}, API.oss.token);
+  return _fetch(METHODS.post, {
+    fileType: 1
+  }, API.oss.token);
 };
 // 获取数据字典
 export const getDicTree = param => _fetch(METHODS.get, param, API.dicTree.byTypeKey);

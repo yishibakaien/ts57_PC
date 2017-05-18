@@ -6,7 +6,6 @@ import store from '../store/store';
 import {
   homePage,
   textSearchResultPage,
-  findPage,
   threeDDressPage,
   personalCenterPage,
   loginPage,
@@ -24,6 +23,7 @@ import {
 
 Vue.use(Router);
 // created By HZC
+const find = r => require.ensure([], () => r(require('@/pages/find/')), 'find');
 const shopManager = r => require.ensure([], () => r(require('@/pages/shopManager/')), 'shopManager');
 const shopManagerMaterial = r => require.ensure([], () => r(require('@/pages/shopManager/children/material')), 'shopManagerMaterial');
 const shopManagerWareHouse = r => require.ensure([], () => r(require('@/pages/shopManager/children/warehouse')), 'shopManagerWareHouse');
@@ -35,81 +35,66 @@ const shopManagerSetting = r => require.ensure([], () => r(require('@/pages/shop
 const shopManagerCooperation = r => require.ensure([], () => r(require('@/pages/shopManager/children/cooperation')), 'shopManagerCooperation');
 const shopManagerClassification = r => require.ensure([], () => r(require('@/pages/shopManager/children/classification')), 'shopManagerClassification');
 const shopManagerAptitude = r => require.ensure([], () => r(require('@/pages/shopManager/children/aptitude')), 'shopManagerAptitude');
-const releasePurchasePage = r => require.ensure([], () => r(require('@/pages/homepage/releasePurchasePage/releasePurchasePage')), 'releasePurchasePage');
+const releasePurchasePage = r => require.ensure([], () => r(require('@/pages/homePage/releasePurchasePage/releasePurchasePage')), 'releasePurchasePage');
 const routes = [
   {
     path: '/',
     redirect: '/homePage'
-  },
-  {
+  }, {
     path: '/homePage',
     component: homePage
-  },
-  {
+  }, {
     path: '/textSearchResultPage',
     component: textSearchResultPage
-  },
-  {
-    path: '/findPage',
-    component: findPage,
+  }, {
+    path: '/find',
+    component: find,
     meta: {
       needAuth: true
     }
-  },
-  {
+  }, {
     path: '/threeDDressPage',
     component: threeDDressPage
-  },
-  {
+  }, {
     path: '/personalCenterPage',
     component: personalCenterPage,
     meta: {
       //          needAuth: true
     }
-  },
-  {
+  }, {
     path: '/releasePurchasePage', // 发布求购
     component: releasePurchasePage,
     meta: {
       needAuth: true
     }
-  },
-  {
-    path: '/purchaseListPage',  // 求购列表
+  }, {
+    path: '/purchaseListPage', // 求购列表
     component: purchaseListPage
-  },
-  {
+  }, {
     path: '/purchaseDetailPage', // 求购详情
     component: purchaseDetailPage
-  },
-  {
+  }, {
     path: '/releaseSupplyPage', // 发布供应
     component: releaseSupplyPage,
     meta: {
       needAuth: true
     }
-  },
-  {
-    path: '/supplyListPage',  // 供应列表
+  }, {
+    path: '/supplyListPage', // 供应列表
     component: supplyListPage
-  },
-  {
-    path: '/supplyDetailPage',  // 供应详情
+  }, {
+    path: '/supplyDetailPage', // 供应详情
     component: supplyDetailPage
-  },
-  {
+  }, {
     path: '/loginPage',
     component: loginPage
-  },
-  {
+  }, {
     path: '/registerPage',
     component: registerPage
-  },
-  {
+  }, {
     path: '/forgotPasswordPage',
     component: forgotPasswordPage
-  },
-  {
+  }, {
     path: '/shopManagePage',
     redirect: '/shopManagePage/warehouse',
     component: shopManager,
@@ -167,11 +152,7 @@ if (localStorage.accessToken) {
   store.dispatch('getDicTree');
 }
 
-const router = new Router({
-	mode: 'history',
-    linkActiveClass: 'active',
-    routes
-});
+const router = new Router({mode: 'history', linkActiveClass: 'active', routes});
 
 // 路由钩子，判断进入的页面是否需要登录 (needAuth)
 router.beforeEach((to, from, next) => {

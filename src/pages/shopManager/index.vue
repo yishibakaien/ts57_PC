@@ -45,7 +45,6 @@ export default {
       }
       @descendent right{
         @neat-span-columns 9;
-        flex:1;
         padding: 24px;
         background: var(--bg);
       }

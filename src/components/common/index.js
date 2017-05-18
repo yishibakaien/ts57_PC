@@ -20,7 +20,11 @@ import tsButton from './tsButton.vue';
 import tsForm from './forms/tsForm.vue';
 import tsFormItem from './forms/tsFormItem.vue';
 import tsPagination from './tsPagation.vue';
+import tsGrid from './card/tsGrid.vue';
+import tsGridItem from './card/tsGridItem.vue';
 const Components = {
+  tsGrid,
+  tsGridItem,
   tsSection,
   tsToast,
   tsRadioGroup,

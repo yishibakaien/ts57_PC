@@ -8,11 +8,11 @@
       <i class="aptitude-container-close" @click.self="handleDelAptitude(item, index)" v-if="Close.isShow">&times</i>
       <ts-image height="200" class="aptitude-img" :src="item" />
     </div>
-    <div class="aptitude-container" v-if="!aptitudeFirm.aptitudeUrl,!Close.isShow">
+    <div class="aptitude-container" v-if="!aptitudeFirm.aptitudeUrl.length&&!Close.isShow">
       暂无资质图片
     </div>
     <label class="aptitude-plus-img" v-if="Close.isShow">
-        <ts-aliupload id="firmApitude" @doUpload="uploadImg"></ts-aliupload>
+        <ts-aliupload :id="Pic.id" @doUpload="upload"></ts-aliupload>
     </label>
   </div>
 </ts-section>
@@ -38,30 +38,34 @@ export default {
       aptitudeFirm: {
         aptitudeUrl: []
       },
+      Pic: {
+        id: 'firmapitude'
+      },
       // 显示关闭的按钮
       showClose: false
     };
   },
   methods: {
     // 上传图片
-    uploadImg(e) {
+    upload(e) {
       // 放到表单
       this.aptitudeFirm.aptitudeUrl.push(ALI_DOMAIN + e.ossUrl[e.ossUrl.length - 1]);
     },
+    // 删除
     handleDelAptitude(item, index) {
       this.$messagebox.confirm('确定删除该图片吗？').then(action => {
         this.aptitudeFirm.aptitudeUrl.splice(index, 1);
       });
     },
+    // 编辑资质图片
     async handleEditAptitude() {
       this.Close.isShow = !this.Close.isShow;
       if (!this.Close.isShow && this.aptitudeFirm.aptitudeUrl) {
-        await saveCompanyAptitude(this.aptitudeFirm);
+        await saveCompanyAptitude({
+          aptitudeUrl: this.aptitudeFirm.aptitudeUrl.toString()
+        });
       }
     }
-  },
-  created() {
-    this.aptitudeFirm.aptitudeUrl = this.aptitude.aptitudeUrl;
   },
   computed: {
     ...mapGetters(['aptitude'])
@@ -70,6 +74,12 @@ export default {
     Close: {
       handler(val) {
         val.buttonText = val.isShow ? '保存' : '编辑';
+      },
+      deep: true
+    },
+    aptitude: {
+      handler(val) {
+        this.aptitudeFirm.aptitudeUrl = !val.aptitudeUrl ? [] : val.aptitudeUrl.split(',');
       },
       deep: true
     }

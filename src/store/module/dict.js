@@ -14,6 +14,8 @@ const mutations = {
         : prev[item.typeKey] = [item];
       return prev;
     }, {});
+    // 对大货类型做筛选
+    result.PRODUCT_SHAPE = result.PRODUCT_SHAPE.filter(item => ['胚布', '成品'].indexOf(item.name) > -1);
     state.dicTree = result;
   }
 };

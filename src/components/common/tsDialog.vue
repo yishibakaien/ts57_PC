@@ -183,7 +183,6 @@ export default {
       }
       @modifier body{
       padding: 20px;
-      font-size: 16px;
     }
       /*@modifier headerbtn{
       float: right;
