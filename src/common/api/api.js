@@ -29,7 +29,8 @@ const API = {
   // 首页
   home: {
     listHomeBanners: '/homeBanner/listHomeBanners', // 首页banner
-    findNewCompanyByIndex: '/company/findNewCompanyByIndex' // 获取最新入驻厂家列表
+    findNewCompanyByIndex: '/company/findNewCompanyByIndex', // 获取最新入驻厂家列表
+    qualityCompanyList: '/company/qualityCompanyList' // 获取优质厂家
   },
   // 搜索
   search: {
@@ -43,7 +44,6 @@ const API = {
     deleteCompanySupply: '/companySupply/deleteCompanySupply', // 删除供应
     deleteBuyTask: '/buyTask/deleteBuyTask', // 删除接单
     deleteProductBuy: '/productBuy/deleteProductBuy', // 删除求购
-    releaseCompanySupply: '/companySupply/releaseCompanySupply', // 发布供应
     releaseProductBuy: '/productBuy/releaseProductBuy', // 发布求购
     cancelBuyTask: '/buyTask/cancelBuyTask', // 取消接单
     finishProductBuy: '/productBuy/finishProductBuy', // 完成接单
@@ -173,7 +173,8 @@ function _fetch(method = METHODS.get, data, url) {
 	if (url === API.user.login) {
 		// 如果是登录的请求则删除掉请求头中的x-token
 		try {
-			//    delete _headers['x-token'];
+			// 不删除无法登录 (bug)
+			delete _headers['x-token'];
 		} catch (e) {}
 	}
 	let param;
@@ -450,6 +451,8 @@ export const closeCompanySupply = param => _fetch(METHODS.post, param, API.compa
 export const getCompanySupply = id => _fetch(METHODS.get, null, `${API.companySupply.getCompanySupply}/${id}`);
 // 发布供应
 export const releaseCompanySupply = param => _fetch(METHODS.post, param, API.companySupply.releaseCompanySupply);
+// 发布求购
+export const releaseProductBuy = param => _fetch(METHODS.post, param, API.buy.releaseProductBuy);
 // 获取素材库图片列表
 export const getAlbumPicsList = param => _fetch(METHODS.post, param, API.albumPic.listAlbumPics);
 // 删除素材库图片

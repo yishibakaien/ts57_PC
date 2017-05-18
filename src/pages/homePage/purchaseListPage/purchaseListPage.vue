@@ -6,48 +6,28 @@
 		<v-nav></v-nav>
 		<div class="purchase-list-page-box">
 			<!-- 筛选器 -->
-			<!--<div class="filter-container">
-        <div class="category filter-list">
-          <p class="filter-title">求购分类</p>
-          <p class="filter-detail">
-            <span class="item" v-for="item in categoryItems" :class="{active: categoryActiveItem===item}" >{{item}}</span>
-          </p>
-        </div>
-        <div class="component filter-list">
-          <p class="filter-title">求购布样</p>
-          <p class="filter-detail">
-            <span class="item" v-for="item in componentItems" :class="{active: componentActiveItem===item}" >{{item}}</span>
-          </p>
-        </div>
-        <div class="stock filter-list">
-        <p class="filter-title">接受开机</p>
-        <p class="filter-detail">
-          <span class="item" v-for="item in isStartUpItems" :class="{active: isStartUpActiveItem===item}" >{{item}}</span>
-        </p>
-      </div>
-      </div>-->
 			<div>
 				<ts-filter title="求购分类">
 					<ts-radio-group v-model="Filter.sort" @change="hanleFilterSort">
-						<ts-radio label="">全部</ts-radio>
+						<ts-radio label="null">全部</ts-radio>
 						<ts-radio label="100010">面料</ts-radio>
 						<ts-radio label="100011">大边</ts-radio>
 						<ts-radio label="100012">小边</ts-radio>
 						<ts-radio label="100013">睫毛</ts-radio>
 					</ts-radio-group>
 				</ts-filter>
-				<ts-filter title="求购布样">
+				<ts-filter title="采购布样">
 					<ts-radio-group v-model="Filter.fabricType" @change="hanleFilterFabric">
-						<ts-radio label="">全部</ts-radio>
-						<ts-radio label="1">接单中</ts-radio>
-						<ts-radio label="2">已成交</ts-radio>
-						<ts-radio label="3">已关闭</ts-radio>
+						<ts-radio label="null">全部</ts-radio>
+						<ts-radio label="200011">成品</ts-radio>
+						<ts-radio label="200010">胚布</ts-radio>
 					</ts-radio-group>
 				</ts-filter>
-				<ts-filter title="供货方式">
+				<ts-filter title="接受开机">
 					<ts-radio-group v-model="Filter.supplyShapes" @change="handleFilterSupplyShapes">
-						<ts-radio label="">全部</ts-radio>
-						<ts-radio label="222">嗯嗯</ts-radio>
+						<ts-radio label="null">全部</ts-radio>
+						<ts-radio label="1">接受</ts-radio>
+						<ts-radio label="0">不接受</ts-radio>
 					</ts-radio-group>
 				</ts-filter>
 			</div>
@@ -76,25 +56,21 @@
 		data() {
 			return {
 				Filter: {
-					sort: '',
-					fabricType: '',
-					supplyShapes: ''
+					sort: 'null',
+					fabricType: 'null',
+					supplyShapes: 'null'
 				},
 				param: {
 					buyShapes: null,
 					buyStatus: null,
 					buyTypes: null,
-					isStartUp: null,
-					isMy: false,
 					pageNo: 1,
 					pageSize: 25
 				},
 				items: [],
 				pageData: {
 					pageNumArr: [],
-					maxNum: {
-						type: Number
-					},
+					maxNum: 1,
 					pageNO: 1
 				}
 			};
@@ -106,7 +82,7 @@
 			pagination,
 			purchaseItem
 		},
-		created() {
+		mounted() {
 			listProductBuys(this.param).then((res) => {
 				this.items = res.data.data.list;
 				this.pageData.maxNum = res.data.data.totalPage;
@@ -114,17 +90,49 @@
 			}).catch();
 		},
 		methods: {
+			listProductBuysMethod() {
+//				this.param.buyShapes = null;
+//				this.param.buyStatus = null;
+//				this.param.buyTypes = null;
+				listProductBuys(this.param).then((res) => {
+					this.items = res.data.data.list;
+					this.pageData.maxNum = res.data.data.totalPage;
+					this.pageData.pageNO = res.data.data.pageNO;
+				}).catch();
+			},
 			hanleFilterSort(e) {
 				console.log(e);
+				if (e === 'null') {
+					this.param.buyTypes = null;
+				} else {
+					this.param.buyTypes = parseInt(e);
+				}
+				this.param.pageNo = 1;
+				this.listProductBuysMethod();
 			},
 			handleFilterSupplyShapes(e) {
 				console.log(e);
+				if (e === 'null') {
+					this.param.isStartUp = null;
+				} else {
+					this.param.isStartUp = parseInt(e);
+				}
+				this.param.pageNo = 1;
+				this.listProductBuysMethod();
 			},
 			hanleFilterFabric(e) {
 				console.log(e);
+				if (e === 'null') {
+					this.param.buyShapes = null;
+				} else {
+					this.param.buyShapes = parseInt(e);
+				}
+				this.param.pageNo = 1;
+				this.listProductBuysMethod();
 			},
 			selectedPageNum1(e) {
-				console.log(e);
+				this.param.pageNo = e;
+				this.listProductBuysMethod();
 			}
 		}
 	};

@@ -23,7 +23,7 @@
 			<div>
 				<ts-filter title="求购分类">
 					<ts-radio-group v-model="Filter.sort" @change="hanleFilterSort">
-						<ts-radio label="">全部</ts-radio>
+						<ts-radio label="null">全部</ts-radio>
 						<ts-radio label="100010">面料</ts-radio>
 						<ts-radio label="100011">大边</ts-radio>
 						<ts-radio label="100012">小边</ts-radio>
@@ -32,10 +32,9 @@
 				</ts-filter>
 				<ts-filter title="求购布样">
 					<ts-radio-group v-model="Filter.fabricType" @change="hanleFilterFabric">
-						<ts-radio label="">全部</ts-radio>
-						<ts-radio label="1">接单中</ts-radio>
-						<ts-radio label="2">已成交</ts-radio>
-						<ts-radio label="3">已关闭</ts-radio>
+						<ts-radio label="null">全部</ts-radio>
+						<ts-radio label="200011">成品</ts-radio>
+						<ts-radio label="200010">胚布</ts-radio>
 					</ts-radio-group>
 				</ts-filter>
 			</div>
@@ -45,6 +44,7 @@
 					<supply-item :item="item"></supply-item>
 				</div>
 			</div>
+			<pagination :page="pageData" v-on:selectedPageNum="selectedPageNum1"></pagination>
 		</div>
 	</div>
 </template>
@@ -53,49 +53,78 @@
 	import {
 		header,
 		nav,
-		search
+		search,
+		pagination
 	} from '@/components';
 	import supplyItem from './supplyItem';
-	import {listCompanySupplys} from '@/common/api/api';
+	import { listCompanySupplys } from '@/common/api/api';
 	export default {
 		data() {
 			return {
 				Filter: {
-					sort: '',
-					fabricType: ''
+					sort: 'null',
+					fabricType: 'null'
 				},
 				param: {
-					isMy: false,
 					supplyShapes: null,
-					supplyStatus: null,
+					supplyStatus: 1,
 					supplyTypes: null,
 					pageNo: 1,
 					pageSize: 25
 				},
-				items: [],
-				categoryItems: ['全部', '面料', '大边', '小边', '睫毛'],
-				componentItems: ['全部', '成品', '胚布'],
-				categoryActiveItem: '全部',
-				componentActiveItem: '全部'
+				pageData: {
+					pageNumArr: [],
+					maxNum: 1,
+					pageNO: 1
+				},
+				items: []
 			};
 		},
 		components: {
 			'vHeader': header,
 			'vNav': nav,
 			search,
+			pagination,
 			supplyItem
 		},
 		created() {
 			listCompanySupplys(this.param).then((res) => {
 				this.items = res.data.data.list;
+				this.pageData.maxNum = res.data.data.totalPage;
+				this.pageData.pageNO = res.data.data.pageNO;
 			}).catch();
 		},
 		methods: {
+			listCompanySupplysMethod() {
+				listCompanySupplys(this.param).then((res) => {
+					this.items = res.data.data.list;
+					this.pageData.maxNum = res.data.data.totalPage;
+					this.pageData.pageNO = res.data.data.pageNO;
+				}).catch();
+			},
 			hanleFilterSort(e) {
 				console.log(e);
+				if (e === 'null') {
+					this.param.supplyTypes = null;
+				} else {
+					this.param.supplyTypes = parseInt(e);
+				}
+				this.param.pageNo = 1;
+				this.listCompanySupplysMethod();
 			},
 			hanleFilterFabric(e) {
 				console.log(e);
+				if (e === 'null') {
+					this.param.supplyShapes = null;
+				} else {
+					this.param.supplyShapes = parseInt(e);
+				}
+				this.param.pageNo = 1;
+				this.listCompanySupplysMethod();
+			},
+			selectedPageNum1(e) {
+				this.param.pageNo = e;
+				this.listCompanySupplysMethod();
 			}
 		}
 	};

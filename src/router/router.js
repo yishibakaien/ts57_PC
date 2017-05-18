@@ -13,7 +13,7 @@ import {
   registerPage,
   forgotPasswordPage,
 
-  releasePurchasePage,
+// releasePurchasePage,
   purchaseListPage,
   purchaseDetailPage,
 
@@ -35,6 +35,7 @@ const shopManagerSetting = r => require.ensure([], () => r(require('@/pages/shop
 const shopManagerCooperation = r => require.ensure([], () => r(require('@/pages/shopManager/children/cooperation')), 'shopManagerCooperation');
 const shopManagerClassification = r => require.ensure([], () => r(require('@/pages/shopManager/children/classification')), 'shopManagerClassification');
 const shopManagerAptitude = r => require.ensure([], () => r(require('@/pages/shopManager/children/aptitude')), 'shopManagerAptitude');
+const releasePurchasePage = r => require.ensure([], () => r(require('@/pages/homepage/releasePurchasePage/releasePurchasePage')), 'releasePurchasePage');
 const routes = [
   {
     path: '/',

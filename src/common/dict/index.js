@@ -79,6 +79,16 @@ const DICT = {
       dicValue: 100013
     }
   ],
+  // 是否接受开机 BuyStatus
+  BuyStatus: [
+    {
+      label: '接受',
+      dicValue: 1
+    }, {
+      label: '不接受',
+      dicValue: 0
+    }
+  ],
   // 是否有库存
   isStock: [
     {

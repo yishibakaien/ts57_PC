@@ -3,7 +3,7 @@
 		<span class="page" @click="upPage()">上一页</span>
 		<span class="page" :class="[page.pageNO===1?'active':'']" @click="selectedPageNum(1)">1</span>
 		<span v-if="showOne">···</span>
-		<span class="page" :class="[page.pageNO===pageNum?'active':'']" v-for="(pageNum, index) in page.pageNumArr" @click="selectedPageNum(pageNum)">{{pageNum}}</span>
+		<span class="page" :class="[page.pageNO===pageNum?'active':'']" v-for="pageNum in page.pageNumArr" @click="selectedPageNum(pageNum)">{{pageNum}}</span>
 		<span v-if="showTwo">···</span>
 		<span class="page" :class="[page.pageNO===page.maxNum?'active':'']" @click="selectedPageNum(page.maxNum)" v-if="page.maxNum !== 1">{{page.maxNum}}</span>
 		<span class="page" @click="downPage()">下一页</span>
@@ -19,26 +19,27 @@
 			};
 		},
 		props: {
-			page: {}
-		},
-		baforeCreated() {
-			if (this.page.maxNum >= 10) {
-				this.pageNumArrRest();
-				console.log(this.page.pageNumArr);
-			} else if (this.page.maxNum <= 2) {
-				this.page.pageNumArr = [];
-				this.showPointTwo();
-				this.showPointOne();
-			} else {
-				for (let i = 2; i < this.page.maxNum; i++) {
-					this.page.pageNumArr.push(i);
-				}
-				this.showPointTwo();
-				this.showPointOne();
+			page: {
+				type: Object
 			}
-//			this.pageNumArrRest();
-//			this.showPointTwo();
-//			this.showPointOne();
+		},
+		watch: {
+			'page.maxNum' (val) {
+				if (val > 9) {
+					this.pageNumArrRest();
+					console.log(4, val);
+				} else if (val <= 2) {
+					this.page.pageNumArr = [];
+					this.showPointTwo();
+					this.showPointOne();
+				} else {
+					for (let i = 2; i < val; i++) {
+						this.page.pageNumArr.push(i);
+					}
+					this.showPointTwo();
+					this.showPointOne();
+				}
+			}
 		},
 		methods: {
 			selectedPageNum(num) {
