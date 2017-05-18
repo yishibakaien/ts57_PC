@@ -41,6 +41,7 @@ export default {
 <style lang="css" scoped>
 @component-namespace ts{
   @component section {
+    background: #fff;
     /*头部*/
     @descendent header{
       display: flex;

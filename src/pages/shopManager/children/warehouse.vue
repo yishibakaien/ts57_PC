@@ -40,7 +40,7 @@
           状态：<b>{{item.publishStatus | filterDict(DICT.PublishStatus,'label2')}}</b>
         </div>
         <ts-menu-table-item width="310" class="supply-table--avatar">
-          <ts-image width="80" height="80" :src="item.picsUrl"></ts-image>
+          <ts-image width="80" height="80"  :src="item.picsUrl"></ts-image>
         </ts-menu-table-item>
         <!-- PublishStatus -->
         <ts-menu-table-item>

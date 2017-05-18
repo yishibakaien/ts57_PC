@@ -37,7 +37,7 @@ const actions = {
   // 获取成分列表
   async getCompanyAptitude({commit}) {
     let data = await getCompanyAptitude();
-    commit('GET_APTITUDE', data.data);
+    commit('GET_APTITUDE', data.data.data);
   }
 };
 const getters = {

@@ -7,13 +7,13 @@
           O
         </span>
       </ts-input>
-      <ts-button type="primary">新增</ts-button>
+      <ts-button type="primary" @click="">新增</ts-button>
     </div>
     <div slot="footer">
       <!-- FIXME:暂时TABLE无法完成全选 -->
       <!-- <ts-button type="cancel">删除</ts-button> -->
     </div>
-    <ts-table :data="Cooperation.list" @th-col-click="handleThCoorClick" @body-tr-click="handleTrCoorClick">
+    <ts-table :data="Cooperation.list">
       <ts-column slot data-key="person" align="center" name="厂家名称"></ts-column>
       <ts-column slot data-key="type" align="center" name="联系电话"></ts-column>
       <ts-column slot data-key="num" align="center" name="仓库中该厂家花型数量"></ts-column>
@@ -21,7 +21,7 @@
     </ts-table>
   </ts-section>
   <!-- 对话框 -->
-  <ts-dialog v-model="showEditDialog" title="修改厂家信息">
+  <ts-dialog v-model="showEditDialog" :title="修改厂家信息">
     <ts-form :model="companyInfoForm" :rules="rules" ref="ruleForm" label-width="125px" label-position="left">
       <ts-form-item label="厂家名称" prop="name">
         <ts-input v-model="ruleForm.name"></ts-input>
@@ -55,6 +55,10 @@ export default {
       showDelDialog: false,
       // 规则
       rules: {},
+      // 新增厂家的对话框
+      AddDialog: {
+        show: false
+      },
       // 表格
       companyInfoForm: {},
       // 对话框

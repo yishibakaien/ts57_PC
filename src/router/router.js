@@ -6,7 +6,6 @@ import store from '../store/store';
 import {
   homePage,
   textSearchResultPage,
-  findPage,
   threeDDressPage,
   personalCenterPage,
   loginPage,
@@ -24,6 +23,7 @@ import {
 
 Vue.use(Router);
 // created By HZC
+const find = r => require.ensure([], () => r(require('@/pages/find/')), 'find');
 const shopManager = r => require.ensure([], () => r(require('@/pages/shopManager/')), 'shopManager');
 const shopManagerMaterial = r => require.ensure([], () => r(require('@/pages/shopManager/children/material')), 'shopManagerMaterial');
 const shopManagerWareHouse = r => require.ensure([], () => r(require('@/pages/shopManager/children/warehouse')), 'shopManagerWareHouse');
@@ -49,8 +49,8 @@ const routes = [
     component: textSearchResultPage
   },
   {
-    path: '/findPage',
-    component: findPage,
+    path: '/find',
+    component: find,
     meta: {
       needAuth: true
     }
