@@ -47,7 +47,7 @@
         <ts-radio :label="item.dicValue" :key="item.dicValue" v-for="item in DICT.isStock" type="origin">{{item.label}}</ts-radio>
       </ts-radio-group>
       <ts-form-item prop="stock" labelWidth="0" v-if="addPatternForm.isStock===1" class="add-dynamic--input">
-          <ts-input v-model="addPatternForm.stock" style="width:150px" placeholder="请输入库存数量"></ts-input>
+          <ts-input v-model="addPatternForm.stock" :maxlength="9" style="width:150px" placeholder="请输入库存数量"></ts-input>
           <ts-select style="width:20%" data-key-name="name" data-val-name="dicValue" placeholder="选择单位" :options='CopyDICTUnit' v-model="addPatternForm.stockUnit"></ts-select>
       </ts-form-item>
     </ts-form-item>

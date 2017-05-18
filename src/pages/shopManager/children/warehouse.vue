@@ -16,7 +16,7 @@
     <div class="warehouse-filter">
       <ts-filter title="分类">
         <ts-radio-group v-model="Filter.publishStatuss" @change="handleFilterPublishStatus">
-          <ts-radio label="">全部</ts-radio>
+          <ts-radio label=null>全部</ts-radio>
           <ts-radio :label="item.dicValue" :key="item.value" v-for="item in DICT.PublishStatus">{{item.label}}</ts-radio>
         </ts-radio-group>
       </ts-filter>
@@ -49,7 +49,7 @@
         </ts-menu-table-item>
         <!-- Price -->
         <ts-menu-table-item>
-          <span v-if="item.price>0">{{item.price*100}}元／{{item.priceUnit|filterDict(DICT.PriceUnits)}}</span>
+          <span v-if="item.price>0">{{item.price/100}}元／{{item.priceUnit|filterDict(DICT.PriceUnits)}}</span>
           <span v-else>价格面议</span>
         </ts-menu-table-item>
         <ts-menu-table-item>
