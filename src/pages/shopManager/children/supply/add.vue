@@ -12,7 +12,7 @@
       </ts-radio-group>
     </ts-form-item>
     <ts-form-item label="供应数量：" prop="supplyNum">
-      <ts-input v-model="addSupplyForm.supplyNum" style="width:320px"></ts-input>
+      <ts-input :maxlength='9' v-model="addSupplyForm.supplyNum" style="width:320px"></ts-input>
       <ts-select style="width:12%" data-key-name="name" data-val-name="dicValue" :options='CopyDICTUnit' v-model="addSupplyForm.supplyUnit"></ts-select>
     </ts-form-item>
     <ts-form-item label="花型图片：" prop="productPicUrl">
@@ -65,7 +65,7 @@ export default {
         }],
         supplyNum: [{
           required: true,
-          pattern: /^[0-9]*$/,
+          pattern: /^[0-9]*[1-9][0-9]*$/,
           message: '请输入正确的供应数量'
         }],
         supplyShapes: [{

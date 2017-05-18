@@ -33,7 +33,12 @@
         <ts-checkbox-group v-model="chooseItem">
           <ts-menu-table v-for="item in companySupplyList.list" :key="item.id">
             <div slot="header-left">
-              <ts-checkbox :label="item.id">面料-{{item.supplyType | filterDict(DICT.SupplyType)}}</ts-checkbox>
+              <ts-checkbox v-if="Filter.supplyStatus===1" :label="item.id">
+                面料-{{item.supplyShape | filterDict(dicTree.PRODUCT_SHAPE,'name')}}
+              </ts-checkbox>
+              <span v-else>
+                面料-{{item.supplyShape | filterDict(dicTree.PRODUCT_SHAPE,'name')}}
+              </span>
             </div>
             <div slot="header-right">
               状态：<b>{{item.supplyStatus | filterDict(DICT.SupplyStatus)}}</b>
@@ -62,7 +67,7 @@
       </ts-menu>
     </div>
     <div slot="footer" class="supply-footer">
-      <ts-button type="primary" @click="handleShowDialog(chooseItem)" :disabled="chooseItem.length<=0">关闭</ts-button>
+      <ts-button type="primary" @click="handleShowDialog(chooseItem)" v-if="Filter.supplyStatus!==2" :disabled="chooseItem.length<=0">关闭</ts-button>
       <ts-pagination class="supply-footer--pagation" @change="handleChangeCurrent" @page-size-change="handleChangePageSize" :current="companySupplyList.pageNO" :totalPages="companySupplyList.totalPage">
       </ts-pagination>
     </div>
@@ -239,7 +244,7 @@ export default {
     // 关闭供应
     async handleCloseSupply() {
       await closeCompanySupply({
-        ids: this.ConfirmDialog.id.join(',')
+        ids: this.ConfirmDialog.id.toString()
       });
       this.companySupplyList = (await getCompanySupplylist()).data.data;
       this.ConfirmDialog.show = false;

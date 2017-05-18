@@ -37,12 +37,19 @@ export const filterDate = value => {
     let year = tmpDate.getFullYear();
     let mathon = tmpDate.getMonth() + 1;
     let day = tmpDate.getDate();
-    return year + '-' + mathon + '-' + day;
+    let hour = tmpDate.getHours();
+    let minutes = tmpDate.getMinutes() < 10
+      ? `0${tmpDate.getMinutes()}`
+      : tmpDate.getMinutes();
+    let seconds = tmpDate.getSeconds() < 10
+      ? `0${tmpDate.getSeconds()}`
+      : tmpDate.getSeconds();
+    return `${year}-${mathon}-${day} ${hour}:${minutes}:${seconds}`;
   } else {
     return '';
   }
 };
-
+// 自定义时间
 export const customTime = item => {
   // =======now
   let nowTime = new Date().getTime();

@@ -76,7 +76,7 @@
     </p>
   </ts-dialog>
   <!-- 编辑分类 -->
-  <ts-dialog v-model="Classification.editDialog" class="classification-edit-dialog" title="编辑分类" @cancel="closeEdit" @confirm="handleEdit" :width="getColumnCount*30+'%'">
+  <ts-dialog v-model="Classification.editDialog" class="classification-edit-dialog" title="编辑分类" @cancel="closeEdit" @close="closeEdit" @confirm="handleEdit" :width="getColumnCount*30+'%'">
     <div class="classification-edit-dialog--column" :style="{'column-count':getColumnCount}">
       <div class="classification-edit-dialog--item onepx-b" v-for="(item,index) in Classification.userCategory">
         <ts-input style="width:230px" :value="item.className" @input="handleInput(item,$event)"></ts-input>
