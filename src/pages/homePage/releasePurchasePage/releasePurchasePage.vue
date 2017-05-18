@@ -157,9 +157,13 @@
 				this.addBuyForm = Object.assign({}, this.addBuyForm, {
 					buyUnit: this.CopyDICTUnit[0].dicValue
 				});
+			},
+			dicTree (val) {
+				let units = JSON.parse(JSON.stringify(this.dicTree.PRODUCT_UNIT));
+				this.CopyDICTUnit = units.filter(item => item.dicValue !== '400012');
 			}
 		},
-		created() {
+		async created() {
 //			console.log(this.$route.query.text);
 			this.addBuyForm.buyDesc = this.$route.query.text;
 			// 默认选择公斤
@@ -171,8 +175,9 @@
 			// }
 			// ======
 			// 库存单位 首先隐藏条 当选择面料为睫毛的时候才显示
-			let units = JSON.parse(JSON.stringify(this.dicTree.PRODUCT_UNIT));
-			this.CopyDICTUnit = units.filter(item => item.dicValue !== '400012');
+//			console.log(this.dicTree.PRODUCT_UNIT);
+//			let units = JSON.parse(JSON.stringify(this.dicTree.PRODUCT_UNIT));
+//			this.CopyDICTUnit = units.filter(item => item.dicValue !== '400012');
 			// ======
 			// 默认会选中第一个值
 			this.addBuyForm = Object.assign({}, this.addBuyForm, {
@@ -232,9 +237,9 @@
 				.add-upload-button {
 					padding: 5px 8px;
 					line-height: 32px;
-					color: #4c93fd;
+					color: #fff;
+					background: #4c93fd;
 					cursor: pointer;
-					border: 1px solid #b0b0b0;
 				}
 			}
 		}

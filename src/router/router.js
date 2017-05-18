@@ -4,21 +4,19 @@ import * as types from '../store/types';
 import store from '../store/store';
 
 import {
-  homePage,
-  textSearchResultPage,
-  threeDDressPage,
-  personalCenterPage,
-  loginPage,
-  registerPage,
-  forgotPasswordPage,
+	homePage,
+	textSearchResultPage,
+	threeDDressPage,
+	personalCenterPage,
+	loginPage,
+	registerPage,
+	forgotPasswordPage,
+	purchaseListPage,
+	purchaseDetailPage,
 
-// releasePurchasePage,
-  purchaseListPage,
-  purchaseDetailPage,
-
-  releaseSupplyPage,
-  supplyListPage,
-  supplyDetailPage
+//	releaseSupplyPage,
+	supplyListPage,
+	supplyDetailPage
 } from '../pages';
 
 Vue.use(Router);
@@ -36,139 +34,136 @@ const shopManagerCooperation = r => require.ensure([], () => r(require('@/pages/
 const shopManagerClassification = r => require.ensure([], () => r(require('@/pages/shopManager/children/classification')), 'shopManagerClassification');
 const shopManagerAptitude = r => require.ensure([], () => r(require('@/pages/shopManager/children/aptitude')), 'shopManagerAptitude');
 const releasePurchasePage = r => require.ensure([], () => r(require('@/pages/homePage/releasePurchasePage/releasePurchasePage')), 'releasePurchasePage');
-const routes = [
-  {
-    path: '/',
-    redirect: '/homePage'
-  }, {
-    path: '/homePage',
-    component: homePage
-  }, {
-    path: '/textSearchResultPage',
-    component: textSearchResultPage
-  }, {
-    path: '/find',
-    component: find,
-    meta: {
-      needAuth: true
-    }
-  }, {
-    path: '/threeDDressPage',
-    component: threeDDressPage
-  }, {
-    path: '/personalCenterPage',
-    component: personalCenterPage,
-    meta: {
-      //          needAuth: true
-    }
-  }, {
-    path: '/releasePurchasePage', // 发布求购
-    component: releasePurchasePage,
-    meta: {
-      needAuth: true
-    }
-  }, {
-    path: '/purchaseListPage', // 求购列表
-    component: purchaseListPage
-  }, {
-    path: '/purchaseDetailPage', // 求购详情
-    component: purchaseDetailPage
-  }, {
-    path: '/releaseSupplyPage', // 发布供应
-    component: releaseSupplyPage,
-    meta: {
-      needAuth: true
-    }
-  }, {
-    path: '/supplyListPage', // 供应列表
-    component: supplyListPage
-  }, {
-    path: '/supplyDetailPage', // 供应详情
-    component: supplyDetailPage
-  }, {
-    path: '/loginPage',
-    component: loginPage
-  }, {
-    path: '/registerPage',
-    component: registerPage
-  }, {
-    path: '/forgotPasswordPage',
-    component: forgotPasswordPage
-  }, {
-    path: '/shopManagePage',
-    redirect: '/shopManagePage/warehouse',
-    component: shopManager,
-    children: [
-      {
-        path: 'material',
-        component: shopManagerMaterial,
-        name: '素材库'
-      }, {
-        path: 'warehouse',
-        component: shopManagerWareHouse,
-        name: '仓库管理'
-      }, {
-        path: 'addwarehouse',
-        component: wareHouseAdd,
-        name: '新增花型'
-      }, {
-        path: 'supply',
-        component: shopManagerSupply,
-        name: '厂家供应'
-      }, {
-        path: 'supplyAdd',
-        component: supplyAdd,
-        name: '发布供应'
-      }, {
-        path: 'enquiry',
-        component: shopManagerEnquiry,
-        name: '询价列表'
-      }, {
-        path: 'setting',
-        component: shopManagerSetting,
-        name: '店铺设置'
-      }, {
-        path: 'cooperation',
-        component: shopManagerCooperation,
-        name: '合作厂家'
-      }, {
-        path: 'classification',
-        component: shopManagerClassification,
-        name: '分类管理'
-      }, {
-        path: 'aptitude',
-        component: shopManagerAptitude,
-        name: '企业资质'
-      }
-    ]
-  }
-];
+const releaseSupplyPage = r => require.ensure([], () => r(require('@/pages/homePage/releaseSupplyPage/releaseSupplyPage')), 'releaseSupplyPage');
+const routes = [{
+	path: '/',
+	redirect: '/homePage'
+}, {
+	path: '/homePage',
+	component: homePage
+}, {
+	path: '/textSearchResultPage',
+	component: textSearchResultPage
+}, {
+	path: '/find',
+	component: find,
+	meta: {
+		needAuth: true
+	}
+}, {
+	path: '/threeDDressPage',
+	component: threeDDressPage
+}, {
+	path: '/personalCenterPage',
+	component: personalCenterPage,
+	meta: {
+		//          needAuth: true
+	}
+}, {
+	path: '/releasePurchasePage', // 发布求购
+	component: releasePurchasePage,
+	meta: {
+		needAuth: true
+	}
+}, {
+	path: '/purchaseListPage', // 求购列表
+	component: purchaseListPage
+}, {
+	path: '/purchaseDetailPage', // 求购详情
+	component: purchaseDetailPage
+}, {
+	path: '/releaseSupplyPage', // 发布供应
+	component: releaseSupplyPage,
+	meta: {
+		needAuth: true
+	}
+}, {
+	path: '/supplyListPage', // 供应列表
+	component: supplyListPage
+}, {
+	path: '/supplyDetailPage', // 供应详情
+	component: supplyDetailPage
+}, {
+	path: '/loginPage',
+	component: loginPage
+}, {
+	path: '/registerPage',
+	component: registerPage
+}, {
+	path: '/forgotPasswordPage',
+	component: forgotPasswordPage
+}, {
+	path: '/shopManagePage',
+	redirect: '/shopManagePage/warehouse',
+	component: shopManager,
+	children: [{
+		path: 'material',
+		component: shopManagerMaterial,
+		name: '素材库'
+	}, {
+		path: 'warehouse',
+		component: shopManagerWareHouse,
+		name: '仓库管理'
+	}, {
+		path: 'addwarehouse',
+		component: wareHouseAdd,
+		name: '新增花型'
+	}, {
+		path: 'supply',
+		component: shopManagerSupply,
+		name: '厂家供应'
+	}, {
+		path: 'supplyAdd',
+		component: supplyAdd,
+		name: '发布供应'
+	}, {
+		path: 'enquiry',
+		component: shopManagerEnquiry,
+		name: '询价列表'
+	}, {
+		path: 'setting',
+		component: shopManagerSetting,
+		name: '店铺设置'
+	}, {
+		path: 'cooperation',
+		component: shopManagerCooperation,
+		name: '合作厂家'
+	}, {
+		path: 'classification',
+		component: shopManagerClassification,
+		name: '分类管理'
+	}, {
+		path: 'aptitude',
+		component: shopManagerAptitude,
+		name: '企业资质'
+	}]
+}];
 
 // 进入页面，判断、赋值token userInfo
 if (localStorage.accessToken) {
-  store.commit(types.LOGIN, localStorage.accessToken);
-  store.commit(types.AJAX, localStorage.ajaxToken);
-  store.commit(types.USER_NAME, localStorage.userName);
-  store.dispatch('getDicTree');
+	store.dispatch('getDicTree');
+	store.commit(types.LOGIN, localStorage.accessToken);
+	store.commit(types.AJAX, localStorage.ajaxToken);
+	store.commit(types.USER_NAME, localStorage.userName);
 }
 
-const router = new Router({mode: 'history', linkActiveClass: 'active', routes});
+const router = new Router({ mode: 'history', linkActiveClass: 'active', routes });
 
 // 路由钩子，判断进入的页面是否需要登录 (needAuth)
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.needAuth)) {
-    if (store.state.accessToken) {
-      next();
-    } else {
-      next({
-        path: '/loginPage',
-        query: {
-          redirect: to.fullPath
-        }
-      });
-    }
-  } else {
-    next();
-  }
+	if (to.matched.some(record => record.meta.needAuth)) {
+		if (store.state.accessToken) {
+			next();
+		} else {
+			next({
+				path: '/loginPage',
+				query: {
+					redirect: to.fullPath
+				}
+			});
+		}
+	} else {
+		next();
+	}
 });
 export default router;

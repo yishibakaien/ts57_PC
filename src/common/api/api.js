@@ -29,7 +29,8 @@ const API = {
   // 首页
   home: {
     listHomeBanners: '/homeBanner/listHomeBanners', // 首页banner
-    findNewCompanyByIndex: '/company/findNewCompanyByIndex' // 获取最新入驻厂家列表
+    findNewCompanyByIndex: '/company/findNewCompanyByIndex', // 获取最新入驻厂家列表
+    qualityCompanyList: '/company/qualityCompanyList'  // 优质厂家列表
   },
   // 搜索
   search: {
@@ -207,6 +208,7 @@ function _fetch(method = METHODS.get, data, url) {
 					store.commit(types.LOGIN, token);
 				}
 			}
+//			if (res.data.code !== 0 && res.data.message) {
 			if (res.data.message) {
 				Toast({
 					type: !res.data.code ? 'success' : 'error',
@@ -216,6 +218,7 @@ function _fetch(method = METHODS.get, data, url) {
 			if (res.data.code === 210018) {
 				store.commit(types.LOGOUT);
 			}
+			resolve(res);
 		}).catch((res) => {
 			Toast.error('请检查网络');
 			reject(res);

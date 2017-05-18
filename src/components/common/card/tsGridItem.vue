@@ -1,10 +1,8 @@
 <template>
-
 <div class="ts-grid" :style="getStyle" @click="handleClick">
   <slot></slot>
 </div>
 </template>
-
 <script>
 export default {
   methods: {
@@ -25,7 +23,6 @@ export default {
   }
 };
 </script>
-
 <style lang="css" scoped>
 @import '../../../common/css/var.css';
 @component-namespace ts{
