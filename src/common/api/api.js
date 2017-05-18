@@ -90,6 +90,8 @@ const API = {
   // 素材库
   albumPic: {
     listAlbumPics: '/albumPic/listAlbumPics', // 获取素材库图片列表
+    addAlbumPic: '/albumPic/addAlbumPic', // 素材库上传图片
+    getAlbum: '/album/getAlbum', // 查询素材库id
     deleteAlbumPic: '/albumPic/deleteAlbumPic' // 删除素材库图片,
   },
   // 花型分类
@@ -457,8 +459,12 @@ export const getCompanySupply = id => _fetch(METHODS.get, null, `${API.companySu
 export const releaseCompanySupply = param => _fetch(METHODS.post, param, API.companySupply.releaseCompanySupply);
 // 获取素材库图片列表
 export const getAlbumPicsList = param => _fetch(METHODS.post, param, API.albumPic.listAlbumPics);
+// 查询素材库id
+export const getAlbum = param => _fetch(METHODS.get, param, API.albumPic.getAlbum);
 // 删除素材库图片
 export const deleteAlbumPic = param => _fetch(METHODS.post, param, API.albumPic.deleteAlbumPic);
+// 素材库上传图片
+export const addAlbumPic = param => _fetch(METHODS.post, param, API.albumPic.addAlbumPic);
 // 获取档口OR工厂信息
 export const getCompanyInfo = param => _fetch(METHODS.get, param, API.company.getCompanyInfo);
 // 修改工厂或档口信息

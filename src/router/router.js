@@ -39,76 +39,61 @@ const routes = [
   {
     path: '/',
     redirect: '/homePage'
-  },
-  {
+  }, {
     path: '/homePage',
     component: homePage
-  },
-  {
+  }, {
     path: '/textSearchResultPage',
     component: textSearchResultPage
-  },
-  {
+  }, {
     path: '/find',
     component: find,
     meta: {
       needAuth: true
     }
-  },
-  {
+  }, {
     path: '/threeDDressPage',
     component: threeDDressPage
-  },
-  {
+  }, {
     path: '/personalCenterPage',
     component: personalCenterPage,
     meta: {
       //          needAuth: true
     }
-  },
-  {
+  }, {
     path: '/releasePurchasePage', // 发布求购
     component: releasePurchasePage,
     meta: {
       needAuth: true
     }
-  },
-  {
-    path: '/purchaseListPage',  // 求购列表
+  }, {
+    path: '/purchaseListPage', // 求购列表
     component: purchaseListPage
-  },
-  {
+  }, {
     path: '/purchaseDetailPage', // 求购详情
     component: purchaseDetailPage
-  },
-  {
+  }, {
     path: '/releaseSupplyPage', // 发布供应
     component: releaseSupplyPage,
     meta: {
       needAuth: true
     }
-  },
-  {
-    path: '/supplyListPage',  // 供应列表
+  }, {
+    path: '/supplyListPage', // 供应列表
     component: supplyListPage
-  },
-  {
-    path: '/supplyDetailPage',  // 供应详情
+  }, {
+    path: '/supplyDetailPage', // 供应详情
     component: supplyDetailPage
-  },
-  {
+  }, {
     path: '/loginPage',
     component: loginPage
-  },
-  {
+  }, {
     path: '/registerPage',
     component: registerPage
-  },
-  {
+  }, {
     path: '/forgotPasswordPage',
     component: forgotPasswordPage
-  },
-  {
+  }, {
     path: '/shopManagePage',
     redirect: '/shopManagePage/warehouse',
     component: shopManager,
@@ -166,11 +151,7 @@ if (localStorage.accessToken) {
   store.dispatch('getDicTree');
 }
 
-const router = new Router({
-	mode: 'history',
-    linkActiveClass: 'active',
-    routes
-});
+const router = new Router({mode: 'history', linkActiveClass: 'active', routes});
 
 // 路由钩子，判断进入的页面是否需要登录 (needAuth)
 router.beforeEach((to, from, next) => {

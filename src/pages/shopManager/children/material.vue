@@ -1,6 +1,10 @@
 <template lang="html">
   <ts-section>
     <div slot="menu">
+      <label>
+          <i class="icon-fangda material-add--icon"></i>
+          <ts-aliupload id="addMaterial" @doUpload="uploadImg"></ts-aliupload>
+      </label>
       <ts-button :type="Edit.status?'cancel':'primary'" :class="Edit.status?'':'button-blue'" @click="Edit.status=!Edit.status">{{Edit.text}}</ts-button>
     </div>
     <!-- checkbox-group控制 -->
@@ -38,8 +42,13 @@
 <script>
 import {
   getAlbumPicsList,
-  deleteAlbumPic
+  deleteAlbumPic,
+  getAlbum,
+  addAlbumPic
 } from '@/common/api/api';
+import {
+  ALI_DOMAIN
+} from '@/common/dict/const';
 export default {
   data() {
     return {
@@ -89,6 +98,7 @@ export default {
     }
   },
   async created() {
+    this.Params.albumId = (await getAlbum()).data.data.id;
     this.albumPicsList = (await getAlbumPicsList(this.Params)).data.data;
     // 默认创建一个cookie
     !this.getCookie(this.Cookie.key) ? this.setCookie(this.Cookie.key, this.Cookie.value, this.Cookie.day) : '';
@@ -130,6 +140,13 @@ export default {
     // 设置cookie
     handleNoShowDialog(e) {
       this.setCookie(this.Cookie.key, e.target.value, this.Cookie.day);
+    },
+    async uploadImg(e) {
+      await addAlbumPic({
+        albumId: this.Params.albumId,
+        picUrls: [ALI_DOMAIN + e.ossUrl[e.ossUrl.length - 1]]
+      });
+      this.albumPicsList = (await getAlbumPicsList(this.Params)).data.data;
     }
   }
 };
@@ -141,6 +158,7 @@ export default {
   --material-img-tip-height: 28px;
   --material-img-tip-bg: rgba(0,0,0,0.4);
   --material-img-tip-text-color: #fff;
+  --material-add-icon-hover-color: #4c93fd;
   --material-img-checkbox-position: 10px;
 }
 @component-namespace material{
@@ -150,6 +168,17 @@ export default {
     @modifier pagation{
       flex:1;
       text-align: right;
+    }
+  }
+  @component add{
+    @modifier icon{
+      font-size: 30px;
+    vertical-align: middle;
+    margin-right: 10px;
+    cursor: pointer;
+    &:hover:before{
+      color:var(--material-add-icon-hover-color);
+    }
     }
   }
   @component dialog{

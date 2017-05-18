@@ -59,23 +59,19 @@ export default {
       },
       map: {
         mapCenter: [113.275, 23.11],
-        zoom: 8,
+        zoom: 15,
         show: false,
         markers: [],
         plugin: ['ToolBar', {
           pName: 'MapType',
           defaultType: 0,
           events: {
-            init(o) {
-              console.log(o);
-            }
+            init(o) {}
           }
         }],
         amapManager: amapManager,
         events: {
-          init(o) {
-            console.log(o);
-          }
+          init(o) {}
         }
       },
       addressInfoForm: {
@@ -103,7 +99,7 @@ export default {
     companyInfo: {
       handler(val) {
         this.addressInfoForm = val;
-        this.map.mapCenter = [Number(val.lng), Number(val.lat)];
+        this.map.mapCenter = ((val.lng + val.lat).length === 0) ? this.map.mapCenter : [Number(val.lng), Number(val.lat)];
         this.map.markers.push(this.map.mapCenter);
       },
       deep: true

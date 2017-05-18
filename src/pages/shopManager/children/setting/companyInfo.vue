@@ -14,8 +14,8 @@
           <ts-input v-else v-model="companyInfoForm.contactTel" style="width:250px"></ts-input>
         </ts-form-item>
         <ts-form-item label="公司主营：" prop="companyBusiness">
-          <p v-if="Text.show" class="companyInfo-formItem-text">{{companyInfoForm.companyBusiness}}</p>
-          <ts-input v-else v-model="companyInfoForm.companyBusiness" style="width:250px"></ts-input>
+          <p v-if="Text.show" class="companyInfo-formItem-text">{{companyInfoForm.companyExtendBO.companyBusiness}}</p>
+          <ts-input v-else v-model="companyInfoForm.companyExtendBO.companyBusiness" style="width:250px"></ts-input>
         </ts-form-item>
         <ts-form-item label="店铺头像：" prop="companyHeadIcon">
           <ts-image width="90" height="90" :src="companyInfoForm.companyHeadIcon"></ts-image>
@@ -83,6 +83,9 @@ export default {
       companyInfoForm: {
         companyBanner: '',
         fax: '',
+        companyExtendBO: {
+          companyBusiness: ''
+        },
         companyAbbreviation: '',
         phone: '',
         presence: [],
@@ -127,7 +130,7 @@ export default {
     async editCompany() {
       this.Text.show = !this.Text.show;
       if (this.Text.show) {
-        let res = await updateCompany(this.companyInfo);
+        let res = await updateCompany(this.companyInfoForm);
         !res.data.code ? await this.$store.dispatch('getCompanyInfo') : '';
       }
     },
@@ -155,7 +158,7 @@ export default {
   },
   watch: {
     companyInfo(val) {
-      this.companyInfoForm = val;
+      this.companyInfoForm = Object.assign({}, val);
     },
     // 店招变化时候
     'companyInfoForm.companyHeadIcon' (val) {
