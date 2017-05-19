@@ -157,11 +157,11 @@
 				this.addBuyForm = Object.assign({}, this.addBuyForm, {
 					buyUnit: this.CopyDICTUnit[0].dicValue
 				});
-			},
-			dicTree (val) {
-				let units = JSON.parse(JSON.stringify(this.dicTree.PRODUCT_UNIT));
-				this.CopyDICTUnit = units.filter(item => item.dicValue !== '400012');
 			}
+//			dicTree (val) {
+//				let units = JSON.parse(JSON.stringify(this.dicTree.PRODUCT_UNIT));
+//				this.CopyDICTUnit = units.filter(item => item.dicValue !== '400012');
+//			}
 		},
 		async created() {
 //			console.log(this.$route.query.text);
@@ -176,8 +176,8 @@
 			// ======
 			// 库存单位 首先隐藏条 当选择面料为睫毛的时候才显示
 //			console.log(this.dicTree.PRODUCT_UNIT);
-//			let units = JSON.parse(JSON.stringify(this.dicTree.PRODUCT_UNIT));
-//			this.CopyDICTUnit = units.filter(item => item.dicValue !== '400012');
+			let units = JSON.parse(JSON.stringify(this.dicTree.PRODUCT_UNIT));
+			this.CopyDICTUnit = units.filter(item => item.dicValue !== '400012');
 			// ======
 			// 默认会选中第一个值
 			this.addBuyForm = Object.assign({}, this.addBuyForm, {

@@ -6,6 +6,7 @@
 <script>
 	import uploadPicture from '@/common/js/uploadPicture';
 	import { token } from '@/common/api/api';
+	import Toast from '@/components/common/toast/toast';
 	export default {
 		props: {
 			multiple: '',
@@ -31,10 +32,29 @@
 			},
 			doUpload() {
 				let _ = this;
+				const files = document.getElementById(_.id);
+				const fileLen = files.files;
+				const rFilter = /^(image\/jpeg|image\/png)$/i;
+				for (let i = 0; i < fileLen.length; i++) {
+					let imgObj = fileLen[i];
+					if (!rFilter.test(imgObj.type) && imgObj.type != '') {
+						Toast({
+							type: 'error',
+							message: '图片格式不正确，请检查'
+						});
+						return;
+					}
+					// 图片大小限制2MB以下 2097152
+					if (imgObj.size <= 0 || imgObj.size >= 500) {
+						Toast({
+							type: 'error',
+							message: '图片大小请限制在两兆以内'
+						});
+						return;
+					}
+				};
 				token().then((res) => {
 					_.dir = res.data.data.dir;
-					const files = document.getElementById(_.id);
-					const fileLen = files.files;
 					const client = new OSS.Wrapper({
 						region: _.region,
 						accessKeyId: res.data.data.accessKeyId,
@@ -51,8 +71,7 @@
 							});
 							let storeAs = _.dir + 'web-' + _.uuidMethod().split('-').join('') + '.' + file.name.split('.')[file.name.split('.').length - 1];
 							//2
-							client.multipartUpload(storeAs, file, {
-							}).then((results) => {
+							client.multipartUpload(storeAs, file, {}).then((results) => {
 								_.url.ossUrl.push(storeAs);
 								_.$emit('doUpload', _.url);
 							}).catch((err) => {
@@ -69,7 +88,7 @@
 	.oss-file {
 		float: left;
 	}
-
+	
 	.oss-file input {
 		position: absolute;
 		opacity: 0;
