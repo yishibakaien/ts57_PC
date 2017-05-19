@@ -44,11 +44,11 @@
 						});
 						return;
 					}
-					// 图片大小限制2MB以下 2097152
-					if (imgObj.size <= 0 || imgObj.size >= 500) {
+					// 图片大小限制1MB以下 2097152
+					if (imgObj.size <= 0 || imgObj.size >= 1048576) {
 						Toast({
 							type: 'error',
-							message: '图片大小请限制在两兆以内'
+							message: '图片大小请限制在一兆以内'
 						});
 						return;
 					}
