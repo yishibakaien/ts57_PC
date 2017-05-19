@@ -52,7 +52,7 @@
   --button-border: 1px solid #D1D1D1;
   --button-default-color: #666666;
   --button-default-background-color: #fff;
-  --button-plain-color: #4C93FD;
+  --button-plain-color:#333;
   --button-plain-background-color: #fff;
   --button-primary-color: #fff;
   --button-primary-background-color: #4C93FD;
@@ -67,4 +67,8 @@
   /*Grid*/
   --grid-hover-border-color: #eaeaea;
   --grid-border-color: #eaeaea;
+  --tag-gray-bgColor:#666666;
+  --tag-gray-color:#fff;
+  --tag-primary-bgColor:#4C93FD;
+  --tag-primary-color:#fff;
 }

@@ -26,7 +26,7 @@
 
 <script>
 import * as types from '../../store/types';
-import {search} from '../../common/api/api';
+import {searchMtd} from '../../common/api/api';
 function _formateCategory(str) {
   if (str === '面料') {
     return 100010;
@@ -63,7 +63,7 @@ export default {
   methods: {
     selectCategory(item) {
       this.categoryActiveItem = item;
-      search({
+      searchMtd({
         category: _formateCategory(this.categoryActiveItem),
         stockType: _formateStockType(this.stockActiveItem),
         keywords: localStorage.searchText,
@@ -83,7 +83,7 @@ export default {
     },
     selectStock(item) {
       this.stockActiveItem = item;
-      search({
+      searchMtd({
         category: _formateCategory(this.categoryActiveItem),
         stockType: _formateStockType(this.stockActiveItem),
         keywords: localStorage.searchText,

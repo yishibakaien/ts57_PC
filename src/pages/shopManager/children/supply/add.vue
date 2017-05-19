@@ -64,7 +64,6 @@ export default {
           message: '请选择花边分类'
         }],
         supplyNum: [{
-          required: true,
           pattern: /^[0-9]*[1-9][0-9]*$/,
           message: '请输入正确的供应数量'
         }],
@@ -147,8 +146,6 @@ export default {
     }
   },
   async created() {
-    // 默认选择公斤
-    this.addSupplyForm.supplyUnit = 400011;
     // TODO:编辑页面 => 后台并没有提供接口
     // if (this.$route.query.id) {
     //   let data = await getCompanySupply(this.$route.query.id);
@@ -156,13 +153,8 @@ export default {
     // }
     // ======
     // 库存单位 首先隐藏条 当选择面料为睫毛的时候才显示
-    let units = JSON.parse(JSON.stringify(this.dicTree.PRODUCT_UNIT));
-    this.CopyDICTUnit = units.filter(item => item.dicValue !== `400012`);
+    this.CopyDICTUnit = this.dicTree.PRODUCT_UNIT.filter(item => item.dicValue !== `400012`);
     // ======
-    // 默认会选中第一个值
-    this.addSupplyForm = Object.assign({}, this.addSupplyForm, {
-      supplyUnit: DICT.StockUnits[0].dicValue
-    });
   },
   components: {
     aliUpload

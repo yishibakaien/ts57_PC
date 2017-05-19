@@ -20,7 +20,7 @@
       <ts-form-item label="地图坐标：">
         <div class="addressinfo-map">
           <el-amap :vid="'company-map'" :center="map.mapCenter" :zoom="map.zoom">
-            <el-amap-marker v-for="marker in [map.mapCenter]" :position="marker"></el-amap-marker>
+            <el-amap-marker v-for="marker in [map.mapCenter]" :key="marker" :position="marker"></el-amap-marker>
           </el-amap>
         </div>
         <ts-button type="primary" @click="handleMapXY" v-if="!Text.show" class="addressinfo-map--button">修改地图坐标</ts-button>

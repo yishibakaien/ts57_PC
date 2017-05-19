@@ -8,9 +8,13 @@
   <div class="find">
     <carousel></carousel>
     <div class="find-wrapper">
-      <every-looking></every-looking>
-      <history-on-new></history-on-new>
-      <hot-search></hot-search>
+      <div class="find-wrapper--left">
+        <every-looking></every-looking>
+        <history-on-new></history-on-new>
+      </div>
+      <div class="find-wrapper-right">
+        <hot-search></hot-search>
+      </div>
     </div>
   </div>
 </div>
@@ -41,9 +45,16 @@ export default {
 <style scoped>
   @component-namespace find{
     @component wrapper{
-      margin-top: 1em;
       max-width: 1200px;
-      margin: 1em auto 0;
+      margin:1em auto;
+      display: flex;
+      @modifier left{
+        flex-basis: 70%;
+        margin-right: 16px;
+      }
+      @modifier right{
+        flex-basis: 30%;
+      }
     }
   }
 </style>

@@ -24,7 +24,7 @@
         <template v-if="!$slots.default">{{label}}</template>
       </span>
   </label>
-  
+
 </template>
 <script>
 import Emitter from '@/common/js/mixins/emitter';
@@ -124,7 +124,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
-  @import "../../../common/css/var.css";
+  @import "../../../common/css/_var.css";
   @component-namespace ts{
     @component checkbox{
       color : var(--checkbox-color);
