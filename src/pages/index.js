@@ -18,7 +18,13 @@ import supplyListPage from './homePage/supplyListPage/supplyListPage';
 // 供应详情页
 import supplyDetailPage from './homePage/supplyListPage/supplyDetailPage';
 
+// 更多优质厂家
+import entryListPage from './homePage/entryListPage/entryListPage';
+
+// 3D试衣
 import threeDDressPage from './threeDDressPage/threeDDressPage';
+
+// 个人中心
 import personalCenterPage from './personalCenterPage/personalCenterPage';
 
 // 注册、登录、修改密码等表单页面
@@ -34,11 +40,10 @@ export {
   loginPage,
   registerPage,
   forgotPasswordPage,
-
+	entryListPage,
   releasePurchasePage,
   purchaseListPage,
   purchaseDetailPage,
-
   releaseSupplyPage,
   supplyListPage,
   supplyDetailPage
