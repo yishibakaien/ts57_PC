@@ -62,7 +62,9 @@ const API = {
     favoriteBus: '/favorite/favoriteBus', // 收藏或取消
     listSupply: 'favorite/listSupply', // 获取收藏供应列表
     listCompany: '/favorite/listCompany', // 获取收藏厂家列表
-    listProduct: '/favorite/listProduct' // 获取收藏花型列表
+    listProduct: '/favorite/listProduct', // 获取收藏花型列表
+    countProduct: '/favorite/countProduct', // 统计收藏花型各分类数量
+    countSupply: '/favorite/countSupply' // 统计收藏供应各分类数量
   },
   product: {
     // POST
@@ -113,7 +115,8 @@ const API = {
     updateCompany: '/company/updateCompany', // 修改工厂或档口信息
     getCompanyAptitude: '/companyAptitude/getCompanyAptitude', // 查询公司资质信息
     saveCompanyAptitude: '/companyAptitude/saveCompanyAptitude', // 修改公司资质信息
-    updateCompanyExtend: '/company/updateCompanyExtend' // 修改工厂或档口详细信息
+    updateCompanyExtend: '/company/updateCompanyExtend', // 修改工厂或档口详细信息
+    findNewCompanys: '/company/findNewCompanys' // 查询最新入驻厂家
   },
   // 数据字典
   dicTree: {
@@ -208,8 +211,8 @@ function _fetch(method = METHODS.get, data, url) {
 					store.commit(types.LOGIN, token);
 				}
 			}
-//			if (res.data.code !== 0 && res.data.message) {
-			if (res.data.message) {
+			if (res.data.code !== 0 && res.data.message) {
+//			if (res.data.message) {
 				Toast({
 					type: !res.data.code ? 'success' : 'error',
 					message: res.data.message
@@ -311,6 +314,11 @@ export function qualityCompanyList1(data) {
   return _fetch(METHODS.get, data, API.home.qualityCompanyList);
 }
 
+// 获取最新入驻厂家列表
+export function findNewCompanys(data) {
+  return _fetch(METHODS.post, data, API.company.findNewCompanys);
+}
+
 /**
  * 搜索部分
  */
@@ -355,6 +363,11 @@ export function listBuyTask(data) {
 // 获取我的求购列表
 export function myProductBuys(data) {
   return _fetch(METHODS.post, data, API.buy.myProductBuys);
+};
+
+// 删除求购
+export function deleteProductBuy(data) {
+  return _fetch(METHODS.post, data, API.buy.deleteProductBuy);
 };
 
 // 获取收藏花型列表

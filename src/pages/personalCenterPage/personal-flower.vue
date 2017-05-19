@@ -18,7 +18,7 @@
 				</ts-radio-group>
 			</ts-filter>
 		</div>
-		<div class="personal-flower-wrap clearfix">
+		<div class="personal-flower-wrap clearfix" v-show='!defaultShow'>
 			<div class="personal-goods-item" v-for="item in items">
 				<div class="personal-goods-item-img">
 					<img src="item.defaultPicUrl" alt="求购" />
@@ -29,6 +29,9 @@
 				<p class="info">{{item.companyName}}</p>
 				<p><span>#{{item.productNo}}</span><span class="time">{{item.createDate | customTime}}</span></p>
 			</div>
+		</div>
+		<div class="default-page" v-show='defaultShow'>
+			暂无数据
 		</div>
 		<pageBar v-if="classes.totalNum > 1" :pageNum="pageNum" :pageMax="pageMax" :number="pageSize" v-on:upPage="upPage" v-on:downPage="downPage" v-on:selectFirstPage="selectFirstPage" v-on:selectLastPage="selectLastPage" v-on:selectNumber="selectNumber"></pageBar>
 	</div>
@@ -63,7 +66,7 @@
 					statusYes: 0,
 					statusNo: 0
 				},
-				a: 1
+				defaultShow: false
 			};
 		},
 		components: {
@@ -71,11 +74,17 @@
 		},
 		created() {
 			let _ = this;
+//			console.log(listProduct);
 			listProduct(_.param).then((res) => {
-				_.items = res.data.list;
-				_.pageNum = res.data.pageNO;
-				_.pageSize = res.data.pageSize;
-				_.pageMax = res.data.totalPage;
+				console.log(res.data.data.list);
+				if (res.data.data.list.length === 0) {
+					_.defaultShow = true;
+					return;
+				};
+				_.items = res.data.data.list;
+				_.pageNum = res.data.data.pageNO;
+				_.pageSize = res.data.data.pageSize;
+				_.pageMax = res.data.data.totalPage;
 			}).catch((res) => {});
 			countProduct().then((res) => {
 				console.log(res.data.data);

@@ -19,20 +19,30 @@
 			</ts-filter>
 		</div>
 		<div class="personal-flower-wrap clearfix">
-			<div class="personal-goods-item personal-flower-item" v-for="(item, index) in items">
+			<div class="personal-goods-item personal-flower-item" v-for="(item, index) in items" v-show='items.length > 0'>
 				<div class="personal-goods-item-img">
 					<img src="item.productPicUrl" alt="求购" />
 					<span class="states green" v-if="item.supplyShape === 200011">成品</span>
 					<span class="states gray" v-if="item.supplyShape === 200010">胚布</span>
 					<p class="p3"><span class="span1"> &nbsp;&nbsp;{{item.supplyNum}}码</span><span class="span2">{{item.createDate | customTime}}&nbsp;&nbsp; </span></p>
-					<i class="dele" @click="deleSupply(index)">删除</i>
+					<i class="dele" @click="openModel(index)">删</i>
 				</div>
 				<p class="info" :title="item.supplyDesc">{{item.supplyDesc}}</p>
 				<p class="company">
 					<img src="item.companyHeadIcon" alt="company" />
 					<span :title="item.companyName">{{item.companyName}}</span>
 				</p>
+				<div class="tipsModel" v-show="item.tipShow">
+					<div>
+						<p>从供应收藏中删除？</p>
+						<button class="button-yes" @click="deleSupply(index)">确认</button>
+						<button class="button-no" @click="closeModel">取消</button>
+					</div>
+				</div>
 			</div>
+		</div>
+		<div class="default-page" v-show='!items.length > 0'>
+			暂无数据
 		</div>
 		<pageBar v-if="pageMax >= 1" :pageNum="pageNum" :pageMax="pageMax" :number="pageSize" v-on:upPage="upPage" v-on:downPage="downPage" v-on:selectFirstPage="selectFirstPage" v-on:selectLastPage="selectLastPage" v-on:selectNumber="selectNumber"></pageBar>
 	</div>
@@ -79,30 +89,38 @@
 		created() {
 			let _ = this;
 			listSupply(_.param).then((res) => {
-				_.items = res.data.data.list;
-				_.pageNum = res.data.data.pageNO;
-				_.pageSize = res.data.data.pageSize;
-				_.pageMax = res.data.data.totalPage;
+				if (res.data.code === 0 && res.data.data.list.length > 0) {
+					res.data.data.list.forEach((item) => {
+						item.tipShow = false;
+					});
+					_.items = res.data.data.list;
+					_.pageNum = res.data.data.pageNO;
+					_.pageSize = res.data.data.pageSize;
+					_.pageMax = res.data.data.totalPage;
+				}
 			}).catch();
 			countSupply().then((res) => {
-				console.log(res.data.data);
-				_.classes.totalNum = res.data.data.countSupply;
-				_.classes.mianliao = res.data.data.countML;
-				_.classes.large = res.data.data.countDB;
-				_.classes.small = res.data.data.countXB;
-				_.classes.eyelash = res.data.data.countJM;
-				_.classes.statusPeibu = res.data.data.countPB;
-				_.classes.statusChengpin = res.data.data.countCP;
+				if (res.data.code === 0) {
+					_.classes.totalNum = res.data.data.countSupply;
+					_.classes.mianliao = res.data.data.countML;
+					_.classes.large = res.data.data.countDB;
+					_.classes.small = res.data.data.countXB;
+					_.classes.eyelash = res.data.data.countJM;
+					_.classes.statusPeibu = res.data.data.countPB;
+					_.classes.statusChengpin = res.data.data.countCP;
+				}
 			}).catch();
 		},
 		methods: {
 			listSupplyMethod() {
 				let _ = this;
 				listSupply(_.param).then((res) => {
-					_.items = res.data.data.list;
-					_.pageNum = res.data.data.pageNO;
-					_.pageSize = res.data.data.pageSize;
-					_.pageMax = res.data.data.totalPage;
+					if (res.data.code === 0) {
+						_.items = res.data.data.list;
+						_.pageNum = res.data.data.pageNO;
+						_.pageSize = res.data.data.pageSize;
+						_.pageMax = res.data.data.totalPage;
+					}
 				}).catch();
 			},
 			hanleFilterFabric(e) {
@@ -160,12 +178,31 @@
 				_.param.pageNo = 1;
 				_.param.pageSize = num;
 				this.listSupplyMethod();
+			},
+			openModel(index) {
+				let _ = this;
+				_.closeModel();
+				_.items[index].tipShow = true;
+			},
+			closeModel() {
+				let _ = this;
+				_.items.forEach((item) => {
+					item.tipShow = false;
+				});
 			}
 		}
 	};
 </script>
 
 <style lang="scss" scoped="scoped">
+	.default-page {
+		width: 100%;
+		height: 300px;
+		font-size: 20px;
+		line-height: 200px;
+		text-align: center;
+	}
+	
 	.personal-flower {
 		margin-top: 25px;
 		padding: 0 15px;
@@ -193,16 +230,19 @@
 	.personal-flower-item {
 		position: relative;
 	}
+	
 	.dele {
 		position: absolute;
 		top: 10px;
 		right: 10px;
-	    width: 20px;
-	    height: 20px;
-	    background: #000;
-	    opacity: .4;
+		width: 20px;
+		height: 20px;
+		color: #fff;
+		background: #000;
+		opacity: .4;
 		display: none;
 	}
+	
 	.personal-flower-item:hover .dele {
 		display: block;
 	}
@@ -224,6 +264,42 @@
 			white-space: nowrap;
 			font-size: 10px;
 			line-height: 30px;
+		}
+	}
+	
+	.tipsModel {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: rgba(0, 0, 0, .5);
+		p {
+			margin-top: 90px;
+			color: #fff;
+			font-size: 16px;
+			text-align: center;
+		}
+		.button-yes,
+		.button-no {
+			margin-top: 70px;
+			display: inline-block;
+			width: 80px;
+			height: 32px;
+			line-height: 32px;
+			border: 0;
+			font-size: 14px;
+			color: #FFF;
+			text-align: center;
+		}
+		.button-yes {
+			margin: 0 14px;
+			background: #4c93fd;
+		}
+		.button-no {
+			background: #d1d1d1;
 		}
 	}
 </style>

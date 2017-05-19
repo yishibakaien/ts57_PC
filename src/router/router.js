@@ -14,8 +14,9 @@ import {
 	purchaseListPage,
 	purchaseDetailPage,
 
-//	releaseSupplyPage,
+	//	releaseSupplyPage,
 	supplyListPage,
+	//	entryListPage,
 	supplyDetailPage
 } from '../pages';
 
@@ -35,6 +36,7 @@ const shopManagerClassification = r => require.ensure([], () => r(require('@/pag
 const shopManagerAptitude = r => require.ensure([], () => r(require('@/pages/shopManager/children/aptitude')), 'shopManagerAptitude');
 const releasePurchasePage = r => require.ensure([], () => r(require('@/pages/homePage/releasePurchasePage/releasePurchasePage')), 'releasePurchasePage');
 const releaseSupplyPage = r => require.ensure([], () => r(require('@/pages/homePage/releaseSupplyPage/releaseSupplyPage')), 'releaseSupplyPage');
+const entryListPage = r => require.ensure([], () => r(require('@/pages/homePage/entryListPage/entryListPage')), 'entryListPage');
 const routes = [{
 	path: '/',
 	redirect: '/homePage'
@@ -83,6 +85,9 @@ const routes = [{
 }, {
 	path: '/supplyDetailPage', // 供应详情
 	component: supplyDetailPage
+}, {
+	path: '/entryListPage', // 厂家列表
+	component: entryListPage
 }, {
 	path: '/loginPage',
 	component: loginPage

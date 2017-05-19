@@ -1,6 +1,6 @@
 <template>
 	<div class="personal-business">
-		<div class="personal-business-wrap clearfix" v-for="(item, index) in items">
+		<div class="personal-business-wrap clearfix" v-for="(item, index) in items" v-show="items.length > 0">
 			<div class="personal-business-Info">
 				<div class="logo">
 					<img src="item.companyHeadIcon" alt="logo" />
@@ -19,7 +19,7 @@
 					<a>查看全部{{ '(' + item.productCount + ')' }} > </a>
 				</div>
 				<div class="hotSell clearfix">
-					<div class="hotSellItem" v-for="hotSellItem in item.productBOS">
+					<div class="hotSellItem" v-for="hotSellItem in item.productBOS" v-show="item.productBOS.length > 0">
 						<img src="hotSellItem.defaultPicUrl" alt="hotSell" />
 						<p class="goodsName">#{{hotSellItem.id}}</p>
 						<p>
@@ -28,8 +28,14 @@
 							<span class="green" v-if="hotSellItem.isStock === 1">有库存</span>
 						</p>
 					</div>
+					<div class="default-page" v-show='!item.productBOS.length > 0'>
+						暂无花型信息
+					</div>
 				</div>
 			</div>
+		</div>
+		<div class="default-page" v-show='!items.length > 0'>
+			暂无数据
 		</div>
 	</div>
 </template>
@@ -57,7 +63,7 @@
 			listCompanyMethod() {
 				let _ = this;
 				listCompany(_.param).then((res) => {
-					_.items = res.data.list;
+					_.items = res.data.data.list;
 				}).catch();
 			},
 			cancelSC(index) {
@@ -72,6 +78,14 @@
 </script>
 
 <style lang="scss" scoped="scoped">
+	.default-page {
+		width: 100%;
+		height: 300px;
+		font-size: 20px;
+		line-height: 200px;
+		text-align: center;
+	}
+	
 	.personal-business-wrap {
 		position: relative;
 		padding: 20px 15px 0;
@@ -85,6 +99,7 @@
 			background: #d1d1d1;
 		}
 	}
+	
 	.personal-business-wrap:last-of-type::before {
 		display: none;
 	}

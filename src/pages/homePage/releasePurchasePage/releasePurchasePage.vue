@@ -165,7 +165,19 @@
 		},
 		async created() {
 //			console.log(this.$route.query.text);
-			this.addBuyForm.buyDesc = this.$route.query.text;
+			if (this.$route.query.text) {
+				this.addBuyForm.buyDesc = this.$route.query.text;
+			};
+			if (this.$route.query.obj) {
+				this.addBuyForm.buyType = this.$route.query.obj.buyType;
+				this.addBuyForm.buyUnit = this.$route.query.obj.buyUnit;
+				this.addBuyForm.buyShapes = this.$route.query.obj.buyShape;
+				this.addBuyForm.isStartUp = this.$route.query.obj.isStartUp;
+				this.addBuyForm.buyNum = this.$route.query.obj.buyNum;
+				this.addBuyForm.buyDesc = this.$route.query.obj.buyDesc;
+				this.addBuyForm.buyPicUrl = this.$route.query.obj.buyPicUrl;
+			};
+			console.log(this.$route.query.obj);
 			// 默认选择公斤
 			this.addBuyForm.buyUnit = 400011;
 			// TODO:编辑页面 => 后台并没有提供接口

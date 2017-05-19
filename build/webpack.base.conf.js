@@ -15,8 +15,7 @@ module.exports = {
 		path: config.build.assetsRoot,
 		filename: '[name].js',
 		publicPath: process.env.NODE_ENV === 'production' ?
-			config.build.assetsPublicPath :
-			config.dev.assetsPublicPath
+			config.build.assetsPublicPath : config.dev.assetsPublicPath
 	},
 	resolve: {
 		extensions: ['.js', '.vue', '.json'],
@@ -26,8 +25,8 @@ module.exports = {
 		}
 	},
 	node: {
-    fs: 'empty'
-  },
+		fs: 'empty'
+	},
 	module: {
 		rules: [{
 				test: /\.(js|vue)$/,
@@ -43,9 +42,9 @@ module.exports = {
 				loader: 'style-loader!css-loader!sass-loader'
 			},
 			{
-        test:   /\.css$/,
-        loader: "style-loader!css-loader!postcss-loader"
-      },
+				test: /\.css$/,
+				loader: "style-loader!css-loader!postcss-loader"
+			},
 			{
 				test: /\.vue$/,
 				loader: 'vue-loader',

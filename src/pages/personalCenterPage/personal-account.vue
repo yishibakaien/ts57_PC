@@ -10,17 +10,17 @@
 		</div>
 		<div class="personal-account-item personal-form">
 			<label for="fullName">姓名</label>
-			<input type="text" name="fullName" id="fullName" placeholder="请填写您的姓名" v-model="param.userName" v-on:blur="checkName()"/>
+			<input type="text" name="fullName" id="fullName" placeholder="请填写您的姓名" v-model="param.userName" v-on:blur="checkName()" />
 			<p v-show="!check.p1">请输入2-8位长度的名称</p>
 		</div>
 		<div class="personal-account-item personal-form">
 			<label for="QQ">QQ</label>
-			<input type="text" name="QQ" id="QQ" placeholder="请填写您的QQ号码" v-model="param.qq" v-on:blur="checkQQ()"/>
+			<input type="text" name="QQ" id="QQ" placeholder="请填写您的QQ号码" v-model="param.qq" v-on:blur="checkQQ()" />
 			<p v-show="!check.p2">您输入的QQ格式错误</p>
 		</div>
 		<div class="personal-account-item personal-form">
 			<label for="email">邮箱</label>
-			<input type="text" name="email" id="email" placeholder="请填写您的邮箱地址" v-model="param.email" v-on:blur="checkEmail()"/>
+			<input type="text" name="email" id="email" placeholder="请填写您的邮箱地址" v-model="param.email" v-on:blur="checkEmail()" />
 			<p v-show="!check.p3">您输入的Email格式错误</p>
 		</div>
 		<button class="personal-btn" @click="updateUserMethod">保存</button>
@@ -31,8 +31,8 @@
 	import { updateUser } from '@/common/api/api';
 	import { aliUpload } from '@/components';
 	import * as reg from '@/common/js/regExp';
-//	import store from '@/store/store';
-//	import * as types from '@/store/types';
+	import Toast from '@/components/common/toast/toast';
+	import * as types from '@/store/types';
 
 	export default {
 		data() {
@@ -68,15 +68,23 @@
 			},
 			updateUserMethod() {
 				let _ = this;
+				_.checkName();
+				_.checkQQ();
+				_.checkEmail();
 				if (!(_.check.p1 && _.check.p2 && _.check.p3)) {
-//					store.commit(types.MODEL_SHOW, true);
-//					store.commit(types.MODEL_OPTION, {type: 2, title: '提示', content: '您的输入有误，请检查'});
+					//					store.commit(types.MODEL_SHOW, true);
+					//					store.commit(types.MODEL_OPTION, {type: 2, title: '提示', content: '您的输入有误，请检查'});
 					return;
 				}
 				updateUser(this.param).then((res) => {
 					if (res.data.code === 0) {
-//						store.commit(types.MODEL_SHOW, true);
-//						store.commit(types.MODEL_OPTION, {type: 1, title: '提示', content: '您的信息更新成功'});
+						//						store.commit(types.MODEL_SHOW, true);
+						//						store.commit(types.MODEL_OPTION, {type: 1, title: '提示', content: '您的信息更新成功'});
+						Toast({
+							type: 'success',
+							message: '您的信息更新成功'
+						});
+						this.$store.commit(types.USER_NAME, this.param.userName);
 						if (_.param.qq) {
 							localStorage.setItem('qq', _.param.qq);
 						};

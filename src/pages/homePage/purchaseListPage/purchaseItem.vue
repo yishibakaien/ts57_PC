@@ -80,11 +80,14 @@ export default {
     border-top 1px solid #d8d8d8
     .name
       display inline-block
-      vertical-align top
+      width 120px
       height 40px
       line-height 40px
       font-size 15px
       color #666
+      overflow hidden
+      text-overflow ellipsis
+      white-space nowrap
     .time
       display inline-block
       float right

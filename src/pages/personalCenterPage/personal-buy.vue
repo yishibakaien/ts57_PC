@@ -19,24 +19,35 @@
 				</ts-radio-group>
 			</ts-filter>
 		</div>
-		<div class="personal-buy-wrap clearfix">
-			<div class="personal-goods-item" v-for="item in items">
+		<div class="personal-buy-wrap clearfix"  v-show='!defaultShow'>
+			<div class="personal-goods-item" v-for="(item, index) in items">
 				<div class="personal-goods-item-img">
 					<img :src="item.buyPicUrl" alt="求购" />
 					<span class="states green" v-if="item.buyStatus == 1">求购中</span>
 					<span class="states yellow" v-if="item.buyStatus == 2">已成交</span>
 					<span class="states gray" v-if="item.buyStatus == 3">已关闭</span>
-					<p class="gray" v-if="item.buyStatus == 1">取消求购</p>
+					<p class="gray" v-if="item.buyStatus == 1" @click="openModel(index)">关闭求购</p>
 					<p class="blue" v-if="item.buyStatus == 2">重新发布</p>
-					<p class="p3" v-if="item.buyStatus == 3"><span class="spanL">重新发布</span><span class="spanR">删除</span></p>
-
+					<p class="p3" v-if="item.buyStatus == 3"><span class="spanL" @click="releaseBuyAgain(index)">重新发布</span><span class="spanR" @click="openModel(index)">删除</span></p>
 				</div>
 				<p class="info">{{ item.buyDesc }}</p>
 				<p><span>求购 <i>{{ item.buyNum }}</i> 码</span><span class="time">{{item.createDate | customTime}}</span></p>
-				<div class="tipsModel" v-show="tipShow">
-
+				<div class="tipsModel" v-show="item.tipShow">
+					<div v-if="item.buyStatus == 1">
+						<p>确认关闭该求购？</p>
+						<button class="button-yes" @click="closeProductBuyMethod(index)">确认</button>
+						<button class="button-no" @click="closeModel">取消</button>
+					</div>
+					<div v-if="item.buyStatus == 3">
+						<p>确认删除该求购单？</p>
+						<button class="button-yes" @click="deleteProductBuyMethod(index)">确认</button>
+						<button class="button-no" @click="closeModel">取消</button>
+					</div>
 				</div>
 			</div>
+		</div>
+		<div class="default-page" v-show='defaultShow'>
+			暂无数据
 		</div>
 		<pageBar v-if="pageMax >= 1" :pageNum="pageNum" :pageMax="pageMax" :number="pageSize" v-on:upPage="upPage" v-on:downPage="downPage" v-on:selectFirstPage="selectFirstPage" v-on:selectLastPage="selectLastPage" v-on:selectNumber="selectNumber"></pageBar>
 	</div>
@@ -44,7 +55,8 @@
 
 <script>
 	import { pageBar } from '@/components';
-	import { myProductBuys } from '@/common/api/api';
+	import { myProductBuys, deleteProductBuy, closeProductBuy } from '@/common/api/api';
+	import Toast from '@/components/common/toast/toast';
 	export default {
 		data() {
 			return {
@@ -61,7 +73,15 @@
 					pageNo: 1,
 					pageSize: 8
 				},
+				deleBuyParam: {
+					ids: ''
+				},
+				closeBuyParam: {
+					buyCloseDesc: '',
+					id: ''
+				},
 				items: [],
+				showItems: [],
 				classes: {
 					totalNum: 0,
 					mianliao: 0,
@@ -72,8 +92,7 @@
 					statusSuccess: 0,
 					statusClosed: 0
 				},
-				tipShow: false,
-				aaa: ''
+				defaultShow: false
 			};
 		},
 		components: {
@@ -82,6 +101,13 @@
 		created() {
 			let _ = this;
 			myProductBuys(_.param).then((res) => {
+				if (res.data.data.list.length === 0) {
+					this.defaultShow = true;
+					return;
+				}
+				res.data.data.list.forEach((item) => {
+					item.tipShow = false;
+				});
 				_.items = res.data.data.list;
 				_.pageNum = res.data.data.pageNO;
 				_.pageSize = res.data.data.pageSize;
@@ -100,6 +126,9 @@
 			myProductBuysMethod() {
 				let _ = this;
 				myProductBuys(_.param).then((res) => {
+					res.data.data.list.forEach((item) => {
+						item.tipShow = false;
+					});
 					_.items = res.data.data.list;
 					_.pageNum = res.data.data.pageNO;
 					_.pageSize = res.data.data.pageSize;
@@ -128,9 +157,16 @@
 				_.param.pageNo = 1;
 				_.myProductBuysMethod();
 			},
-			closeProductBuyMethod() {
+			openModel(index) {
 				let _ = this;
-				_.tipShow = true;
+				_.closeModel();
+				_.items[index].tipShow = true;
+			},
+			closeModel() {
+				let _ = this;
+				_.items.forEach((item) => {
+					item.tipShow = false;
+				});
 			},
 			selectFirstPage() {
 				let _ = this;
@@ -165,12 +201,56 @@
 				_.param.pageNo = 1;
 				_.param.pageSize = num;
 				this.myProductBuysMethod();
+			},
+			// 删除求购
+			deleteProductBuyMethod(index) {
+				this.deleBuyParam.ids = this.items[index].id;
+				deleteProductBuy(this.deleBuyParam).then((res) => {
+					if (res.data.code === 0) {
+						this.closeModel();
+						Toast({
+							type: 'success',
+							message: '该求购单已删除'
+						});
+						this.myProductBuysMethod();
+					}
+				}).catch();
+			},
+			// 关闭求购
+			closeProductBuyMethod(index) {
+				this.closeBuyParam.id = this.items[index].id;
+				closeProductBuy(this.closeBuyParam).then((res) => {
+					if (res.data.code === 0) {
+						this.closeModel();
+						Toast({
+							type: 'success',
+							message: '成功关闭该求购'
+						});
+						this.myProductBuysMethod();
+					}
+				}).catch();
+			},
+			// 重新发布
+			releaseBuyAgain(index) {
+				this.$router.push({
+					path: '/releasePurchasePage',
+					query: {
+						obj: this.items[index]
+					}
+				});
 			}
 		}
 	};
 </script>
 
 <style lang="scss">
+	.default-page {
+		width: 100%;
+		height: 300px;
+		font-size: 20px;
+		line-height: 200px;
+		text-align: center;
+	}
 	.personal-buy {
 		margin-top: 25px;
 		padding: 0 15px;
@@ -199,6 +279,33 @@
 		position: absolute;
 		top: 0;
 		left: 0;
+		right: 0;
+		bottom: 0;
 		background: rgba(0, 0, 0, .5);
+		p {
+			margin-top: 90px;
+			color: #fff;
+			font-size: 16px;
+			text-align: center;
+		}
+		.button-yes,
+		.button-no {
+			margin-top: 70px;
+			display: inline-block;
+			width: 80px;
+			height: 32px;
+			line-height: 32px;
+			border: 0;
+			font-size: 14px;
+			color: #FFF;
+			text-align: center;
+		}
+		.button-yes {
+			margin: 0 14px;
+			background: #4c93fd;
+		}
+		.button-no {
+			background: #d1d1d1;
+		}
 	}
 </style>

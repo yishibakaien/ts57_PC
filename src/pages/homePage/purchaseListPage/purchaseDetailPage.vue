@@ -1,11 +1,11 @@
 
 <template>
-  <div class="purchase-detail-page">
+  <div class="purchase-detail">
     <v-header>
     	<search></search>
     </v-header>
     <v-nav></v-nav>
-    <div class="purchase-detail-page-box">
+    <div class="purchase-detail-box">
       <div class="purchase-detail-left">
 
       </div>
@@ -33,12 +33,4 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.purchase-detail-page
-  background #f2f2f2
-  .purchase-detail-page-box
-    box-sizing border-box
-    width 1200px
-    margin 0 auto
-    padding 16px 0
-    background #fff
 </style>

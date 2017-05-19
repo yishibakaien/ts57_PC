@@ -39,11 +39,6 @@ export default {
     this.pageMax1 = this.pageMax;
     this.number1 = this.number;
   },
-  created() {
-    console.log('pageNum', this.pageNum);
-    console.log('pageNum', this.pageMax);
-    console.log('pageNum', this.number);
-  },
   props: ['pageNum', 'pageMax', 'number'],
   methods: {
     selectFirstPage() {

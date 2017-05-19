@@ -55,17 +55,15 @@
 </template>
 
 <script>
-import * as types from '../../store/types';
-import {getUserInfo} from '../../common/api/api';
+import * as types from '@/store/types';
+import {getUserInfo} from '@/common/api/api';
 export default {
   created() {
 //  console.log('topbar-accessToken', this.$store.state.accessToken);
     if (this.$store.state.accessToken) {
       getUserInfo().then(res => {
-        console.info(res);
         this.$store.commit(types.USER_NAME, res.data.data.userName);
       }).catch(res => {
-        console.log(res);
       });
     }
   },

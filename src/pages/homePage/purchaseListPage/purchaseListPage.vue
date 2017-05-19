@@ -33,7 +33,7 @@
 			</div>
 			<!-- 列表 -->
 			<div class="pruchase-list-item-wrapper clearfix">
-				<div class="item-wrapper" v-for="item in items">
+				<div class="item-wrapper" v-for="item in items" @click="goDetail(3)">
 					<purchase-item :item="item"></purchase-item>
 				</div>
 			</div>
@@ -133,6 +133,14 @@
 			selectedPageNum1(e) {
 				this.param.pageNo = e;
 				this.listProductBuysMethod();
+			},
+			goDetail(id) {
+				this.$router.push({
+					path: '/purchaseDetailPage',
+					query: {
+						id: id
+					}
+				});
 			}
 		}
 	};

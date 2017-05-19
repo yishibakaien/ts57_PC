@@ -153,9 +153,10 @@ export default {
   }
 };
 </script>
-
+<style lang="css">
+	@import '../../common/css/personal.css';
+</style>
 <style lang="scss" scoped="scoped">
-@import '../../common/css/personal.css';
 .personal {
     }
 .personal-container {

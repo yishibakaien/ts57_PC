@@ -5,7 +5,6 @@
         <div class="brand-name">
           <div class="left">
             <p class="brand-title">厂家供应</p>
-            <p class="en">SUPPLY</p>
           </div>
           <div class="right">
             <i class="iconfont">字</i>
@@ -81,8 +80,8 @@ basecolor = #4c93fd
     width 267px
     height 384px
     .brand-header
-      height 132px
-      padding 16px
+      height 70px
+      padding 12px 16px
       color #fff
       font-family 'Microsoft YaHei'
       background basecolor
@@ -91,7 +90,7 @@ basecolor = #4c93fd
         .left
           flex 1
           .brand-title
-            font-size 36px
+            font-size 28px
             height 45px
             line-height 45px
           .en
@@ -105,12 +104,12 @@ basecolor = #4c93fd
           height 75px
           line-height 75px
           .iconfont
-            font-size 60px
+            font-size 42px
             color rgba(255, 255, 255, 0.6)
       .brand-desc
-        height 80px
-        line-height 80px
-        font-size 20px
+        height 40px
+        line-height 40px
+        font-size 16px
         color rgba(255, 255, 255, 0.6)
     .brand-body
       height 188px

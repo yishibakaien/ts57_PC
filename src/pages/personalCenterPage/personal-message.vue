@@ -43,6 +43,7 @@
 
 <script>
 	import { getMsgSetting, setMsg } from '@/common/api/api';
+	import Toast from '@/components/common/toast/toast';
 	export default {
 		data() {
 			return {
@@ -74,15 +75,23 @@
 			getMsgSettingMethod() {
 				let _ = this;
 				getMsgSetting().then((res) => {
-					_.param.isBuyMsg = res.data.data.isBuyMsg;
-					_.param.isLookMsg = res.data.data.isLookMsg;
-					_.param.isReceiveMsg = res.data.data.isReceiveMsg;
-					_.param.isSyMsg = res.data.data.isSyMsg;
+					if (res.data.code === 0) {
+						_.param.isBuyMsg = res.data.data.isBuyMsg;
+						_.param.isLookMsg = res.data.data.isLookMsg;
+						_.param.isReceiveMsg = res.data.data.isReceiveMsg;
+						_.param.isSyMsg = res.data.data.isSyMsg;
+					}
 				}).catch();
 			},
 			setMsgMethod() {
 				let _ = this;
 				setMsg(_.param).then((res) => {
+					if (res.data.code === 0) {
+						Toast({
+							type: 'success',
+							message: '设置成功'
+						});
+					}
 				}).catch();
 			}
 		}

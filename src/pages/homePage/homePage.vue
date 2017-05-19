@@ -38,7 +38,6 @@ import {
   header,
   nav,
   search,
-  fixedTopbar,
   banner,
   purchaseList,
   supplyList,
@@ -89,7 +88,6 @@ export default {
     'vHeader': header,
     'vNav': nav,
     search,
-    fixedTopbar,
     banner,
     purchaseList,
     supplyList,
@@ -120,7 +118,7 @@ export default {
     // 获取求购列表
     listProductBuys({
       buyStatus: 0,
-      pageNo: 0,
+      pageNo: 1,
       pageSize: 4
     }).then(res => {
       console.log('求购详情', res);
@@ -134,7 +132,7 @@ export default {
     // 获取供应列表
     listCompanySupplys({
       supplyStatus: 1, // 供应状态 1--供应中 2--已关闭
-      pageNo: 0,
+      pageNo: 1,
       pageSize: 4
     }).then(res => {
       console.log('供应详情', res);

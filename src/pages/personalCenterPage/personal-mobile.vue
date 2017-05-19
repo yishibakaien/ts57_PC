@@ -32,6 +32,7 @@
 <script>
 	import * as reg from '@/common/js/regExp';
 	import { checkPasswd, changeSMSCode, changeMobile } from '@/common/api/api';
+	import Toast from '@/components/common/toast/toast';
 	export default {
 		data() {
 			return {
@@ -78,6 +79,10 @@
 				};
 				changeSMSCode(this.mobile).then((res) => {
 					if (res.data.code === 0) {
+						Toast({
+							type: 'success',
+							message: '发送成功'
+						});
 					} else {
 						console.log('error');
 					}
@@ -92,7 +97,12 @@
 				};
 				changeMobile(this.mobile).then((res) => {
 					if (res.data.code === 0) {
-						alert('修改成功');
+						Toast({
+							type: 'success',
+							message: '修改成功'
+						});
+						this.phoneNum = this.mobile.mobile;
+						localStorage.setItem('userMobile', this.mobile.mobile);
 					}
 				}).catch((res) => {
 					console.log('异常');
