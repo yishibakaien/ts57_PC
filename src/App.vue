@@ -54,7 +54,6 @@ export default {
         background #3385ff
 </style>
 <style lang="css">
-@import './common/css/font.css';
+@import './common/css/main.css';
 @import 'static/css/pc_reset.css';
-@import './common/css/1px.css';
 </style>

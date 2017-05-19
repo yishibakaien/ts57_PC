@@ -16,14 +16,13 @@ export default {
 </script>
 
 <style lang="css" scoped>
-@import '../../../common/css/var.css';
+@import '../../../common/css/_var.css';
 @import '../../../common/css/mixin/setOnepx.css';
 @component-namespace ts{
   @component grids{
     position: relative;
     word-wrap: -1em;
-    display: table;
-    width: 100%;
+    display: flex;
     &:before {
         @mixin setTopLine var(--grid-border-color);
     }

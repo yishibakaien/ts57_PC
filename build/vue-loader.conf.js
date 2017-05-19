@@ -9,7 +9,11 @@ module.exports = {
       : config.dev.cssSourceMap,
     extract: isProduction
   }),
-  postcss: function () {
-          	return [require('postcss-salad')]
+  postcss: function(webpack) {
+    return [require('postcss-salad')({
+        partialImport: {
+          addDependencyTo: webpack
+        }
+      })]
   }
 }

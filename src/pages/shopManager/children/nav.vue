@@ -21,7 +21,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
-@import '../../../common/css/var.css';
+@import '../../../common/css/_var.css';
 @component-namespace shopManager{
   @component nav{
   /*店铺标题*/

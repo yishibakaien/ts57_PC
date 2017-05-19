@@ -90,7 +90,7 @@ export default {
 };
 </script>
 <style lang="css" scoped>
-@import '../../common/css/var.css';
+@import '../../common/css/_var.css';
 @component-namespace ts{
   @component input {
     position: relative;

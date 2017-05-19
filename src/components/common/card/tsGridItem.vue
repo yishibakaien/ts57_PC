@@ -2,6 +2,9 @@
 
 <div class="ts-grid" :style="getStyle" @click="handleClick">
   <slot></slot>
+  <div class="ts-grid--footer" v-if="$slots.footer">
+    <slot name="footer"></slot>
+  </div>
 </div>
 </template>
 
@@ -27,16 +30,18 @@ export default {
 </script>
 
 <style lang="css" scoped>
-@import '../../../common/css/var.css';
+@import '../../../common/css/_var.css';
+@import '../../../common/css/mixin/setOnepx.css';
 @component-namespace ts{
   @component grid{
     position: relative;
     padding: 4px;
     box-sizing: border-box;
-    width:calc(100/4)%;
-    display: table-cell;
+    flex:1;
     word-wrap: 0;
+    text-align: center;
     transition: .5s;
+    padding: 16px;
     &:before {
     @mixin setRightLine var(--grid-border-color);
     }
@@ -46,6 +51,12 @@ export default {
     &:active,
     &:hover {
         box-shadow: 0 2px 4px 0 var(--grid-hover-border-color), 0 0 6px 0 var(--grid-hover-border-color);
+    }
+    @modifier footer{
+      padding-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
   }
 }

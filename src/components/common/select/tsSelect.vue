@@ -119,7 +119,7 @@ export default {
 };
 </script>
 <style lang="css" scoped>
-  @import "../../../common/css/var.css";
+  @import "../../../common/css/_var.css";
 @component-namespace ts{
   @component select{
     position: relative;
@@ -134,7 +134,7 @@ export default {
     }
     @descendent toggle{
       border: 1px solid #cfcfcf;
-      min-height: 30px;
+      min-height: 32px;
       line-height: 30px;
       padding: 0 10px;
       box-sizing: border-box;

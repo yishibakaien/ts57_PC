@@ -51,7 +51,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
-@import "../../common/css/var.css";
+@import "../../common/css/_var.css";
 
 @component-namespace ts {
   @component button {
@@ -93,6 +93,10 @@ export default {
       color: var(--button-plain-color);
       border:1px solid var(--button-plain-color);
       background-color: var(--button-plain-background-color);
+      &:hover{
+        border-color:var(--button-primary-background-color);
+        color:var(--button-primary-background-color);
+      }
     }
     @modifier primary {
       color: var(--button-primary-color);

@@ -17,6 +17,7 @@ import tsColumn from './tables/tsColumn.vue';
 import tsInput from './tsInput.vue';
 import tsSelect from './select/tsSelect.vue';
 import tsButton from './tsButton.vue';
+import tsTag from './tsTag.vue';
 import tsForm from './forms/tsForm.vue';
 import tsFormItem from './forms/tsFormItem.vue';
 import tsPagination from './tsPagation.vue';
@@ -24,6 +25,7 @@ import tsGrid from './card/tsGrid.vue';
 import tsGridItem from './card/tsGridItem.vue';
 const Components = {
   tsGrid,
+  tsTag,
   tsGridItem,
   tsSection,
   tsToast,

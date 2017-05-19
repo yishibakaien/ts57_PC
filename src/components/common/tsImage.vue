@@ -1,6 +1,6 @@
 <template lang="html">
   <div @mouseover="isSHow=true" @mouseout="isSHow=false" class="ts-image" :style="{width:width+'px',height:height+'px'}" @click="handleImg">
-    <img class="ts-image-img" v-lazy="src" :class="{'is-view':showOriginPic}">
+    <img class="ts-image-img" v-lazy="src" :class="{'is-view':showOriginPic,'is-disabledHover':disabledHover}">
   </div>
 </template>
 
@@ -22,12 +22,20 @@ export default {
       this.dispatch('tsFormItem', 'ts.form.change', [val]);
     }
   },
-  // src--图片SRC
-  // width/height--图片宽高
+  /**
+   * src -- 图片路径
+   * width/height--图片宽高
+   * disabledHover -- 不允许hover的时候放大图片
+   * canView -- 是否能点击放大图片
+   */
   props: {
     src: String,
     height: String,
     width: String,
+    disabledHover: {
+      type: Boolean,
+      default: false
+    },
     modal: {
       default: true
     },
@@ -86,7 +94,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
-@import '../../common/css/var.css';
+@import '../../common/css/_var.css';
 @keyframes dialogfade {
   0% {
     opacity: 0;
@@ -124,6 +132,11 @@ export default {
       animation: imgfade .4s;
       &:hover{
         transform:scale(1.05);
+      }
+      @when disabledHover{
+        &:hover{
+          transform:scale(1);
+        }
       }
       @when view{
         transition:transform .8s;

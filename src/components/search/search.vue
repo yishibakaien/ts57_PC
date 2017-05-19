@@ -16,7 +16,7 @@
 <script>
 import picUpload from '../picUpload/picUpload';
 import * as types from '../../store/types';
-import {search} from '../../common/api/api';
+import {searchMtd} from '../../common/api/api';
 export default {
   data() {
     return {
@@ -32,7 +32,7 @@ export default {
         alert('请输入搜索内容');
         return;
       }
-      search({
+      searchMtd({
         keywords: this.text,
         pageSize: 15,  // 每页数量 默认10
         searchType: 2  // 搜索类型 1:店铺搜索 2:全局搜索
