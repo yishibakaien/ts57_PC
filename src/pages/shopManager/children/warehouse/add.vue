@@ -8,7 +8,7 @@
       </ts-form-item>
       <ts-form-item label="花型分类：" prop="category">
         <ts-radio-group bordered v-model="addPatternForm.category">
-          <ts-radio :label="item.dicValue" v-for="item in dicTree.PRODUCT_TYPE" :key="item.dicValue">{{item.name}}</ts-radio>
+          <ts-radio @change.native="handleSelect" :label="item.dicValue" v-for="item in dicTree.PRODUCT_TYPE" :key="item.dicValue">{{item.name}}</ts-radio>
         </ts-radio-group>
       </ts-form-item>
       <ts-form-item label="花型成分：" prop="ingredient">
@@ -41,8 +41,8 @@
         </ts-radio-group>
       </ts-form-item>
       <ts-form-item label="大货类型：" prop="productShape">
-        <ts-radio-group bordered v-model="addPatternForm.productShape">
-          <ts-radio origin :label="item.dicValue" :key="item.value" v-for="item in dicTree.PRODUCT_SHAPE">{{item.name}}</ts-radio>
+        <ts-radio-group bordered v-model="addPatternForm.productShape" >
+          <ts-radio @change.native="handleSelect" :label="item.dicValue" :key="item.value" v-for="item in dicTree.PRODUCT_SHAPE">{{item.name}}</ts-radio>
         </ts-radio-group>
       </ts-form-item>
     <ts-form-item label="库存：" prop="isStock" class="add-dynamic">
@@ -69,7 +69,7 @@
     <p class="add-list-title">选填内容</p>
     <ts-form-item label="价格：" prop="price">
       <ts-input v-model="prince" style="width:320px" placeholder="请输入单价"></ts-input>
-      <ts-select style="width:12%" data-key-name="name" data-val-name="dicValue" placeholder="选择单位" :options='CopyDICTUnit' v-model="addPatternForm.priceUnit" :disabled="!!addPatternForm.stockUnit"></ts-select>
+      <ts-select style="width:12%" data-key-name="name" data-val-name="dicValue" placeholder="选择单位" :options='CopyDICTUnit' v-model="addPatternForm.priceUnit"></ts-select>
     </ts-form-item>
     <ts-form-item label="幅宽：" prop="width">
       <ts-input v-model="addPatternForm.width" style="width:320px" placeholder="请输入幅宽"></ts-input>
@@ -206,66 +206,51 @@ export default {
     Clickoutside
   },
   watch: {
-    'addPatternForm.picsUrl' (val) {
-      this.Pic.text = val ? '修改图片' : '添加图片';
-      this.Pic.show = !!val;
-    },
-    // 库存单位决定价格单位
-    'addPatternForm.stockUnit' (val) {
-      this.addPatternForm.priceUnit = val;
-    },
-    // 如果库存选择需要开机 => 则库存单位清空
-    'addPatternForm.isStock' (val) {
-      if (!val) {
-        this.addPatternForm.stockUnit = '';
-      } else {
-        // ======
-        // 默认会选中第一个值
-        // this.addPatternForm = Object.assign({}, this.addPatternForm, {
-        //   stockUnit: DICT.StockUnits[0].dicValue
-        // });
-      }
-    },
-    // 当面料改变的时候
-    'addPatternForm.category' (val) {
-      let PTJM = '100013';
-      let PUT = '400012';
-      let PSPB = '200010';
-      let PUSG = '400011';
-      // 如果面料是睫毛 => 那就显示‘条’单位
-      if (val !== PTJM) {
-        this.CopyDICTUnit = this.CopyDICTUnit.filter(item => item.dicValue !== PUT);
-      } else if (this.addPatternForm.productShape === PSPB) {
-        // 如果有选了胚布 => 那就只显示公斤
-        this.CopyDICTUnit = this.CopyDICTUnit.filter(item => item.dicValue === PUSG);
-      } else {
-        // 如果不是睫毛 => 显示所有
-        this.CopyDICTUnit = JSON.parse(JSON.stringify(this.dicTree.PRODUCT_UNIT));
-      }
-      // this.addPatternForm = Object.assign({}, this.addPatternForm, {
-      //   priceUnit: this.CopyDICTUnit[0].dicValue
-      // });
-    },
-    'addPatternForm.productShape' (val) {
-      let PSPB = '200010';
-      let PUSG = '400011';
-      let PUT = '400012';
-      let PTJM = '100013';
-      // 如果是胚布 => 只显示公斤
-      if (val === PSPB) {
-        this.CopyDICTUnit = this.CopyDICTUnit.filter(item => item.dicValue === PUSG);
-      } else if (this.addPatternForm.category === PTJM) {
-        // 如果面料是睫毛 => 把‘条’也显示
-        this.CopyDICTUnit = this.dicTree.PRODUCT_UNIT;
-      } else {
-        // 什么没选的情况下 => 条是隐藏的
-        this.CopyDICTUnit = this.dicTree.PRODUCT_UNIT.filter(item => item.dicValue !== PUT);
-      }
-      // this.addPatternForm = Object.assign({}, this.addPatternForm, {
-      //   priceUnit: this.CopyDICTUnit[0].dicValue
-      // });
+    addPatternForm: {
+      handler(val, oldVal) {
+        let PTJM = '100013';
+        let PUT = '400012';
+        let PSPB = '200010';
+        let PUSG = '400011';
+        // ========
+        // 1.上传图片
+        if (val.picsUrl) {
+          this.Pic.text = val.picsUrl ? '修改图片' : '添加图片';
+          this.Pic.show = !!val.picsUrl;
+        }
+        // =========
+        // 2.如果库存选择需要开机 => 价格单位不变
+        // 2.如果库存选择有库存 => 库存单位默认选择价格单位
+        if (!val.isStock) {
+          val.stockUnit = val.priceUnit;
+        } else {
+          val.priceUnit = val.stockUnit;
+        }
+        // ==========
+        // 4.面料改变的时候
+        if (val.category !== PTJM) {
+          this.CopyDICTUnit = this.CopyDICTUnit.filter(item => item.dicValue !== PUT);
+        } else if (val.productShape === PSPB) {
+          // 如果有选了胚布 => 那就只显示公斤
+          this.CopyDICTUnit = this.CopyDICTUnit.filter(item => item.dicValue === PUSG);
+        } else {
+          // 如果不是睫毛 => 显示所有
+          this.CopyDICTUnit = JSON.parse(JSON.stringify(this.dicTree.PRODUCT_UNIT));
+        }
+        // =========
+        // 5.如果是胚布 => 只显示公斤
+        if (val.productShape === PSPB) {
+          this.CopyDICTUnit = this.CopyDICTUnit.filter(item => item.dicValue === PUSG);
+        } else if (val.category === PTJM) {
+          // 如果面料是睫毛 => 把‘条’也显示
+          this.CopyDICTUnit = this.dicTree.PRODUCT_UNIT;
+        } else {
+          // 什么没选的情况下 => 条是隐藏的
+          this.CopyDICTUnit = this.dicTree.PRODUCT_UNIT.filter(item => item.dicValue !== PUT);
+        }
+      },
+      deep: true
     }
-    // 单位的过滤
   },
   computed: {
     ...mapGetters(['dicTree']),
@@ -286,6 +271,14 @@ export default {
     }
   },
   methods: {
+    handleSelect() {
+      this.addPatternForm = Object.assign({}, this.addPatternForm, {
+        priceUnit: this.CopyDICTUnit[0].dicValue,
+        stockUnit: this.CopyDICTUnit[0].dicValue
+      });
+      console.log('this.addPatternForm.priceUnit', this.addPatternForm.priceUnit);
+      console.log('this.addPatternForm.stockUnit', this.addPatternForm.stockUnit);
+    },
     async handleClickoutside() {
       if (this.EditIngredient.isTyping) {
         let res = await updateIngredient({
@@ -407,6 +400,13 @@ export default {
       this.addPatternForm = Object.assign({}, data.data.data, {
         category: data.data.data.category.toString(),
         productShape: data.data.data.productShape.toString()
+      });
+    }
+    // 新增页面初始化
+    if (!this.$route.query.id) {
+      this.addPatternForm = Object.assign({}, this.addPatternForm, {
+        priceUnit: this.CopyDICTUnit[0].dicValue,
+        stockUnit: this.CopyDICTUnit[0].dicValue
       });
     }
     // // 从素材库进来
