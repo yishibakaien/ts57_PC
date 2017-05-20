@@ -23,8 +23,8 @@ export const errorImg = value => {
   }
   value.onerror = function() {
     value.src = 'ERRORPIC';
-  }
+  };
   value.src = (!value.src)
     ? 'ERRORPIC'
-    : value.src
-}
+    : value.src;
+};
