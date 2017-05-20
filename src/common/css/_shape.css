@@ -1,0 +1,21 @@
+/*
+FLAG
+发现模块 -- 1，2，3
+ */
+.flag{
+  width:35px;
+  height:41px;
+  position:relative;
+  background:red;
+  letter-spacing:.2em;
+  text-align:center;
+  color:#fff;
+}
+.flag:after{
+  content:'';
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:0;
+  border-bottom:13px solid 
+}

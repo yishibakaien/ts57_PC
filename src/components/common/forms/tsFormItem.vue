@@ -157,7 +157,6 @@ export default {
       });
     },
     onFieldBlur() {
-      console.log(0);
       this.validate('blur');
     },
     onFieldChange() {

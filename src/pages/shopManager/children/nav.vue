@@ -4,18 +4,34 @@
       店铺管理
     </p>
     <ul>
-      <router-link :to="item.path" tag="li" exact active-class="active" v-for="item in navItem" class="shopManager-nav-menu" :key="item.path">{{item.name}}</router-link>
+      <router-link :to="item.path" tag="li" exact active-class="active" v-for="item in navItem" class="shopManager-nav-menu" :key="item.path" v-if="item.show">{{item.name}}</router-link>
     </ul>
   </div>
 </template>
 
 <script>
 import nav from '../nav';
+import {
+  mapGetters
+} from 'vuex';
 export default {
   data() {
     return {
       navItem: nav
     };
+  },
+  created() {
+    // 根据userInfo判断
+    // 如果用户类型为2（档口）=> 厂家供应隐藏
+    this.navItem.forEach(item => {
+      item.show = true;
+      if (this.userInfo.userType === 2 && item.path === 'supply') {
+        item.show = false;
+      }
+    });
+  },
+  computed: {
+    ...mapGetters(['userInfo'])
   }
 };
 </script>
