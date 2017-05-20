@@ -5,6 +5,7 @@ import App from './App';
 import router from './router/router';
 import store from './store/store';
 import * as filters from './filter/';
+import * as directive from './directive/';
 import * as utils from '@/common/js/utils';
 import {GAODE_MAP_KEY} from '@/common/dict/const';
 import VueLazyload from 'vue-lazyload';
@@ -24,6 +25,7 @@ Vue.use(VueLazyload, {
 Vue.config.productionTip = false;
 // 注册过滤器
 Object.keys(filters).forEach(k => Vue.filter(k, filters[k]));
+Object.keys(directive).forEach(k => Vue.directive(k, directive[k]));
 Object.keys(utils).forEach(k => { Vue.prototype[k] = utils[k]; });
 Object.keys(filters).forEach(k => { Vue.prototype[k] = filters[k]; });
 // 初始化vue-amap
