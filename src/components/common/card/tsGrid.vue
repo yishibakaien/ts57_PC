@@ -1,15 +1,25 @@
 <template>
-<div class="ts-grids">
+<div class="ts-grids" :class="{'is-column':type==='column'}">
   <slot></slot>
 </div>
 </template>
 
 <script>
 export default {
+  /**
+   * type -- 横 rows / 列 column
+   * @type {Object}
+   */
   props: {
-    rows: {
-      type: Number,
-      default: 4
+    type: {
+      type: String,
+      default: 'row',
+      validator(value) {
+        return [
+          'row',
+          'column'
+        ].indexOf(value) > -1;
+      }
     }
   }
 };
@@ -23,6 +33,10 @@ export default {
     position: relative;
     word-wrap: -1em;
     display: flex;
+    flex-wrap:wrap;
+    @when column{
+      flex-direction: column;
+    }
     &:before {
         @mixin setTopLine var(--grid-border-color);
     }

@@ -1,14 +1,12 @@
 'use strict';
-
-import * as types from './types';
-
-import Vuex from 'vuex';
-
 import Vue from 'vue';
+import Vuex from 'vuex';
+import * as types from './types';
 // module
 // ======
 import shopManagement from './module/shopManagement';
 import dict from './module/dict';
+import user from './module/user';
 // ======
 import {searchMtd} from '../common/api/api';
 
@@ -43,7 +41,8 @@ function _formateStockType(str) {
 export default new Vuex.Store({
   modules: {
     shopManagement,
-    dict
+    dict,
+    user
   },
   state: {
     userName: '',
@@ -100,9 +99,7 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    getUserName: state => {
-      return state.userName;
-    },
+    // userInfo: state => state.userInfo,
     getModelShow: state => {
       return state.modelShow;
     },
@@ -147,7 +144,6 @@ export default new Vuex.Store({
       }
       // 搜索花
       searchMtd(_data).then(res => {
-        console.log('vuex action 的搜索返回值', res);
         let __data = res.data;
         __data.searchText = data.keywords;
         __data.category = data.category;

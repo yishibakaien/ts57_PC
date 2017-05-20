@@ -69,7 +69,7 @@
     <p class="add-list-title">选填内容</p>
     <ts-form-item label="价格：" prop="price">
       <ts-input v-model="prince" style="width:320px" placeholder="请输入单价"></ts-input>
-      <ts-select style="width:12%" data-key-name="name" data-val-name="dicValue" placeholder="选择单位" :options='CopyDICTUnit' v-model="addPatternForm.priceUnit" ></ts-select>
+      <ts-select style="width:12%" data-key-name="name" data-val-name="dicValue" placeholder="选择单位" :options='CopyDICTUnit' v-model="addPatternForm.priceUnit" :disabled="!!addPatternForm.stockUnit"></ts-select>
     </ts-form-item>
     <ts-form-item label="幅宽：" prop="width">
       <ts-input v-model="addPatternForm.width" style="width:320px" placeholder="请输入幅宽"></ts-input>
@@ -100,7 +100,6 @@ import {
   ALI_DOMAIN
 } from '@/common/dict/const';
 import DICT from '@/common/dict';
-import Emitter from '@/common/js/mixins/emitter';
 import Clickoutside from '@/common/js/clickoutside';
 import {
   mapGetters
@@ -211,9 +210,23 @@ export default {
       this.Pic.text = val ? '修改图片' : '添加图片';
       this.Pic.show = !!val;
     },
+    // 库存单位决定价格单位
     'addPatternForm.stockUnit' (val) {
       this.addPatternForm.priceUnit = val;
     },
+    // 如果库存选择需要开机 => 则库存单位清空
+    'addPatternForm.isStock' (val) {
+      if (!val) {
+        this.addPatternForm.stockUnit = '';
+      } else {
+        // ======
+        // 默认会选中第一个值
+        // this.addPatternForm = Object.assign({}, this.addPatternForm, {
+        //   stockUnit: DICT.StockUnits[0].dicValue
+        // });
+      }
+    },
+    // 当面料改变的时候
     'addPatternForm.category' (val) {
       let PTJM = '100013';
       let PUT = '400012';
@@ -229,9 +242,9 @@ export default {
         // 如果不是睫毛 => 显示所有
         this.CopyDICTUnit = JSON.parse(JSON.stringify(this.dicTree.PRODUCT_UNIT));
       }
-      this.addPatternForm = Object.assign({}, this.addPatternForm, {
-        stockUnit: this.CopyDICTUnit[0].dicValue
-      });
+      // this.addPatternForm = Object.assign({}, this.addPatternForm, {
+      //   priceUnit: this.CopyDICTUnit[0].dicValue
+      // });
     },
     'addPatternForm.productShape' (val) {
       let PSPB = '200010';
@@ -248,9 +261,9 @@ export default {
         // 什么没选的情况下 => 条是隐藏的
         this.CopyDICTUnit = this.dicTree.PRODUCT_UNIT.filter(item => item.dicValue !== PUT);
       }
-      this.addPatternForm = Object.assign({}, this.addPatternForm, {
-        stockUnit: this.CopyDICTUnit[0].dicValue
-      });
+      // this.addPatternForm = Object.assign({}, this.addPatternForm, {
+      //   priceUnit: this.CopyDICTUnit[0].dicValue
+      // });
     }
     // 单位的过滤
   },
@@ -259,6 +272,7 @@ export default {
     title() {
       return this.$route.query.id ? '修改花型' : '新增花型';
     },
+    // 价格：后台需要分 => 获取的时候处以100，设置的时候乘以100
     prince: {
       get() {
         if ((this.addPatternForm.price / 100 === 0) || isNaN(this.addPatternForm.price)) {
@@ -271,7 +285,6 @@ export default {
       }
     }
   },
-  mixins: [Emitter],
   methods: {
     async handleClickoutside() {
       if (this.EditIngredient.isTyping) {
@@ -386,16 +399,15 @@ export default {
     // 库存单位 首先隐藏条 当选择面料为睫毛的时候才显示
     let units = JSON.parse(JSON.stringify(this.dicTree.PRODUCT_UNIT));
     this.CopyDICTUnit = units.filter(item => item.dicValue !== `400012`);
-    // ======
-    // 默认会选中第一个值
-    this.addPatternForm = Object.assign({}, this.addPatternForm, {
-      stockUnit: DICT.StockUnits[0].dicValue
-    });
+    // 获取成分列表
     this.ingredientList = (await getIngredientsList()).data.data;
     // 编辑页面
     if (this.$route.query.id) {
       let data = await getProduct(this.$route.query.id);
-      this.addPatternForm = data.data.data;
+      this.addPatternForm = Object.assign({}, data.data.data, {
+        category: data.data.data.category.toString(),
+        productShape: data.data.data.productShape.toString()
+      });
     }
     // // 从素材库进来
     if (this.$route.query.url) {

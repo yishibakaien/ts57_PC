@@ -13,6 +13,7 @@
   "dependencies": {
     "async-validator": "^1.6.9",
     "axios": "^0.16.1",
+    "date-input-polyfill": "^2.13.0",
     "lodash.debounce": "^4.0.8",
     "vue": "^2.2.2",
     "vue-amap": "^0.2.4",

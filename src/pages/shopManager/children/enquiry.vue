@@ -108,6 +108,9 @@ export default {
   methods: {
     // 搜索
     async handleSearch() {
+      this.Params = Object.assign({}, this.Params, {
+        pageNo: 1
+      });
       this.EnquiryList = (await (getEnquiryList(this.Params))).data.data;
     },
     // 显示询价人信息

@@ -129,6 +129,7 @@ export default {
     @component checkbox{
       color : var(--checkbox-color);
       position: relative;
+      white-space: nowrap;
       cursor: pointer;
       display: inline-block;
       @utils-user-select none;

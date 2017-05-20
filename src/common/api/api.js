@@ -122,6 +122,14 @@ const API = {
   dicTree: {
     byTypeKey: '/front/dicTree/byTypeKey'
   },
+  // 合作厂家
+  collaborateCompany: {
+    listCollaborateCompanys: '/collaborateCompany/listCollaborateCompanys', // 获取合作厂家列表
+    updateCollaborateCompany: '/collaborateCompany/updateCollaborateCompany', // 修改合作厂家
+    getCollaborateCompany: '/collaborateCompany/getCollaborateCompany', // 合作厂家详情
+    addCollaborateCompany: '/collaborateCompany/addCollaborateCompany', // 新增合作厂家
+    deleteCollaborateCompany: '/collaborateCompany/deleteCollaborateCompany' // 删除合作厂家
+  },
   // 地理区域
   area: {
     byLevel: '/front/area/byLevel',
@@ -239,7 +247,6 @@ function _fetch(method = METHODS.get, data, url) {
  */
 // 登录
 export function login(data) {
-  // alert('调用fetch');
   return _fetch(METHODS.post, data, API.user.login);
 };
 
@@ -494,3 +501,13 @@ export const sortProductCategory = param => _fetch(METHODS.get, param, API.produ
 export const sortBindingProduct = param => _fetch(METHODS.get, param, API.productCategory.sortBindingProduct);
 // 删除花型分类
 export const deleteProductCategory = param => _fetch(METHODS.post, param, API.productCategory.deleteProductCategory);
+// 获取合作厂家详情
+export const getCollaborateCompany = id => _fetch(METHODS.get, null, `${API.collaborateCompany.getCollaborateCompany}/${id}`);
+// 修改合作厂家
+export const updateCollaborateCompany = param => _fetch(METHODS.post, param, API.collaborateCompany.updateCollaborateCompany);
+// 新增合作厂家
+export const addCollaborateCompany = param => _fetch(METHODS.post, param, API.collaborateCompany.addCollaborateCompany);
+// 获取合作厂家列表
+export const getCollaborateCompanysList = param => _fetch(METHODS.get, param, API.collaborateCompany.listCollaborateCompanys);
+// 删除合作厂家
+export const deleteCollaborateCompany = param => _fetch(METHODS.get, param, API.collaborateCompany.deleteCollaborateCompany);

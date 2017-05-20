@@ -1,7 +1,7 @@
 <template>
 <ts-section pageTitle="企业详细信息">
   <div slot="menu">
-    <ts-button type="primary" @click="editCompany">{{Text.show?'编辑':'保存'}}</ts-button>
+    <ts-button type="primary" @click="editCompany('companyInfoForm')">{{Text.show?'编辑':'保存'}}</ts-button>
   </div>
   <ts-form :model="companyInfoForm" :rules="rules" ref="companyInfoForm" label-width="125px" label-position="left" class="companyInfo-container">
     <div class="companyInfo-container-col">
@@ -23,31 +23,33 @@
       </ts-form-item>
       <ts-form-item label="主要市场：">
         <p v-if="Text.show" class="companyInfo-formItem-text">{{companyInfoForm.mainMarket}}</p>
-        <ts-input v-else v-model="companyInfoForm.mainMarket" style="width:250px"></ts-input>
+        <ts-input v-else v-model="companyInfoForm.mainMarket" :maxlength="20" style="width:250px"></ts-input>
       </ts-form-item>
       <ts-form-item label="设备类型：">
         <p v-if="Text.show" class="companyInfo-formItem-text">{{companyInfoForm.machineType}}</p>
-        <ts-input v-else v-model="companyInfoForm.machineType" style="width:250px"></ts-input>
+        <ts-input v-else v-model="companyInfoForm.machineType" :maxlength="20" style="width:250px"></ts-input>
       </ts-form-item>
     </div>
     <div class="companyInfo-container-col">
-      <ts-form-item label="成立时间：" prop="createDate">
-        <p v-if="Text.show" class="companyInfo-formItem-text">{{companyInfoForm.createDate | filterDate}}</p>
+      <ts-form-item label="成立时间：">
+        <p v-if="Text.show" class="companyInfo-formItem-text">{{companyInfoForm.createDate}}</p>
         <ts-input v-else inputType="date" v-model="createDate" style="width:250px"></ts-input>
       </ts-form-item>
-      <ts-form-item label="经营模式：">
+      <ts-form-item label="经营模式：" prop="businessModel">
         <p v-if="Text.show" class="companyInfo-formItem-text">{{companyInfoForm.businessModel}}</p>
-        <ts-input v-else v-model="companyInfoForm.businessModel" style="width:250px"></ts-input>
+        <ts-input v-else v-model="companyInfoForm.businessModel" :maxlength="20" style="width:250px"></ts-input>
       </ts-form-item>
-      <ts-form-item label="主要客户：">
+      <ts-form-item label="主要客户：" prop="mainClient">
         <p v-if="Text.show" class="companyInfo-formItem-text">{{companyInfoForm.mainClient}}</p>
-        <ts-input v-else v-model="companyInfoForm.mainClient" style="width:250px"></ts-input>
+        <ts-input v-else v-model="companyInfoForm.mainClient" :maxlength='20' style="width:250px"></ts-input>
       </ts-form-item>
-      <ts-form-item label="厂房面积：">
+      <ts-form-item label="厂房面积：" prop="plant">
         <p v-if="Text.show" class="companyInfo-formItem-text">{{companyInfoForm.plant}}</p>
-        <ts-input v-else v-model="companyInfoForm.plant" style="width:250px"></ts-input>
+        <ts-input v-else v-model="companyInfoForm.plant" style="width:250px">
+          <span slot="append" style="padding:0 10px">㎡</span>
+        </ts-input>
       </ts-form-item>
-      <ts-form-item label="设备数量：">
+      <ts-form-item label="设备数量：" prop="machineNum">
         <p v-if="Text.show" class="companyInfo-formItem-text">{{companyInfoForm.machineNum | filterDict(DICT.MachineNum)}}</p>
         <ts-select style="width:250px" data-key-name="label" data-val-name="dicValue" placeholder="选择单位" :options='DICT.MachineNum' v-model="companyInfoForm.machineNum" v-else></ts-select>
       </ts-form-item>
@@ -58,6 +60,7 @@
 
 <script>
 import DICT from '@/common/dict';
+import 'date-input-polyfill';
 import {
   mapGetters,
   mapActions
@@ -97,15 +100,30 @@ export default {
         machineNum: '',
         plant: ''
       },
-      rules: {}
+      rules: {
+        plant: {
+          message: '厂房面积只能是数字',
+          pattern: /^[+]?\d*[.]?\d{0,2}$/
+        },
+        createDate: {
+          message: '请输入正确的成立时间',
+          type: 'date'
+        }
+      }
     };
   },
   methods: {
     ...mapActions(['getCompanyInfo']),
-    editCompany() {
-      this.Text.show = !this.Text.show;
-      if (this.Text.show) {
-        updateCompanyExtend(this.companyInfoForm);
+    editCompany(formName) {
+      if (!this.Text.show) {
+        this.$refs[formName].validate(async(valid) => {
+          if (valid) {
+            let res = await updateCompanyExtend(this.companyInfoForm);
+            this.Text.show = !res.data.code;
+          }
+        });
+      } else {
+        this.Text.show = !this.Text.show;
       }
     }
   },
@@ -114,10 +132,11 @@ export default {
     this.companyInfoForm = this.companyInfo.companyExtendBO;
   },
   watch: {
-    createDate(value) {
-      // 转成时间戳
-      this.companyInfoForm.createDate = new Date(value).getTime();
-    }
+    // createDate(value) {
+    //   console.log(value);
+    //   // 转成时间戳
+    //   // this.companyInfoForm.createDate = new Date(value).getTime();
+    // }
   },
   computed: {
     ...mapGetters(['companyInfo'])

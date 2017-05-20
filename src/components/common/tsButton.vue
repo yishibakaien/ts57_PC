@@ -91,7 +91,7 @@ export default {
     }
     @modifier plain {
       color: var(--button-plain-color);
-      border:1px solid var(--button-plain-color);
+      border:1px solid var(--button-plain-border-color);
       background-color: var(--button-plain-background-color);
       &:hover{
         border-color:var(--button-primary-background-color);

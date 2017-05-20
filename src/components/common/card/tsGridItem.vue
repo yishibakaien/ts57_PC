@@ -1,5 +1,5 @@
 <template>
-<div class="ts-grid" :style="getStyle" @click="handleClick">
+<div class="ts-grid" @click="handleClick">
   <slot></slot>
   <div class="ts-grid--footer" v-if="$slots.footer">
     <slot name="footer"></slot>
@@ -11,17 +11,6 @@ export default {
   methods: {
     handleClick() {
       this.$emit('click');
-    }
-  },
-  computed: {
-    getStyle() {
-      const rows = this.$parent.rows;
-      if (!rows || rows === 4) {
-        return;
-      }
-      const styles = {};
-      styles.width = `${100 / rows}%`;
-      return styles;
     }
   }
 };
@@ -38,7 +27,7 @@ export default {
     word-wrap: 0;
     text-align: center;
     transition: .5s;
-    padding: 16px;
+    padding: 15px;
     &:before {
     @mixin setRightLine var(--grid-border-color);
     }

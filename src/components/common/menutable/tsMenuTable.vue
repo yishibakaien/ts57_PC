@@ -33,6 +33,8 @@ export default {
     margin-bottom: 16px;
     @descendent header{
       padding:10px;
+      min-height: 40px;
+      box-sizing: border-box;
       background: var(--menuTableHeaderBg);
       align-items: center;
       display: flex;

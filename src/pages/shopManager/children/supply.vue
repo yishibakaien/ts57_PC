@@ -32,17 +32,17 @@
       <ts-menu :prop="companySupplyList.list">
         <ts-checkbox-group v-model="chooseItem">
           <ts-menu-table v-for="item in companySupplyList.list" :key="item.id">
-            <div slot="header-left">
+            <template slot="header-left">
               <ts-checkbox v-if="Filter.supplyStatus===1" :label="item.id">
                 面料-{{item.supplyShape | filterDict(dicTree.PRODUCT_SHAPE,'name')}}
               </ts-checkbox>
               <span v-else>
                 面料-{{item.supplyShape | filterDict(dicTree.PRODUCT_SHAPE,'name')}}
               </span>
-            </div>
-            <div slot="header-right">
+            </template>
+            <template slot="header-right">
               状态：<b>{{item.supplyStatus | filterDict(DICT.SupplyStatus)}}</b>
-            </div>
+            </template>
             <!-- 图片 -->
             <ts-menu-table-item width="310" class="supply-table--avatar">
               <ts-image width="80" height="80" :src="item.productPicUrl"></ts-image>
@@ -179,6 +179,20 @@ export default {
   },
   beforeDestroy() {
     sessionStorage.setItem('supply-filter', JSON.stringify(this.Filter));
+  },
+  watch: {
+    // 加工数据
+    // TODO：table支持slot的时候就不这样写
+    'Collect.data.list': {
+      handler(val) {
+        if (val) {
+          val.forEach(item => {
+            item.USERATYPE = this.filterDicts(item.userType, DICT.userType);
+          });
+        }
+      },
+      deep: true
+    }
   },
   methods: {
     // 打开花型收藏记录

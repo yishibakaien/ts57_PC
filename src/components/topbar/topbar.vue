@@ -1,78 +1,78 @@
 <template>
-  <div class="topbar">
-    <div class="content">
-      <div class="left">
-        <span class="welcome">坐视布管欢迎你!</span>
-        <router-link v-if="!isLogin" to="/loginPage" class="link">登录</router-link>
-        <router-link v-if="!isLogin" to="/registerPage" class="link">免费注册</router-link>
-        <span v-if="isLogin" class="username">{{userName}}</span>
-        <span v-if="isLogin" class="logout" @click="logoutMethod">[退出]</span>
-      </div>
+<div class="topbar">
+  <div class="content">
+    <div class="left">
+      <span class="welcome">坐视布管欢迎你!</span>
+      <router-link v-if="!isLogin" to="/loginPage" class="link">登录</router-link>
+      <router-link v-if="!isLogin" to="/registerPage" class="link">免费注册</router-link>
+      <span v-if="isLogin" class="username">{{userInfo.userName}}</span>
+      <span v-if="isLogin" class="logout" @click="logoutMethod">[退出]</span>
+    </div>
 
-      <div class="right">
-        <a @click="gowhere" class="link">个人中心</a>
-        <div class="app-qrcode">
-          <i class="iconfont">字</i>
-          <span>手机坐视布管</span>
-          <div class="qrcode-content">
-            <div class="qrcode clearfix">
-              <div class="img-wrapper">
-                <img src="" width="100" height="100">
-              </div>
+    <div class="right">
+      <a @click="gowhere" class="link">个人中心</a>
+      <div class="app-qrcode">
+        <i class="iconfont">字</i>
+        <span>手机坐视布管</span>
+        <div class="qrcode-content">
+          <div class="qrcode clearfix">
+            <div class="img-wrapper">
+              <img src="" width="100" height="100">
+            </div>
 
-              <div class="desc">
-                <p class="title">手机坐视布管</p>
-                <p class="red">扫码即可下载</p>
-                <div class="app-type clearfix">
-                  <div class="andriod">
-                    <i class="iconfont">字</i>
-                    <span>安卓</span>
-                  </div>
-                  <div class="ios">
-                    <i class="iconfont">字</i>
-                    <span>IOS</span>
-                  </div>
+            <div class="desc">
+              <p class="title">手机坐视布管</p>
+              <p class="red">扫码即可下载</p>
+              <div class="app-type clearfix">
+                <div class="andriod">
+                  <i class="iconfont">字</i>
+                  <span>安卓</span>
+                </div>
+                <div class="ios">
+                  <i class="iconfont">字</i>
+                  <span>IOS</span>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div class="qrcode clearfix">
-              <div class="img-wrapper">
-                <img src=""  width="100" height="100">
-              </div>
-              <div class="desc">
-                <p class="title">关注微信公众号</p>
-                <p class="red">扫码即可关注</p>
-                <div class="text"></div>
-              </div>
+          <div class="qrcode clearfix">
+            <div class="img-wrapper">
+              <img src="" width="100" height="100">
+            </div>
+            <div class="desc">
+              <p class="title">关注微信公众号</p>
+              <p class="red">扫码即可关注</p>
+              <div class="text"></div>
             </div>
           </div>
         </div>
-
       </div>
+
     </div>
   </div>
+</div>
 </template>
 
 <script>
-import * as types from '@/store/types';
-import {getUserInfo} from '@/common/api/api';
+import * as types from '../../store/types';
+import {
+  getUserInfo
+} from '@/common/api/api';
+import {
+  mapGetters
+} from 'vuex';
 export default {
-  created() {
-//  console.log('topbar-accessToken', this.$store.state.accessToken);
+  async created() {
     if (this.$store.state.accessToken) {
-      getUserInfo().then(res => {
-        this.$store.commit(types.USER_NAME, res.data.data.userName);
-      }).catch(res => {
-      });
+      let data = (await getUserInfo()).data.data;
+      this.$store.commit('GET_USERINFO', data);
     }
   },
   computed: {
+    ...mapGetters(['userInfo']),
     isLogin() {
       return this.$store.state.accessToken;
-    },
-    userName() {
-      return this.$store.state.userName;
     }
   },
   methods: {

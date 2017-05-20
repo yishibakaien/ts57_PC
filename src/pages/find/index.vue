@@ -9,8 +9,8 @@
     <carousel></carousel>
     <div class="find-wrapper">
       <div class="find-wrapper--left">
-        <every-looking></every-looking>
         <history-on-new></history-on-new>
+        <every-looking></every-looking>
       </div>
       <div class="find-wrapper-right">
         <hot-search></hot-search>

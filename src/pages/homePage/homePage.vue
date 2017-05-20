@@ -101,7 +101,7 @@ export default {
   }).catch((res) => {
   });
   // banner
-    listHomeBanners().then((res) => {
+    listHomeBanners().then(res => {
       let bannerArr = res.data.data;
       console.log(res);
       bannerArr.forEach(function(item) {
@@ -121,7 +121,6 @@ export default {
       pageNo: 1,
       pageSize: 4
     }).then(res => {
-      console.log('求购详情', res);
       // 这里需要格式化 type 以便于后面 baseItem 逐渐分辨到底是 supply 还是 buy
       let data = {
         type: 'buy',
@@ -135,7 +134,6 @@ export default {
       pageNo: 1,
       pageSize: 4
     }).then(res => {
-      console.log('供应详情', res);
       // 这里需要格式化 type 以便于后面 baseItem 逐渐分辨到底是 supply 还是 buy
       let data = {
         type: 'supply',
@@ -147,7 +145,6 @@ export default {
     findNewCompanyByIndex({
       companyType: 1 // 1工厂 2 档口
     }).then(res => {
-      console.log('厂家入驻', res);
       this.newCompanyList = res.data.data;
     });
   },
