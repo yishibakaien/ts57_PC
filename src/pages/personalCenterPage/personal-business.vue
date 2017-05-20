@@ -3,11 +3,11 @@
 		<div class="personal-business-wrap clearfix" v-for="(item, index) in items" v-show="items.length > 0">
 			<div class="personal-business-Info">
 				<div class="logo">
-					<img src="item.companyHeadIcon" alt="logo" />
+					<img src="item.companyHeadIcon" v-errorImg alt="logo" />
 					<p class="cancel" @click="cancelSC(index)">取消收藏</p>
 				</div>
-				<p><span class="address">地址：</span><span class="addressInfo">{{item.address || '用户未填写地址'}}</span></p>
-				<p><span class="address">电话：</span>{{item.contactTel || '用户未填写电话'}}</p>
+				<p><span class="address">地址：</span><span class="addressInfo">{{item.address}}</span></p>
+				<p><span class="address">电话：</span>{{item.contactTel}}</p>
 			</div>
 			<div class="personal-business-content">
 				<div class="top">
@@ -69,13 +69,9 @@
 			cancelSC(index) {
 				let _ = this;
 				_.favorite.businessId = _.items[index].id;
-				this.$messagebox.confirm('确定取消收藏该商家？').then(action => {
-					favoriteBus(_.favorite).then((res) => {
-						if (res.data.code === 0) {
-							_.listCompanyMethod();
-						}
-					}).catch();
-				});
+				favoriteBus(_.favorite).then((res) => {
+					_.listCompanyMethod();
+				}).catch();
 			}
 		}
 	};

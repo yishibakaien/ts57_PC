@@ -17,7 +17,7 @@
     <p class="supply-item-title" :title="item.supplyDesc">{{item.supplyDesc}}
     </p>
     <div class="supply-item-company">
-      <img :src="item.userHeadIcon" class="company-avatar" />
+      <img v-lazy="item.userHeadIcon" class="company-avatar" />
       <span class="company-name">{{item.username}}</span>
     </div>
   </div>

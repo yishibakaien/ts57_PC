@@ -3,7 +3,7 @@
     <div class="entry-base-item" :companyId="item.id" title="查看厂家详情">
       <div class="img-container">
         <div class="img-wrapper" v-for="pic in item.productPics">
-          <img class="item-image" :src="pic">
+          <img class="item-image" v-lazy="pic">
         </div>
       </div>
       <div class="item-desc">

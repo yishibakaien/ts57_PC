@@ -29,7 +29,7 @@
 				</div>
 				<p class="info" :title="item.supplyDesc">{{item.supplyDesc}}</p>
 				<p class="company">
-					<img src="item.companyHeadIcon" alt="company" />
+					<img src="item.companyHeadIcon" v-errorImg alt="company" />
 					<span :title="item.companyName">{{item.companyName}}</span>
 				</p>
 				<div class="tipsModel" v-show="item.tipShow">

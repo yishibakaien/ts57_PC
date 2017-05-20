@@ -25,7 +25,7 @@
         <!-- 优质厂家 -->
         <quality-company-list :message="companys"></quality-company-list>
       </div>
-      <button class="button button-block button-blue" @click="seeDetail">花型详情(需要登录才能浏览)</button>
+      <!--<button class="button button-block button-blue" @click="seeDetail">花型详情(需要登录才能浏览)</button>-->
       <button @click="logout" class="button button-block button-red" v-if="showBtn">退出登录</button>
 
     </div>

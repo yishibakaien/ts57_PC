@@ -5,7 +5,7 @@
 			<aliUpload :multiple="false" :id="id" v-on:doUpload="uploadImg"></aliUpload>
 			<div class="headImgSee">
 				<label for="headImg" class="lb">重新上传</label>
-				<img :src="userHeadUrl" alt="头像" />
+				<img :src="userHeadUrl" v-errorImg alt="头像" />
 			</div>
 		</div>
 		<div class="personal-account-item personal-form">

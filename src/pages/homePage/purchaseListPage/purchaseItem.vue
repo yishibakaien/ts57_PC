@@ -2,7 +2,7 @@
 <template>
   <div class="purchase-item">
     <div class="purchase-item-image-wrapper">
-      <img :src="item.buyPicUrl" class="image" alt="购买项" />
+      <img v-lazy="item.buyPicUrl" class="image" alt="购买项" />
       <p class="info">
         <span class="number">{{item.buyNum}}码</span>
         <span class="status" v-if="item.buyStatus === 1">求购中</span>

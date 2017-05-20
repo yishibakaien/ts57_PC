@@ -22,9 +22,9 @@ export const errorImg = value => {
     return;
   }
   value.onerror = function() {
-    value.src = 'ERRORPIC';
+    value.src = '/static/images/assets/defaultHeadIcon.svg';
   };
   value.src = (!value.src)
-    ? 'ERRORPIC'
+    ? '/static/images/assets/defaultHeadIcon.svg'
     : value.src;
 };
