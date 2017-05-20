@@ -2,7 +2,7 @@
 <template>
   <div class="supply-item">
     <div class="supply-item-image-wrapper">
-      <img :src="item.productPicUrl" class="image" alt="供应项">
+      <img v-lazy="item.productPicUrl" class="image" alt="供应项">
       <p class="info">
         <span class="number">
         	{{item.supplyNum}}
@@ -17,7 +17,7 @@
     <p class="supply-item-title" :title="item.supplyDesc">{{item.supplyDesc}}
     </p>
     <div class="supply-item-company">
-      <img v-lazy="item.userHeadIcon" class="company-avatar" />
+      <img :src="item.userHeadIcon" v-errorImg class="company-avatar" />
       <span class="company-name">{{item.username}}</span>
     </div>
   </div>

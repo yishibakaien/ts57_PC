@@ -13,7 +13,7 @@
     <p class="purchase-item-title" :title="item.buyDesc">{{item.buyDesc}}
     </p>
     <div class="purchase-item-person">
-      <span class="name">{{item.username}}</span>
+      <span class="name">{{item.userName}}</span>
       <span class="time">{{item.createDate | customTime}}</span>
     </div>
   </div>
