@@ -6,8 +6,8 @@
 					<img src="item.companyHeadIcon" alt="logo" />
 					<p class="cancel" @click="cancelSC(index)">取消收藏</p>
 				</div>
-				<p><span class="address">地址：</span><span class="addressInfo">{{item.address}}</span></p>
-				<p><span class="address">电话：</span>{{item.contactTel}}</p>
+				<p><span class="address">地址：</span><span class="addressInfo">{{item.address || '用户未填写地址'}}</span></p>
+				<p><span class="address">电话：</span>{{item.contactTel || '用户未填写电话'}}</p>
 			</div>
 			<div class="personal-business-content">
 				<div class="top">
@@ -20,7 +20,7 @@
 				</div>
 				<div class="hotSell clearfix">
 					<div class="hotSellItem" v-for="hotSellItem in item.productBOS" v-show="item.productBOS.length > 0">
-						<img src="hotSellItem.defaultPicUrl" alt="hotSell" />
+						<img v-lazy="hotSellItem.defaultPicUrl" alt="hotSell" />
 						<p class="goodsName">#{{hotSellItem.id}}</p>
 						<p>
 							<span class="red">¥{{hotSellItem.priceUnit?hotSellItem.priceUnit:0}}/码</span>
@@ -69,9 +69,13 @@
 			cancelSC(index) {
 				let _ = this;
 				_.favorite.businessId = _.items[index].id;
-				favoriteBus(_.favorite).then((res) => {
-					_.listCompanyMethod();
-				}).catch();
+				this.$messagebox.confirm('确定取消收藏该商家？').then(action => {
+					favoriteBus(_.favorite).then((res) => {
+						if (res.data.code === 0) {
+							_.listCompanyMethod();
+						}
+					}).catch();
+				});
 			}
 		}
 	};

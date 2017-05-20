@@ -21,7 +21,7 @@
 		<div class="personal-flower-wrap clearfix">
 			<div class="personal-goods-item personal-flower-item" v-for="(item, index) in items" v-show='items.length > 0'>
 				<div class="personal-goods-item-img">
-					<img src="item.productPicUrl" alt="求购" />
+					<img v-lazy="item.productPicUrl" alt="求购" />
 					<span class="states green" v-if="item.supplyShape === 200011">成品</span>
 					<span class="states gray" v-if="item.supplyShape === 200010">胚布</span>
 					<p class="p3"><span class="span1"> &nbsp;&nbsp;{{item.supplyNum}}码</span><span class="span2">{{item.createDate | customTime}}&nbsp;&nbsp; </span></p>
@@ -51,6 +51,7 @@
 <script>
 	import { pageBar } from '@/components';
 	import { listSupply, countSupply, favoriteBus } from '@/common/api/api';
+	import Toast from '@/components/common/toast/toast';
 	export default {
 		data() {
 			return {
@@ -116,6 +117,9 @@
 				let _ = this;
 				listSupply(_.param).then((res) => {
 					if (res.data.code === 0) {
+						res.data.data.list.forEach((item) => {
+							item.tipShow = false;
+						});
 						_.items = res.data.data.list;
 						_.pageNum = res.data.data.pageNO;
 						_.pageSize = res.data.data.pageSize;
@@ -141,9 +145,14 @@
 				let _ = this;
 				_.favorite.businessId = _.items[index].id;
 				favoriteBus(_.favorite).then((res) => {
-					console.log(res);
+					if (res.data.code === 0) {
+						Toast({
+							type: 'success',
+							message: '已成功删除该收藏'
+						});
+						_.listSupplyMethod();
+					}
 				}).catch();
-				_.listSupplyMethod();
 			},
 			selectFirstPage() {
 				let _ = this;
