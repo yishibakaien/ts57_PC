@@ -13,7 +13,7 @@
 			<div class="personal-mobile-item personal-form">
 				<label for="newMobile">新手机号</label>
 				<input type="text" name="newMobile" id="newMobile" placeholder="请输入您的新手机号" v-model="mobile.mobile" v-on:blur="checkPhone" />
-				<button @click="changeSMSCodeMethod">获取验证码</button>
+				<button @click="changeSMSCodeMethod($event)">获取验证码</button>
 				<p v-show="!check.p1">您的手机号输入有误</p>
 			</div>
 			<div class="personal-mobile-item personal-form">
@@ -31,6 +31,7 @@
 
 <script>
 	import * as reg from '@/common/js/regExp';
+	import { btnStatus } from '@/common/js/utils.js';
 	import { checkPasswd, changeSMSCode, changeMobile } from '@/common/api/api';
 	import Toast from '@/components/common/toast/toast';
 	export default {
@@ -72,13 +73,14 @@
 					console.log('检验失败');
 				});
 			},
-			changeSMSCodeMethod() {
+			changeSMSCodeMethod($event) {
 				this.checkPhone();
 				if (!this.check.p1) {
 					return;
 				};
 				changeSMSCode(this.mobile).then((res) => {
 					if (res.data.code === 0) {
+						btnStatus($event, '已发送');
 						Toast({
 							type: 'success',
 							message: '发送成功'
@@ -145,12 +147,11 @@
 				left: 10px;
 				width: 120px;
 				height: 32px;
-				color: #4C93FD;
+				color: #FFF;
 				font-size: 16px;
 				line-height: 32px;
-				background: #fff;
+				background: #4C93FD;
 				border: 0;
-				border: 1px solid #4C93FD;
 			}
 			p {
 				position: absolute;

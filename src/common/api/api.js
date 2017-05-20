@@ -405,6 +405,15 @@ export function closeProductBuy(data) {
   return _fetch(METHODS.post, data, API.buy.closeProductBuy);
 }
 
+// 取消接单
+export function cancelBuyTask(id) {
+  return _fetch(METHODS.post, null, `${API.buy.cancelBuyTask}/${id}`);
+}
+
+// 删除接单
+export function deleteBuyTask(data) {
+  return _fetch(METHODS.post, data, API.buy.deleteBuyTask);
+}
 // 获取oss_token
 export function token() {
   return _fetch(METHODS.post, {
