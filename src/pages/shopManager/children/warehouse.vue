@@ -2,7 +2,7 @@
 <div class="warehouse">
   <ts-section>
     <div slot="menu">
-      <ts-input style="width:30%" placeholder="输入花型编号搜索" v-model="searchVal">
+      <ts-input style="width:30%" placeholder="输入花型编号搜索" v-model="Params.productNo">
         <ts-button slot="append" size="small" @click="handleSearch"><i class="icon-sousuo"></i></ts-button>
       </ts-input>
       <ts-button type="warning" class="warehouse-photo--search">
@@ -16,13 +16,13 @@
     <div class="warehouse-filter">
       <ts-filter title="分类">
         <ts-radio-group v-model="Filter.publishStatuss" @change="handleFilterPublishStatus">
-          <ts-radio label='all'>全部</ts-radio>
+          <ts-radio label="">全部</ts-radio>
           <ts-radio :label="item.dicValue" :key="item.value" v-for="item in DICT.PublishStatus">{{item.label}}</ts-radio>
         </ts-radio-group>
       </ts-filter>
       <ts-filter title="面料种类">
         <ts-radio-group v-model="Filter.categorys" @change="handleFilterCategorys">
-          <ts-radio label='all'>全部</ts-radio>
+          <ts-radio label="">全部</ts-radio>
           <ts-radio :label="item.dicValue" :key="item.value" v-for="item in dicTree.PRODUCT_TYPE">{{item.name}}</ts-radio>
         </ts-radio-group>
       </ts-filter>
@@ -248,9 +248,9 @@ export default {
     async handleSearch() {
       if (this.searchVal.trim()) {
         this.Params = Object.assign({}, this.Params, {
-          productNo: this.searchVal,
           categorys: null,
-          publishStatuss: null
+          publishStatuss: null,
+          pageNo: 1
         });
         this.productList = (await getProductList(this.Params)).data.data;
       }
@@ -269,7 +269,7 @@ export default {
     },
     // 添加“分类”条件搜索
     async handleFilterPublishStatus(e) {
-      this.Params.publishStatuss = e === 'all' ? null : e;
+      this.Params.publishStatuss = !e ? null : e;
       this.productList = (await getProductList(this.Params)).data.data;
     },
     // 添加“面料”条件搜索

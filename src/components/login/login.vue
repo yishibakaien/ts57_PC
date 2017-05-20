@@ -114,10 +114,9 @@
 					return;
 				}
 				login(this.userData).then((res) => {
-					console.log('返回的用户信息', res);
-					console.info('返回的用户信息的x-token', res.headers['x-token']);
 					if (res.data.code === 0) {
 						this.$store.commit(types.USER_NAME, res.data.data.userName);
+						this.$store.commit('GET_USERINFO', res.data.data);
 						this.$store.commit(types.LOGIN, res.headers['x-token']);
 						this.$store.commit(types.LOGIN_MASK, false);
 						// 路由重定向

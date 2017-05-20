@@ -32,7 +32,7 @@
                disabledHover
                src="https://ss0.bdstatic.com/-0U0bnSm1A5BphGlnYG/tam-ogel/6e5157df050b7a94d30b7418bd54f92a_121_121.jpg">
                </ts-image>
-               <!-- <p class="everyLooking-product--number">#20001</p> -->
+               <p class="everyLooking-product--number">#20001</p>
                <template slot="footer">
                  <span>面料</span>
                  <ts-tag>有库存</ts-tag>
@@ -66,6 +66,7 @@ export default {
   @component container{
     margin:0 20px;
     padding-bottom: 1px;
+    min-width: 800px;
   }
   @component row{
     display: flex;

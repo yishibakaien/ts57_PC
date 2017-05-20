@@ -99,12 +99,10 @@ export default {
   created() {
   // 优质厂家
   qualityCompanyList1().then((res) => {
-  console.log('优质厂家', res);
   this.companys = res.data.data;
   }).catch();
   // banner
     listHomeBanners().then(res => {
-      console.log('首页banner', res);
       let bannerArr = res.data.data;
       bannerArr.forEach(function(item) {
         item.src = item.picUrl;
@@ -123,7 +121,6 @@ export default {
       pageNo: 0,
       pageSize: 4
     }).then(res => {
-      console.log('求购详情', res);
       // 这里需要格式化 type 以便于后面 baseItem 逐渐分辨到底是 supply 还是 buy
       let data = {
         type: 'buy',
@@ -137,7 +134,6 @@ export default {
       pageNo: 0,
       pageSize: 4
     }).then(res => {
-      console.log('供应详情', res);
       // 这里需要格式化 type 以便于后面 baseItem 逐渐分辨到底是 supply 还是 buy
       let data = {
         type: 'supply',
@@ -149,7 +145,6 @@ export default {
     findNewCompanyByIndex({
       companyType: 1 // 1工厂 2 档口
     }).then(res => {
-      console.log('厂家入驻', res);
       this.newCompanyList = res.data.data;
     });
   },

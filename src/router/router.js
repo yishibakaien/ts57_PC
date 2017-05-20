@@ -147,7 +147,7 @@ const routes = [
 if (localStorage.accessToken) {
   store.commit(types.LOGIN, localStorage.accessToken);
   store.commit(types.AJAX, localStorage.ajaxToken);
-  store.commit(types.USER_NAME, localStorage.userName);
+  // store.commit(types.USER_NAME, localStorage.userName);
   store.dispatch('getDicTree');
 }
 

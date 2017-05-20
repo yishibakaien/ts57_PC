@@ -1,7 +1,7 @@
 <template lang="html">
   <ts-section pageTitle="企业信息">
     <div slot="menu">
-      <ts-button type="primary" @click="editCompany">{{Text.show?'编辑':'保存'}}</ts-button>
+      <ts-button type="primary" @click="editCompany('companyInfoForm')">{{Text.show?'编辑':'保存'}}</ts-button>
     </div>
     <ts-form :model="companyInfoForm" :rules="rules" ref="companyInfoForm" label-width="125px" label-position="left" class="companyInfo-container">
       <div class="companyInfo-container-col">
@@ -120,18 +120,35 @@ export default {
         }
       },
       // 验证规则
-      rules: {}
+      rules: {
+        contactTel: [{
+          message: '请输入正确的座机号码',
+          pattern: /^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$/
+        }],
+        fax: [{
+          message: '请输入正确的传真号码',
+            pattern: /^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$/
+        }]
+      }
     };
   },
   computed: {
     ...mapGetters(['companyInfo'])
   },
   methods: {
-    async editCompany() {
-      this.Text.show = !this.Text.show;
-      if (this.Text.show) {
-        let res = await updateCompany(this.companyInfoForm);
-        !res.data.code ? await this.$store.dispatch('getCompanyInfo') : '';
+    async editCompany(formName) {
+      if (!this.Text.show) {
+        this.$refs[formName].validate(async(valid) => {
+          if (valid) {
+            let res = await updateCompany(this.companyInfoForm);
+            if (!res.data.code) {
+              await this.$store.dispatch('getCompanyInfo');
+              this.Text.show = !res.data.code;
+            }
+          }
+        });
+      } else {
+        this.Text.show = !this.Text.show;
       }
     },
     // 上传图片

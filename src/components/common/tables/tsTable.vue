@@ -136,24 +136,27 @@ export default {
 <style scoped>
 table {
   width: 100%;
-  max-width: 100%;
-  border: 1px solid #d7d7d7;
+  border: 1px solid #eaeaea;
   border-spacing: 0;
   border-collapse: collapse;
 }
 
 tr {
-  border-bottom: 1px solid #e4e4e4;
+  border-bottom: 1px solid #eaeaea;
   transition: .5s;
   &:hover {
     background: #F8F8F8;
   }
 }
 
-td,
+td {
+  padding: 4px;
+  border: 1px solid #eaeaea;
+}
+
 th {
-  padding: 10px;
-  border: 1px solid #D1D1D1;
+  padding: 12px;
+  border: 1px solid #eaeaea;
 }
 
 th {
@@ -178,9 +181,10 @@ th {
     height: 100%;
     position: relative;
     text-align: center;
-    border: 1px solid #D1D1D1;
+    border: 1px solid #eaeaea;
     border-top: none;
     & span {
+      color: #333;
       position: absolute 50% * * 50%;
       transform: translate(-50%, -50%);
     }

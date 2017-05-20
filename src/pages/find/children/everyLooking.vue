@@ -4,43 +4,22 @@
       <a class="everyLooking-menu-more">更多商机<i class="icon-gengduo"></i></a>
     </div>
     <div class="everyLooking-container">
-      <div class="everyLooking-row" v-for="store in 2">
-        <div class="everyLooking-row--left">
-          <div class="everyLooking-company">
-            <ts-image
-             width="100"
-             height="100"
-             :canView="false"
-             disabledHover
-             class="everyLooking-company--cover"
-             src="https://ss0.bdstatic.com/-0U0bnSm1A5BphGlnYG/tam-ogel/6e5157df050b7a94d30b7418bd54f92a_121_121.jpg"></ts-image>
-             <p class="everyLooking-company--title">杭州杨汛桥经编工业园区</p>
-             <ts-button type="plain" size="large" class="everyLooking-company--button" @click="handleViewStore(store)">访问店铺</ts-button>
-          </div>
-        </div>
-        <div class="everyLooking-row--right">
-          <div class="everyLooking-list-block onepx-l onepx-r">
-            <p>新增<span>12</span>款／共<span>100</span>款</p>
-            <p>24分钟前</p>
-          </div>
-          <ts-grid :rows='3'>
-            <ts-grid-item v-for="product in 3" :key="product" @click="handleViewProduct(product)">
-              <ts-image
-               width="170"
-               height="170"
-               :canView="false"
-               disabledHover
-               src="https://ss0.bdstatic.com/-0U0bnSm1A5BphGlnYG/tam-ogel/6e5157df050b7a94d30b7418bd54f92a_121_121.jpg">
-               </ts-image>
-               <!-- <p class="everyLooking-product--number">#20001</p> -->
-               <template slot="footer">
-                 <span>面料</span>
-                 <ts-tag>有库存</ts-tag>
-               </template>
-             </ts-grid-item>
-          </ts-grid>
-        </div>
-      </div>
+      <ts-grid :rows='3'>
+        <ts-grid-item v-for="product in 16" :key="product" @click="handleViewProduct(product)">
+          <ts-image
+           width="170"
+           height="170"
+           :canView="false"
+           disabledHover
+           src="https://ss0.bdstatic.com/-0U0bnSm1A5BphGlnYG/tam-ogel/6e5157df050b7a94d30b7418bd54f92a_121_121.jpg">
+           </ts-image>
+           <p class="everyLooking-product--number">#20001</p>
+           <template slot="footer">
+             <span>面料</span>
+             <ts-tag>有库存</ts-tag>
+           </template>
+         </ts-grid-item>
+      </ts-grid>
     </div>
   </ts-section>
 </template>
@@ -66,6 +45,7 @@ export default {
   @component container{
     margin:0 20px;
     padding-bottom: 1px;
+    min-width: 800px;
   }
   @component row{
     display: flex;
@@ -78,7 +58,7 @@ export default {
       @mixin setTopLine var(--grid-border-color);
     }
     @modifier left{
-      flex-basis: 23.8%;
+      flex-basis: calc(inherit / 4);
       text-align: center;
       position: relative;
       margin-bottom: 0;
