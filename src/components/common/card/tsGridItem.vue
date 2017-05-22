@@ -23,7 +23,6 @@ export default {
     position: relative;
     padding: 4px;
     box-sizing: border-box;
-    flex:1;
     word-wrap: 0;
     text-align: center;
     transition: .5s;

@@ -1,8 +1,9 @@
 <template lang="html">
-    <div class="">
-      <title-block>大家在找</title-block>
+    <div class="ts-content">
+      <title-block>爆款热搜</title-block>
       <ts-grid>
-        <ts-grid-item v-for="product in 12" :key="product" @click="handleViewProduct(product)">
+        <ts-grid-item v-for="(product,index) in 12" :key="product" @click="handleViewProduct(product)">
+          <span class="ranking topSearch-rank" :class="'ranking_'+index" v-if="index<3"></span>
           <ts-image
            width="170"
            height="170"
@@ -27,3 +28,12 @@ export default {
   }
 };
 </script>
+
+<style lang="css" scoped>
+@component-namespace topSearch{
+  @component rank{
+    position: absolute;
+    z-index: 2;
+  }
+}
+</style>

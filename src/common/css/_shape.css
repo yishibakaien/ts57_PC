@@ -1,21 +1,17 @@
-/*
-FLAG
-发现模块 -- 1，2，3
- */
-.flag{
-  width:35px;
-  height:41px;
-  position:relative;
-  background:red;
-  letter-spacing:.2em;
-  text-align:center;
-  color:#fff;
+.ranking {
+  height: 56px;
+  width: 44px;
+  overflow: hidden;
+  background: url('/static/images/assets/sprite.png')no-repeat;
+  display:inline-block;
 }
-.flag:after{
-  content:'';
-  position:absolute;
-  left:0;
-  bottom:0;
-  width:0;
-  border-bottom:13px solid 
+.ranking_0{
+  background-position-x:0;
+}
+.ranking_1{
+  background-position-x:-44px;
+}
+
+.ranking_2{
+  background-position-x:-88px;
 }

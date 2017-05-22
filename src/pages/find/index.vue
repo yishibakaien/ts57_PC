@@ -6,15 +6,9 @@
   <v-nav></v-nav>
   <!-- 发现 -->
   <div class="find">
-    <carousel></carousel>
-    <div class="find-wrapper">
-      <div class="find-wrapper--left">
-        <history-on-new></history-on-new>
-        <every-looking></every-looking>
-      </div>
-      <div class="find-wrapper-right">
-        <hot-search></hot-search>
-      </div>
+    <carousel v-if="isIndex"></carousel>
+    <div class="find-content">
+      <router-view></router-view>
     </div>
   </div>
 </div>
@@ -26,35 +20,33 @@ import {
   nav,
   search
 } from '@/components';
-import Carousel from './children/carousel';
-import EveryLooking from './children/everyLooking';
-import HistoryOnNew from './children/historyOnNew';
-import HotSearch from './children/hotSearch';
+import Carousel from './children/find/findCarousel';
 export default {
   components: {
     'vHeader': header,
     'vNav': nav,
     search,
-    HotSearch,
-    HistoryOnNew,
-    EveryLooking,
     Carousel
+  },
+  watch: {
+    // 是否回到发现首页 => 背景色变白
+    isIndex(val) {
+      document.querySelector('.main-wrapper').style.backgroundColor = !val ? '#fff' : '#F2F2F2';
+    }
+  },
+  computed: {
+    // 是否发现首页
+    isIndex() {
+      return this.$route.path.indexOf('index') >= 0;
+    }
   }
 };
 </script>
 <style scoped>
-  @component-namespace find{
-    @component wrapper{
-      max-width: 1200px;
-      margin:1em auto;
-      display: flex;
-      @modifier left{
-        flex-basis: 70%;
-        margin-right: 16px;
-      }
-      @modifier right{
-        flex-basis: 30%;
-      }
-    }
+@component-namespace find {
+  @component content {
+    max-width: 1200px;
+    margin: 1em auto;
   }
+}
 </style>

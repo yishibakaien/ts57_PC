@@ -19,19 +19,8 @@ export const filterDict = (val, $arr, label = 'label') => {
     return filter[0][label];
   } catch (e) {}
 };
-export const filterDicts = (val, $arr, label = 'label') => {
-  try {
-    if (!val && val.length === 0) {
-      return val;
-    }
-    let filter = $arr.filter(item => item.dicValue.toString() === val.toString());
-    return filter[0][label];
-  } catch (e) {
-    // console.log(e);
-  }
-};
 // 时间转换
-export const filterDate = value => {
+export const filterDate = (value, type = 'dateTime') => {
   if (value) {
     let tmpDate = new Date(value);
     let year = tmpDate.getFullYear();
@@ -44,7 +33,11 @@ export const filterDate = value => {
     let seconds = tmpDate.getSeconds() < 10
       ? `0${tmpDate.getSeconds()}`
       : tmpDate.getSeconds();
-    return `${year}-${mathon}-${day} ${hour}:${minutes}:${seconds}`;
+    if (type === 'dateTime') {
+      return `${year}-${mathon}-${day} ${hour}:${minutes}:${seconds}`;
+    } else {
+      return `${year}-${mathon}-${day}`;
+    }
   } else {
     return '';
   }
