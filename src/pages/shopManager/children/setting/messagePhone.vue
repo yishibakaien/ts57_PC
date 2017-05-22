@@ -111,15 +111,15 @@ export default {
   methods: {
     // 因为循环不能v-model所以单个监听 => 赋值到phone.number
     handleInput(e) {
-      this.Phone.number = e.target.value;
+      this.Phone.number = e;
     },
     async handleEditPhone(item, index) {
       // 数组转为字符串
-      let ids = this.companyInfo.noticeList.split(',').splice(index, 1, this.Phone.number).toString();
-      let res = await updateCompany({
-        noticeList: ids
+      let noticeListArr = this.companyInfo.noticeList.split(',');
+      noticeListArr.splice(index, 1, this.Phone.number);
+      await updateCompany({
+        noticeList: noticeListArr.toString()
       });
-      !res.data.code ? await this.$store.dispatch('getCompanyInfo') : '';
     },
     // 删除绑定的号码
     handleDELPhone(item, index) {

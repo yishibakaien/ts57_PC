@@ -24,8 +24,12 @@ export const filterDate = (value, type = 'dateTime') => {
   if (value) {
     let tmpDate = new Date(value);
     let year = tmpDate.getFullYear();
-    let mathon = tmpDate.getMonth() + 1;
-    let day = tmpDate.getDate();
+    let mathon = tmpDate.getMonth() + 1 < 10
+      ? `0${tmpDate.getMonth()}`
+      : tmpDate.getMonth();
+    let day = tmpDate.getDate() < 10
+      ? `0${tmpDate.getDate()}`
+      : tmpDate.getDate();
     let hour = tmpDate.getHours();
     let minutes = tmpDate.getMinutes() < 10
       ? `0${tmpDate.getMinutes()}`

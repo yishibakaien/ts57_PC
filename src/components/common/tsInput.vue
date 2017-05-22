@@ -22,7 +22,7 @@ export default {
   },
   mixins: [emitter],
   props: {
-    value: [String, Number],
+    value: [String, Number, Date],
     placeholder: String,
     readonly: Boolean,
     autofocus: Boolean,

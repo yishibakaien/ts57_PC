@@ -140,45 +140,78 @@ const routes = [
     path: '/shopManagePage',
     redirect: '/shopManagePage/warehouse',
     component: shopManager,
+    meta: {
+      needAuth: true
+    },
     children: [
       {
         path: 'material',
         component: shopManagerMaterial,
-        name: '素材库'
+        name: '素材库',
+        meta: {
+          needAuth: true
+        }
       }, {
         path: 'warehouse',
+        meta: {
+          needAuth: true
+        },
         component: shopManagerWareHouse,
         name: '仓库管理'
       }, {
         path: 'addwarehouse',
+        meta: {
+          needAuth: true
+        },
         component: wareHouseAdd,
         name: '新增花型'
       }, {
         path: 'supply',
+        meta: {
+          needAuth: true
+        },
         component: shopManagerSupply,
         name: '厂家供应'
       }, {
         path: 'supplyAdd',
+        meta: {
+          needAuth: true
+        },
         component: supplyAdd,
         name: '发布供应'
       }, {
         path: 'enquiry',
+        meta: {
+          needAuth: true
+        },
         component: shopManagerEnquiry,
         name: '询价列表'
       }, {
         path: 'setting',
+        meta: {
+          needAuth: true
+        },
         component: shopManagerSetting,
         name: '店铺设置'
       }, {
         path: 'cooperation',
+        meta: {
+          needAuth: true
+        },
         component: shopManagerCooperation,
         name: '合作厂家'
       }, {
         path: 'classification',
+        meta: {
+          needAuth: true
+        },
         component: shopManagerClassification,
         name: '分类管理'
       }, {
         path: 'aptitude',
+        meta: {
+          needAuth: true
+        },
         component: shopManagerAptitude,
         name: '企业资质'
       }

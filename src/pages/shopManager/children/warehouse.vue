@@ -246,14 +246,13 @@ export default {
     // ========
     // 搜索
     async handleSearch() {
-      if (this.searchVal.trim()) {
-        this.Params = Object.assign({}, this.Params, {
-          categorys: null,
-          publishStatuss: null,
-          pageNo: 1
-        });
-        this.productList = (await getProductList(this.Params)).data.data;
-      }
+      this.Params = Object.assign({}, this.Params, {
+        categorys: null,
+        publishStatuss: null,
+        pageNo: 1,
+        productNo: this.Params.productNo.trim()
+      });
+      this.productList = (await getProductList(this.Params)).data.data;
     },
     // 打开花型询价记录
     async handleCollect(item) {

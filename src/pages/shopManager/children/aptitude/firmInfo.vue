@@ -82,8 +82,6 @@ export default {
       Text: {
         show: true
       },
-      // 时间
-      createDate: '',
       // 深拷贝之后的企业详细信息数据
       CompanyExtendBO: {},
       // 表单
@@ -131,15 +129,11 @@ export default {
     await this.getCompanyInfo();
     this.companyInfoForm = this.companyInfo.companyExtendBO;
   },
-  watch: {
-    // createDate(value) {
-    //   console.log(value);
-    //   // 转成时间戳
-    //   // this.companyInfoForm.createDate = new Date(value).getTime();
-    // }
-  },
   computed: {
-    ...mapGetters(['companyInfo'])
+    ...mapGetters(['companyInfo']),
+    createDate() {
+      return this.filterDate(this.companyInfoForm.createDate, 'date');
+    }
   }
 };
 </script>

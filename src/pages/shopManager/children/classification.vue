@@ -42,7 +42,7 @@
           </ts-menu-table-item>
           <!-- Price -->
           <ts-menu-table-item>
-            <span v-if="item.price>0">{{item.price}}元/{{item.priceUnit|filterDict(dicTree.PRODUCT_UNIT,'name')}}</span>
+            <span v-if="item.price>0">{{item.price/100}}元/{{item.priceUnit|filterDict(dicTree.PRODUCT_UNIT,'name')}}</span>
             <span v-else>价格面议</span>
           </ts-menu-table-item>
           <!-- 操作 -->
