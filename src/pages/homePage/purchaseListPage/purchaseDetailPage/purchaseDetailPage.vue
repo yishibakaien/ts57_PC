@@ -12,12 +12,12 @@
 					<span>求购详情</span>
 				</div>
 				<div class="purchase-detail-left fl">
-					<listContent></listContent>
-					<listInfo style="margin-bottom: 35px"></listInfo>
-					<listNum></listNum>
+					<listContent :item="itemObj"></listContent>
+					<listNum :item="itemObj" style="margin-bottom: 35px"></listNum>
+					<listInfo :item="itemObj"></listInfo>
 				</div>
 				<div class="purchase-detail-right fr">
-					<listUser></listUser>
+					<listUser :item="itemObj"></listUser>
 				</div>
 			</div>
 		</div>
@@ -34,7 +34,16 @@
 	import listInfo from './listInfo';
 	import listNum from './listNum';
 	import listUser from './listUser';
+	import {getProductBuy} from '@/common/api/api';
 	export default {
+		data() {
+			return {
+				buyDetailparam: {
+					id: ''
+				},
+				itemObj: {}
+			};
+		},
 		components: {
 			'vHeader': header,
 			'vNav': nav,
@@ -43,6 +52,19 @@
 			listInfo,
 			listNum,
 			listUser
+		},
+		created() {
+			this.buyDetailparam.id = this.$route.query.purchaseId;
+			getProductBuy(this.buyDetailparam.id).then((res) => {
+				if (res.data.code === 0) {
+					this.itemObj = res.data.data;
+				}
+			}).catch();
+		},
+		methods: {
+			getProductBuyMethod() {
+				getProductBuy().then().catch();
+			}
 		}
 	};
 </script>

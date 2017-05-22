@@ -32,6 +32,9 @@ import loginPage from './formPages/loginPage/loginPage';
 import registerPage from './formPages/registerPage/registerPage';
 import forgotPasswordPage from './formPages/forgotPasswordPage/forgotPasswordPage';
 
+// 提示下载页
+import promptDown from './totalPages/promptDown';
+
 export {
   homePage,
   textSearchResultPage,
@@ -46,5 +49,6 @@ export {
   purchaseDetailPage,
   releaseSupplyPage,
   supplyListPage,
-  supplyDetailPage
+  supplyDetailPage,
+  promptDown
 };

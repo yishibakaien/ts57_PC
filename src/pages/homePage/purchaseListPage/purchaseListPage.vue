@@ -33,7 +33,7 @@
 			</div>
 			<!-- 列表 -->
 			<div class="pruchase-list-item-wrapper clearfix">
-				<div class="item-wrapper" v-for="item in items" @click="goDetail(3)">
+				<div class="item-wrapper" v-for="item in items" @click="goDetail(item.id)">
 					<purchase-item :item="item"></purchase-item>
 				</div>
 			</div>
@@ -84,9 +84,11 @@
 		},
 		mounted() {
 			listProductBuys(this.param).then((res) => {
-				this.items = res.data.data.list;
-				this.pageData.maxNum = res.data.data.totalPage;
-				this.pageData.pageNO = res.data.data.pageNO;
+				if (res.data.code === 0) {
+					this.items = res.data.data.list;
+					this.pageData.maxNum = res.data.data.totalPage;
+					this.pageData.pageNO = res.data.data.pageNO;
+				}
 			}).catch();
 		},
 		methods: {
@@ -95,10 +97,12 @@
 //				this.param.buyStatus = null;
 //				this.param.buyTypes = null;
 				listProductBuys(this.param).then((res) => {
+				if (res.data.code === 0) {
 					this.items = res.data.data.list;
 					this.pageData.maxNum = res.data.data.totalPage;
 					this.pageData.pageNO = res.data.data.pageNO;
-				}).catch();
+				}
+			}).catch();
 			},
 			hanleFilterSort(e) {
 				console.log(e);
@@ -138,7 +142,7 @@
 				this.$router.push({
 					path: '/purchaseDetailPage',
 					query: {
-						id: id
+						purchaseId: id
 					}
 				});
 			}

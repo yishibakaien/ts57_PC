@@ -46,6 +46,9 @@ const releasePurchasePage = r => require.ensure([], () => r(require('@/pages/hom
 const releaseSupplyPage = r => require.ensure([], () => r(require('@/pages/homePage/releaseSupplyPage/releaseSupplyPage')), 'releaseSupplyPage');
 const entryListPage = r => require.ensure([], () => r(require('@/pages/homePage/entryListPage/entryListPage')), 'entryListPage');
 // ========
+// totalPage
+const promptDown = r => require.ensure([], () => r(require('@/pages/totalPages/promptDown')), 'promptDown');
+
 const routes = [
   {
     path: '/',
@@ -136,6 +139,9 @@ const routes = [
   }, {
     path: '/forgotPasswordPage',
     component: forgotPasswordPage
+  }, {
+    path: '/promptDown',
+    component: promptDown
   }, {
     path: '/shopManagePage',
     redirect: '/shopManagePage/warehouse',

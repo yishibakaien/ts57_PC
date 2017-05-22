@@ -1,16 +1,45 @@
 <template>
 	<div class="list-num">
 		<div class="title">
-			共有<em>18</em>人接单
+			共有<em>{{imgs.length}}</em>人接单
 		</div>
 		<div class="content">
-			<img v-for="item in [1,1,1,1,1,1,1,1,1,1,11,1,1,1,1,1,1,1,1]" src="../../../../components/common/toast/icon/info.svg" alt="用户头像"/>
+			<img v-for="img in imgs" :src="img.userHeadIcon" alt="用户头像"/>
 		</div>
 	</div>
 </template>
 
 <script>
-	export default {};
+	import {listBuyTaskUserByBuyId} from '@/common/api/api';
+	export default {
+		data() {
+			return {
+				param: {
+					buyId: ''
+				},
+				imgs: []
+			};
+		},
+		props: {
+			item: {
+				type: Object
+			}
+		},
+		created() {
+			this.listBuyTaskUserByBuyIdMethod();
+		},
+		methods: {
+			listBuyTaskUserByBuyIdMethod() {
+				this.param.buyId = this.item.id;
+				listBuyTaskUserByBuyId(this.param).then((res) => {
+					if (res.data.code === 0) {
+						this.imgs = res.data.data;
+						console.log(res);
+					}
+				}).catch();
+			}
+		}
+	};
 </script>
 
 <style lang="scss" scoped>
