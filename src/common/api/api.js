@@ -54,7 +54,8 @@ const API = {
     listCompanySupplys: '/companySupply/listHomeCompanySupplys', // 获取供应列表
     listBuyTask: '/buyTask/listBuyTask', // 获取接单列表
     myProductBuys: '/productBuy/myProductBuys', // 获取我的求购列表
-    listBuyTaskByBuyId: '/buyTask/listBuyTaskByBuyId' // 获取求购单接单列表
+    listBuyTaskByBuyId: '/buyTask/listBuyTaskByBuyId', // 获取求购单接单列表
+    listBuyTaskUserByBuyId: '/buyTask/listBuyTaskUserByBuyId' // 获取求购单接单人列表
   },
   // 收藏管理
   collection: {
@@ -219,7 +220,7 @@ function _fetch(method = METHODS.get, data, url) {
           store.commit(types.LOGIN, token);
         }
       }
-      if (res.data.message) {
+      if (res.data.message && res.data.code !== 0) {
         Toast({
           type: !res.data.code
             ? 'success'
@@ -416,6 +417,16 @@ export function closeProductBuy(data) {
 // 取消接单
 export function cancelBuyTask(id) {
   return _fetch(METHODS.post, null, `${API.buy.cancelBuyTask}/${id}`);
+}
+
+// 求购详情
+export function getProductBuy(id) {
+  return _fetch(METHODS.get, null, `${API.buy.getProductBuy}/${id}`);
+}
+
+// 获取求购单接单人列表
+export function listBuyTaskUserByBuyId(data) {
+  return _fetch(METHODS.get, data, API.buy.listBuyTaskUserByBuyId);
 }
 
 // 删除接单

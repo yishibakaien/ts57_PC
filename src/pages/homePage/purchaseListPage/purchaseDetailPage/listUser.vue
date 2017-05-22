@@ -1,8 +1,8 @@
 <template>
 	<div class="list-user">
 		<div class="title">
-			<img src="../../../../components/common/toast/icon/warning.svg" class="fl" alt="用户头像" />
-			<p class="name">张三</p>
+			<img :src="item.userHeadIcon" v-errorImg class="fl" alt="用户头像" />
+			<p class="name">{{item.userName}}</p>
 			<p class="mobile">联系电话：18888888888</p>
 			<p class="buyNum">Ta的总采购数：<em>40个</em></p>
 		</div>
@@ -21,6 +21,11 @@
 				pageNum: 1,
 				pageMax: 10
 			};
+		},
+		props: {
+			item: {
+				type: Object
+			}
 		},
 		components: {
 			pageBar

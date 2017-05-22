@@ -1,25 +1,45 @@
 <template>
 	<div class="list-content">
 		<div class="fl content-img">
-			<img src="../../../../../static/images/assets/clock.svg" alt="求购花型图片"/>
+			<img v-lazy="item.buyPicUrl" alt="求购花型图片"/>
 		</div>
 		<div class="fl content-info">
-			<p class="content-info-desc">大量求购这款面料，最好是现货，做货也可以，有的请联系我，长期需要的，价格最好能优惠点</p>
-			<p class="content-info-class"><span>求购类型：</span>面料</p>
-			<p class="content-info-class"><span>求购数量：</span>1000码</p>
-			<p class="content-info-class"><span>其他要求：</span>接受开机</p>
-			<p class="content-info-class"><span>求购时间：</span>2017-04-25</p>
+			<p class="content-info-desc">{{item.buyDesc}}</p>
+			<p class="content-info-class">
+				<span>求购类型：</span>{{item.buyType | type}}
+			</p>
+			<p class="content-info-class">
+				<span>求购数量：</span>{{item.buyNum}}{{item.buyUnit | unit}}
+			</p>
+			<p class="content-info-class">
+				<span>其他要求：</span>{{item.isStartUp | isStartUp}}
+			</p>
+			<p class="content-info-class"><span>求购时间：</span>{{item.createDate | customTime}}</p>
 			
-			<p class="content-info-class content-info-user"><span>采购商：</span>张三</p>
-			<p class="content-info-class content-info-status"><span>状态：</span><span class="status">已关闭</span></p>
+			<p class="content-info-class content-info-user"><span>采购商：</span>{{item.userName}}</p>
+			<p class="content-info-class content-info-status"><span>状态：</span><span class="status">{{item.buyStatus | buyStatus}}</span></p>
 			
-			<button class="deleBtn">删除</button>
+			<button class="btn btn-dele" v-if="item.buyStatus === 3">删除</button>
+			<button class="btn btn-dele" v-if="item.buyStatus === 1" v-show="!item.buyTaskList">取消接单</button>
+			<button class="btn btn-yes" v-if="item.buyStatus === 1" @click="goPromptDown">我要接单</button> 
 		</div>
 	</div>
 </template>
 
 <script>
 	export default {
+		props: {
+			item: {
+				type: Object
+			}
+		},
+		methods: {
+			goPromptDown() {
+				this.$router.push({
+					path: '/promptDown'
+				});
+			}
+		}
 	};
 </script>
 
@@ -41,12 +61,12 @@
 			.content-info-desc {
 				margin: 10px 0 20px 0;
 				font-size: 18px;
-				color: #333;
+				color: #000;
 				line-height: 24px;
 				letter-spacing: 1px;
 			}
 			.content-info-class {
-				font-size: 16px;
+				font-size: 14px;
 				color: #333;
 				span {
 					display: inline-block;
@@ -70,14 +90,19 @@
 					color: #ff494f;
 				}
 			}
-			.deleBtn {
+			.btn {
 				margin-top: 50px;
 				width: 320px;
 				height: 48px;
 				border: 0;
-				background: #ff494f;
 				color: #fff;
 				font-size: 20px;
+			}
+			.btn-dele {
+				background: #ff494f;
+			}
+			.btn-yes {
+				background: #4C93FD;
 			}
 		}
 	}
