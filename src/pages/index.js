@@ -9,7 +9,7 @@ import releaseSupplyPage from './homePage/releaseSupplyPage/releaseSupplyPage';
 // 求购列表页面
 import purchaseListPage from './homePage/purchaseListPage/purchaseListPage';
 // 求购详情页
-import purchaseDetailPage from './homePage/purchaseListPage/purchaseDetailPage';
+import purchaseDetailPage from './homePage/purchaseListPage/purchaseDetailPage/purchaseDetailPage';
 
 // 发布供应页
 import releasePurchasePage from './homePage/releasePurchasePage/releasePurchasePage';
