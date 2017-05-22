@@ -67,7 +67,7 @@
       </ts-menu>
     </div>
     <div slot="footer" class="supply-footer">
-      <ts-button type="primary" @click="handleShowDialog(chooseItem)" v-if="Filter.supplyStatus!==2" :disabled="chooseItem.length<=0">关闭</ts-button>
+      <ts-button type="primary" @click="handleShowDialog(chooseItem)" v-if="Filter.supplyStatus===1" :disabled="chooseItem.length<=0">关闭</ts-button>
       <ts-pagination class="supply-footer--pagation" @change="handleChangeCurrent" @page-size-change="handleChangePageSize" :current="companySupplyList.pageNO" :totalPages="companySupplyList.totalPage">
       </ts-pagination>
     </div>

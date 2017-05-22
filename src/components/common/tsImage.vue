@@ -121,7 +121,6 @@ export default {
     overflow: hidden;
     display: inline-block;
     position: relative;
-    border:1px solid rgba(155,155,155,0.1);
     box-sizing: border-box;
     vertical-align: middle;
     @descendent img{

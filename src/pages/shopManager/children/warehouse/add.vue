@@ -69,7 +69,7 @@
     <p class="add-list-title">选填内容</p>
     <ts-form-item label="价格：" prop="price">
       <ts-input v-model="prince" style="width:320px" placeholder="请输入单价"></ts-input>
-      <ts-select style="width:12%" data-key-name="name" data-val-name="dicValue" placeholder="选择单位" :options='CopyDICTUnit' v-model="addPatternForm.priceUnit"></ts-select>
+      <ts-select style="width:12%" data-key-name="name" data-val-name="dicValue" placeholder="选择单位" :options='CopyDICTUnit' v-model="addPatternForm.priceUnit" :disabled="addPatternForm.isStock===1"></ts-select>
     </ts-form-item>
     <ts-form-item label="幅宽：" prop="width">
       <ts-input v-model="addPatternForm.width" style="width:320px" placeholder="请输入幅宽"></ts-input>
@@ -276,8 +276,6 @@ export default {
         priceUnit: this.CopyDICTUnit[0].dicValue,
         stockUnit: this.CopyDICTUnit[0].dicValue
       });
-      console.log('this.addPatternForm.priceUnit', this.addPatternForm.priceUnit);
-      console.log('this.addPatternForm.stockUnit', this.addPatternForm.stockUnit);
     },
     async handleClickoutside() {
       if (this.EditIngredient.isTyping) {

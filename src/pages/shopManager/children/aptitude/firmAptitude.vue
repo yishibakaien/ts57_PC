@@ -79,7 +79,9 @@ export default {
     },
     aptitude: {
       handler(val) {
-        this.aptitudeFirm.aptitudeUrl = !val.aptitudeUrl ? [] : val.aptitudeUrl.split(',');
+        if (val) {
+          this.aptitudeFirm.aptitudeUrl = !val.aptitudeUrl ? [] : val.aptitudeUrl.split(',');
+        }
       },
       deep: true
     }
