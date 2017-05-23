@@ -27,7 +27,6 @@
 			'page.maxNum' (val) {
 				if (val > 9) {
 					this.pageNumArrRest();
-					console.log(4, val);
 				} else if (val <= 2) {
 					this.page.pageNumArr = [];
 					this.showPointTwo();

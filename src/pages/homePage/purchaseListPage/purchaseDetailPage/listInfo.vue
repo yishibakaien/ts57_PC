@@ -1,35 +1,57 @@
 <template>
-	<div class="list-info" v-if="item.buyTaskList != ''">
+	<div class="list-info" v-if="showOrhide">
 		<div class="title">
 			我的接单信息
 		</div>
 		<div class="content">
-			<img v-lazy="item.buyTaskList[0].picUrl" alt="花型图片" class="fl" />
+			<img v-lazy="url" alt="花型图片" class="fl" />
 			<p class="content-info">
-				<span class="status" v-if="item.buyTaskList.productStatus">{{item.buyTaskList.productStatus | productStatus}}</span>
-				<span class="shuliang"><i>¥</i> {{item.buyTaskList.buyPrice || 0}}/{{item.buyUnit | unit}}</span>
+				<span class="status">{{productStatus | productStatus}}</span>
+				<span class="shuliang"><i>¥</i> {{buyPrice || 0}}/{{buyUnit | unit}}</span>
 			</p>
-			<p class="content-desc">{{item.buyTaskList.leaveWord || '没有留言信息'}}</p>
+			<p class="content-desc">{{leaveWord || '没有留言信息'}}</p>
 		</div>
 	</div>
 </template>
 
 <script>
+	import {} from '@/common/api/api';
 	export default {
-//		data() {
-//			return {
-//				itemObj: {
-//					type: Object
-//				}
-//			};
-//		},
+		data() {
+			return {
+				showOrhide: false,
+				url: '',
+				productStatus: '',
+				buyPrice: '',
+				buyUnit: '',
+				leaveWord: ''
+			};
+		},
 		props: {
 			item: {
 				type: Object
 			}
 		},
+		watch: {
+			item(val) {
+//				item.buyTaskList.every(e => {
+//					if (e.userId === this.$store.state.user.userInfo.id) {
+//						this.showOrhide = true;
+//					}
+//				});
+				for (let i = 0; i < val.buyTaskList.length; i++) {
+					if (val.buyTaskList[i].userId === this.$store.state.user.userInfo.id) {
+						this.showOrhide = true;
+						this.url = val.buyTaskList[i].picUrl;
+						this.productStatus = val.buyTaskList[i].productStatus;
+						this.buyPrice = val.buyTaskList[i].buyPrice;
+						this.buyUnit = val.buyUnit;
+						this.leaveWord = val.buyTaskList[i].leaveWord;
+					}
+				}
+			}
+		},
 		created() {
-			console.log('item', this.item.buyTaskList);
 		}
 	};
 </script>

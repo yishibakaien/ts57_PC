@@ -13,7 +13,7 @@
 				</div>
 				<div class="purchase-detail-left fl">
 					<listContent :item="itemObj"></listContent>
-					<listNum :item="itemObj" style="margin-bottom: 35px"></listNum>
+					<listNum :imgs="itemObj.buyTaskList" style="margin-bottom: 35px"></listNum>
 					<listInfo :item="itemObj"></listInfo>
 				</div>
 				<div class="purchase-detail-right fr">
@@ -34,14 +34,16 @@
 	import listInfo from './listInfo';
 	import listNum from './listNum';
 	import listUser from './listUser';
-	import {getProductBuy} from '@/common/api/api';
+	import {getProductBuy, listBuyTaskUserByBuyId} from '@/common/api/api';
 	export default {
 		data() {
 			return {
 				buyDetailparam: {
 					id: ''
 				},
-				itemObj: {}
+				itemObj: {},
+				paramId: '',
+				imgs1: []
 			};
 		},
 		components: {
@@ -58,12 +60,18 @@
 			getProductBuy(this.buyDetailparam.id).then((res) => {
 				if (res.data.code === 0) {
 					this.itemObj = res.data.data;
+//					this.paramId = this.itemObj.id;
+//					this.listBuyTaskUserByBuyIdMethod();
 				}
 			}).catch();
 		},
 		methods: {
-			getProductBuyMethod() {
-				getProductBuy().then().catch();
+			listBuyTaskUserByBuyIdMethod() {
+				listBuyTaskUserByBuyId(this.paramId).then((res) => {
+					if (res.data.code === 0) {
+						this.imgs1 = res.data.data;
+					}
+				}).catch();
 			}
 		}
 	};

@@ -1,44 +1,53 @@
 <template>
 	<div class="list-num">
 		<div class="title">
-			共有<em>{{imgs.length}}</em>人接单
+			共有<em>{{len}}</em>人接单
 		</div>
-		<div class="content">
+		<div class="content1" v-if="len === 0">
+			暂无人接单
+		</div>
+		<div class="content" v-else>
 			<img v-for="img in imgs" :src="img.userHeadIcon" alt="用户头像"/>
 		</div>
 	</div>
 </template>
 
 <script>
-	import {listBuyTaskUserByBuyId} from '@/common/api/api';
+//	import {listBuyTaskUserByBuyId} from '@/common/api/api';
 	export default {
 		data() {
 			return {
-				param: {
-					buyId: ''
-				},
-				imgs: []
+//				param: {
+//					buyId: ''
+//				},
+//				imgs: []
+				len: ''
 			};
 		},
-		props: {
-			item: {
-				type: Object
+		watch: {
+			imgs(val) {
+				this.len = val.length;
 			}
 		},
-		created() {
-			this.listBuyTaskUserByBuyIdMethod();
-		},
-		methods: {
-			listBuyTaskUserByBuyIdMethod() {
-				this.param.buyId = this.item.id;
-				listBuyTaskUserByBuyId(this.param).then((res) => {
-					if (res.data.code === 0) {
-						this.imgs = res.data.data;
-						console.log(res);
-					}
-				}).catch();
+		props: {
+			imgs: {
+				type: Array
 			}
 		}
+//		created() {
+//			this.listBuyTaskUserByBuyIdMethod();
+//		},
+//		methods: {
+//			listBuyTaskUserByBuyIdMethod() {
+//				this.param.buyId = this.itemId;
+//				listBuyTaskUserByBuyId(this.param).then((res) => {
+//					if (res.data.code === 0) {
+//						this.imgs = res.data.data;
+//						console.log(res);
+//					}
+//				}).catch();
+//			}
+//		}
 	};
 </script>
 
@@ -70,5 +79,15 @@
 			width: 72px;
 			height: 72px;
 		}
+	}
+	.content1 {
+		box-sizing: border-box;
+		width: 824px;
+		height: 192px;
+		border: 1px solid #e5e5e5;
+		overflow: hidden;
+		font-size: 18px;
+		text-align: center;
+		line-height: 192px;
 	}
 </style>

@@ -1,7 +1,7 @@
 <template>
 	<div class="list-content">
 		<div class="fl content-img">
-			<img v-lazy="item.buyPicUrl" alt="求购花型图片"/>
+			<img v-lazy="item.buyPicUrl" alt="求购花型图片" />
 		</div>
 		<div class="fl content-info">
 			<p class="content-info-desc">{{item.buyDesc}}</p>
@@ -15,22 +15,49 @@
 				<span>其他要求：</span>{{item.isStartUp | isStartUp}}
 			</p>
 			<p class="content-info-class"><span>求购时间：</span>{{item.createDate | customTime}}</p>
-			
+
 			<p class="content-info-class content-info-user"><span>采购商：</span>{{item.userName}}</p>
 			<p class="content-info-class content-info-status"><span>状态：</span><span class="status">{{item.buyStatus | buyStatus}}</span></p>
-			
+
 			<button class="btn btn-dele" v-if="item.buyStatus === 3">删除</button>
-			<button class="btn btn-dele" v-if="item.buyStatus === 1" v-show="!item.buyTaskList">取消接单</button>
-			<button class="btn btn-yes" v-if="item.buyStatus === 1" @click="goPromptDown">我要接单</button> 
+			<button class="btn btn-dele" v-if="quxiao">取消接单</button>
+			<button class="btn btn-yes" v-if="jiedan" @click="goPromptDown">我要接单</button>
 		</div>
 	</div>
 </template>
 
 <script>
 	export default {
+		data() {
+			return {
+				jiedan: false,
+				quxiao: false
+			};
+		},
 		props: {
 			item: {
 				type: Object
+			}
+		},
+		watch: {
+			'item.buyStatus' (val) {
+				let yesOrNo;
+				this.item.buyTaskList.every(item => {
+					if (item.userId === this.$store.state.user.userInfo.id) {
+						yesOrNo = true;
+//						alert('我有接单');
+					} else {
+						yesOrNo = false;
+//						alert('我未接单');
+					}
+				});
+				if (this.item.buyStatus === 1 && yesOrNo) {
+					this.quxiao = true;
+				}
+				if (this.item.buyStatus === 1 && !yesOrNo) {
+					this.jiedan = true;
+				}
+				console.log(this.quxiao, this.jiedan);
 			}
 		},
 		methods: {
