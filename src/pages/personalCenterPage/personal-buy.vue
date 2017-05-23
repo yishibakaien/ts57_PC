@@ -22,13 +22,13 @@
 		<div class="personal-buy-wrap clearfix"  v-show='!defaultShow'>
 			<div class="personal-goods-item" v-for="(item, index) in items">
 				<div class="personal-goods-item-img">
-					<img v-lazy="item.buyPicUrl" alt="求购" />
+					<img v-lazy="item.buyPicUrl" alt="求购"  @click="goDetail(index)"/>
 					<span class="states green" v-if="item.buyStatus == 1">求购中</span>
 					<span class="states yellow" v-if="item.buyStatus == 2">已成交</span>
 					<span class="states gray" v-if="item.buyStatus == 3">已关闭</span>
-					<p class="gray" v-if="item.buyStatus == 1" @click="openModel(index)">关闭求购</p>
-					<p class="blue" v-if="item.buyStatus == 2">重新发布</p>
-					<p class="p3" v-if="item.buyStatus == 3"><span class="spanL" @click="releaseBuyAgain(index)">重新发布</span><span class="spanR" @click="openModel(index)">删除</span></p>
+					<p class="gray" v-if="item.buyStatus == 1" @click.stop="openModel(index)">关闭求购</p>
+					<p class="blue" v-if="item.buyStatus == 2" @click.stop="releaseBuyAgain(index)">重新发布</p>
+					<p class="p3" v-if="item.buyStatus == 3"><span class="spanL" @click.stop="releaseBuyAgain(index)">重新发布</span><span class="spanR" @click.stop="openModel(index)">删除</span></p>
 				</div>
 				<p class="info">{{ item.buyDesc }}</p>
 				<p><span>求购 <i>{{ item.buyNum }}</i> 码</span><span class="time">{{item.createDate | customTime}}</span></p>
@@ -236,6 +236,15 @@
 					path: '/releasePurchasePage',
 					query: {
 						obj: this.items[index]
+					}
+				});
+			},
+			// 跳转详情页
+			goDetail(e) {
+				this.$router.push({
+					path: '/purchaseDetailPage',
+					query: {
+						purchaseId: this.items[e].id
 					}
 				});
 			}

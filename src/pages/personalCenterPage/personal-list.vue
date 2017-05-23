@@ -22,9 +22,9 @@
 		<div class="personal-list-wrap clearfix">
 			<div class="personal-goods-item" v-for="(item, index) in items">
 				<div class="personal-goods-item-img">
-					<img v-lazy="item.picUrl" alt="求购" />
+					<img v-lazy="item.picUrl" alt="求购"  @click.stop="goDetail(index)"/>
 					<span class="states green" v-if="item.status == 1">接单中</span>
-					<span class="states yellow" v-if="item.status == 2">进行中</span>
+					<span class="states yellow" v-if="item.status == 2">已成交</span>
 					<span class="states gray" v-if="item.status == 3">已关闭</span>
 					<p class="statusSty" v-if="item.status == 1" @click="openModel(index)">取消接单</p>
 					<p class="statusSty blue" v-if="item.status == 2" @click="goMoreBuy">更多求购</p>
@@ -231,6 +231,15 @@
 			goMoreBuy() {
 				this.$router.push({
 					path: '/purchaseListPage'
+				});
+			},
+			// 跳转详情页
+			goDetail(e) {
+				this.$router.push({
+					path: '/purchaseDetailPage',
+					query: {
+						purchaseId: this.items[e].buyId
+					}
 				});
 			}
 		}

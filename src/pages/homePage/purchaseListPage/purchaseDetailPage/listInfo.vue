@@ -34,11 +34,10 @@
 		},
 		watch: {
 			item(val) {
-//				item.buyTaskList.every(e => {
-//					if (e.userId === this.$store.state.user.userInfo.id) {
-//						this.showOrhide = true;
-//					}
-//				});
+				if (val.buyTaskList.length < 1) {
+					this.showOrhide = false;
+					return;
+				}
 				for (let i = 0; i < val.buyTaskList.length; i++) {
 					if (val.buyTaskList[i].userId === this.$store.state.user.userInfo.id) {
 						this.showOrhide = true;
@@ -47,6 +46,8 @@
 						this.buyPrice = val.buyTaskList[i].buyPrice;
 						this.buyUnit = val.buyUnit;
 						this.leaveWord = val.buyTaskList[i].leaveWord;
+					} else {
+						this.showOrhide = false;
 					}
 				}
 			}

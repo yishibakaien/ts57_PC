@@ -7,47 +7,39 @@
 			暂无人接单
 		</div>
 		<div class="content" v-else>
-			<img v-for="img in imgs" :src="img.userHeadIcon" alt="用户头像"/>
+			<div class="content-item fl" v-for="(img, index) in item.buyTaskList">
+				<img :src="img.userHeadIcon" v-errorImg alt="用户头像"/>
+				<div class="bg" v-if="img.showBg">成交</div>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-//	import {listBuyTaskUserByBuyId} from '@/common/api/api';
 	export default {
 		data() {
 			return {
-//				param: {
-//					buyId: ''
-//				},
-//				imgs: []
 				len: ''
 			};
 		},
 		watch: {
-			imgs(val) {
-				this.len = val.length;
+			item(val) {
+				this.len = val.buyTaskList.length;
+				val.buyTaskList.forEach(e => {
+					e.showBg = false;
+				});
+				for (let i = 0; i < val.buyTaskList.length; i++) {
+					if (val.buyTaskList[i].status === 2) {
+						val.buyTaskList[i].showBg = true;
+					}
+				}
 			}
 		},
 		props: {
-			imgs: {
-				type: Array
+			item: {
+				type: Object
 			}
 		}
-//		created() {
-//			this.listBuyTaskUserByBuyIdMethod();
-//		},
-//		methods: {
-//			listBuyTaskUserByBuyIdMethod() {
-//				this.param.buyId = this.itemId;
-//				listBuyTaskUserByBuyId(this.param).then((res) => {
-//					if (res.data.code === 0) {
-//						this.imgs = res.data.data;
-//						console.log(res);
-//					}
-//				}).catch();
-//			}
-//		}
 	};
 </script>
 
@@ -73,11 +65,27 @@
 		height: 192px;
 		border: 1px solid #e5e5e5;
 		overflow: hidden;
-		img {
+		.content-item {
+			position: relative;
 			margin-top: 17px;
 			margin-left: 17px;
 			width: 72px;
 			height: 72px;
+			img {
+				width: 100%;
+				height: 100%;
+			}
+			.bg {
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background: rgba(0,0,0,.5);
+				text-align: center;
+				line-height: 72px;
+				color: #FF8300;
+			}
 		}
 	}
 	.content1 {

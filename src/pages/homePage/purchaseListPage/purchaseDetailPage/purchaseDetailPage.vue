@@ -12,8 +12,8 @@
 					<span>求购详情</span>
 				</div>
 				<div class="purchase-detail-left fl">
-					<listContent :item="itemObj"></listContent>
-					<listNum :imgs="itemObj.buyTaskList" style="margin-bottom: 35px"></listNum>
+					<listContent :item="itemObj" v-on:cancelList="getProductBuyMethod"></listContent>
+					<listNum :item="itemObj" style="margin-bottom: 35px"></listNum>
 					<listInfo :item="itemObj"></listInfo>
 				</div>
 				<div class="purchase-detail-right fr">
@@ -70,6 +70,16 @@
 				listBuyTaskUserByBuyId(this.paramId).then((res) => {
 					if (res.data.code === 0) {
 						this.imgs1 = res.data.data;
+					}
+				}).catch();
+			},
+			getProductBuyMethod() {
+				this.buyDetailparam.id = this.$route.query.purchaseId;
+				getProductBuy(this.buyDetailparam.id).then((res) => {
+					if (res.data.code === 0) {
+						this.itemObj = res.data.data;
+//						this.paramId = this.itemObj.id;
+//						this.listBuyTaskUserByBuyIdMethod();
 					}
 				}).catch();
 			}

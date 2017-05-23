@@ -190,7 +190,7 @@ function _fetch(method = METHODS.get, data, url) {
     // 如果是登录的请求则删除掉请求头中的x-token
     try {
       // 不删除无法登录
-      delete _headers['x-token'];
+//    delete _headers['x-token'];
     } catch (e) {}
   }
   let param;
@@ -417,6 +417,11 @@ export function closeProductBuy(data) {
 // 取消接单
 export function cancelBuyTask(id) {
   return _fetch(METHODS.post, null, `${API.buy.cancelBuyTask}/${id}`);
+}
+
+// 完成接单
+export function finishProductBuy(data) {
+  return _fetch(METHODS.post, data, API.buy.finishProductBuy);
 }
 
 // 求购详情
