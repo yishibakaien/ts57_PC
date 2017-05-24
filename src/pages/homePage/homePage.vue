@@ -103,7 +103,7 @@ export default {
   // banner
     listHomeBanners().then(res => {
       let bannerArr = res.data.data;
-      console.log(res);
+//    console.log(res);
       bannerArr.forEach(function(item) {
         item.src = item.picUrl;
         // 接口中暂时未提供轮播图的 跳转地址，先用百度代替

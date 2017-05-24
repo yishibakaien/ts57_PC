@@ -30,7 +30,7 @@
 					<ts-form-item label="花型图片：" prop="buyPicUrl">
 						<ts-image width="200" height="200" :src="addBuyForm.buyPicUrl" v-show='Pic.show' type="local"></ts-image>
 						<label class="add-upload-button" for="addPic">{{Pic.text}}</label>
-            <aliUpload id="addPic" @doUpload="uploadImg"></aliUpload>
+            			<aliUpload id="addPic" @doUpload="uploadImg"></aliUpload>
 					</ts-form-item>
 					<ts-form-item label="求购说明：" prop="buyDesc">
 						<ts-input type="textarea" :rows="4" :maxlength='200' v-model="addBuyForm.buyDesc" placeholder="请输入供应说明"></ts-input>

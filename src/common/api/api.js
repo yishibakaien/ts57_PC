@@ -55,7 +55,8 @@ const API = {
     listBuyTask: '/buyTask/listBuyTask', // 获取接单列表
     myProductBuys: '/productBuy/myProductBuys', // 获取我的求购列表
     listBuyTaskByBuyId: '/buyTask/listBuyTaskByBuyId', // 获取求购单接单列表
-    listBuyTaskUserByBuyId: '/buyTask/listBuyTaskUserByBuyId' // 获取求购单接单人列表
+    listBuyTaskUserByBuyId: '/buyTask/listBuyTaskUserByBuyId', // 获取求购单接单人列表
+    listUserProductBuys: '/productBuy/listUserProductBuys' // 获取用户求购列表
   },
   // 收藏管理
   collection: {
@@ -190,7 +191,8 @@ function _fetch(method = METHODS.get, data, url) {
     // 如果是登录的请求则删除掉请求头中的x-token
     try {
       // 不删除无法登录
-//    delete _headers['x-token'];
+      delete _headers['x-token'];
+      // 删除了图形验证码不能用
     } catch (e) {}
   }
   let param;
@@ -372,6 +374,11 @@ export function listBuyTask(data) {
 // 获取我的求购列表
 export function myProductBuys(data) {
   return _fetch(METHODS.post, data, API.buy.myProductBuys);
+};
+
+// 获取用户求购列表
+export function listUserProductBuys(data) {
+  return _fetch(METHODS.get, data, API.buy.listUserProductBuys);
 };
 
 // 删除求购

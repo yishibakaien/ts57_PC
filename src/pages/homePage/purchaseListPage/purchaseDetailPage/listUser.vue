@@ -1,31 +1,37 @@
 <template>
 	<div class="list-user">
 		<div class="title title2" v-if="userType">
-			<p class="buyNum">我的所有求购：<em>40个</em></p>
+			<p class="buyNum">我的所有求购：<em>{{obj.totalNum || 0}}个</em></p>
 		</div>
 		<div class="title title1" v-else>
 			<img :src="item.userHeadIcon" v-errorImg class="fl" alt="用户头像" />
 			<p class="name">{{item.userName}}</p>
-			<p class="mobile" v-if="mobileShow">联系电话：18888888888</p>
-			<p class="buyNum">Ta的总采购数：<em>40个</em></p>
+			<p class="mobile" v-if="mobileShow">联系电话：{{obj.userMobile}}</p>
+			<p class="buyNum">Ta的总采购数：<em>{{obj.totalNum || 0}}个</em></p>
 		</div>
 		<div class="content">
-			<img v-for="item in [1,1,1,1,1,1,1,1]" src="../../../../components/common/toast/icon/success.svg" alt="花型展示图片" />
-			<pageBar :showOpt="true" :pageNum="pageNum" :pageMax="pageMax" style="margin-right: 20px;"></pageBar>
+			<img v-for="e in obj.list" v-lazy="e.buyPicUrl" alt="花型展示图片" />
+			<pageBar :showOpt="true" :pageNum="pageNum" :pageMax="pageMax" v-on:upPage="upPage" v-on:downPage="downPage" v-on:selectFirstPage="selectFirstPage" v-on:selectLastPage="selectLastPage" style="margin-right: 20px;"></pageBar>
 		</div>
 	</div>
 </template>
 
 <script>
 	import { pageBar } from '@/components';
-	import {} from '@/common/api/api';
+	import {listUserProductBuys} from '@/common/api/api';
 	export default {
 		data() {
 			return {
 				mobileShow: false,
 				userType: false,
-				pageNum: 1,
-				pageMax: 10
+				pageNum: '',
+				pageMax: '',
+				paramListBuy: {
+					pageNo: 1,
+					pageSize: 8,
+					userId: ''
+				},
+				obj: {}
 			};
 		},
 		props: {
@@ -51,6 +57,15 @@
 						this.userType = true;
 					}
 				}
+				// 获取用户求购列表
+				this.paramListBuy.userId = this.item.userId;
+				listUserProductBuys(this.paramListBuy).then((res) => {
+					if (res.data.code === 0) {
+						this.obj = res.data.data;
+						this.pageNum = res.data.data.pageNO;
+						this.pageMax = res.data.data.totalPage;
+					}
+				}).catch();
 			}
 		},
 		components: {
@@ -59,34 +74,49 @@
 		created() {
 		},
 		methods: {
-//			selectFirstPage() {
-//				let _ = this;
-//				_.param.pageNo = 1;
-//				this.myProductBuysMethod();
-//			},
-//			selectLastPage() {
-//				let _ = this;
-//				_.param.pageNo = _.pageMax;
-//				this.myProductBuysMethod();
-//			},
-//			upPage() {
-//				let _ = this;
-//				if (_.pageNum <= 1) {
-//					return;
-//				};
-//				--_.pageNum;
-//				_.param.pageNo = _.pageNum;
-//				this.myProductBuysMethod();
-//			},
-//			downPage() {
-//				let _ = this;
-//				if (_.pageNum >= _.pageMax) {
-//					return;
-//				};
-//				++_.pageNum;
-//				_.param.pageNo = _.pageNum;
-//				this.myProductBuysMethod();
-//			}
+			listUserProductBuysMethod() {
+				this.paramListBuy.userId = this.item.userId;
+				listUserProductBuys(this.paramListBuy).then((res) => {
+					if (res.data.code === 0) {
+						console.log(res.data.data);
+						this.obj = res.data.data;
+						this.pageNum = res.data.data.pageNO;
+						this.pageMax = res.data.data.totalPage;
+					}
+				}).catch();
+			},
+			// 首页
+			selectFirstPage() {
+				let _ = this;
+				_.paramListBuy.pageNo = 1;
+				this.listUserProductBuysMethod();
+			},
+			// 尾页
+			selectLastPage() {
+				let _ = this;
+				_.paramListBuy.pageNo = _.pageMax;
+				this.listUserProductBuysMethod();
+			},
+			// 上一页
+			upPage() {
+				let _ = this;
+				if (_.pageNum <= 1) {
+					return;
+				};
+				--_.pageNum;
+				_.paramListBuy.pageNo = _.pageNum;
+				this.listUserProductBuysMethod();
+			},
+			// 下一页
+			downPage() {
+				let _ = this;
+				if (_.pageNum >= _.pageMax) {
+					return;
+				};
+				++_.pageNum;
+				_.paramListBuy.pageNo = _.pageNum;
+				this.listUserProductBuysMethod();
+			}
 		}
 	};
 </script>

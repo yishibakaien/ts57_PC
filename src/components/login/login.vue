@@ -121,6 +121,7 @@ export default {
           this.$store.commit(types.USER_NAME, res.data.data.userName);
           this.$store.commit('GET_USERINFO', res.data.data);
           this.$store.commit(types.LOGIN, res.headers['x-token']);
+          this.$store.commit(types.AJAX, res.headers['x-token']);
           this.$store.commit(types.LOGIN_MASK, false);
           this.$store.dispatch('getDicTree');
           // 路由重定向
