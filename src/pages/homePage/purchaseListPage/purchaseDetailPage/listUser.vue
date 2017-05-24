@@ -18,6 +18,7 @@
 
 <script>
 	import { pageBar } from '@/components';
+	import {} from '@/common/api/api';
 	export default {
 		data() {
 			return {

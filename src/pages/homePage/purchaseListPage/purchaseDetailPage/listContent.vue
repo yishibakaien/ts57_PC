@@ -27,7 +27,7 @@
 			</p>
 			<div class="" v-if="qiugou">
 				<button class="btn btn-dele btn-small" @click="closeProductBuyMethod">关闭求购</button>
-				<button class="btn btn-yes btn-small">完成求购</button>
+				<button class="btn btn-yes btn-small" @click="doSomethimg($event)">完成求购</button>
 			</div>
 			<div class="" v-if="wancheng">
 				<button class="btn btn-yes" @click="goFabuBuy">重新发布</button>
@@ -43,6 +43,7 @@
 <script>
 	import { cancelBuyTask, finishProductBuy, deleteBuyTask, closeProductBuy, deleteProductBuy } from '@/common/api/api';
 	import Toast from '@/components/common/toast/toast';
+	import Bus from '@/common/bus/bus.js';
 	export default {
 		data() {
 			return {
@@ -229,6 +230,19 @@
 						}
 					}).catch();
 				});
+			},
+			// bus 实现与listNum之间的通信
+			doSomethimg(event) {
+//				console.log(this.item.buyTaskList.length < 1);
+				if (this.item.buyTaskList.length < 1) {
+					Toast({
+						type: 'error',
+						message: '暂无人接单'
+					});
+					return;
+				}
+				event.target.innerText = '取消选择';
+				Bus.$emit('clickDo', event.target);
 			}
 		}
 	};

@@ -19,10 +19,10 @@
 				</ts-radio-group>
 			</ts-filter>
 		</div>
-		<div class="personal-buy-wrap clearfix"  v-show='!defaultShow'>
+		<div class="personal-buy-wrap clearfix" v-show='!defaultShow'>
 			<div class="personal-goods-item" v-for="(item, index) in items">
 				<div class="personal-goods-item-img">
-					<img v-lazy="item.buyPicUrl" alt="求购"  @click="goDetail(index)"/>
+					<img v-lazy="item.buyPicUrl" alt="求购" @click="goDetail(index)" />
 					<span class="states green" v-if="item.buyStatus == 1">求购中</span>
 					<span class="states yellow" v-if="item.buyStatus == 2">已成交</span>
 					<span class="states gray" v-if="item.buyStatus == 3">已关闭</span>
@@ -101,31 +101,11 @@
 		created() {
 			let _ = this;
 			myProductBuys(_.param).then((res) => {
-				if (res.data.data.list.length === 0) {
-					this.defaultShow = true;
-					return;
-				}
-				res.data.data.list.forEach((item) => {
-					item.tipShow = false;
-				});
-				_.items = res.data.data.list;
-				_.pageNum = res.data.data.pageNO;
-				_.pageSize = res.data.data.pageSize;
-				_.pageMax = res.data.data.totalPage;
-				_.classes.totalNum = res.data.data.totalNum;
-				_.classes.mianliao = res.data.data.ml;
-				_.classes.large = res.data.data.db;
-				_.classes.small = res.data.data.xb;
-				_.classes.eyelash = res.data.data.jm;
-				_.classes.statusBuy = res.data.data.buying;
-				_.classes.statusSuccess = res.data.data.finish;
-				_.classes.statusClosed = res.data.data.close;
-			}).catch();
-		},
-		methods: {
-			myProductBuysMethod() {
-				let _ = this;
-				myProductBuys(_.param).then((res) => {
+				if (res.data.code === 0) {
+					if (res.data.data.list.length === 0) {
+						this.defaultShow = true;
+						return;
+					}
 					res.data.data.list.forEach((item) => {
 						item.tipShow = false;
 					});
@@ -133,6 +113,30 @@
 					_.pageNum = res.data.data.pageNO;
 					_.pageSize = res.data.data.pageSize;
 					_.pageMax = res.data.data.totalPage;
+					_.classes.totalNum = res.data.data.totalNum;
+					_.classes.mianliao = res.data.data.ml;
+					_.classes.large = res.data.data.db;
+					_.classes.small = res.data.data.xb;
+					_.classes.eyelash = res.data.data.jm;
+					_.classes.statusBuy = res.data.data.buying;
+					_.classes.statusSuccess = res.data.data.finish;
+					_.classes.statusClosed = res.data.data.close;
+				}
+			}).catch();
+		},
+		methods: {
+			myProductBuysMethod() {
+				let _ = this;
+				myProductBuys(_.param).then((res) => {
+					if (res.data.code === 0) {
+						res.data.data.list.forEach((item) => {
+							item.tipShow = false;
+						});
+						_.items = res.data.data.list;
+						_.pageNum = res.data.data.pageNO;
+						_.pageSize = res.data.data.pageSize;
+						_.pageMax = res.data.data.totalPage;
+					}
 				}).catch();
 			},
 			hanleFilterFabric(e) {
@@ -260,6 +264,7 @@
 		line-height: 200px;
 		text-align: center;
 	}
+	
 	.personal-buy {
 		margin-top: 25px;
 		padding: 0 15px;
