@@ -1,6 +1,6 @@
 <template lang="html">
     <div class="">
-      <title-block>大家在找</title-block>
+      <ts-title-block>大家在找</ts-title-block>
       <ts-grid>
         <ts-grid-item v-for="product in 12" :key="product" @click="handleViewProduct(product)">
           <ts-image
@@ -20,10 +20,6 @@
 </template>
 
 <script>
-import TitleBlock from '../component/titleBlock.vue';
 export default {
-  components: {
-    TitleBlock
-  }
 };
 </script>

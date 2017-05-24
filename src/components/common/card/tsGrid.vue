@@ -37,10 +37,10 @@ export default {
     @when column{
       flex-direction: column;
     }
-    &:before {
+    &:after {
         @mixin setTopLine var(--grid-border-color);
     }
-    &:after {
+    &:before {
         @mixin setLeftLine var(--grid-border-color);
     }
   }

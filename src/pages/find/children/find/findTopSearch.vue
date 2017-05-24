@@ -8,30 +8,46 @@
     </div>
     <div class="hotSearch-list">
       <ts-grid type="column">
-        <ts-grid-item v-for="(product,index) in 3" :key="product" @click="handleViewProduct(product)">
+        <ts-grid-item v-for="(product,index) in BurstHotSearch.list" :key="product" @click="handleViewProduct(product.productId)">
           <span class="ranking hotSearch-rank" :class="'ranking_'+index" v-if="index<3"></span>
           <ts-image
            width="220"
            height="220"
            :canView="false"
            disabledHover
-           src="https://ss0.bdstatic.com/-0U0bnSm1A5BphGlnYG/tam-ogel/6e5157df050b7a94d30b7418bd54f92a_121_121.jpg">
+           v-lazy="product.defaultPicUrl">
            </ts-image>
-           <template slot="footer">
-             <span>面料</span>
-             <ts-tag>有库存</ts-tag>
+           <template slot="footer" class="hotSearch-footer">
+             <p>搜索量&nbsp;<span class="hotSearch-footer--searchNum">{{product.searchs}}</span></p>
+             <p class="hotSearch-footer--total">共{{product.searchs}}款</p>
            </template>
          </ts-grid-item>
       </ts-grid>
       <router-link to="topSearch">
-        <ts-button type="plain" size="large">更多爆款</ts-button>
+        <ts-button type="plain" size="large"  class="hotSearch-search">更多爆款</ts-button>
       </router-link>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import {
+  burstHotSearch
+} from '@/common/api/api';
+export default {
+  data() {
+    return {
+      Params: {
+        pageNO: 1,
+        pageSize: 5
+      },
+      BurstHotSearch: {}
+    };
+  },
+  async created() {
+    this.BurstHotSearch = (await burstHotSearch(this.Params)).data.data;
+  }
+};
 </script>
 
 <style lang="css" scoped>
@@ -40,11 +56,25 @@ export default {};
     padding: 22px;
     background: #fff;
   }
+  @component footer{
+    @modifier searchNum{
+      color: #FF8400;
+    }
+    @modifier total{
+      color:#999999;
+    }
+  }
+  @component search{
+    margin-top: 26px;
+  }
+  @component wrapper{
+    min-width: 294px;
+  }
   @component title{
     line-height: 45px;
     color: #fff;
     text-align: center;
-    font-size: 22px;
+    font-size: 16px;
     background: #FF494F;
   }
   @component rank{

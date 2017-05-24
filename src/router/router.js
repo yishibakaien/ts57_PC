@@ -23,6 +23,14 @@ import {
 Vue.use(Router);
 // created By HZC
 // =============
+// 店铺访问
+const shopVisiting = r => require.ensure([], () => r(require('@/pages/shopVisiting/')), 'shopVisiting');
+const shopAllMeterials = r => require.ensure([], () => r(require('@/pages/shopVisiting/children/allmeterial')), 'shopVisiting');
+const shopCompanyIntro = r => require.ensure([], () => r(require('@/pages/shopVisiting/children/companyintro')), 'shopVisiting');
+const shopModels = r => require.ensure([], () => r(require('@/pages/shopVisiting/children/models')), 'shopVisiting');
+const shopProductIndex = r => require.ensure([], () => r(require('@/pages/shopVisiting/children/productindex')), 'shopVisiting');
+const shopSupplies = r => require.ensure([], () => r(require('@/pages/shopVisiting/children/supplies')), 'shopVisiting');
+// =============
 // 发现模块
 const find = r => require.ensure([], () => r(require('@/pages/find/')), 'find');
 const findIndex = r => require.ensure([], () => r(require('@/pages/find/children/find')), 'findIndex');
@@ -137,6 +145,34 @@ const routes = [
     path: '/forgotPasswordPage',
     component: forgotPasswordPage
   }, {
+    path: '/shop/:id',
+    name: 'shop',
+    redirect: '/shop/:id/index',
+    component: shopVisiting,
+    children: [
+      {
+        path: 'index',
+        component: shopProductIndex,
+        name: '店铺首页'
+      }, {
+        path: 'allProducts',
+        component: shopAllMeterials,
+        name: '所有花型'
+      }, {
+        path: 'supplies',
+        component: shopSupplies,
+        name: '厂家供应'
+      }, {
+        path: 'models',
+        component: shopModels,
+        name: '模特试衣'
+      }, {
+        path: 'intro',
+        component: shopCompanyIntro,
+        name: '公司介绍'
+      }
+    ]
+  }, {
     path: '/shopManagePage',
     redirect: '/shopManagePage/warehouse',
     component: shopManager,
@@ -227,7 +263,19 @@ if (localStorage.accessToken) {
   store.dispatch('getDicTree');
 }
 
-const router = new Router({mode: 'history', linkActiveClass: 'active', routes});
+const router = new Router({
+  mode: 'history',
+  // 每进去一个新页面翻到顶部
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    } else {
+      return {x: 0, y: 0};
+    }
+  },
+  linkActiveClass: 'active',
+  routes
+});
 
 // 路由钩子，判断进入的页面是否需要登录 (needAuth)
 router.beforeEach((to, from, next) => {

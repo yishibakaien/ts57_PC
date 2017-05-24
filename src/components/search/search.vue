@@ -99,8 +99,6 @@ export default {
         height 36px
         width 40px
         padding 0 4px
-        // opacity 0
-        // background transparent
         cursor pointer
     .search-btn
       display inline-block

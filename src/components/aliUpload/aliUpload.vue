@@ -1,6 +1,6 @@
 <template>
 	<div class="oss-file">
-		<input type="file" :id="id" :multiple="multiple" @change="doUpload($event)" />
+		<input type="file" :id="id" accept="image/png,image/jpeg,image/gif" :multiple="multiple" @change="doUpload($event)" />
 	</div>
 </template>
 <script>
@@ -88,7 +88,7 @@
 	.oss-file {
 		float: left;
 	}
-	
+
 	.oss-file input {
 		position: absolute;
 		opacity: 0;

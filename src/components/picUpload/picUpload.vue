@@ -1,12 +1,11 @@
 <template lang="html">
 <div class="file-upload-container">
   <img class="dest-image" :src="destImg" v-show="destImg !== null" @click="toggleHistoryBox" />
-  <!-- <a class="file-upload-icon" v-show="destImg === null"> 备注了前辈的内容-->
   <a class="file-upload-icon" v-show="true">
+    <i class="icon-xiangji"></i>
     <input ref="input" type="file" accept="image/png,image/jpeg,image/gif" @change="change" v-show="!openCrop">
   </a>
-
-  <div class="picHistory-box" v-if="isShowHistoryBox"> <!---->
+  <div class="picHistory-box" v-if="isShowHistoryBox">
     <h2 class="history-text">
       <span class="history-title">图片搜索历史</span>
       <span class="history-desc">(显示最近的10条)</span>
@@ -586,33 +585,11 @@ $height = 400px
   }
   .file-upload-icon {
     display: inline-block;
-    border: 1px solid #000000;
     position: relative;
-    // position: absolute;
     z-index: 1;
     cursor: pointer;
     height: 100%;
     width: 100%;
-    &:before,
-    &:after {
-      content: '';
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-    &:before {
-      width: 40%;
-      height: 1px;
-      background-color: #000000;
-    }
-    &:after {
-      height: 40%;
-      width: 1px;
-      background-color: #000000;
-    }
   }
   input {
     display: block;

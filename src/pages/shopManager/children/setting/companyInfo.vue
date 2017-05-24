@@ -56,6 +56,9 @@
           <ts-image width="120" height="120" class="companyInfo-views-img" :src="item.picUrl"></ts-image>
           <i class="companyInfo-views-close" @click.self="handleDelViews(item,index)" v-if="!Text.show">&times</i>
         </div>
+        <p v-if="!companyInfo.presence||!companySimpleInfo.presence.length">
+          暂无企业风采照片
+        </p>
         <label class="companyInfo-upload-button companyInfo-plus-img" v-if="!Text.show&&companyInfoForm.presence.length<9">
           <!-- {{Pic.banner.text}} -->
           <ts-aliupload :id="Pic.views.id" @doUpload="uploadViews"></ts-aliupload>

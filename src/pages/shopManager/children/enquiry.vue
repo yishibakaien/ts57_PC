@@ -91,7 +91,7 @@ export default {
       handler(val) {
         if (val) {
           val.forEach(item => {
-            item.createDate = this.filterDate(item.createDate);
+            item.createDate = this.filterDate(item.createDate, 'date');
             item.UNITS = this.filterDicts(item.unit, this.dicTree.PRODUCT_UNIT, 'name');
             item.PURCHASENUM = `${item.purchaseNum} ${item.UNITS}`;
             item.PURCHASETYPE = this.filterDicts(item.purchaseType, DICT.purchaseType);

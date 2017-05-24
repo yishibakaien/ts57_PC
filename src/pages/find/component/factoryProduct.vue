@@ -1,37 +1,41 @@
 <template lang="html">
   <div class="factory">
-    <div class="factory-row" v-for="store in 2">
+    <div class="factory-row" v-for="store in data.list">
       <div class="factory-row--left" :style="{'width':width}">
-        <div class="factory-company">
+        <!-- <div class="factory-company"> -->
           <ts-image
            width="100"
            height="100"
            :canView="false"
            disabledHover
            class="factory-company--cover"
-           src="https://ss0.bdstatic.com/-0U0bnSm1A5BphGlnYG/tam-ogel/6e5157df050b7a94d30b7418bd54f92a_121_121.jpg"></ts-image>
-           <p class="factory-company--title">杭州杨汛桥经编工业园区</p>
-           <ts-button type="plain" size="large" class="factory-company--button" @click="handleViewStore(store)">访问店铺</ts-button>
-        </div>
+           v-lazy="store.companyName"></ts-image>
+           <p class="factory-company--title">{{store.companyName}}</p>
+             <router-link :to="{ name: 'shop', params: { id: store.companyId }}" tag="span">
+              <ts-button type="plain" size="large" class="factory-company--button" @click="handleViewStore(store.companyId)">
+                访问店铺
+              </ts-button>
+              </router-link>
+        <!-- </div> -->
       </div>
       <div class="factory-row--right">
         <div class="factory-list-block onepx-l onepx-r">
-          <p>新增<span>12</span>款／共<span>100</span>款</p>
-          <p>24分钟前</p>
+          <p>新增<span>{{store.newCount}}</span>款／共<span>{{store.totalCount}}</span>款</p>
+          <p>{{ getPublishDate | customTime }}</p>
         </div>
         <ts-grid>
-          <ts-grid-item v-for="product in 3" :key="product" @click="handleViewProduct(product)" :style="{'width':width}">
+          <ts-grid-item v-for="product in store.productList" :key="product" @click="handleViewProduct(product.id)" :style="{'width':width}">
             <ts-image
              width="170"
              height="170"
              :canView="false"
              disabledHover
-             src="https://ss0.bdstatic.com/-0U0bnSm1A5BphGlnYG/tam-ogel/6e5157df050b7a94d30b7418bd54f92a_121_121.jpg">
+             v-lazy="product.picsUrl">
              </ts-image>
-             <p class="factory-product--number">#20001</p>
+             <p class="factory-product--number">{{product.productNo}}</p>
              <template slot="footer">
-               <span>面料</span>
-               <ts-tag>有库存</ts-tag>
+               {{product.category | filterDict(dicTree.PRODUCT_TYPE,'name')}}
+               <ts-tag>{{product.publishStatus | filterDict(DICT.PublishStatus,'label2')}}</ts-tag>
              </template>
            </ts-grid-item>
         </ts-grid>
@@ -42,12 +46,33 @@
 </template>
 
 <script>
+import DICT from '@/common/dict';
+import {
+  mapGetters
+} from 'vuex';
 export default {
+  data() {
+    return {
+      // 数据字典
+      DICT: {
+        PublishStatus: DICT.PublishStatus
+      }
+    };
+  },
   props: {
     data: [Array, Object],
     width: {
       type: String,
       default: '200px'
+    }
+  },
+  computed: {
+    ...mapGetters(['dicTree']),
+    getPublishDate() {
+      let firstPublish = this.data.list[0].productList[0];
+      if (firstPublish) {
+        return firstPublish.publishDate;
+      }
     }
   },
   methods: {
@@ -73,6 +98,7 @@ export default {
   @component row{
     display: table;
     width: 100%;
+    table-layout: fixed;
     position: relative;
     margin-bottom: 20px;
     &:before{
@@ -94,17 +120,15 @@ export default {
     @modifier right{
       display: table-cell;
       vertical-align: middle;
-      /*width: 100%;*/
+      width: 100%;
     }
   }
   @component company{
-    margin:0 16px;
-    height: 100%;
-    position: relative;
     @modifier title{
-      font-size: 22px;
+      font-size: 17px;
       line-height: 30px;
       margin-top:16px;
+      @utils-ellipsis 2;
     }
     @modifier cover{
       margin-top: 38px;
@@ -112,12 +136,14 @@ export default {
     @modifier button{
       position: absolute * * 25px 50%;
       transform: translate(-50%);
+      width: 80%;
     }
   }
   @component product{
     @modifier number{
-      font-size: 24px;
+      font-size: 16px;
       line-height: 40px;
+      @utils-ellipsis;
     }
   }
   @component list{

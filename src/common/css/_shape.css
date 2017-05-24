@@ -1,17 +1,41 @@
+/*排行榜*/
 .ranking {
   height: 56px;
   width: 44px;
-  overflow: hidden;
-  background: url('/static/images/assets/sprite.png')no-repeat;
-  display:inline-block;
-}
-.ranking_0{
-  background-position-x:0;
-}
-.ranking_1{
-  background-position-x:-44px;
 }
 
-.ranking_2{
-  background-position-x:-88px;
+.topRanking {
+  height: 58px;
+  width: 48px;
+  overflow: hidden;
+}
+
+.ranking, .topRanking {
+  background: url('/static/images/assets/sprite.png')no-repeat;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.topRanking_1 {
+  background-position-x: 0;
+}
+
+.topRanking_2 {
+  background-position-x: -48px;
+}
+
+.topRanking_0 {
+  background-position-x: -96px;
+}
+
+.rank_0 {
+  background-position-x: -144px;
+}
+
+.rank_1 {
+  background-position-x: -188px;
+}
+
+.rank_2 {
+  background-position-x: -232px;
 }

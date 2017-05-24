@@ -11,6 +11,7 @@ module.exports = {
   }),
   postcss: function(webpack) {
     return [require('postcss-salad')({
+        browsers: ['last 20 version'],
         partialImport: {
           addDependencyTo: webpack
         }

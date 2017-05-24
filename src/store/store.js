@@ -4,7 +4,7 @@ import Vuex from 'vuex';
 import * as types from './types';
 // module
 // ======
-import shopManagement from './module/shopManagement';
+import shop from './module/shop';
 import dict from './module/dict';
 import user from './module/user';
 // ======
@@ -40,7 +40,7 @@ function _formateStockType(str) {
 
 export default new Vuex.Store({
   modules: {
-    shopManagement,
+    shop,
     dict,
     user
   },
