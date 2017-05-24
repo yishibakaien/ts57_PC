@@ -1,18 +1,38 @@
 <template>
-  <div class="nav">
-    <div class="nav-box">
-      <router-link to="/homePage" class="nav-item">首页</router-link>
-      <router-link to="/find" class="nav-item">发现</router-link>
-      <router-link to="/threeDDressPage" class="nav-item">3D试衣</router-link>
-      <router-link to="/shopManagePage" class="nav-item">店铺管理</router-link>
-      <router-link to="/personalCenterPage" class="nav-item">个人中心</router-link>
-    </div>
+<div class="nav">
+  <div class="nav-box">
+    <router-link :to="item.path" class="nav-item" v-for="item in navItem">{{item.name}}</router-link>
   </div>
+</div>
 </template>
 
 <script>
-export default {};
-
+export default {
+  props: {
+    // 默认的导航条
+    navItem: {
+      type: [Array, Object],
+      default: function() {
+        return [{
+          path: '/homePage',
+          name: '首页'
+        }, {
+          path: '/find',
+          name: '发现'
+        }, {
+          path: '/threeDDressPage',
+          name: '3D试衣'
+        }, {
+          path: '/shopManagePage',
+          name: '店铺管理'
+        }, {
+          path: '/personalCenterPage',
+          name: '个人中心'
+        }];
+      }
+    }
+  }
+};
 </script>
 
 <style lang="stylus" scoped>

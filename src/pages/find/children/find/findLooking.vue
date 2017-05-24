@@ -1,5 +1,5 @@
 <template lang="html">
-  <ts-section pageTitle="大家在找" class="everyLooking-wrapper">
+  <ts-section pageTitle="大家在找" class="everyLooking-wrapper" id="anchor-looking">
     <div slot="menu">
       <router-link tag="a" to="everyLooking" class="everyLooking-menu-more">
         更多商机
@@ -76,9 +76,8 @@ export default {
   @component company{
     margin:0 16px;
     height: 100%;
-    position: relative;
     @modifier title{
-      font-size: 22px;
+      font-size: 16px;
       line-height: 30px;
       margin-top:16px;
     }
@@ -92,7 +91,7 @@ export default {
   }
   @component product{
     @modifier number{
-      font-size: 24px;
+      font-size: 16px;
       line-height: 40px;
     }
   }

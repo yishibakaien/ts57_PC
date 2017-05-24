@@ -1,5 +1,5 @@
 <template lang="html">
-  <ts-section pageTitle="厂家上新" class="update-wrapper">
+  <ts-section pageTitle="厂家上新" class="update-wrapper" id="anchor-update">
     <div slot="menu">
       <router-link tag="a" to="factoryUpdate" class="update-menu-more">
         更多新品
@@ -7,16 +7,31 @@
       </router-link>
     </div>
     <div class="update-container">
-      <factory-update @viewProduct="handleViewProduct" @viewStore="handleViewStore" data="data"></factory-update>
+      <factory-update @viewProduct="handleViewProduct" @viewStore="handleViewStore" :data="NewProductList"></factory-update>
     </div>
   </ts-section>
 </template>
 
 <script>
 import factoryUpdate from '../../component/factoryProduct';
+import {
+  getCompanyNewProductList
+} from '@/common/api/api';
 export default {
+  data() {
+    return {
+      Params: {
+        pageNO: 1,
+        pageSize: 5
+      },
+      NewProductList: {}
+    };
+  },
   components: {
     factoryUpdate
+  },
+  async created() {
+    this.NewProductList = (await getCompanyNewProductList(this.Params)).data.data;
   },
   methods: {
     // 进去某个商品

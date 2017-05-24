@@ -16,13 +16,13 @@
     <div class="warehouse-filter">
       <ts-filter title="分类">
         <ts-radio-group v-model="Filter.publishStatuss" @change="handleFilterPublishStatus">
-          <ts-radio label="">全部</ts-radio>
+          <ts-radio :label="null">全部</ts-radio>
           <ts-radio :label="item.dicValue" :key="item.value" v-for="item in DICT.PublishStatus">{{item.label}}</ts-radio>
         </ts-radio-group>
       </ts-filter>
       <ts-filter title="面料种类">
         <ts-radio-group v-model="Filter.categorys" @change="handleFilterCategorys">
-          <ts-radio label="">全部</ts-radio>
+          <ts-radio :label="null">全部</ts-radio>
           <ts-radio :label="item.dicValue" :key="item.value" v-for="item in dicTree.PRODUCT_TYPE">{{item.name}}</ts-radio>
         </ts-radio-group>
       </ts-filter>
@@ -33,8 +33,8 @@
       <ts-checkbox-group v-model="chooseItem">
       <ts-menu-table v-for="item in productList.list" :key="item.id">
         <div slot="header-left">
-          <ts-checkbox :label="item.id" v-if="Filter.publishStatuss!==''">#{{item.productNo}}&nbsp{{item.category | filterDict(dicTree.PRODUCT_TYPE,'name')}}</ts-checkbox>
-          <span v-else>#{{item.productNo}}&nbsp{{item.category | filterDict(dicTree.PRODUCT_TYPE,'name')}}</span>
+          <ts-checkbox :label="item.id" v-if="Filter.publishStatuss!==''">{{item.productNo}}&nbsp{{item.category | filterDict(dicTree.PRODUCT_TYPE,'name')}}</ts-checkbox>
+          <span v-else>{{item.productNo}}&nbsp{{item.category | filterDict(dicTree.PRODUCT_TYPE,'name')}}</span>
         </div>
         <div slot="header-right">
           状态：<b>{{item.publishStatus | filterDict(DICT.PublishStatus,'label2')}}</b>
@@ -126,14 +126,14 @@
 <script>
 import DICT from '@/common/dict';
 import {
+  mapGetters
+} from 'vuex';
+import {
   shelveProduct,
   deleteProduct,
   getProductList,
   getAskListByProductId
 } from '@/common/api/api';
-import {
-  mapGetters
-} from 'vuex';
 export default {
   data() {
     return {
@@ -168,8 +168,8 @@ export default {
       // =========
       // 过滤器
       Filter: {
-        categorys: '',
-        publishStatuss: ''
+        categorys: null,
+        publishStatuss: null
       },
       // 询价次数
       Collect: {
@@ -215,6 +215,7 @@ export default {
   async created() {
     if (sessionStorage.getItem('warehouse-filter')) {
       this.Filter = JSON.parse(sessionStorage.getItem('warehouse-filter'));
+      this.Params = Object.assign({}, this.Params, this.Filter);
     }
     // 获取花型列表
     this.productList = (await getProductList(this.Params)).data.data;
@@ -252,6 +253,10 @@ export default {
         pageNo: 1,
         productNo: this.Params.productNo.trim()
       });
+      this.Filter = {
+        categorys: '',
+        publishStatuss: ''
+      };
       this.productList = (await getProductList(this.Params)).data.data;
     },
     // 打开花型询价记录
@@ -268,7 +273,7 @@ export default {
     },
     // 添加“分类”条件搜索
     async handleFilterPublishStatus(e) {
-      this.Params.publishStatuss = !e ? null : e;
+      this.Params.publishStatuss = e;
       this.productList = (await getProductList(this.Params)).data.data;
     },
     // 添加“面料”条件搜索

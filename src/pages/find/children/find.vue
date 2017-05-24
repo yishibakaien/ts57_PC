@@ -1,5 +1,6 @@
 <template>
 <div class="find-wrapper">
+  <hang-bar></hang-bar>
   <div class="find-wrapper--left">
     <history-on-new></history-on-new>
     <every-looking></every-looking>
@@ -14,10 +15,12 @@
 import EveryLooking from './find/findLooking';
 import HistoryOnNew from './find/findUpdate';
 import HotSearch from './find/findTopSearch';
+import hangBar from './find/hangBar';
 export default {
   components: {
     HotSearch,
     HistoryOnNew,
+    hangBar,
     EveryLooking
   }
 };

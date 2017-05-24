@@ -3,6 +3,9 @@
   <span class="ts-title-block-title" :style="bodyStyle">
     <slot></slot>
   </span>
+  <div class="ts-title-block-menu">
+    <slot name="menu"></slot>
+  </div>
 </div>
 </template>
 
@@ -28,7 +31,14 @@ export default {
 @component-namespace ts{
   @component title-block{
     text-align: center;
-      margin: 30px 0;
+    margin: 30px 0;
+    position: relative;
+    @descendent menu{
+    right: 0;
+    bottom: 50%;
+    transform: translateY(50%);
+    position: absolute;
+    }
     @descendent title{
       line-height: 45px;
       position: relative;

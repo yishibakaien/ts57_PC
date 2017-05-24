@@ -132,9 +132,6 @@ export default {
         updateCompany(this.addressInfoForm);
       }
     },
-    handleChooseProvince(item) {
-      console.log(item);
-    },
     addMarker() {
       let lng = 121.5 + Math.round(Math.random() * 1000) / 10000;
       let lat = 31.197646 + Math.round(Math.random() * 500) / 10000;

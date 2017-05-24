@@ -17,6 +17,7 @@ const API = {
     changeMobile: '/user/changeMobile', // 修改手机号码
     updateUser: '/user/updateUser', // 修改用户信息
     restPasswd: '/user/restPasswd', // 修改密码
+    getUserSimpleInfo: '/user/getUserSimpleInfo', // 修改密码
     checkPasswd: '/user/checkPasswd', // 校验密码
     changeSMSCode: '/user/changeSMSCode', // 获取修改手机短信
     getVerifyCode: '/front/user/getVerifyCode', // 获取图片验证码
@@ -75,6 +76,9 @@ const API = {
     updateProduct: '/product/updateProduct', // 修改花型
     shelveProduct: '/product/shelveProduct', // 花型上下架
     deleteProduct: '/product/deleteProduct', // 删除花型
+    getCompanyNewProductlist: '/product/listCompanyNewProduct', // 厂家上新
+    burstHotSearch: '/product/burstHotSearch', // 爆款热搜列表
+    listVistitCompanyProducts: '/product/listVistitCompanyProducts', // 获取店铺花型列表
     getProduct: '/product/getProduct' // 修改成分
   },
   // 成分
@@ -90,6 +94,7 @@ const API = {
     releaseCompanySupply: '/companySupply/releaseCompanySupply', // 发布供应
     listMyCompanySupplys: '/companySupply/listMyCompanySupplys', // 我的供应列表
     getCompanySupply: '/companySupply/getCompanySupply', // 供应详情
+    listVisitCompanySupplys: '/companySupply/listVisitCompanySupplys', // 店铺供应列表
     getSupplyByFavList: '/companySupply/getSupplyByFavList' // 获取供应收藏人列表
   },
   // 素材库
@@ -102,12 +107,16 @@ const API = {
   // 花型分类
   productCategory: {
     listSystemProductCategory: '/productCategory/listSystemProductCategory', // 系统定义花型分类列表
+    listVisitSystemProductCategory: '/productCategory/listVisitSystemProductCategory', // 店铺系统定义花型分类列表
     deleteProductCategory: '/productCategory/deleteProductCategory', // 删除花型分类
     listUserProductCategory: '/productCategory/listUserProductCategory', // 自定义花型分类列表
+    listVisitUserProductCategory: '/productCategory/listVisitUserProductCategory', // 店铺自定义花型分类列表
     addProductCategory: '/productCategory/addProductCategory', // 新增花型分类
     updateProductCategory: '/productCategory/updateProductCategory', // 修改花型分类
     sortProductCategory: '/productCategory/sortProductCategory', // 花型分类排序
+    listProductCategory: '/productCategory/listProductCategory', // 店铺花型分类
     listBindingProduct: '/productCategoryBanding/listBindingProduct', // 获取分类绑定的花型列表
+    listCompanyBindingProduct: '/productCategoryBanding/listCompanyBindingProduct', // 店铺分类绑定的花型列表
     bindingProduct: '/productCategoryBanding/bindingProduct', // 花型分类绑定解绑
     sortBindingProduct: '/productCategoryBanding/sortBindingProduct' // 分类中的花型排序
   },
@@ -118,6 +127,8 @@ const API = {
     getCompanyAptitude: '/companyAptitude/getCompanyAptitude', // 查询公司资质信息
     saveCompanyAptitude: '/companyAptitude/saveCompanyAptitude', // 修改公司资质信息
     updateCompanyExtend: '/company/updateCompanyExtend', // 修改工厂或档口详细信息
+    getCompanyInfoByUserId: '/company/getCompanyInfoByUserId', // 获取用户的店铺信息
+    getCompanySimpleInfo: '/company/getCompanySimpleInfo', // 获取简单店铺或工厂信息
     findNewCompanys: '/company/findNewCompanys' // 查询最新入驻厂家
   },
   // 数据字典
@@ -193,6 +204,7 @@ function _fetch(method = METHODS.get, data, url) {
       // 不删除无法登录
       delete _headers['x-token'];
       // 删除了图形验证码不能用
+      // delete _headers['x-token'];
     } catch (e) {}
   }
   let param;
@@ -288,6 +300,8 @@ export function updateUser(data) {
 export function getUserInfo(data) {
   return _fetch(METHODS.post, data, API.user.getUserInfo);
 };
+// 获取简单用户信息
+export const getUserSimpleInfo = data => _fetch(METHODS.post, data, API.user.getUserSimpleInfo);
 
 // 检验手机号码是否存在
 export function checkPhone(data) {
@@ -458,6 +472,25 @@ export const getAreabyLevel = param => _fetch(METHODS.get, param, API.area.byLev
 // 根据父级编码获取信息
 export const getAreabyParent = param => _fetch(METHODS.get, param, API.area.byParent);
 // =======
+// 店铺访问
+// =======
+// 获取店铺花型列表
+export const getVistitCompanyProductsList = param => _fetch(METHODS.post, param, API.product.listVistitCompanyProducts);
+// 店铺供应列表
+export const getVisitCompanySupplyList = param => _fetch(METHODS.get, param, API.companySupply.listVisitCompanySupplys);
+// 获取用户的店铺信息
+export const getCompanyInfoByUserId = param => _fetch(METHODS.get, param, API.company.getCompanyInfoByUserId);
+// 获取简单店铺或工厂信息
+export const getCompanySimpleInfo = param => _fetch(METHODS.post, param, API.company.getCompanySimpleInfo);
+// 店铺花型分类
+export const getProductCategoryList = param => _fetch(METHODS.get, param, API.productCategory.listProductCategory);
+// 店铺自定义花型分类列表
+export const getVisitUserProductCategoryList = param => _fetch(METHODS.post, param, API.productCategory.listVisitUserProductCategory);
+// 店铺系统定义花型分类列表
+export const getVisitSystemProductCategoryList = param => _fetch(METHODS.get, param, API.productCategory.listVisitSystemProductCategory);
+// 店铺分类绑定的花型列表
+export const getCompanyBindingProductList = param => _fetch(METHODS.get, param, API.productCategory.listCompanyBindingProduct);
+// =======
 // 店铺管理
 // =======
 // 询价列表
@@ -484,6 +517,10 @@ export const updateProduct = param => _fetch(METHODS.post, param, API.product.up
 export const shelveProduct = param => _fetch(METHODS.post, param, API.product.shelveProduct);
 // 删除花型
 export const deleteProduct = param => _fetch(METHODS.post, param, API.product.deleteProduct);
+// 厂家上新
+export const getCompanyNewProductList = param => _fetch(METHODS.get, param, API.product.getCompanyNewProductlist);
+// 爆款热搜列表
+export const burstHotSearch = param => _fetch(METHODS.get, param, API.product.burstHotSearch);
 // 获取成分列表
 export const getIngredientsList = param => _fetch(METHODS.get, param, API.ingredient.listIngredients);
 // 自定义成分

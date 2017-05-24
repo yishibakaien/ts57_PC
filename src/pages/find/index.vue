@@ -28,16 +28,13 @@ export default {
     search,
     Carousel
   },
-  watch: {
-    // 是否回到发现首页 => 背景色变白
-    isIndex(val) {
-      document.querySelector('.main-wrapper').style.backgroundColor = !val ? '#fff' : '#F2F2F2';
-    }
-  },
   computed: {
     // 是否发现首页
     isIndex() {
-      return this.$route.path.indexOf('index') >= 0;
+      let isIndex = this.$route.path.indexOf('index') >= 0;
+        // 是否回到发现首页 => 背景色变白
+      document.querySelector('.main-wrapper').style.backgroundColor = !isIndex ? '#fff' : '#F2F2F2';
+      return isIndex;
     }
   }
 };

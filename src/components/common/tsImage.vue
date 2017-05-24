@@ -1,5 +1,5 @@
 <template lang="html">
-  <div @mouseover="isSHow=true" @mouseout="isSHow=false" class="ts-image" :style="{width:width+'px',height:height+'px'}" @click="handleImg">
+  <div @mouseover="isSHow=true" @mouseout="isSHow=false" class="ts-image" :style="{width:width+'px',height:height+'px'}" @click="handleImg" :class="{'is-overhidden':showOriginPic}">
     <img class="ts-image-img" v-lazy="src" :class="{'is-view':showOriginPic,'is-disabledHover':disabledHover}">
   </div>
 </template>
@@ -123,6 +123,9 @@ export default {
     position: relative;
     box-sizing: border-box;
     vertical-align: middle;
+    @when overhidden{
+      overflow: auto;
+    }
     @descendent img{
       max-width: 100%;
       min-height:100%;

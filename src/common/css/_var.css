@@ -1,6 +1,6 @@
 :root {
   /*checkbox*/
-  --checkbox-checked-bg: #4C93FD;
+  --checkbox-checked-bg: rgba(76, 147, 253, 0.3);
   --checkbox-bg: #fff;
   --checkbox-border-color: #bfcbd9;
   --checkbox-color: #666666;
@@ -66,10 +66,12 @@
   --button-border-background: #b8bbbf;
   --buton-active-bg: rgba(155, 155, 155, 0.5);
   /*Grid*/
-  --grid-hover-border-color: #eaeaea;
+  --grid-hover-border-color: rgba(76,147,253,0.30);
   --grid-border-color: #eaeaea;
   --tag-gray-bgColor:#666666;
   --tag-gray-color:#fff;
   --tag-primary-bgColor:#4C93FD;
   --tag-primary-color:#fff;
+  /*navbar*/
+  --navbar-color:#4C93FD;
 }

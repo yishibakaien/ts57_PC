@@ -10,19 +10,19 @@
     <div class="supply-filter">
       <ts-filter title="分类">
         <ts-radio-group v-model="Filter.supplyStatus" @change="handleFilterSupplyStatus">
-          <ts-radio label="">全部</ts-radio>
+          <ts-radio :label='null'>全部</ts-radio>
           <ts-radio :label="item.dicValue" :key="item.dicValue" v-for="item in DICT.SupplyStatus">{{item.label}}</ts-radio>
         </ts-radio-group>
       </ts-filter>
       <ts-filter title="面料种类">
         <ts-radio-group v-model="Filter.supplyTypes" @change="handleFilterSupplyTypes">
-          <ts-radio label="">全部</ts-radio>
+          <ts-radio :label='null'>全部</ts-radio>
           <ts-radio :label="item.dicValue" :key="item.dicValue" v-for="item in dicTree.PRODUCT_TYPE">{{item.name}}</ts-radio>
         </ts-radio-group>
       </ts-filter>
       <ts-filter title="供货方式">
         <ts-radio-group v-model="Filter.supplyShapes" @change="handleFilterSupplyShapes">
-          <ts-radio label="">全部</ts-radio>
+          <ts-radio :label="null">全部</ts-radio>
           <ts-radio :label="item.dicValue" :key="item.dicValue" v-for="item in dicTree.PRODUCT_SHAPE">{{item.name}}</ts-radio>
         </ts-radio-group>
       </ts-filter>
@@ -78,7 +78,7 @@
       <div class="left">
         <strong>花型询价记录</strong>
         <ts-image width='72' :canView="false" height="72" :src="Collect.productItem.picsUrl" style="vertical-align:bottom"></ts-image>
-        #{{Collect.productItem.productNo}} {{Collect.productItem.category | filterDict(dicTree.PRODUCT_TYPE,'name')}}
+        {{Collect.productItem.productNo}} {{Collect.productItem.category | filterDict(dicTree.PRODUCT_TYPE,'name')}}
       </div>
       <ts-button type="cancel" @click="Collect.show=!Collect.show">关闭</ts-button>
     </div>
@@ -160,17 +160,18 @@ export default {
       // 选择
       chooseItem: [],
       Filter: {
-        supplyStatus: '',
-        supplyShapes: '',
-        supplyTypes: ''
+        supplyStatus: null,
+        supplyShapes: null,
+        supplyTypes: null
       }
     };
   },
   async created() {
     if (sessionStorage.getItem('supply-filter')) {
       this.Filter = JSON.parse(sessionStorage.getItem('supply-filter'));
+      this.Params = Object.assign({}, this.Params, this.Filter);
     }
-    this.companySupplyList = (await getCompanySupplylist()).data.data;
+    this.companySupplyList = (await getCompanySupplylist(this.Params)).data.data;
     // 默认创建一个cookie
     !this.getCookie(this.Cookie.key) ? this.setCookie(this.Cookie.key, this.Cookie.value, this.Cookie.day) : '';
   },
@@ -228,17 +229,17 @@ export default {
     // ========
     // 添加“分类”条件搜索
     async handleFilterSupplyStatus(e) {
-      this.Params.supplyStatus = !e ? null : e;
+      this.Params.supplyStatus = e;
       this.companySupplyList = (await getCompanySupplylist(this.Params)).data.data;
     },
     // 添加“面料种类”条件搜索
     async handleFilterSupplyTypes(e) {
-      this.Params.supplyTypes = !e ? null : e.toString();
+      this.Params.supplyTypes = e;
       this.companySupplyList = (await getCompanySupplylist(this.Params)).data.data;
     },
     // 添加“供货方式”条件搜索
     async handleFilterSupplyShapes(e) {
-      this.Params.supplyShapes = !e ? null : e;
+      this.Params.supplyShapes = e;
       this.companySupplyList = (await getCompanySupplylist(this.Params)).data.data;
     },
     // 点击“删除”=>判断cookie是否显示

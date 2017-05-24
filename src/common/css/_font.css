@@ -19,7 +19,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-已收藏:before {
+.icon-yishoucang:before {
   content: "\e900";
   color: #ff8609;
 }
@@ -57,7 +57,7 @@
 }
 .icon-erweima:before {
   content: "\e909";
-  color: #fff;
+  color: #666;
 }
 .icon-fangda:before {
   content: "\e90a";
@@ -141,7 +141,7 @@
 }
 .icon-shoucang:before {
   content: "\e91e";
-  color: #fff;
+  color: #666;
 }
 .icon-shouji:before {
   content: "\e91f";

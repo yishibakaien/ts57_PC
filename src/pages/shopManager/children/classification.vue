@@ -30,7 +30,7 @@
       <ts-checkbox-group v-model="chooseItem">
         <ts-menu-table v-for="(item,index) in BindingProductList.list" :key="item.id">
           <div slot="header-left">
-            <ts-checkbox :label="item.id">#{{item.productNo}}&nbsp{{item.category | filterDict(dicTree.PRODUCT_SHAPE)}}</ts-checkbox>
+            <ts-checkbox :label="item.id">{{item.productNo}}&nbsp{{item.category | filterDict(dicTree.PRODUCT_SHAPE)}}</ts-checkbox>
           </div>
           <div slot="header-right">
             状态：

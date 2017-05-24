@@ -23,8 +23,10 @@ import tsFormItem from './forms/tsFormItem.vue';
 import tsPagination from './tsPagation.vue';
 import tsGrid from './card/tsGrid.vue';
 import tsGridItem from './card/tsGridItem.vue';
+import tsTitleBlock from './tsTitleBlock.vue';
 const Components = {
   tsGrid,
+  tsTitleBlock,
   tsTag,
   tsGridItem,
   tsSection,
