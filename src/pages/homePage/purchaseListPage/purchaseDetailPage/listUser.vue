@@ -10,7 +10,12 @@
 			<p class="buyNum">Ta的总采购数：<em>{{obj.totalNum || 0}}个</em></p>
 		</div>
 		<div class="content">
-			<img v-for="e in obj.list" v-lazy="e.buyPicUrl" alt="花型展示图片" />
+			<div class="listImg" :class="{'forbideen': e.buyStatus !== 1}" v-for="(e, index) in obj.list" @click="goDetail(index)">
+				<img v-lazy="e.buyPicUrl" alt="花型展示图片" />
+				<div class="listImgBg" v-if="e.buyStatus !== 1">
+					{{e.buyStatus | buyStatus}}
+				</div>
+			</div>
 			<pageBar :showOpt="true" :pageNum="pageNum" :pageMax="pageMax" v-on:upPage="upPage" v-on:downPage="downPage" v-on:selectFirstPage="selectFirstPage" v-on:selectLastPage="selectLastPage" style="margin-right: 20px;"></pageBar>
 		</div>
 	</div>
@@ -116,6 +121,10 @@
 				++_.pageNum;
 				_.paramListBuy.pageNo = _.pageNum;
 				this.listUserProductBuysMethod();
+			},
+			// 跳转详情页
+			goDetail(e) {
+				window.open('/purchaseDetailPage?purchaseId=' + this.obj.list[e].id, this.obj.list[e].id);
 			}
 		}
 	};
@@ -167,11 +176,35 @@
 			line-height: 50px;
 		}
 		.content {
-			overflow: hidden;
-			img {
+			padding-bottom: 80px;
+			.listImg {
+				position: relative;
 				margin: 15px 0 0 15px;
 				width: 156px;
 				height: 156px;
+				display: inline-block;
+				cursor: pointer;
+				img {
+					width: 100%;
+					height: 100%;
+				}
+			}
+			.forbideen {
+				cursor: not-allowed;
+			}
+			.listImgBg {
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				width: 100%;
+				height: 100%;
+				color: #FFF;
+				font-size: 16px;
+				line-height: 150px;
+				text-align: center;
+				background: rgba(0,0,0,.4);			
 			}
 		}
 	}
