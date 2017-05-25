@@ -149,6 +149,21 @@ export const buyStatus = item => {
 	return buyStatusStr;
 };
 
+// 供应状态
+export const supplyStatus = item => {
+	let supplyStatusStr;
+	if (item === 0) {
+		supplyStatusStr = '已删除';
+	}
+	if (item === 1) {
+		supplyStatusStr = '供应中';
+	}
+	if (item === 2) {
+		supplyStatusStr = '已关闭';
+	}
+	return supplyStatusStr;
+};
+
 // 现货或做货
 export const productStatus = item => {
 	let productStatusStr;

@@ -16,7 +16,7 @@ import releasePurchasePage from './homePage/releasePurchasePage/releasePurchaseP
 // 供应列表页
 import supplyListPage from './homePage/supplyListPage/supplyListPage';
 // 供应详情页
-import supplyDetailPage from './homePage/supplyListPage/supplyDetailPage';
+import supplyDetailPage from './homePage/supplyListPage/supplyDetailPage/supplyDetailPage';
 
 // 更多优质厂家
 import entryListPage from './homePage/entryListPage/entryListPage';
