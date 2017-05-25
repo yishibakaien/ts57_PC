@@ -41,6 +41,8 @@ import filter from './filter/filter';
 
 // 分页器
 import pagination from './pagination/pagination';
+// 收藏
+import collection from './collection/collection';
 
 export {
     topbar,
@@ -62,5 +64,6 @@ export {
     qualityCompanyList,
     aliUpload,
     filter,
-    pagination
+    pagination,
+    collection
 };

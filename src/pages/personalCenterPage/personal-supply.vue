@@ -21,7 +21,7 @@
 		<div class="personal-flower-wrap clearfix">
 			<div class="personal-goods-item personal-flower-item" v-for="(item, index) in items" v-show='items.length > 0'>
 				<div class="personal-goods-item-img">
-					<img v-lazy="item.productPicUrl" alt="求购" />
+					<img v-lazy="item.productPicUrl" alt="供应" @click="goDetail(index)" />
 					<span class="states green" v-if="item.supplyShape === 200011">成品</span>
 					<span class="states gray" v-if="item.supplyShape === 200010">胚布</span>
 					<p class="p3"><span class="span1"> &nbsp;&nbsp;{{item.supplyNum}}码</span><span class="span2">{{item.createDate | customTime}}&nbsp;&nbsp; </span></p>
@@ -29,7 +29,7 @@
 				</div>
 				<p class="info" :title="item.supplyDesc">{{item.supplyDesc}}</p>
 				<p class="company">
-					<img src="item.companyHeadIcon" v-errorImg alt="company" />
+					<img :src="item.companyHeadIcon" v-errorImg alt="company" />
 					<span :title="item.companyName">{{item.companyName}}</span>
 				</p>
 				<div class="tipsModel" v-show="item.tipShow">
@@ -197,6 +197,14 @@
 				let _ = this;
 				_.items.forEach((item) => {
 					item.tipShow = false;
+				});
+			},
+			goDetail(e) {
+				this.$router.push({
+					path: '/supplyDetailPage',
+					query: {
+						supplyId: this.items[e].id
+					}
 				});
 			}
 		}

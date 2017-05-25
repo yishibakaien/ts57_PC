@@ -2,6 +2,7 @@
 	<div class="list-content">
 		<div class="fl content-img">
 			<img v-lazy="obj.productPicUrl" alt="供应花型图片" />
+			<collection v-on:clickMethod="collectionMethod" style="margin: 30px 0 0 180px;"></collection>
 		</div>
 		<div class="fl content-info">
 			<p class="content-info-desc">{{obj.supplyDesc}}</p>
@@ -21,7 +22,21 @@
 </template>
 
 <script>
+	import { collection } from '@/components';
+	import { favoriteBus } from '@/common/api/api';
+	import Toast from '@/components/common/toast/toast';
 	export default {
+		data() {
+			return {
+				param: {
+					businessId: '',
+					businessType: 3
+				}
+			};
+		},
+		components: {
+			collection
+		},
 		props: {
 			obj: {
 				type: Object
@@ -32,6 +47,18 @@
 				this.$router.push({
 					path: '/supplyListPage'
 				});
+			},
+			// 收藏
+			collectionMethod() {
+				this.param.businessId = this.obj.id;
+				favoriteBus(this.param).then((res) => {
+					if (res.data.code === 0) {
+						Toast({
+							type: 'success',
+							message: res.data.message
+						});
+					}
+				}).catch();
 			}
 		}
 	};

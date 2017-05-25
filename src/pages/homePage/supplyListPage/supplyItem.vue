@@ -1,7 +1,7 @@
 
 <template>
   <div class="supply-item">
-    <div class="supply-item-image-wrapper">
+    <div class="supply-item-image-wrapper" @click="clickMethod">
       <img v-lazy="item.productPicUrl" class="image" alt="供应项">
       <p class="info">
         <span class="number">
@@ -25,6 +25,11 @@
 
 <script>
 export default {
+	methods: {
+		clickMethod() {
+			this.$emit('clickMethod');
+		}
+	},
 	props: {
 		item: {}
 	}

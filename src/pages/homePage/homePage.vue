@@ -5,7 +5,7 @@
     </v-header>
     <v-nav></v-nav>
     <div class="swiper">
-        <banner :items="imgs" :width="1200" :height="300" :pagination="true" :auto-play="true" :speed="3000" :sync="false"></banner>
+        <banner :items="bannerImgs" :width="1200" :height="300" :pagination="true" :auto-play="true" :speed="3000" :sync="false"></banner>
     </div>
 
     <div class="homePage-box">
@@ -54,25 +54,6 @@ import {
 } from '@/common/api/api';
 import * as types from '@/store/types';
 
-let imgs = [
-  {
-    src: 'http://i0.hdslb.com/bfs/archive/98548a7be48ab9929f02d2c51c2ab801841e5108.jpg',
-    href: 'https://www.baidu.com'
-  },
-  {
-    src: 'http://i0.hdslb.com/bfs/archive/056f5ad71f17a9fbb9581f16735768e3d9c54008.png',
-    href: 'https://www.baidu.com'
-  },
-  {
-    src: 'http://i0.hdslb.com/bfs/archive/98548a7be48ab9929f02d2c51c2ab801841e5108.jpg',
-    href: 'https://www.baidu.com'
-  },
-  {
-    src: 'http://i0.hdslb.com/bfs/archive/056f5ad71f17a9fbb9581f16735768e3d9c54008.png',
-    href: 'https://www.baidu.com'
-  }
-];
-
 export default {
   data() {
     return {
@@ -110,8 +91,6 @@ export default {
         item.href = 'https://www.baidu.com';
       });
       this.bannerImgs = bannerArr;
-      // 轮播图假数据
-      this.imgs = imgs;
     }).catch(res => {
       console.log('error', res);
     });

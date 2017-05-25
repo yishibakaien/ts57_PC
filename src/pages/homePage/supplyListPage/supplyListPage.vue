@@ -40,8 +40,8 @@
 			</div>
 			<!-- 列表 -->
 			<div class="supply-list-item-wrapper clearfix">
-				<div class="item-wrapper" v-for="item in items">
-					<supply-item :item="item"></supply-item>
+				<div class="item-wrapper" v-for="(item, index) in items">
+					<supply-item :item="item" v-on:clickMethod="goDetail(index)"></supply-item>
 				</div>
 			</div>
 			<pagination :page="pageData" v-on:selectedPageNum="selectedPageNum1"></pagination>
@@ -125,6 +125,15 @@
 			selectedPageNum1(e) {
 				this.param.pageNo = e;
 				this.listCompanySupplysMethod();
+			},
+			// 跳转详情页
+			goDetail(e) {
+				this.$router.push({
+					path: '/supplyDetailPage',
+					query: {
+						supplyId: this.items[e].id
+					}
+				});
 			}
 		}
 	};
