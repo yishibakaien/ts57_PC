@@ -1,11 +1,11 @@
 <template>
 <div class="introPic-bg">
   <div class="introPic-wrapper">
-    <div class="introPic-wrapper-left">
-      <ts-image :canView="false" disabledHover width="500" height="250" class="factory-company--cover" :src="companySimpleInfo.companyBanner"></ts-image>
+    <div class="introPic-wrapper-left onepx">
+      <ts-image :canView="false" disabledHover width="500" height="200" class="factory-company--cover" :src="companySimpleInfo.companyBanner"></ts-image>
     </div>
     <div class="introPic-wrapper-right">
-      <div class="introPic-company-header">
+      <div class="introPic-company-header onepx">
         <p class="introPic-company-title">{{companySimpleInfo.companyName}}</p>
         <ul>
           <li class="introPic-phone introPic-tip">
@@ -59,13 +59,13 @@ export default {
     max-width: 500px;
     margin-top: 15px;
     font-size: 15px;
+    line-height: 140%;
     @descendent title{
       font-size: 24px;
       margin-bottom: 16px;
       font-weight: bold;
     }
     @descendent header{
-      border: 1px solid #b0b0b0;
       padding: 16px;
     }
     @descendent content{

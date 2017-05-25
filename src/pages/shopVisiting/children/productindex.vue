@@ -1,30 +1,33 @@
 <template lang="html">
   <div class="productIndex">
-<div v-for="(item,index) in CompanyProducts">
-  <ts-title-block :bodyStyle="{'font-size':'20px'}">
-    <i class="icon-huaxin"></i>&nbsp;{{item.className}}
-    <a slot="menu">
-        更多&nbsp;&nbsp;<i class="icon-gengduo"></i>
-    </a>
-  </ts-title-block>
-  <ts-grid>
-    <ts-grid-item :style="{'width':item.className==='爆款'?'400px':'240px'}" v-for="(product,e) in item.list" :key="product" @click="handleViewProduct(product.id)">
-      <span class="topRanking productIndex-rank" :class="'topRanking_'+e"></span>
-      <ts-image
-       width="170"
-       height="170"
-       :canView="false"
-       disabledHover
-       src="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=786556999,3276981424&fm=58&s=31746C32C0757B9003682FEF0300A024&bpow=121&bpoh=75">
-       </ts-image>
-       <p class="allmeterial-product--number">{{product.productNo}}</p>
-       <template slot="footer">
-         ¥{{product.price}}/{{product.priceUnit | filterDict(DICT.PriceUnits) }}
-         <ts-tag>{{product.publishStatus | filterDict(DICT.PublishStatus,'label2')}}</ts-tag>
-       </template>
-     </ts-grid-item>
-  </ts-grid>
-</div>
+    <div v-for="(item,index) in CompanyProducts">
+      <ts-title-block :bodyStyle="{'font-size':'20px'}">
+        <i class="icon-huaxin"></i>&nbsp;{{item.className}}
+        <a slot="menu" v-if="!!item.list.length" @click="handleGoto(item)">
+            更多&nbsp;&nbsp;<i class="icon-gengduo"></i>
+        </a>
+      </ts-title-block>
+      <div class="productIndex-empty--text" v-if="!item.list.length">
+          该分类下暂无花型
+      </div>
+      <ts-grid :type="item.className==='全部花型'?'flexbox':'table'">
+        <ts-grid-item :style="{'width':item.classId===22659?'400px':'240px'}" v-for="(product,e) in item.list" :key="product" @click="handleViewProduct(product.id)">
+          <span class="topRanking productIndex-rank" :class="'topRanking_'+e" v-if="item.classId===22659"></span>
+          <ts-image
+           width="170"
+           height="170"
+           :canView="false"
+           disabledHover
+           :src="product.defaultPicUrl">
+           </ts-image>
+           <p class="productIndex-product--number">{{product.productNo}}</p>
+           <template slot="footer">
+             ¥{{product.price}}/{{product.priceUnit | filterDict(DICT.PriceUnits) }}
+             <ts-tag>{{product.publishStatus | filterDict(DICT.PublishStatus,'label2')}}</ts-tag>
+           </template>
+         </ts-grid-item>
+      </ts-grid>
+    </div>
 </div>
 </template>
 
@@ -32,7 +35,8 @@
 import {
   getVisitUserProductCategoryList,
   getVisitSystemProductCategoryList,
-  getCompanyBindingProductList
+  getCompanyBindingProductList,
+  getVistitCompanyProductsList
 } from '@/common/api/api';
 import DICT from '@/common/dict';
 export default {
@@ -46,15 +50,30 @@ export default {
       CategoryList: [],
       CompanyProducts: [],
       Params: {
-        pageSize: 3,
+        pageSize: 5,
         pageNo: 1,
-        companyId: '',
-        classId: ''
+        companyId: null,
+        classId: null
       }
     };
   },
   methods: {
-    handleViewProduct() {}
+    handleViewProduct() {},
+    handleGoto(item) {
+      if (item.className === '全部花型') {
+        this.$router.push({
+          path: `/shop/${this.Params.companyId}/allProducts`
+        });
+      } else {
+        this.$router.push({
+          path: 'catagory',
+          query: {
+            name: item.className,
+            catagoryId: item.classId
+          }
+        });
+      }
+    }
   },
   async created() {
     // ========
@@ -75,6 +94,9 @@ export default {
     // 循环加载
     for (let i in this.CategoryList) {
       this.Params.classId = this.CategoryList[i].id;
+      // 如果为爆款=>加载3款，
+      // 其他加载5款
+      this.Params.pageSize = this.CategoryList[i].id === 22659 ? 3 : 5;
       let lists = (await getCompanyBindingProductList(this.Params)).data.data.list;
       this.CompanyProducts.push({
         classId: this.CategoryList[i].id,
@@ -82,6 +104,15 @@ export default {
         list: lists
       });
     }
+    // ===========
+    // 加载全部花型
+    this.Params.pageSize = 10;
+    this.Params.classId = null;
+    this.CompanyProducts.push({
+      classId: '',
+      className: '全部花型',
+      list: (await getVistitCompanyProductsList(this.Params)).data.data.list
+    });
   }
 };
 </script>
@@ -91,6 +122,19 @@ export default {
   @component rank{
     position: absolute;
     z-index: 2;
+    left:16px;
+  }
+  @component empty{
+    @modifier text{
+      text-align: center;
+      color: rgba(155,155,155,1);
+    }
+  }
+  @component product{
+    @modifier number{
+      font-size: 16px;
+      line-height: 40px;
+    }
   }
 }
 </style>

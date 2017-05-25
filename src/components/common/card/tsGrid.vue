@@ -1,5 +1,5 @@
 <template>
-<div class="ts-grids" :class="{'is-column':type==='column'}">
+<div class="ts-grids" :class="{'is-column':layOut==='column','is-table':type==='table','is-flexbox':type==='flexbox'}">
   <slot></slot>
 </div>
 </template>
@@ -11,13 +11,23 @@ export default {
    * @type {Object}
    */
   props: {
-    type: {
+    layOut: {
       type: String,
       default: 'row',
       validator(value) {
         return [
           'row',
           'column'
+        ].indexOf(value) > -1;
+      }
+    },
+    type: {
+      type: String,
+      default: 'flexbox',
+      validator(value) {
+        return [
+          'table',
+          'flexbox'
         ].indexOf(value) > -1;
       }
     }
@@ -32,8 +42,16 @@ export default {
   @component grids{
     position: relative;
     word-wrap: -1em;
-    display: flex;
-    flex-wrap:wrap;
+    @when table{
+      display: table;
+      .ts-grid{
+        display: table-cell;
+      }
+    }
+    @when flexbox{
+      display: flex;
+      flex-wrap:wrap;
+    }
     @when column{
       flex-direction: column;
     }
