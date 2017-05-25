@@ -250,8 +250,11 @@
 
 <style lang="scss" scoped>
 	.list-content {
+		margin-bottom: 20px;
+		padding: 20px 40px 20px 20px;
 		width: 760px;
 		height: 520px;
+		border: 1px solid #e5e5e5;
 		.content-img {
 			margin-right: 20px;
 			width: 420px;

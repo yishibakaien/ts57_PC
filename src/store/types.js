@@ -14,9 +14,11 @@ export const USER_INFO = 'userInfo';
 
 export const USER_NAME = 'userName';
 
-export const MODEL_SHOW = 'modelShow';
+export const MODEL_SHOW = 'modelShow';  // 弹窗展示
 
 export const MODEL_OPTION = 'modelOption';
+
+export const CURRENT_PERSONAL = 'modelOption';
 
 // 搜索模块
 export const SEARCH_RESULT = 'searchResult'; // 搜索结果缓存

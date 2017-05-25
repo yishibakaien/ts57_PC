@@ -39,7 +39,6 @@ const API = {
   // 供应求购
   buy: {
     listProductBuys: '/productBuy/listHomeProductBuys', // 获取求购列表
-    getCompanySupply: '/companySupply/getCompanySupply', // 供应详情
     closeProductBuy: '/productBuy/closeProductBuy', // 关闭求购
     deleteCompanySupply: '/companySupply/deleteCompanySupply', // 删除供应
     deleteBuyTask: '/buyTask/deleteBuyTask', // 删除接单
@@ -90,7 +89,8 @@ const API = {
     releaseCompanySupply: '/companySupply/releaseCompanySupply', // 发布供应
     listMyCompanySupplys: '/companySupply/listMyCompanySupplys', // 我的供应列表
     getCompanySupply: '/companySupply/getCompanySupply', // 供应详情
-    getSupplyByFavList: '/companySupply/getSupplyByFavList' // 获取供应收藏人列表
+    getSupplyByFavList: '/companySupply/getSupplyByFavList', // 获取供应收藏人列表
+    listUserCompanySupplys: '/companySupply/listUserCompanySupplys' // 获取用户供应列表
   },
   // 素材库
   albumPic: {
@@ -379,6 +379,11 @@ export function myProductBuys(data) {
 // 获取用户求购列表
 export function listUserProductBuys(data) {
   return _fetch(METHODS.get, data, API.buy.listUserProductBuys);
+};
+
+// 获取用户求购列表
+export function listUserCompanySupplys(data) {
+  return _fetch(METHODS.get, data, API.companySupply.listUserCompanySupplys);
 };
 
 // 删除求购

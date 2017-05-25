@@ -233,7 +233,7 @@ if (localStorage.accessToken) {
   store.dispatch('getDicTree');
 }
 
-const router = new Router({mode: 'history', linkActiveClass: 'active', routes});
+const router = new Router({linkActiveClass: 'active', routes});
 
 // 路由钩子，判断进入的页面是否需要登录 (needAuth)
 router.beforeEach((to, from, next) => {

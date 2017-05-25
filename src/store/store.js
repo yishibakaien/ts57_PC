@@ -52,6 +52,7 @@ export default new Vuex.Store({
     showLoginMask: false,
     modelShow: false,
     modelOption: {},
+    currentPerson: '',
     searchResult: {
       data: {
         list: []
@@ -96,6 +97,9 @@ export default new Vuex.Store({
     },
     [types.MODEL_OPTION]: (state, data) => {
       state.modelOption = data;
+    },
+    [types.CURRENT_PERSONAL]: (state, data) => {
+      state.currentPerson = data;
     }
   },
   getters: {
