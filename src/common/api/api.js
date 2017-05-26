@@ -91,6 +91,7 @@ const API = {
   // 供应
   companySupply: {
     closeCompanySupply: '/companySupply/closeCompanySupply', // 关闭供应
+    countByStatus: '/companySupply/countByStatus', // 统计不同供应状态的数量
     releaseCompanySupply: '/companySupply/releaseCompanySupply', // 发布供应
     listMyCompanySupplys: '/companySupply/listMyCompanySupplys', // 我的供应列表
     getCompanySupply: '/companySupply/getCompanySupply', // 供应详情
@@ -533,6 +534,8 @@ export const deleteIngredient = param => _fetch(METHODS.post, param, API.ingredi
 export const getCompanySupplylist = param => _fetch(METHODS.get, param, API.companySupply.listMyCompanySupplys);
 // 获取供应收藏人列表
 export const getSupplyByFavList = param => _fetch(METHODS.get, param, API.companySupply.getSupplyByFavList);
+// 统计不同供应状态的数量
+export const companySupplyCountByStatus = param => _fetch(METHODS.get, param, API.companySupply.countByStatus);
 // 关闭供应
 export const closeCompanySupply = param => _fetch(METHODS.post, param, API.companySupply.closeCompanySupply);
 // 获取供应详情

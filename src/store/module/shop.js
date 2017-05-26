@@ -8,7 +8,9 @@ const state = {
   // 企业资质
   aptitude: {},
   // 店铺简单信息 => 用于店铺访问
-  companySimpleInfo: {}
+  companySimpleInfo: {},
+  // 用户店铺信息=>不能与companySimpleInfo合并
+  CompanyInfoByUserId: {}
 };
 
 const mutations = {
@@ -28,15 +30,15 @@ const mutations = {
     state.companySimpleInfo = info;
   },
   GET_COMPANY_INFO_USER(state, usrInfo) {
-    state.companySimpleInfo = Object.assign({}, state.companySimpleInfo, usrInfo);
-    for (let i in state.companySimpleInfo) {
-      if (!state.companySimpleInfo[i]) {
-        state.companySimpleInfo[i] = '无';
+    for (let i in usrInfo) {
+      if (!usrInfo[i]) {
+        usrInfo[i] = '无';
       }
       if (['lat', 'lng', 'presence'].indexOf(i) >= 0) {
-        state.companySimpleInfo[i] = '';
+        usrInfo[i] = '';
       }
     }
+    state.CompanyInfoByUserId = usrInfo;
   }
 };
 const actions = {
@@ -76,7 +78,8 @@ const getters = {
   companyInfo: (state) => state.companyInfo,
   ingredientList: (state) => state.ingredientList,
   aptitude: (state) => state.aptitude,
-  companySimpleInfo: (state) => state.companySimpleInfo
+  companySimpleInfo: (state) => state.companySimpleInfo,
+  CompanyInfoByUserId: (state) => state.CompanyInfoByUserId
 };
 export default {
   state,

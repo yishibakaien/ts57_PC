@@ -7,15 +7,15 @@
       <div class="companyInfo-container-col">
         <ts-form-item label="公司名称：" prop="companyName">
           <p v-if="Text.show" class="companyInfo-formItem-text">{{companyInfoForm.companyName}}</p>
-          <ts-input v-else v-model="companyInfoForm.companyName" style="width:250px"></ts-input>
+          <ts-input v-else :maxlength="15" v-model="companyInfoForm.companyName" style="width:250px"></ts-input>
         </ts-form-item>
         <ts-form-item label="座机电话：" prop="contactTel">
           <p class="companyInfo-formItem-text" v-if="Text.show">{{companyInfoForm.contactTel}}</p>
-          <ts-input v-else v-model="companyInfoForm.contactTel" style="width:250px"></ts-input>
+          <ts-input v-else :maxlength="20" v-model="companyInfoForm.contactTel" style="width:250px"></ts-input>
         </ts-form-item>
         <ts-form-item label="公司主营：" prop="companyBusiness">
           <p v-if="Text.show" class="companyInfo-formItem-text">{{companyInfoForm.companyExtendBO.companyBusiness}}</p>
-          <ts-input v-else v-model="companyInfoForm.companyExtendBO.companyBusiness" style="width:250px"></ts-input>
+          <ts-input v-else :maxlength="50" v-model="companyInfoForm.companyExtendBO.companyBusiness" style="width:250px"></ts-input>
         </ts-form-item>
         <ts-form-item label="店铺头像：" prop="companyHeadIcon">
           <ts-image width="90" height="90" :src="companyInfoForm.companyHeadIcon"></ts-image>
@@ -31,11 +31,11 @@
         </ts-form-item>
         <ts-form-item label="公司简称：" prop="companyAbbreviation">
           <p v-if="Text.show" class="companyInfo-formItem-text">{{companyInfoForm.companyAbbreviation}}</p>
-          <ts-input v-else v-model="companyInfoForm.companyAbbreviation" style="width:250px"></ts-input>
+          <ts-input v-else v-model="companyInfoForm.companyAbbreviation" :maxlength="8" style="width:250px"></ts-input>
         </ts-form-item>
         <ts-form-item label="传真号码：" prop="fax">
           <p v-if="Text.show" class="companyInfo-formItem-text">{{companyInfoForm.fax}}</p>
-          <ts-input v-else v-model="companyInfoForm.fax" style="width:250px"></ts-input>
+          <ts-input v-else v-model="companyInfoForm.fax" :maxlength="20" style="width:250px"></ts-input>
         </ts-form-item>
         <ts-form-item label="店招：" prop="companyBanner">
           <ts-image width="224" height="112" :src="companyInfoForm.companyBanner"></ts-image>
@@ -56,9 +56,6 @@
           <ts-image width="120" height="120" class="companyInfo-views-img" :src="item.picUrl"></ts-image>
           <i class="companyInfo-views-close" @click.self="handleDelViews(item,index)" v-if="!Text.show">&times</i>
         </div>
-        <p v-if="!companyInfo.presence||!companySimpleInfo.presence.length">
-          暂无企业风采照片
-        </p>
         <label class="companyInfo-upload-button companyInfo-plus-img" v-if="!Text.show&&companyInfoForm.presence.length<9">
           <!-- {{Pic.banner.text}} -->
           <ts-aliupload :id="Pic.views.id" @doUpload="uploadViews"></ts-aliupload>
@@ -124,13 +121,33 @@ export default {
       },
       // 验证规则
       rules: {
+        companyName: [{
+          min: 4,
+          max: 15,
+          message: '公司名称的长度在 5 到 15 个字符'
+        }],
+        companyBusiness: [{
+          min: 2,
+          max: 50,
+          message: '公司主营的长度在2到50位个字符'
+        }],
+        companyProfile: [{
+          min: 2,
+          max: 50,
+          message: '公司简介的长度在2到50位个字符'
+        }],
+        companyAbbreviation: [{
+          min: 2,
+          max: 8,
+          message: '公司简称的长度在2到50位个字符'
+        }],
         contactTel: [{
           message: '请输入正确的座机号码',
           pattern: /^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$/
         }],
         fax: [{
           message: '请输入正确的传真号码',
-            pattern: /^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$/
+          pattern: /^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$/
         }]
       }
     };

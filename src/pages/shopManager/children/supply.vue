@@ -11,7 +11,10 @@
       <ts-filter title="分类">
         <ts-radio-group v-model="Filter.supplyStatus" @change="handleFilterSupplyStatus">
           <ts-radio :label='null'>全部</ts-radio>
-          <ts-radio :label="item.dicValue" :key="item.dicValue" v-for="item in DICT.SupplyStatus">{{item.label}}</ts-radio>
+          <ts-radio :label="item.dicValue" :key="item.dicValue" v-for="item in DICT.SupplyStatus">
+            <span v-if="item.dicValue===1">{{item.label}}({{companySupplyList.countSale}})</span>
+            <span v-if="item.dicValue===2">{{item.label}}({{companySupplyList.countSaleOff}})</span>
+          </ts-radio>
         </ts-radio-group>
       </ts-filter>
       <ts-filter title="面料种类">
@@ -108,7 +111,8 @@
 import {
   closeCompanySupply,
   getSupplyByFavList,
-  getCompanySupplylist
+  getCompanySupplylist,
+  companySupplyCountByStatus
 } from '@/common/api/api';
 import {
   mapGetters
@@ -172,6 +176,9 @@ export default {
       this.Params = Object.assign({}, this.Params, this.Filter);
     }
     this.companySupplyList = (await getCompanySupplylist(this.Params)).data.data;
+    let counts = (await companySupplyCountByStatus()).data.data;
+    this.companySupplyList = Object.assign({}, this.companySupplyList, counts);
+    console.log('this.companySupplyList', this.companySupplyList);
     // 默认创建一个cookie
     !this.getCookie(this.Cookie.key) ? this.setCookie(this.Cookie.key, this.Cookie.value, this.Cookie.day) : '';
   },
@@ -261,7 +268,7 @@ export default {
       await closeCompanySupply({
         ids: this.ConfirmDialog.id.toString()
       });
-      this.companySupplyList = (await getCompanySupplylist()).data.data;
+      this.companySupplyList = (await getCompanySupplylist(this.Params)).data.data;
       this.ConfirmDialog.show = false;
       this.chooseItem = [];
     },

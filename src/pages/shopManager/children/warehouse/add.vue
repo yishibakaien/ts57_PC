@@ -59,8 +59,8 @@
           <ts-radio :label="item.dicValue" :key="item.dicValue" v-for="item in DICT.PublishStatus">{{item.label}}</ts-radio>
         </ts-radio-group>
       </ts-form-item>
-      <ts-form-item label="花型图片：" prop="picsUrl">
-        <ts-image width="200" height="200" :src="addPatternForm.picsUrl" type="local" v-show="Pic.show"></ts-image>
+      <ts-form-item label="花型图片：" prop="default_pic_url">
+        <ts-image width="200" height="200" :src="addPatternForm.default_pic_url" type="local" v-show="Pic.show"></ts-image>
           <label class="add-upload-button">
             {{Pic.text}}
             <ts-aliupload id="addPic" @doUpload="uploadImg"></ts-aliupload>
@@ -158,7 +158,7 @@ export default {
           pattern: /^[+]?\d*[.]?\d{0,9}$/,
           message: '请输入正确的花高'
         }],
-        picsUrl: [{
+        default_pic_url: [{
           required: true,
           message: '请上传一张花型图片',
           trigger: 'change'
@@ -190,7 +190,7 @@ export default {
         ingredient: '',
         isStock: '',
         outRate: '',
-        picsUrl: '',
+        default_pic_url: '',
         price: '',
         priceUnit: '',
         productNo: '',
@@ -214,9 +214,9 @@ export default {
         let PUSG = '400011';
         // ========
         // 1.上传图片
-        if (val.picsUrl) {
-          this.Pic.text = val.picsUrl ? '修改图片' : '添加图片';
-          this.Pic.show = !!val.picsUrl;
+        if (val.default_pic_url) {
+          this.Pic.text = val.default_pic_url ? '修改图片' : '添加图片';
+          this.Pic.show = !!val.default_pic_url;
         }
         // =========
         // 2.如果库存选择需要开机 => 价格单位不变
@@ -253,7 +253,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['dicTree']),
+    ...mapGetters(['dicTree', 'userInfo']),
     title() {
       return this.$route.query.id ? '修改花型' : '新增花型';
     },
@@ -272,9 +272,8 @@ export default {
   },
   methods: {
     handleSelect() {
-      this.addPatternForm = Object.assign({}, this.addPatternForm, {
-        priceUnit: this.CopyDICTUnit[0].dicValue,
-        stockUnit: this.CopyDICTUnit[0].dicValue
+      this.$nextTick(() => {
+        this.addPatternForm.stockUnit = this.addPatternForm.priceUnit = this.CopyDICTUnit[0].dicValue;
       });
     },
     async handleClickoutside() {
@@ -345,7 +344,7 @@ export default {
     // 上传图片
     uploadImg(e) {
       // 放到表单
-      this.addPatternForm.picsUrl = ALI_DOMAIN + e.ossUrl[e.ossUrl.length - 1];
+      this.addPatternForm.default_pic_url = ALI_DOMAIN + e.ossUrl[e.ossUrl.length - 1];
     },
     handleInputAddIngredient(e) {
       if (e.length > 0) {
@@ -386,6 +385,9 @@ export default {
     }
   },
   async created() {
+    if (this.userInfo.userType === 2) {
+      this.DICT.PublishStatus = this.DICT.PublishStatus.filter(item => item.dicValue !== 2);
+    }
     // ======
     // 库存单位 首先隐藏条 当选择面料为睫毛的时候才显示
     let units = JSON.parse(JSON.stringify(this.dicTree.PRODUCT_UNIT));
@@ -409,7 +411,7 @@ export default {
     }
     // // 从素材库进来
     if (this.$route.query.url) {
-      this.addPatternForm.picsUrl = this.$route.query.url;
+      this.addPatternForm.default_pic_url = this.$route.query.url;
     }
   }
 };

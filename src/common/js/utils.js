@@ -54,18 +54,11 @@ export const isObject = (arg) => {
 
 // 根据key值获取对应的cookie
 export const getCookie = (key) => {
-	// 获取cookie
 	var data = document.cookie;
-	// 获取key第一次出现的位置    pwd=
 	var startIndex = data.indexOf(key + '=');
-	//  name=123;pwd=abc
-	// 如果开始索引值大于0表示有cookie
 	if (startIndex > -1) {
-		// key的起始位置等于出现的位置加key的长度+1
 		startIndex = startIndex + key.length + 1;
-		// 结束位置等于从key开始的位置之后第一次;号所出现的位置
 		var endIndex = data.indexOf(';', startIndex);
-		// 如果未找到结尾位置则结尾位置等于cookie长度，之后的内容全部获取
 		endIndex = endIndex < 0 ? data.length : endIndex;
 		return decodeURIComponent(data.substring(startIndex, endIndex));
 	} else {
@@ -74,21 +67,14 @@ export const getCookie = (key) => {
 };
 // 设置保存cookie
 export const setCookie = (key, value, time) => {
-	// 默认保存时间
 	var times = time;
-	// 获取当前时间
 	var cur = new Date();
-	// 设置指定时间
-	// 24 * 3600 * 1000 一日的毫秒数
 	cur.setTime(cur.getTime() + time * 24 * 3600 * 1000);
-	// 创建cookie  并且设置生存周期为GMT时间
 	document.cookie = key + '=' + encodeURIComponent(value) + ';expires=' + (times === undefined ? '' : cur.toGMTString());
 };
 //  删除Cookie
 export const delCookie = (key) => {
-	// 获取cookie
 	var data = this.get(key);
-	// 如果获取到cookie则重新设置cookie的生存周期为过去时间
 	if (data !== false) {
 		this.set(key, data, -1);
 	}
@@ -99,7 +85,7 @@ export const delCookie = (key) => {
     * @param  {[type]} params 传对象
     {
         countObj: num, //获取数量的对象
-        countRelace: "count", //countObj需要替换的字符
+        countReplace: "count", //countObj需要替换的字符
         dictArr: arr, //字典的json
         dictReplace: "PT"  //dictArr需要替换的字符
     }
@@ -110,7 +96,7 @@ export const getDictNum = (params) => {
 	function obj2Map(obj) {
 		let _map = new Map();
 		for (let key of Object.keys(obj)) {
-			_map.set(key.replace(params.countRelace, ''), obj[key]);
+			_map.set(key.replace(params.countReplace, ''), obj[key]);
 		}
 		return _map;
 	}
@@ -121,6 +107,7 @@ export const getDictNum = (params) => {
 		};
 	});
 };
+// =============
 // 交换数组元素
 export const swapItems = (arr, index1, index2) => {
 	arr[index1] = arr.splice(index2, 1, arr[index1])[0];
@@ -143,7 +130,7 @@ export const downMove = (arr, $index) => {
 export default {
 	formatDate
 };
-
+// =============
 // 按钮状态
 export const btnStatus = (el, btnText) => {
 	let s = 5;
