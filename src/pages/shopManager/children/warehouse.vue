@@ -17,7 +17,11 @@
       <ts-filter title="分类">
         <ts-radio-group v-model="Filter.publishStatuss" @change="handleFilterPublishStatus">
           <ts-radio :label="null">全部</ts-radio>
-          <ts-radio :label="item.dicValue" :key="item.value" v-for="item in DICT.PublishStatus">{{item.label}}</ts-radio>
+          <ts-radio :label="item.dicValue" :key="item.value" v-for="item in DICT.PublishStatus" v-if="item.dicValue!==2||getIsStore">
+            <span v-if="item.dicValue===2">{{item.label}}({{productList.platform}})</span>
+            <span v-if="item.dicValue===1">{{item.label}}({{productList.shop}})</span>
+            <span v-if="item.dicValue===0">{{item.label}}({{productList.repository}})</span>
+          </ts-radio>
         </ts-radio-group>
       </ts-filter>
       <ts-filter title="面料种类">
@@ -40,7 +44,7 @@
           状态：<b>{{item.publishStatus | filterDict(DICT.PublishStatus,'label2')}}</b>
         </div>
         <ts-menu-table-item width="310" class="supply-table--avatar">
-          <ts-image width="80" height="80"  :src="item.picsUrl"></ts-image>
+          <ts-image width="80" height="80"  :src="item.default_pic_url"></ts-image>
         </ts-menu-table-item>
         <!-- PublishStatus -->
         <ts-menu-table-item>
@@ -70,7 +74,7 @@
     </div>
     <div slot="footer" class="warehouse-footer">
       <div v-if="Filter.publishStatuss!==''">
-        <ts-button type="primary" :disabled="chooseItem.length<=0" v-if="Filter.publishStatuss!==2" @click="handleShelveProduct({goal:2,ids:chooseItem,isUp:true})">上架平台</ts-button>
+        <ts-button type="primary" :disabled="chooseItem.length<=0" v-if="Filter.publishStatuss!==2,getIsStore" @click="handleShelveProduct({goal:2,ids:chooseItem,isUp:true})">上架平台</ts-button>
         <ts-button type="primary" :disabled="chooseItem.length<=0" v-if="Filter.publishStatuss!==1" @click="handleShelveProduct({goal:1,ids:chooseItem,isUp:true})">上架店铺</ts-button>
         <ts-button type="cancel" :disabled="chooseItem.length<=0" v-if="Filter.publishStatuss!==0" @click="handleShelveProduct({goal:0,ids:chooseItem})">下架</ts-button>
         <ts-button type="cancel" :disabled="chooseItem.length<=0" v-if="Filter.publishStatuss===0" @click="handleShowDialog(chooseItem)">删除</ts-button>
@@ -100,7 +104,7 @@
       <ts-column slot data-key="PURCHASETYPE" align="center" name="采购类型"></ts-column>
       <ts-column slot data-key="PURCHASENUM" align="center" name="采购数量"></ts-column>
       <ts-column slot data-key="phone" align="center" name="联系电话"></ts-column>
-      <ts-column slot data-key="createDate" align="center" name="询价时间">
+      <ts-column slot data-key="DATE" align="center" name="询价时间">
       </ts-column>
     </ts-table>
     <div class="warehouse-collect-dialog-footer warehouse-footer">
@@ -171,6 +175,8 @@ export default {
         categorys: null,
         publishStatuss: null
       },
+      // 统计数量
+      Count: {},
       // 询价次数
       Collect: {
         show: false,
@@ -192,7 +198,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['dicTree'])
+    ...mapGetters(['dicTree', 'userInfo']),
+    // 判断是否档口
+    getIsStore() {
+      return this.userInfo.userType !== 2;
+    }
   },
   watch: {
     // 加工数据
@@ -201,11 +211,11 @@ export default {
       handler(val) {
         if (val) {
           val.forEach(item => {
-            item.createDate = this.filterDate(item.createDate);
-            item.UNITS = this.filterDicts(item.unit, this.dicTree.PRODUCT_UNIT, 'name');
+            item.DATE = this.filterDate(item.createDate);
+            item.UNITS = this.filterDict(item.unit, this.dicTree.PRODUCT_UNIT, 'name');
             item.PURCHASENUM = `${item.purchaseNum} ${item.UNITS}`;
-            item.PURCHASETYPE = this.filterDicts(item.purchaseType, DICT.purchaseType);
-            item.USERATYPE = this.filterDicts(item.userType, DICT.userType);
+            item.PURCHASETYPE = this.filterDict(item.purchaseType, DICT.purchaseType);
+            item.USERATYPE = this.filterDict(item.userType, DICT.userType);
           });
         }
       },
@@ -219,8 +229,8 @@ export default {
     }
     // 获取花型列表
     this.productList = (await getProductList(this.Params)).data.data;
-    // 默认创建一个cookie
-    !this.getCookie(this.Cookie.key) ? this.setCookie(this.Cookie.key, this.Cookie.value, this.Cookie.day) : '';
+      // 默认创建一个cookie
+      !this.getCookie(this.Cookie.key) ? this.setCookie(this.Cookie.key, this.Cookie.value, this.Cookie.day) : '';
   },
   beforeDestroy() {
     sessionStorage.setItem('warehouse-filter', JSON.stringify(this.Filter));

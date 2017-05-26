@@ -24,8 +24,12 @@ import tsPagination from './tsPagation.vue';
 import tsGrid from './card/tsGrid.vue';
 import tsGridItem from './card/tsGridItem.vue';
 import tsTitleBlock from './tsTitleBlock.vue';
+import tsPopover from './popover/tsPopover.vue';
+// =========
+// =========
 const Components = {
   tsGrid,
+  tsPopover,
   tsTitleBlock,
   tsTag,
   tsGridItem,

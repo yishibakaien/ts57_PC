@@ -14,7 +14,7 @@
         <ts-column slot data-key="PURCHASETYPE" align="center" name="采购类型"></ts-column>
         <ts-column slot data-key="PURCHASENUM"  align="center" name="采购数量"></ts-column>
         <ts-column slot data-key="phone"  align="center" name="联系电话" width="130px"></ts-column>
-        <ts-column slot data-key="createDate"  align="center" name="询价时间"></ts-column>
+        <ts-column slot data-key="DATE"  align="center" name="询价时间"></ts-column>
         <ts-column slot  align="center"  name="操作" action="[{'text':'查看花型','func':'view'},{'text':'询价人信息','func':'showenquiryInfo'}]"></ts-column>
       </ts-table>
       <div slot="footer" class="enquiry-footer">
@@ -77,7 +77,7 @@ export default {
       // 询价人信息
       enquiryEskUser: {},
       // list
-      EnquiryList: [],
+      EnquiryList: {},
       showPersonInfo: false
     };
   },
@@ -87,15 +87,15 @@ export default {
   watch: {
     // 加工数据
     // TODO：table支持slot的时候就不这样写
-    'EnquiryList.list': {
+    EnquiryList: {
       handler(val) {
-        if (val) {
-          val.forEach(item => {
-            item.createDate = this.filterDate(item.createDate, 'date');
-            item.UNITS = this.filterDicts(item.unit, this.dicTree.PRODUCT_UNIT, 'name');
+        if (val.list) {
+          val.list.forEach(item => {
+            item.DATE = this.filterDate(item.createDate, 'date');
+            item.UNITS = this.filterDict(item.unit, this.dicTree.PRODUCT_UNIT, 'name');
             item.PURCHASENUM = `${item.purchaseNum} ${item.UNITS}`;
-            item.PURCHASETYPE = this.filterDicts(item.purchaseType, DICT.purchaseType);
-            item.USERATYPE = this.filterDicts(item.userType, DICT.userType);
+            item.PURCHASETYPE = this.filterDict(item.purchaseType, DICT.purchaseType);
+            item.USERATYPE = this.filterDict(item.userType, DICT.userType);
           });
         }
       },

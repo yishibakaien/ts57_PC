@@ -8,7 +8,7 @@
     </div>
     <div class="everyLooking-container">
       <ts-grid :rows='3'>
-        <ts-grid-item v-for="product in 16" :key="product" @click="handleViewProduct(product)">
+        <ts-grid-item v-for="product in 8" :key="product" @click="handleViewProduct(product)">
           <ts-image
            width="170"
            height="170"

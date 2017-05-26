@@ -1,19 +1,39 @@
 <template>
 <div class="introPic-bg">
   <div class="introPic-wrapper">
-    <div class="introPic-wrapper-left">
-      <ts-image :canView="false" disabledHover width="500" height="250" class="factory-company--cover" :src="companySimpleInfo.companyBanner"></ts-image>
+    <div class="introPic-wrapper-left onepx">
+      <ts-image :canView="false" disabledHover width="500" height="200" class="factory-company--cover" :src="companySimpleInfo.companyBanner"></ts-image>
     </div>
     <div class="introPic-wrapper-right">
-      <div class="introPic-company-header">
+      <div class="introPic-company-header onepx">
         <p class="introPic-company-title">{{companySimpleInfo.companyName}}</p>
         <ul>
-          <li class="introPic-phone introPic-tip">
-            <i class="icon-dianhua"></i>电话联系
+          <ts-popover trigger="click" :options="{placement: 'bottom'}">
+            <div class="popper introPic-popper-phone">
+              <p class="introPic-popper-phone-user">
+                <strong>谭华美</strong>
+                <span>1332132312</span>
+              </p>
+              <p class="introPic-popper-phone-tip">老板，拨打电话时，记得说明
+                <br> 是坐视不管的客户哦～
+              </p>
+            </div>
+            <li class="introPic-phone introPic-tip" slot="reference">
+              <i class="icon-dianhua"></i>电话联系
+            </li>
+          </ts-popover>
+          <li>
+            <i class="icon-shoucang"></i>收藏店铺(12)
           </li>
-          <li><i class="icon-shoucang"></i>收藏店铺(12)</li>
-          <li class="introPic-qrcode">
-            <i<i class="icon-erweima"></i>店铺二维码</li>
+          <ts-popover trigger="click" :options="{placement: 'bottom'}">
+            <div class="popper introPic-popper-qrcode">
+              <qrcode-vue :value="Qrcode.value" :size="Qrcode.size" level="H"></qrcode-vue>
+              <p class='introPic-popper-qrcode-tip'>扫描二维码，在手机上访问店铺</p>
+            </div>
+            <li class="introPic-phone introPic-tip" slot="reference">
+              <i class="icon-erweima"></i>店铺二维码
+            </li>
+          </ts-popover>
         </ul>
       </div>
       <p class="introPic-company is-line3">
@@ -31,9 +51,22 @@
 import {
   mapGetters
 } from 'vuex';
+import QrcodeVue from 'qrcode.vue';
 export default {
+  data() {
+    return {
+      // 二维码
+      Qrcode: {
+        value: 'https://www.baidu.com',
+        size: 40
+      }
+    };
+  },
   computed: {
     ...mapGetters(['companySimpleInfo'])
+  },
+  components: {
+    QrcodeVue
   }
 };
 </script>
@@ -59,13 +92,13 @@ export default {
     max-width: 500px;
     margin-top: 15px;
     font-size: 15px;
+    line-height: 140%;
     @descendent title{
       font-size: 24px;
       margin-bottom: 16px;
       font-weight: bold;
     }
     @descendent header{
-      border: 1px solid #b0b0b0;
       padding: 16px;
     }
     @descendent content{
@@ -75,6 +108,25 @@ export default {
       @when line3{
         @utils-ellipsis 2;
       }
+    }
+  }
+  @component popper-phone{
+    line-height: 140%;
+    padding: 15px;
+    @descendent user{
+      margin: 10px 0;
+      font-size: 23px;
+    }
+    @descendent tip{
+      color: #999;
+    }
+  }
+  @component popper-qrcode{
+    line-height: 140%;
+    padding: 12px;
+    @descendent tip{
+      color: red;
+      margin: 10px 0;
     }
   }
   @component wrapper{

@@ -62,7 +62,7 @@ export default {
       // 图片的操作
       chooseImg: {
         list: [], // 选中的图片
-        status: false // 能否删除的状态
+        status: true // 能否删除的状态
       },
       // 对话框
       ConfirmDialog: {

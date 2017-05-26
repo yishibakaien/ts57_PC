@@ -18,8 +18,8 @@
     <ts-form-item label="花型图片：" prop="productPicUrl">
       <ts-image width="200" height="200" :src="addSupplyForm.productPicUrl" v-show='Pic.show' type="local"></ts-image>
       <label class="add-upload-button">
-              {{Pic.text}}
-              <aliUpload id="addPic" @doUpload="uploadImg"></aliUpload>
+          {{Pic.text}}
+          <aliUpload id="addPic" @doUpload="uploadImg"></aliUpload>
         </label>
     </ts-form-item>
     <ts-form-item label="供应说明：" prop="supplyDesc">
@@ -110,9 +110,9 @@ export default {
         let PUSG = '400011';
         // ========
         // 1.上传图片
-        if (val.picsUrl) {
-          this.Pic.text = val.picsUrl ? '修改图片' : '添加图片';
-          this.Pic.show = !!val.picsUrl;
+        if (val.productPicUrl) {
+          this.Pic.text = val.productPicUrl ? '修改图片' : '添加图片';
+          this.Pic.show = !!val.productPicUrl;
         }
         // ==========
         // 4.面料改变的时候
@@ -168,8 +168,8 @@ export default {
   },
   methods: {
     handleSelect() {
-      this.addSupplyForm = Object.assign({}, this.addSupplyForm, {
-        supplyUnit: this.CopyDICTUnit[0].dicValue
+      this.$nextTick(() => {
+        this.addSupplyForm.supplyUnit = this.CopyDICTUnit[0].dicValue;
       });
     },
     // 上传图片

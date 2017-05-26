@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class="hotSearch-list">
-      <ts-grid type="column">
+      <ts-grid layOut="column">
         <ts-grid-item v-for="(product,index) in BurstHotSearch.list" :key="product" @click="handleViewProduct(product.productId)">
           <span class="ranking hotSearch-rank" :class="'ranking_'+index" v-if="index<3"></span>
           <ts-image

@@ -130,7 +130,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['companySimpleInfo'])
+    ...mapGetters(['companySimpleInfo', 'CompanyInfoByUserId'])
   }
 };
 </script>

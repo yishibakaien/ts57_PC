@@ -1,6 +1,6 @@
 :root {
   /*checkbox*/
-  --checkbox-checked-bg: rgba(76, 147, 253, 0.3);
+  --checkbox-checked-bg: rgba(76, 147, 253, 0.9);
   --checkbox-bg: #fff;
   --checkbox-border-color: #bfcbd9;
   --checkbox-color: #666666;

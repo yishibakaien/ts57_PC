@@ -30,6 +30,7 @@ const shopCompanyIntro = r => require.ensure([], () => r(require('@/pages/shopVi
 const shopModels = r => require.ensure([], () => r(require('@/pages/shopVisiting/children/models')), 'shopVisiting');
 const shopProductIndex = r => require.ensure([], () => r(require('@/pages/shopVisiting/children/productindex')), 'shopVisiting');
 const shopSupplies = r => require.ensure([], () => r(require('@/pages/shopVisiting/children/supplies')), 'shopVisiting');
+const shopCatagoryProduct = r => require.ensure([], () => r(require('@/pages/shopVisiting/children/catagoryProduct')), 'shopVisiting');
 // =============
 // 发现模块
 const find = r => require.ensure([], () => r(require('@/pages/find/')), 'find');
@@ -167,7 +168,7 @@ const routes = [
       }, {
         path: 'supplies',
         component: shopSupplies,
-        name: '厂家供应'
+        name: '店铺-厂家供应'
       }, {
         path: 'models',
         component: shopModels,
@@ -176,6 +177,10 @@ const routes = [
         path: 'intro',
         component: shopCompanyIntro,
         name: '公司介绍'
+      }, {
+        path: 'catagory',
+        component: shopCatagoryProduct,
+        name: '产品'
       }
     ]
   }, {
