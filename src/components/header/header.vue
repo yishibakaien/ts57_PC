@@ -13,7 +13,7 @@
       <div class="concat">
         <div class="tel">400-801-3357</div>
         <div class="text">
-          <i class="iconfont">字</i><span>免费热线</span>
+          <i class="iconfont icon-kefu"></i> <span>免费热线</span>
         </div>
       </div>
     </div>

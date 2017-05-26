@@ -3,7 +3,7 @@
     <span class="title-name">{{titleText.title}}</span>
     <div class="right-nav" @click="goListPage">
       <span class="right-nav-text">{{titleText.extend}}</span>
-      <i class="iconfont">字</i>
+      <i class="iconfont icon-gengduo"></i>
     </div>
   </div>
 </template>
@@ -55,10 +55,9 @@ export default {
       vertical-align top
       height 24px
       width 24px
-      background #4c93fd
+      background #fff
       font-size 24px
       line-height 24px
-      color #fff
       text-align center
       border-radius 50%
 </style>

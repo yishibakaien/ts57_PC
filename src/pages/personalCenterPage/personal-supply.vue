@@ -25,7 +25,7 @@
 					<span class="states green" v-if="item.supplyShape === 200011">成品</span>
 					<span class="states gray" v-if="item.supplyShape === 200010">胚布</span>
 					<p class="p3"><span class="span1"> &nbsp;&nbsp;{{item.supplyNum}}码</span><span class="span2">{{item.createDate | customTime}}&nbsp;&nbsp; </span></p>
-					<i class="dele" @click="openModel(index)">删</i>
+					<i class="dele icon-shanchu_hui" @click="openModel(index)"></i>
 				</div>
 				<p class="info" :title="item.supplyDesc">{{item.supplyDesc}}</p>
 				<p class="company">
@@ -212,6 +212,7 @@
 </script>
 
 <style lang="scss" scoped="scoped">
+
 	.default-page {
 		width: 100%;
 		height: 300px;
@@ -254,10 +255,15 @@
 		right: 10px;
 		width: 20px;
 		height: 20px;
+		text-align: center;
+		line-height: 20px;
 		color: #fff;
 		background: #000;
 		opacity: .4;
 		display: none;
+	}
+	.icon-shanchu_hui::before {
+		color: #fff;
 	}
 	
 	.personal-flower-item:hover .dele {

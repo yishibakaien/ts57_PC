@@ -10,7 +10,7 @@
         <div class="title">
           <span class="text">3D试衣</span>
           <div class="file">
-            <i class="iconfont">字</i>
+            <i class="iconfont icon-baocun"></i>
             <span>保存图片</span>
           </div>
         </div>
@@ -26,7 +26,7 @@
           <div class="title">
             <span class="text">花型预览</span>
             <div class="file">
-              <i class="iconfont">字</i>
+              <i class="iconfont icon-shangchuan"></i>
               <span>上传花型</span>
               <input class="upload-btn" type="file" @change="uploadPic($event)">
             </div>
@@ -34,22 +34,11 @@
 
           <div class="patterns-wrapper">
             <div class="btn">
-              <i class="iconfont" @click.stop.prevent="add">+</i>
-              <i class="iconfont" @click.stop.prevent="decrease">-</i>
+              <i class="iconfont icon-fangda" @click.stop.prevent="add"></i>
+              <i class="iconfont icon-suoxiao" @click.stop.prevent="decrease"></i>
             </div>
             <div class="patterns">
                 <img class="patterns-img" :src="patterns">
-            </div>
-          </div>
-
-          <div class="bottom" v-if="true">
-            <div class="bottom-btn">
-              <i class="iconfont">字</i>
-              <span>收藏花型</span>
-            </div>
-            <div class="bottom-btn">
-              <i class="iconfont">字</i>
-              <span>花型详情</span>
             </div>
           </div>
         </div>
@@ -156,7 +145,13 @@ export default {
   }
 };
 </script>
-
+<style lang="scss" scoped>
+.icon-shangchuanhuaxing::before {
+	font-weight: bold;
+	color: #4c93fd;
+}
+	
+</style>
 <style lang="stylus" scoped>
 .threeDDress
   background #f2f2f2
@@ -176,8 +171,8 @@ export default {
         line-height 32px
         margin-top 8px
         padding 0 4px
-        background rgba(7, 17, 27, .1)
-        color #3385ff
+        background #f8f8f8
+        color #666
     .left-side
       flex 1
       padding 8px
@@ -206,7 +201,8 @@ export default {
             margin 8px
             text-align center
             color #000
-            border 1px solid #000
+            font-size 26px
+            cursor pointer
         .patterns
           flex 1
           height 300px

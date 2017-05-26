@@ -18,7 +18,7 @@
     </p>
     <div class="supply-item-company">
       <img :src="item.userHeadIcon" v-errorImg class="company-avatar" />
-      <span class="company-name">{{item.username}}</span>
+      <span class="company-name">{{item.userName}}</span>
     </div>
   </div>
 </template>

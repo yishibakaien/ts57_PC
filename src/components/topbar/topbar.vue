@@ -12,8 +12,8 @@
     <div class="right">
       <a @click="gowhere" class="link">个人中心</a>
       <div class="app-qrcode">
-        <i class="iconfont">字</i>
-        <span>手机坐视布管</span>
+        <i class="iconfont icon-shouji"></i>
+        <span>坐视布管</span>
         <div class="qrcode-content">
           <div class="qrcode clearfix">
             <div class="img-wrapper">
@@ -21,7 +21,7 @@
             </div>
 
             <div class="desc">
-              <p class="title">手机坐视布管</p>
+              <p class="title">坐视布管</p>
               <p class="red">扫码即可下载</p>
               <div class="app-type clearfix">
                 <div class="andriod">
@@ -90,7 +90,11 @@ export default {
   }
 };
 </script>
-
+<style lang="scss" scoped>
+	.icon-shouji::before {
+		color: #4c93fd;
+	}
+</style>
 <style lang="stylus" scoped>
   .topbar
     height 33px

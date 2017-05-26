@@ -23,7 +23,7 @@
 			<button class="btn btn-dele" v-if="quxiao" @click="cancelList(item.id)">取消接单</button>
 			<button class="btn btn-yes" v-if="jiedan" @click="goPromptDown">我要接单</button>
 			<p class="sucessList" v-if="chenggong">
-				<i>图标</i> 恭喜您接单成功
+				<i class="icon-chenggong"></i> 恭喜您接单成功
 			</p>
 			<div class="" v-if="qiugou">
 				<button class="btn btn-dele btn-small" @click="closeProductBuyMethod">关闭求购</button>
