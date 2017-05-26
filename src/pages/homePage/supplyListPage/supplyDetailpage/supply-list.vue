@@ -15,7 +15,7 @@
 					{{e.supplyStatus |supplyStatus}}
 				</div>
 			</div>
-			<pageBar :showOpt="true" :pageNum="pageNum" :pageMax="pageMax" v-on:upPage="upPage" v-on:downPage="downPage" v-on:selectFirstPage="selectFirstPage" v-on:selectLastPage="selectLastPage" style="margin-right: 20px;"></pageBar>
+			<pageBar :showOpt="true" :pageNum="pageNum" :pageMax="pageMax" @upPage="upPage" @downPage="downPage" @selectFirstPage="selectFirstPage" @selectLastPage="selectLastPage" style="margin-right: 20px;"></pageBar>
 		</div>
 	</div>
 </template>

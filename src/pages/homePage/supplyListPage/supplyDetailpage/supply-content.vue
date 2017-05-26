@@ -2,7 +2,7 @@
 	<div class="list-content">
 		<div class="fl content-img">
 			<img v-lazy="obj.productPicUrl" alt="供应花型图片" />
-			<collection v-on:clickMethod="collectionMethod" style="margin: 30px 0 0 180px;"></collection>
+			<collection @clickMethod="collectionMethod" :yes="yesOrNo" style="margin: 30px 0 0 180px;"></collection>
 		</div>
 		<div class="fl content-info">
 			<p class="content-info-desc">{{obj.supplyDesc}}</p>
@@ -31,7 +31,8 @@
 				param: {
 					businessId: '',
 					businessType: 3
-				}
+				},
+				yesOrNo: false
 			};
 		},
 		components: {
@@ -40,6 +41,15 @@
 		props: {
 			obj: {
 				type: Object
+			}
+		},
+		watch: {
+			obj(val) {
+				if (val.isFavorite === 1) {
+					this.yesOrNo = true;
+				} else {
+					this.yesOrNo = false;
+				}
 			}
 		},
 		methods: {
@@ -57,6 +67,7 @@
 							type: 'success',
 							message: res.data.message
 						});
+						this.yesOrNo = !this.yesOrNo;
 					}
 				}).catch();
 			}

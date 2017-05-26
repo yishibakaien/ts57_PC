@@ -41,10 +41,10 @@
 			<!-- 列表 -->
 			<div class="supply-list-item-wrapper clearfix">
 				<div class="item-wrapper" v-for="(item, index) in items">
-					<supply-item :item="item" v-on:clickMethod="goDetail(index)"></supply-item>
+					<supply-item :item="item" @clickMethod="goDetail(index)"></supply-item>
 				</div>
 			</div>
-			<pagination :page="pageData" v-on:selectedPageNum="selectedPageNum1"></pagination>
+			<pagination :page="pageData" @selectedPageNum="selectedPageNum1"></pagination>
 		</div>
 	</div>
 </template>
