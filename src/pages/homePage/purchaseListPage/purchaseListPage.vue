@@ -37,7 +37,7 @@
 					<purchase-item :item="item"></purchase-item>
 				</div>
 			</div>
-			<pagination :page="pageData" v-on:selectedPageNum="selectedPageNum1"></pagination>
+			<pagination :page="pageData" @selectedPageNum="selectedPageNum"></pagination>
 		</div>
 	</div>
 </template>
@@ -134,7 +134,8 @@
 				this.param.pageNo = 1;
 				this.listProductBuysMethod();
 			},
-			selectedPageNum1(e) {
+			selectedPageNum(e) {
+				console.log(e);
 				this.param.pageNo = e;
 				this.listProductBuysMethod();
 			},

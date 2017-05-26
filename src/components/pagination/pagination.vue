@@ -32,9 +32,11 @@
 					this.showPointTwo();
 					this.showPointOne();
 				} else {
+					this.page.pageNumArr = [];
 					for (let i = 2; i < val; i++) {
 						this.page.pageNumArr.push(i);
 					}
+					console.log(this.page.pageNumArr);
 					this.showPointTwo();
 					this.showPointOne();
 				}

@@ -1,56 +1,56 @@
 <template>
-  <div class="search">
+	<div class="search">
 
-    <input class="search-input" @keyup.13="searchText" type="text" v-model="text" placeholder="可输入厂名或花型编号查找">
-    <div class="choose-pic">
-      <!-- <i class="iconfont">字</i> -->
-      <pic-upload class="choose-input" ref="fileUpload"></pic-upload>
-      <!-- <input class="choose-input" type="file" title="上传图片搜图"> -->
-    </div>
-    <div class="search-btn" title="搜索" @click="searchText">
-        搜索
-    </div>
-  </div>
+		<input class="search-input" @keyup.13="searchText" type="text" v-model="text" placeholder="可输入厂名或花型编号查找">
+		<div class="choose-pic">
+			<!-- <i class="iconfont">字</i> -->
+			<pic-upload class="choose-input" ref="fileUpload"></pic-upload>
+			<!-- <input class="choose-input" type="file" title="上传图片搜图"> -->
+		</div>
+		<div class="search-btn" title="搜索" @click="searchText">
+			搜索
+		</div>
+	</div>
 </template>
 
 <script>
-import picUpload from '../picUpload/picUpload';
-import * as types from '../../store/types';
-import {searchMtd} from '../../common/api/api';
-export default {
-  data() {
-    return {
-      text: ''
-    };
-  },
-  components: {
-    picUpload
-  },
-  methods: {
-    searchText() {
-      if (!this.text) {
-        alert('请输入搜索内容');
-        return;
-      }
-      searchMtd({
-        keywords: this.text,
-        pageSize: 15,  // 每页数量 默认10
-        searchType: 2  // 搜索类型 1:店铺搜索 2:全局搜索
-      }).then(res => {
-        this.$router.push({
-          path: 'textSearchResultPage'
-        });
-        // 储存搜索字段
-        let _data = res.data;
-        console.log(this.text);
-        _data.searchText = this.text;
-        this.$store.commit(types.SEARCH_RESULT, _data);
-      });
-    }
-  }
-};
+	import picUpload from '../picUpload/picUpload';
+	// import * as types from '@/store/types';
+	import Toast from '@/components/common/toast/toast';
+	export default {
+		data() {
+			return {
+				text: ''
+			};
+		},
+		porps: {
+			text: ''
+		},
+		components: {
+			picUpload
+		},
+		methods: {
+			searchText() {
+				if (!this.text) {
+					Toast({
+						type: 'error',
+						message: '请填写关键词'
+					});
+					return;
+				}
+				this.$router.push({
+					path: 'textSearchResultPage',
+					query: {
+						obj: {
+							keyWord: this.text
+						}
+					}
+				});
+				this.$emit('searchText', this.text);
+			}
+		}
+	};
 </script>
-
 <style lang="stylus" scoped>
   .search
     position relative
