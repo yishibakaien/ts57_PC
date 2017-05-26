@@ -8,7 +8,7 @@
       </ts-radio-group>
     </ts-filter>
   </div>
-  <ts-grid>
+  <ts-grid :data="ProductList.list">
     <ts-grid-item style="width:240px" v-for="product in ProductList.list" :key="product" @click="handleViewProduct(product.id)">
       <ts-image
        width="170"

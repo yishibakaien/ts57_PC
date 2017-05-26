@@ -1,8 +1,8 @@
 <template lang="html">
-    <div class="ts-content">
+    <div class="hotSearch-content" ref="hotSearch">
       <ts-title-block>爆款热搜</ts-title-block>
       <ts-grid>
-        <ts-grid-item width="200px" v-for="(product,index) in BurstHotSearch.list" :key="product" @click="handleViewProduct(product.productId)">
+        <ts-grid-item width="200px" v-for="(product,index) in BurstHotSearch" :key="product" @click="handleViewProduct(product.productId)">
           <span class="ranking hotSearch-rank" :class="'ranking_'+index" v-if="index<3"></span>
           <ts-image
            width="170"
@@ -17,6 +17,8 @@
            </template>
          </ts-grid-item>
       </ts-grid>
+      <br/>
+      <ts-button type="plain" @click="handleLoadMore">加载更多爆款</ts-button>
     </div>
 </template>
 
@@ -28,14 +30,22 @@ export default {
   data() {
     return {
       Params: {
-        pageNO: 1,
-        pageSize: 10
+        pageNo: 1,
+        pageSize: 12
       },
+      pageData: {},
       BurstHotSearch: {}
     };
   },
+  methods: {
+    async handleLoadMore(number) {
+      this.Params.pageNo++;
+      let data = (await burstHotSearch(this.Params)).data.data.list;
+      this.BurstHotSearch = this.BurstHotSearch.concat(data);
+    }
+  },
   async created() {
-    this.BurstHotSearch = (await burstHotSearch(this.Params)).data.data;
+    this.BurstHotSearch = (await burstHotSearch(this.Params)).data.data.list;
   }
 };
 </script>
@@ -45,6 +55,9 @@ export default {
   @component rank{
     position: absolute;
     z-index: 2;
+  }
+  @component content{
+    text-align: center;
   }
   @component footer{
     @modifier searchNum{

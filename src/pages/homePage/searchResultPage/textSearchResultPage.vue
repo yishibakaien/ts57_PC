@@ -6,7 +6,6 @@
 		<v-nav></v-nav>
 		<div class="text-search-result-page-box">
 			<p class="search-value">全部结果 > {{param.keywords}}</p>
-			<!--<v-filter></v-filter>-->
 			<!-- 筛选器 -->
 			<div style="background: #fff;">
 				<ts-filter title="求购分类">

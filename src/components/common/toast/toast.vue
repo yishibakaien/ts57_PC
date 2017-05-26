@@ -64,7 +64,7 @@ export default {
   },
   computed: {
     typeImg() {
-      return require(`./icon/${this.type}.svg`);
+      return require(`../../../../static/images/assets/icon/${this.type}.svg`);
     }
   }
 };

@@ -18,9 +18,14 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-.icon-yishoucang:before {
+.icon-anzhuo:before {
   content: "\e900";
+}
+.icon-iOS:before {
+  content: "\e92f";
+}
+.icon-yishoucang:before {
+  content: "\e930";
   color: #ff8609;
 }
 .icon-baocun:before {
