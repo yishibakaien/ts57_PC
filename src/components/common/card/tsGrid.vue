@@ -1,6 +1,11 @@
 <template>
-<div class="ts-grids" :class="{'is-column':layOut==='column','is-table':type==='table','is-flexbox':type==='flexbox'}">
-  <slot></slot>
+<div>
+  <div class="ts-grids" :class="{'is-column':layOut==='column','is-table':type==='table','is-flexbox':type==='flexbox'}">
+    <slot></slot>
+  </div>
+  <div class="ts-empty onepx" v-if="empty">
+    <p class="ts-empty-text">暂无数据</p>
+  </div>
 </div>
 </template>
 
@@ -21,6 +26,9 @@ export default {
         ].indexOf(value) > -1;
       }
     },
+    data: {
+      type: Array
+    },
     type: {
       type: String,
       default: 'flexbox',
@@ -31,6 +39,13 @@ export default {
         ].indexOf(value) > -1;
       }
     }
+  },
+  computed: {
+    empty() {
+      if (this.data) {
+        return !this.data || (this.data.length <= 0);
+      }
+    }
   }
 };
 </script>
@@ -39,6 +54,17 @@ export default {
 @import '../../../common/css/_var.css';
 @import '../../../common/css/mixin/setOnepx.css';
 @component-namespace ts{
+  @component empty{
+    position: relative;
+    text-align: center;
+    height: 40px;
+    width: 100%;
+    @descendent text{
+      position: absolute 50% * * 50%;
+      transform: translate(-50%,-50%);
+      color: gray;
+    }
+  }
   @component grids{
     position: relative;
     word-wrap: -1em;

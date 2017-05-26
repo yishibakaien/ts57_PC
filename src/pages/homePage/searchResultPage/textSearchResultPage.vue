@@ -15,7 +15,8 @@
       <div class="ifNone" v-if="result.data.list.length === 0">
         暂无更多搜索结果
       </div>
-      <paginator :page-message="pageMessage" @goPage="goPage"></paginator>
+      <!-- <pagination :page-message="pageMessage" @goPage="goPage"></pagination> -->
+      <pagination :page="pageMessage" @selectedPageNum="goPage"></pagination>
     </div>
   </div>
 </template>
@@ -27,7 +28,7 @@ import {
   search,
   baseItem,
   filter,
-  paginator
+  pagination
 } from '@/components';
 // // api 请求
 import {searchMtd} from '@/common/api/api';
@@ -68,7 +69,7 @@ export default {
     search,
     baseItem,
     vFilter: filter,
-    paginator
+    pagination
   },
   computed: {
     result() {

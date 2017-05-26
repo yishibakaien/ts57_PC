@@ -7,10 +7,7 @@
             更多&nbsp;&nbsp;<i class="icon-gengduo"></i>
         </a>
       </ts-title-block>
-      <div class="productIndex-empty--text" v-if="!item.list.length">
-          该分类下暂无花型
-      </div>
-      <ts-grid :type="item.className==='全部花型'?'flexbox':'table'">
+      <ts-grid :type="item.className==='全部花型'?'flexbox':'table'" :data="item.list">
         <ts-grid-item :style="{'width':item.classId===22659?'400px':'240px'}" v-for="(product,e) in item.list" :key="product" @click="handleViewProduct(product.id)">
           <span class="topRanking productIndex-rank" :class="'topRanking_'+e" v-if="item.classId===22659"></span>
           <ts-image
@@ -123,12 +120,6 @@ export default {
     position: absolute;
     z-index: 2;
     left:16px;
-  }
-  @component empty{
-    @modifier text{
-      text-align: center;
-      color: rgba(155,155,155,1);
-    }
   }
   @component product{
     @modifier number{

@@ -33,16 +33,17 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['getCompanySimpleInfo', 'getCompanyInfoByUserId'])
+    ...mapActions(['getCompanyInfo'])
   },
   computed: {
-    ...mapGetters(['companySimpleInfo'])
+    ...mapGetters(['companyInfo'])
   },
   async created() {
     document.querySelector('.main-wrapper').style.backgroundColor = '#fff';
     // 获取店铺信息
-    await this.getCompanySimpleInfo(this.$route.params.id);
-    await this.getCompanyInfoByUserId(this.companySimpleInfo.userId);
+    await this.getCompanyInfo({
+      companyId: this.$route.params.id
+    });
   },
   components: {
     'vHeader': header,

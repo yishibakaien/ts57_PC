@@ -4,6 +4,7 @@
     <div class="update-container">
       <factory-update @viewProduct="handleViewProduct" @viewStore="handleViewStore" :data="NewProductList"></factory-update>
     </div>
+    <pagination :page="pageData" @selectedPageNum="handleChangePage"></pagination>
   </div>
 </template>
 
@@ -16,10 +17,11 @@ export default {
   data() {
     return {
       Params: {
-        pageNO: 1,
+        pageNo: 1,
         pageSize: 10
       },
-      NewProductList: {}
+      NewProductList: {},
+      pageData: {}
     };
   },
   components: {
@@ -27,10 +29,26 @@ export default {
   },
   methods: {
     handleViewProduct() {},
-    handleViewStore() {}
+    handleViewStore() {},
+    handleChangePage(number) {
+      this.Params.pageNo = number;
+    }
+  },
+  watch: {
+    Params: {
+      async handler(val) {
+        this.NewProductList = (await getCompanyNewProductList(this.Params)).data.data;
+      },
+      deep: true
+    }
   },
   async created() {
     this.NewProductList = (await getCompanyNewProductList(this.Params)).data.data;
+    this.pageData = {
+      maxNum: this.NewProductList.totalPage,
+      pageNO: this.NewProductList.pageNO,
+      pageNumArr: []
+    };
   }
 };
 </script>

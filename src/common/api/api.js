@@ -430,7 +430,8 @@ export function countProduct(data) {
 export function favoriteBus(data) {
   return _fetch(METHODS.post, data, API.collection.favoriteBus);
 };
-
+// 批量取消收藏
+export const favoriteBatchCancel = param => _fetch(METHODS.post, param, API.collection.batchCancel);
 // 关闭求购
 export function closeProductBuy(data) {
   return _fetch(METHODS.post, data, API.buy.closeProductBuy);

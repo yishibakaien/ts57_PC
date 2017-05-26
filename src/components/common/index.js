@@ -25,10 +25,12 @@ import tsGrid from './card/tsGrid.vue';
 import tsGridItem from './card/tsGridItem.vue';
 import tsTitleBlock from './tsTitleBlock.vue';
 import tsPopover from './popover/tsPopover.vue';
+import pagination from '../pagination/pagination.vue';
 // =========
 // =========
 const Components = {
   tsGrid,
+  pagination,
   tsPopover,
   tsTitleBlock,
   tsTag,

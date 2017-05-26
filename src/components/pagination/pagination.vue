@@ -137,7 +137,7 @@
 		margin: 50px auto;
 		text-align: center;
 	}
-	
+
 	.page {
 		display: inline-block;
 		padding: 5px;
@@ -154,13 +154,13 @@
 			text-decoration: underline;
 		}
 	}
-	
+
 	.active {
 		background: #4C93FD;
 		color: #fff;
 		border: 0;
 	}
-	
+
 	span {
 		-webkit-user-select: none;
 		-moz-user-select: none;

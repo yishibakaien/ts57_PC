@@ -2,17 +2,23 @@
 <div class="introPic-bg">
   <div class="introPic-wrapper">
     <div class="introPic-wrapper-left onepx">
-      <ts-image :canView="false" disabledHover width="500" height="200" class="factory-company--cover" :src="companySimpleInfo.companyBanner"></ts-image>
+      <ts-image :canView="false" disabledHover width="500" height="250" class="factory-company--cover" :src="companyInfo.companyBanner"></ts-image>
     </div>
     <div class="introPic-wrapper-right">
       <div class="introPic-company-header onepx">
-        <p class="introPic-company-title">{{companySimpleInfo.companyName}}</p>
+        <!-- 公司名称 -->
+        <ts-image shape="round" :canView="false" disabledHover width="50" height="50" :src="companyInfo.companyHeadIcon"></ts-image>
+        <p class="introPic-company-title">{{companyInfo.companyName}}</p>
+        <span class="introPic-storeType" :style="{'background':getIsStore?'#13ce66':'#50BFFF'}">
+          {{getIsStore?'档':'厂'}}
+        </span>
+        <!-- 三个菜单：电话联系，收藏，店铺 -->
         <ul>
           <ts-popover trigger="click" :options="{placement: 'bottom'}">
             <div class="popper introPic-popper-phone">
               <p class="introPic-popper-phone-user">
-                <strong>谭华美</strong>
-                <span>1332132312</span>
+                <strong>{{companyInfo.companyPersonCharge}}</strong>
+                <span>{{companyInfo.phone}}</span>
               </p>
               <p class="introPic-popper-phone-tip">老板，拨打电话时，记得说明
                 <br> 是坐视不管的客户哦～
@@ -22,8 +28,8 @@
               <i class="icon-dianhua"></i>电话联系
             </li>
           </ts-popover>
-          <li>
-            <i class="icon-shoucang"></i>收藏店铺(12)
+          <li @click="handleCollectStore">
+            <i :class="getIsCollect?'icon-yishoucang':'icon-shoucang'"></i> {{getIsCollect?'已收藏店铺':'收藏店铺'}}
           </li>
           <ts-popover trigger="click" :options="{placement: 'bottom'}">
             <div class="popper introPic-popper-qrcode">
@@ -36,11 +42,13 @@
           </ts-popover>
         </ul>
       </div>
+      <!-- 主营 -->
       <p class="introPic-company is-line3">
-        公司主营：{{companySimpleInfo.companyBusiness}}
+        公司主营：{{companyInfo.companyBusiness}}
       </p>
+      <!-- 地址 -->
       <p class="introPic-company is-line">
-        公司地址：{{companySimpleInfo.address}}
+        公司地址：{{companyInfo.address}}
       </p>
     </div>
   </div>
@@ -51,19 +59,52 @@
 import {
   mapGetters
 } from 'vuex';
+import {
+  favoriteBatchCancel,
+  favoriteBus
+} from '@/common/api/api';
 import QrcodeVue from 'qrcode.vue';
 export default {
   data() {
     return {
       // 二维码
       Qrcode: {
-        value: 'https://www.baidu.com',
+        value: location.href,
         size: 40
       }
     };
   },
+  methods: {
+    async handleCollectStore() {
+      if (this.getIsCollect) {
+        let res = await favoriteBatchCancel({
+          busIds: this.$route.params.id,
+          businessType: this.companyInfo.companyType
+        });
+        if (!res.data.code) {
+          this.companyInfo.favoriteSatus = 0;
+        }
+      } else {
+        let res = await favoriteBus({
+          businessId: this.$route.params.id,
+          businessType: this.companyInfo.companyType
+        });
+        if (!res.data.code) {
+          this.companyInfo.favoriteSatus = 1;
+        }
+      }
+    }
+  },
   computed: {
-    ...mapGetters(['companySimpleInfo'])
+    ...mapGetters(['companyInfo']),
+    // 是否档口
+    getIsStore() {
+      return this.companyInfo.companyType === 2;
+    },
+    // 收藏状态 0未收藏 1已收藏
+    getIsCollect() {
+      return this.companyInfo.favoriteSatus === 1;
+    }
   },
   components: {
     QrcodeVue
@@ -93,10 +134,14 @@ export default {
     margin-top: 15px;
     font-size: 15px;
     line-height: 140%;
+    @utils-ellipsis 2;
     @descendent title{
       font-size: 24px;
-      margin-bottom: 16px;
+      margin-bottom: 22px;
+      padding-left: 8px;
       font-weight: bold;
+      display: inline-block;
+      vertical-align: sub;
     }
     @descendent header{
       padding: 16px;
@@ -129,11 +174,21 @@ export default {
       margin: 10px 0;
     }
   }
+  @component storeType{
+    display: inline-block;
+    font-size: x-small;
+    text-align: center;
+    color: #fff;
+    width: 14px;
+    height: 14px;
+    padding: 1px;
+    line-height: 14px;
+  }
   @component wrapper{
     backface-visibility: hidden;
     max-width: 1200px;
     margin: 1em auto;
-    height: 200px;
+    height: 250px;
     display: flex;
     justify-content: flex-start;
     background-color: #fff;

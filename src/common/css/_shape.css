@@ -16,26 +16,26 @@
   overflow: hidden;
 }
 
-.topRanking_1 {
+.topRanking_0 {
   background-position-x: 0;
 }
 
-.topRanking_2 {
+.topRanking_1 {
   background-position-x: -48px;
 }
 
-.topRanking_0 {
+.topRanking_2 {
   background-position-x: -96px;
 }
 
-.rank_0 {
+.ranking_0 {
   background-position-x: -144px;
 }
 
-.rank_1 {
+.ranking_1 {
   background-position-x: -188px;
 }
 
-.rank_2 {
+.ranking_2 {
   background-position-x: -232px;
 }
