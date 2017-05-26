@@ -127,7 +127,8 @@
 			getUserInfo().then((res) => {
 				if (res.data.code === 0) {
 					if (res.data.data.userHeadIcon) {
-						localStorage.setItem('userHeadIcon', 'http://zsbgdev.oss-cn-shenzhen.aliyuncs.com/' + res.data.data.userHeadIcon);
+						localStorage.setItem('userHeadIcon', res.data.data.userHeadIcon);
+						// 'http://zsbgdev.oss-cn-shenzhen.aliyuncs.com/'
 					}
 					localStorage.setItem('userMobile', res.data.data.userMobile);
 					localStorage.setItem('userName', res.data.data.userName);

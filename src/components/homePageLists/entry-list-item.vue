@@ -2,13 +2,16 @@
   <div class="entry-list-item">
     <div class="entry-base-item" :companyId="item.id" title="查看厂家详情">
       <div class="img-container">
-        <div class="img-wrapper" v-for="pic in item.productPics">
-          <img class="item-image" v-lazy="pic">
+        <div class="img-wrapper">
+          <img class="item-image" v-lazy="item.productPics[0]">
+        </div>
+        <div class="img-wrapper">
+          <img class="item-image" v-lazy="item.productPics[1]">
         </div>
       </div>
       <div class="item-desc">
         <div class="company-avatar">
-          <img src="/static/images/pattern.jpg" width="31" height="31">
+          <img :src="item.companyHeadIcon" v-errorImg width="31" height="31">
         </div>
         <h2 class="desc-title">{{item.companyName}}</h2>
       </div>

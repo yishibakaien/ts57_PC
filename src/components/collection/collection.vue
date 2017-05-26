@@ -1,6 +1,6 @@
 <template>
 	<div class="collection" @click="clickMethod">
-		<i class="icon-已收藏" :class="show?'yesCollection':'noCollection'"></i>
+		<i class="icon-yishoucang" :class="show?'yesCollection':'noCollection'"></i>
 		<span>收藏</span>
 	</div>
 </template>
