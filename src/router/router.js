@@ -6,7 +6,7 @@ import store from '../store/store';
 import {
   homePage,
   textSearchResultPage,
-  threeDDressPage,
+  // threeDDressPage,
   personalCenterPage,
   loginPage,
   registerPage,
@@ -23,6 +23,8 @@ import {
 Vue.use(Router);
 // created By HZC
 // =============
+// 3D
+const threeDDress = r => require.ensure([], () => r(require('@/pages/3DDress/')), 'threeDDress');
 // 店铺访问
 const shopVisiting = r => require.ensure([], () => r(require('@/pages/shopVisiting/')), 'shopVisiting');
 const shopAllMeterials = r => require.ensure([], () => r(require('@/pages/shopVisiting/children/allmeterial')), 'shopVisiting');
@@ -105,7 +107,8 @@ const routes = [
     ]
   }, {
     path: '/threeDDressPage',
-    component: threeDDressPage
+    component: threeDDress,
+    name: '3D试衣'
   }, {
     path: '/personalCenterPage',
     component: personalCenterPage,
@@ -275,7 +278,7 @@ if (localStorage.accessToken) {
 }
 
 const router = new Router({
-// mode: 'history', // 后端未配置
+  // mode: 'history', // 后端未配置
   // 每进去一个新页面翻到顶部
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {

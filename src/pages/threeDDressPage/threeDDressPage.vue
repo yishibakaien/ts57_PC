@@ -1,94 +1,90 @@
 <template>
-  <div class="threeDDress">
-    <v-header>
-    	<search></search>
-    </v-header>
-    <v-nav></v-nav>
-    <div class="dress-box">
-
-      <div class="left-side">
-        <div class="title">
-          <span class="text">3D试衣</span>
-          <div class="file">
-            <i class="iconfont icon-baocun"></i>
-            <span>保存图片</span>
-          </div>
-        </div>
-          <!-- {background: 'url(' + patterns + ')'} -->
-        <div class="modle-wrapper" :style="{background:'url('+ patterns + ')', backgroundSize: bgSize + '%'}">
-          <img :src="modle" class="modle" width="100%">
+<div class="threeDDress">
+  <v-header>
+    <search></search>
+  </v-header>
+  <v-nav></v-nav>
+  <div class="dress-box">
+    <div class="left-side">
+      <div class="title">
+        <span class="text">3D试衣</span>
+        <div class="file">
+          <i class="iconfont">字</i>
+          <span>保存图片</span>
         </div>
       </div>
-
-      <div class="right-side">
-
-        <div class="patterns-preview">
-          <div class="title">
-            <span class="text">花型预览</span>
-            <div class="file">
-              <i class="iconfont icon-shangchuan"></i>
-              <span>上传花型</span>
-              <input class="upload-btn" type="file" @change="uploadPic($event)">
-            </div>
-          </div>
-
-          <div class="patterns-wrapper">
-            <div class="btn">
-              <i class="iconfont icon-fangda" @click.stop.prevent="add"></i>
-              <i class="iconfont icon-suoxiao" @click.stop.prevent="decrease"></i>
-            </div>
-            <div class="patterns">
-                <img class="patterns-img" :src="patterns">
-            </div>
-          </div>
-        </div>
-
-        <div class="choose-modles">
-          <div class="title">
-            <span class="text">选择模特</span>
-          </div>
-          <div class="modles">
-            <div class="modle" :class="{ 'active': item.isActive }" v-for="(item, index) in modlesPrototype" @click="chooseModle(item, index)">
-              <img :src="item.url" width="100%">
-            </div>
-
-          </div>
-        </div>
-
+      <!-- {background: 'url(' + patterns + ')'} -->
+      <div class="modle-wrapper" :style="{background:'url('+ patterns + ')', backgroundSize: bgSize + '%'}">
+        <img :src="modle" class="modle" width="100%">
       </div>
     </div>
+
+    <div class="right-side">
+
+      <div class="patterns-preview">
+        <div class="title">
+          <span class="text">花型预览</span>
+          <div class="file">
+            <i class="iconfont">字</i>
+            <span>上传花型</span>
+            <input class="upload-btn" type="file" @change="uploadPic($event)">
+          </div>
+        </div>
+
+        <div class="patterns-wrapper">
+          <div class="btn">
+            <i class="iconfont" @click.stop.prevent="add">+</i>
+            <i class="iconfont" @click.stop.prevent="decrease">-</i>
+          </div>
+          <div class="patterns">
+            <img class="patterns-img" :src="patterns">
+          </div>
+        </div>
+
+        <div class="bottom" v-if="true">
+          <div class="bottom-btn">
+            <i class="iconfont">字</i>
+            <span>收藏花型</span>
+          </div>
+          <div class="bottom-btn">
+            <i class="iconfont">字</i>
+            <span>花型详情</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="choose-modles">
+        <div class="title">
+          <span class="text">选择模特</span>
+        </div>
+        <div class="modles">
+          <div class="modle" :class="{ 'active': item.isActive }" v-for="(item, index) in modlesPrototype" @click="chooseModle(item, index)">
+            <img :src="item.url" width="100%">
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
+</div>
 </template>
 
 <script>
-import { header, nav, search } from '@/components';
-import uploadPicture from '../../common/js/uploadPicture';
-// import blackTip from '../../common/js/blackTip';
-
-let modlesPrototype = [
-  { url: '/static/images/modles_prototype/modle1_all.jpg', isActive: true },
-  { url: '/static/images/modles_prototype/modle1_back.jpg', isActive: false },
-  { url: '/static/images/modles_prototype/modle1_front.jpg', isActive: false },
-  { url: '/static/images/modles_prototype/modle1_side.jpg', isActive: false },
-  { url: '/static/images/modles_prototype/modle2_all.jpg', isActive: false },
-  { url: '/static/images/modles_prototype/modle2_back.jpg', isActive: false },
-  { url: '/static/images/modles_prototype/modle2_front.jpg', isActive: false },
-  { url: '/static/images/modles_prototype/modle2_side.jpg', isActive: false },
-  { url: '/static/images/modles_prototype/modle3_all.jpg', isActive: false },
-  { url: '/static/images/modles_prototype/modle3_back.jpg', isActive: false },
-  { url: '/static/images/modles_prototype/modle3_front.jpg', isActive: false },
-  { url: '/static/images/modles_prototype/modle3_side.jpg', isActive: false }
-];
-
+import {
+  header,
+  nav,
+  search
+} from '@/components';
+import uploadPicture from '@/common/js/uploadPicture';
+import {
+  MODELS
+} from '@/common/dict/const';
 // 花纹放大或缩小的比例梯度 (%)
 const STEP = 10;
-
 // 花纹最大比例
 const MAX_SIZE = 180;
-
 // 花纹最小缩放比例
 const MIN_SIZE = 20;
-
 // 根据模特小图URL，生成模特大图URL
 function _createModleURL(url) {
   return url.split('modles_prototype').join('modles').split('jpg').join('png');
@@ -97,15 +93,14 @@ function _createModleURL(url) {
 export default {
   data() {
     return {
-      modlesPrototype: modlesPrototype,
+      modlesPrototype: MODELS,
       modle: (function() {
-        for (let i = 0; i < modlesPrototype.length; i++) {
-          if (modlesPrototype[i].isActive) {
-            return _createModleURL(modlesPrototype[i].url);
+        for (let i = 0; i < this.modlesPrototype.length; i++) {
+          if (this.modlesPrototype[i].isActive) {
+            return _createModleURL(this.modlesPrototype[i].url);
           }
         }
       })(),
-      // isActive: false,
       patterns: '',
       bgSize: 100
     };
@@ -126,14 +121,12 @@ export default {
       });
     },
     add() {
-      console.log(this.bgSize);
       if (this.bgSize < MAX_SIZE) {
         this.bgSize += STEP;
       }
     },
     decrease() {
       if (this.bgSize >= MIN_SIZE) {
-        console.log(this.bgSize);
         this.bgSize -= STEP;
       }
     }
@@ -145,13 +138,7 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-.icon-shangchuanhuaxing::before {
-	font-weight: bold;
-	color: #4c93fd;
-}
-	
-</style>
+
 <style lang="stylus" scoped>
 .threeDDress
   background #f2f2f2
@@ -171,8 +158,8 @@ export default {
         line-height 32px
         margin-top 8px
         padding 0 4px
-        background #f8f8f8
-        color #666
+        background rgba(7, 17, 27, .1)
+        color #3385ff
     .left-side
       flex 1
       padding 8px
@@ -201,8 +188,7 @@ export default {
             margin 8px
             text-align center
             color #000
-            font-size 26px
-            cursor pointer
+            border 1px solid #000
         .patterns
           flex 1
           height 300px

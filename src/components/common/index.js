@@ -25,11 +25,19 @@ import tsGrid from './card/tsGrid.vue';
 import tsGridItem from './card/tsGridItem.vue';
 import tsTitleBlock from './tsTitleBlock.vue';
 import tsPopover from './popover/tsPopover.vue';
-import pagination from '../pagination/pagination.vue';
+import tsNavbar from './navbar/navbar.vue';
+import tsTabItem from './navbar/tabItem.vue';
+import tsTabContainer from './tab-container/tab-container.vue';
+import tsTabContainerItem from './tab-container/tab-container-item.vue';
 // =========
+import pagination from '../pagination/pagination.vue';
 // =========
 const Components = {
   tsGrid,
+  tsNavbar,
+  tsTabContainer,
+  tsTabContainerItem,
+  tsTabItem,
   pagination,
   tsPopover,
   tsTitleBlock,
