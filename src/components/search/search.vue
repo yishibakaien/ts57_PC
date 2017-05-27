@@ -23,9 +23,6 @@
 				text: ''
 			};
 		},
-		porps: {
-			text: ''
-		},
 		components: {
 			picUpload
 		},
@@ -39,7 +36,7 @@
 					return;
 				}
 				this.$router.push({
-					path: 'textSearchResultPage',
+					path: '/textSearchResultPage',
 					query: {
 						obj: {
 							keyWord: this.text
