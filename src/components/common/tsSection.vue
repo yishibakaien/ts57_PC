@@ -55,6 +55,7 @@ export default {
       @modifier menu{
         flex:1;
         text-align: right;
+        padding-right: 6px;
       }
     }
     /*内容*/
