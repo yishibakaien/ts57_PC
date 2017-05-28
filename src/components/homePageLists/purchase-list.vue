@@ -14,7 +14,7 @@
         <p class="brand-desc">海量档口真实采购需求</p>
       </div>
       <div class="brand-body">
-        <textarea class="input" maxlength="60" placeholder="请填写需求购买花型的详细描述，如花高，宽幅等信息" v-model="text"></textarea>
+        <ts-input type="textarea" :rows="6" :maxLength="60" placeholder="请填写需求购买花型的详细描述，如花高，宽幅等信息" v-model="text"></ts-input>
         <button @click="releasePurchase" class="button button-plain button-block button-plain-blue">发布求购</button>
       </div>
     </div>

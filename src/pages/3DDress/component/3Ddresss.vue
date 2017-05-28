@@ -3,9 +3,9 @@
     <div class="dress-wrapper-left">
       <ts-section pageTitle="3D试衣" class="onepx">
         <div slot="menu">
-          <ts-button type="primary">保存图片</ts-button>
+          <ts-button type="primary" @click="handleSavePic" :disabled="!Pic.uploadPic">保存图片</ts-button>
         </div>
-          <img :src="Pic.origin" id="picOrigin" class="transition" :style="{'background-image':`url(${Pic.uploadPic})`,'background-size':`${ratio}%`}">
+          <img :src="Pic.origin" ref="picOrigin" class="transition" :style="{'background-image':`url(${Pic.uploadPic})`,'background-size':`${ratio/4}%`}">
       </ts-section>
     </div>
     <div class="dress-wrapper-right">
@@ -32,7 +32,7 @@
         <ts-grid>
           <ts-grid-item v-for="(item,index) in MODELS" :class="{'dress-active':index===Pic.activeIndex}" :key="item" @click="handleViewModels(item,index)">
             <ts-image
-             width="87"
+             width="88"
              height="100"
              :canView="false"
              disabledHover
@@ -49,10 +49,11 @@
 import {
   MODELS
 } from '@/common/dict/const';
+import html2canvas from 'html2canvas';
 const MODEL_THUMBNAIL_DOMAIN = '/static/images/modles_prototype/';
 const MODEL_ORIGIN_DOMAIN = '/static/images/modles/';
+const TYPE = 'png';
 
-// let ZOOM = 1;
 export default {
   data() {
     return {
@@ -79,6 +80,7 @@ export default {
       this.Pic.uploadPic = sessionStorage['flowerUrl'];
     }
   },
+  mounted() {},
   destoryed() {
     sessionStorage.removeItem('flowerUrl');
   },
@@ -100,7 +102,25 @@ export default {
     }
   },
   methods: {
-    handleChooseProduct() {},
+    // 保存图片
+    handleSavePic() {
+      let self = this;
+      console.log('正在保存图片');
+      html2canvas(this.$refs.picOrigin, {
+        useCORS: true,
+        allowTaint: true,
+        onrendered: function(canvas) {
+          var imgData = canvas.toDataURL(TYPE);
+          // 加工image data，替换mime type
+          imgData = imgData.replace(self._fixType(TYPE), 'image/octet-stream');
+          // 下载后的问题名
+          var filename = 'models_' + (new Date()).getTime() + '.' + TYPE;
+          // 下载
+          self.saveFile(imgData, filename);
+        }
+      });
+    },
+    // 上传花型
     handleUpload(event) {
       let self = this;
       let file = event.target.files[0];
@@ -110,9 +130,11 @@ export default {
         self.Pic.uploadPic = this.result;
       };
     },
+    // 花型放大&缩小
     handleZoom(type) {
       this.ratio = type === '+' ? this.ratio + (++this.ratio) / 10 : this.ratio - (this.ratio--) / 10;
     },
+    // 对话框-----选择花型
     handleViewModels(item, index) {
       this.Pic.origin = MODEL_ORIGIN_DOMAIN + item;
       this.Pic.activeIndex = index;
@@ -173,6 +195,11 @@ export default {
       margin-left: 10px;
       padding-right: 10px;
       margin-top: 10px;
+      .icon-shangchuan{
+        font-size: 20px;
+        padding-right: 10px;
+        cursor: pointer;
+      }
     }
   }
 }

@@ -35,7 +35,8 @@ const API = {
   },
   // 搜索
   search: {
-    search: '/product/search' // 文本搜索
+    search: '/product/search', // 文本搜索
+    history: '/search/history' // 搜索记录列表(大家都在找)
   },
   // 供应求购
   buy: {
@@ -61,6 +62,7 @@ const API = {
   // 收藏管理
   collection: {
     batchCancel: '/favorite/batchCancel', // 批量取消收藏
+    isFavorite: '/favorite/isFavorite', // 判断是否已收藏
     favoriteBus: '/favorite/favoriteBus', // 收藏或取消
     listSupply: 'favorite/listSupply', // 获取收藏供应列表
     listCompany: '/favorite/listCompany', // 获取收藏厂家列表
@@ -76,7 +78,7 @@ const API = {
     shelveProduct: '/product/shelveProduct', // 花型上下架
     deleteProduct: '/product/deleteProduct', // 删除花型
     getCompanyNewProductlist: '/product/listCompanyNewProduct', // 厂家上新
-    burstHotSearch: '/product/burstHotSearch', // 爆款热搜列表
+    burstHotSearch: '/search/burstHot', // 爆款热搜列表
     listVistitCompanyProducts: '/product/listVistitCompanyProducts', // 获取店铺花型列表
     getProduct: '/product/getProduct' // 修改成分
   },
@@ -349,10 +351,9 @@ export function findNewCompanys(data) {
  * 搜索部分
  */
 // 文本搜索
-export function searchMtd(data) {
-  return _fetch(METHODS.post, data, API.search.search);
-}
-
+export const searchMtd = param => _fetch(METHODS.post, param, API.search.search);
+// 搜索记录列表(大家都在找)
+export const searchHistory = param => _fetch(METHODS.get, param, API.search.history);
 /**
  * 个人中心部分
  */
@@ -432,11 +433,11 @@ export function countProduct(data) {
 };
 
 // 收藏或取消
-export function favoriteBus(data) {
-  return _fetch(METHODS.post, data, API.collection.favoriteBus);
-};
+export const favoriteBus = param => _fetch(METHODS.post, param, API.collection.favoriteBus);
 // 批量取消收藏
 export const favoriteBatchCancel = param => _fetch(METHODS.post, param, API.collection.batchCancel);
+// 判断是否已收藏
+export const favoriteIsFavorite = param => _fetch(METHODS.get, param, API.collection.isFavorite);
 // 关闭求购
 export function closeProductBuy(data) {
   return _fetch(METHODS.post, data, API.buy.closeProductBuy);

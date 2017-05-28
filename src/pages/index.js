@@ -20,10 +20,6 @@ import supplyDetailPage from './homePage/supplyListPage/supplyDetailPage/supplyD
 
 // 更多优质厂家
 import entryListPage from './homePage/entryListPage/entryListPage';
-
-// 3D试衣
-import threeDDressPage from './threeDDressPage/threeDDressPage';
-
 // 个人中心
 import personalCenterPage from './personalCenterPage/personalCenterPage';
 
@@ -38,12 +34,11 @@ import promptDown from './totalPages/promptDown';
 export {
   homePage,
   textSearchResultPage,
-  threeDDressPage,
   personalCenterPage,
   loginPage,
   registerPage,
   forgotPasswordPage,
-	entryListPage,
+  entryListPage,
   releasePurchasePage,
   purchaseListPage,
   purchaseDetailPage,

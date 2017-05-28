@@ -30,6 +30,8 @@
        </template>
      </ts-grid-item>
   </ts-grid>
+  <pagination :page="pageData" @selectedPageNum="handleChangePage"></pagination>
+
 </div>
 </template>
 
@@ -56,6 +58,7 @@ export default {
         supplyTypes: null,
         supplyShapes: null
       },
+      pageData: {},
       CategoryList: [],
       ProductList: {}
     };
@@ -64,6 +67,11 @@ export default {
     Params: {
       async handler(val) {
         this.ProductList = (await getVisitCompanySupplyList(val)).data.data;
+        this.pageData = {
+          maxNum: this.ProductList.totalPage,
+          pageNO: this.ProductList.pageNO,
+          pageNumArr: []
+        };
       },
       deep: true
     }
@@ -75,7 +83,11 @@ export default {
   computed: {
     ...mapGetters(['dicTree'])
   },
-  methods: {}
+  methods: {
+    handleChangePage(number) {
+      this.Params.pageNo = number;
+    }
+  }
 };
 </script>
 

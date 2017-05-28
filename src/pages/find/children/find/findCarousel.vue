@@ -1,6 +1,6 @@
 <template lang="html">
 <div class="carousel-wrapper">
-  carousel
+  <!-- carousel -->
 </div>
 </template>
 
@@ -16,8 +16,8 @@ export default {
 }
   @component-namespace carousel{
     @component wrapper{
-      min-height: 40px;
-      border-bottom: 1px solid red;
+      /*min-height: 40px;*/
+      /*border-bottom: 1px solid red;*/
     }
   }
 </style>

@@ -1,4 +1,5 @@
 <template lang="html">
+  <!-- 悬浮条 -->
   <div class="hangBar-wrapper">
     <div class="hangBar-item is-title">
       <span>发现</span>

@@ -10,7 +10,7 @@
     <div class="supply-filter">
       <ts-filter title="分类">
         <ts-radio-group v-model="Filter.supplyStatus" @change="handleFilterSupplyStatus">
-          <ts-radio :label='null'>全部</ts-radio>
+          <ts-radio :label='null'>全部({{getToTal}})</ts-radio>
           <ts-radio :label="item.dicValue" :key="item.dicValue" v-for="item in DICT.SupplyStatus">
             <span v-if="item.dicValue===1">{{item.label}}({{companySupplyList.countSale}})</span>
             <span v-if="item.dicValue===2">{{item.label}}({{companySupplyList.countSaleOff}})</span>
@@ -183,7 +183,10 @@ export default {
     !this.getCookie(this.Cookie.key) ? this.setCookie(this.Cookie.key, this.Cookie.value, this.Cookie.day) : '';
   },
   computed: {
-    ...mapGetters(['dicTree'])
+    ...mapGetters(['dicTree']),
+    getToTal() {
+      return this.companySupplyList.countSale + this.companySupplyList.countSaleOff;
+    }
   },
   beforeDestroy() {
     sessionStorage.setItem('supply-filter', JSON.stringify(this.Filter));
