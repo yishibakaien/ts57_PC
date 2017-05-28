@@ -13,7 +13,7 @@
         <p class="brand-desc">海量厂家真实供货渠道</p>
       </div>
       <div class="brand-body">
-        <textarea class="input" maxlength="60" placeholder="请填写需求购买花型的详细描述，如花高，宽幅等信息" v-model="text"></textarea>
+      <ts-input type="textarea" :rows="6" :maxLength="60" placeholder="请填写需求购买花型的详细描述，如花高，宽幅等信息" v-model="text"></ts-input>
         <button @click="releaseSupply" class="button button-plain button-block button-plain-blue">发布供应</button>
       </div>
     </div>

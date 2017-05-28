@@ -7,33 +7,48 @@
       </router-link>
     </div>
     <div class="everyLooking-container">
-      <ts-grid :rows='3'>
-        <ts-grid-item v-for="product in 8" :key="product" @click="handleViewProduct(product)">
-          <ts-image
-           width="170"
-           height="170"
-           :canView="false"
-           disabledHover
-           src="https://ss0.bdstatic.com/-0U0bnSm1A5BphGlnYG/tam-ogel/6e5157df050b7a94d30b7418bd54f92a_121_121.jpg">
-           </ts-image>
-           <p class="everyLooking-product--number">#20001</p>
-           <template slot="footer">
-             <span>面料</span>
-             <ts-tag>有库存</ts-tag>
-           </template>
-         </ts-grid-item>
+      <ts-grid :data="History.list">
+         <ts-grid-item v-for="(product,index) in History.list" :key="product" @click="handleViewProduct(product.productId)">
+           <ts-image
+            width="170"
+            height="170"
+            :canView="false"
+            disabledHover
+            :src="product.defaultPicUrl">
+            </ts-image>
+            <template slot="footer" class="everyLooking-footer">
+              <p>{{product.category | filterDict(dicTree.PRODUCT_TYPE,'name')}}</p>
+              <p class="everyLooking-footer--time">{{product.createDate | customTime}}</p>
+            </template>
+          </ts-grid-item>
       </ts-grid>
     </div>
   </ts-section>
 </template>
 
 <script>
+import {
+  searchHistory
+} from '@/common/api/api';
+import {
+  mapGetters
+} from 'vuex';
 export default {
-  methods: {
-    // 进去某个商品
-    handleViewProduct(item) {},
-    // 进去店铺
-    handleViewStore(item) {}
+  data() {
+    return {
+      History: {},
+      Params: {
+        pageNO: 1,
+        pageSize: 5
+      },
+      BurstHotSearch: {}
+    };
+  },
+  computed: {
+    ...mapGetters(['dicTree'])
+  },
+  async created() {
+    this.History = (await searchHistory(this.Params)).data.data;
   }
 };
 </script>
@@ -93,6 +108,12 @@ export default {
     @modifier number{
       font-size: 16px;
       line-height: 40px;
+    }
+  }
+  @component footer{
+    @modifier time{
+      color:#999999;
+      font-size: 12px;
     }
   }
   @component list{

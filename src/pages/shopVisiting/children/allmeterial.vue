@@ -24,6 +24,7 @@
        </template>
      </ts-grid-item>
   </ts-grid>
+  <pagination :page="pageData" @selectedPageNum="handleChangePage"></pagination>
 </div>
 </template>
 
@@ -55,10 +56,22 @@ export default {
         companyId: ''
       },
       CategoryList: [],
-      ProductList: {}
+      ProductList: {},
+      pageData: {}
     };
   },
   watch: {
+    Params: {
+      async handler(val) {
+        this.ProductList = (await getVistitCompanyProductsList(val)).data.data;
+        this.pageData = {
+          maxNum: this.ProductList.totalPage,
+          pageNO: this.ProductList.pageNO,
+          pageNumArr: []
+        };
+      },
+      deep: true
+    },
     Filter: {
       // 如果选择全部 => 获取店铺花型列表
       // 如果有值 => 店铺分类绑定的花型列表
@@ -76,8 +89,6 @@ export default {
   async created() {
     // 绑定好公司ID
     this.Params.companyId = this.$route.params.id;
-    // 查全部
-    this.ProductList = (await getVistitCompanyProductsList(this.Params)).data.data;
     // ==========
     // 分类
     // 当不存在自定义分类=>查系统的
@@ -98,7 +109,10 @@ export default {
     ...mapGetters(['dicTree'])
   },
   methods: {
-    handleFilterCategorys() {}
+    handleFilterCategorys() {},
+    async handleChangePage(number) {
+      this.Params.pageNo = number;
+    }
   }
 };
 </script>

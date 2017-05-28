@@ -1,5 +1,5 @@
 <template>
-<div class="ts-navbar">
+<div class="ts-navbar onepx-b">
   <slot></slot>
 </div>
 </template>

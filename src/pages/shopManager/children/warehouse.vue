@@ -16,7 +16,7 @@
     <div class="warehouse-filter">
       <ts-filter title="分类">
         <ts-radio-group v-model="Filter.publishStatuss" @change="handleFilterPublishStatus">
-          <ts-radio :label="null">全部</ts-radio>
+          <ts-radio :label="null">全部({{getToTal}})</ts-radio>
           <ts-radio :label="item.dicValue" :key="item.value" v-for="item in DICT.PublishStatus" v-if="item.dicValue!==2||getIsStore">
             <span v-if="item.dicValue===2">{{item.label}}({{productList.platform}})</span>
             <span v-if="item.dicValue===1">{{item.label}}({{productList.shop}})</span>
@@ -202,6 +202,9 @@ export default {
     // 判断是否档口
     getIsStore() {
       return this.userInfo.userType !== 2;
+    },
+    getToTal() {
+      return this.productList.platform + this.productList.shop + this.productList.repository;
     }
   },
   watch: {
@@ -229,8 +232,8 @@ export default {
     }
     // 获取花型列表
     this.productList = (await getProductList(this.Params)).data.data;
-      // 默认创建一个cookie
-      !this.getCookie(this.Cookie.key) ? this.setCookie(this.Cookie.key, this.Cookie.value, this.Cookie.day) : '';
+    // 默认创建一个cookie
+    !this.getCookie(this.Cookie.key) ? this.setCookie(this.Cookie.key, this.Cookie.value, this.Cookie.day) : '';
   },
   beforeDestroy() {
     sessionStorage.setItem('warehouse-filter', JSON.stringify(this.Filter));

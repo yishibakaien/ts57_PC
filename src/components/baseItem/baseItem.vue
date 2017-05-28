@@ -115,12 +115,12 @@ export default {
   height 323px
   padding 16px
   background #fff
-  border-left 1px solid #d8d8d8
+  border-left 1px solid #eaeaea
   cursor pointer
+  transition .8s
   &:hover
     position relative
-    border 1px solid rgba(76, 147, 253, 0.8)
-    box-shadow 0 0 5px rgba(76, 147, 253, 0.8)
+    box-shadow 0 2px 4px 0 rgba(76,147,253,0.30), 0 0 6px 0 rgba(76,147,253,0.30)
     z-index 1
   .img-container
     width 200px

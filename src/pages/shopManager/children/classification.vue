@@ -15,7 +15,7 @@
     <div class="classification-filter">
       <ts-filter title="分类">
         <ts-radio-group v-model="Params.classId">
-          <ts-radio :label="item.id" v-for="item in ProductCategory" :key="item.id">{{item.className}}</ts-radio>
+          <ts-radio :label="item.id" v-for="item in ProductCategory" :key="item.id">{{item.className}}({{item.bindingCount}})</ts-radio>
         </ts-radio-group>
       </ts-filter>
     </div>

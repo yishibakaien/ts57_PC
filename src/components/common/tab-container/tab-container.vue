@@ -57,3 +57,10 @@ export default {
   }
 };
 </script>
+<style scoped>
+  @component-namespace ts{
+    @component tab-container{
+          margin-top: 10px;
+    }
+  }
+</style>

@@ -7,7 +7,7 @@
       <ts-form-item label="城市：">
         <p v-if="Text.show" class="addressinfo-formItem-text">{{companyInfo.province | filterArea(Area.province)}} - {{companyInfo.city | filterArea(Area.city)}}</p>
         <div v-else>
-          <ts-select style="width:20%" data-key-name="areaName" data-val-name="areaCode" placeholder="选择省份" :options='Area.province' v-model="addressInfoForm.province"></ts-select>
+          <ts-select style="width:20%" data-key-name="areaName" data-val-name="areaCode" placeholder="选择省份" :options='Area.province' v-model="addressInfoForm.province" @change='handleChooseProvince'></ts-select>
           <ts-select style="width:20%" data-key-name="areaName" data-val-name="areaCode" placeholder="选择城市"
             :options='Area.city'
             v-model="addressInfoForm.city"></ts-select>
@@ -89,18 +89,21 @@ export default {
     };
   },
   watch: {
-    async 'addressInfoForm.province' (val) {
-      this.Area.city = (await getAreabyParent({
-        areaCode: val
-      })).data.data;
-      this.addressInfoForm.city = this.Area.city[0].areaCode;
-    },
     // companyExtendBO的数据要深拷贝获取
     companyInfo: {
-      handler(val) {
+      async handler(val) {
         this.addressInfoForm = val;
         this.map.mapCenter = ((val.lng + val.lat).length === 0) ? this.map.mapCenter : [Number(val.lng), Number(val.lat)];
         this.map.markers.push(this.map.mapCenter);
+        // 省
+        this.Area.province = (await getAreabyLevel(0)).data.data;
+        this.Area.city = (await getAreabyParent({
+          areaCode: this.addressInfoForm.province
+        })).data.data;
+        if (!val.province || !val.city) {
+          this.addressInfoForm.province = this.Area.province[0].areaCode;
+          this.addressInfoForm.city = this.Area.city[0].areaCode;
+        }
       },
       deep: true
     }
@@ -126,24 +129,36 @@ export default {
     }
   },
   methods: {
+    // 编辑&保存地址
     async handleEditAddress() {
       this.Text.show = !this.Text.show;
       if (this.Text.show) {
         updateCompany(this.addressInfoForm);
       }
     },
+    // 当选择了省
+    async handleChooseProvince(val) {
+      this.Area.city = (await getAreabyParent({
+        areaCode: val.id
+      })).data.data;
+      this.addressInfoForm.city = this.Area.city[0].areaCode;
+    },
+    // 地图---添加地图坐标
     addMarker() {
       let lng = 121.5 + Math.round(Math.random() * 1000) / 10000;
       let lat = 31.197646 + Math.round(Math.random() * 500) / 10000;
       this.map.markers.push([lng, lat]);
     },
+    // 对话框---取消编辑地图
     handleCancelEditMap() {
       this.map.show = false;
       this.map.mapCenter = [Number(this.companyInfo.lng), Number(this.companyInfo.lat)];
     },
+    // 对话框---确定修改地图
     handleConfirmEditMap() {
       this.map.show = false;
     },
+    // 地图---搜索
     onSearchResult(pois) {
       let latSum = 0;
       let lngSum = 0;
@@ -166,13 +181,10 @@ export default {
         this.addressInfoForm.lat = center.lat;
       }
     },
+    // 对话框 ---显示地图
     handleMapXY() {
       this.map.show = true;
     }
-  },
-  async created() {
-    this.Area.province = (await getAreabyLevel(0)).data.data;
-    this.addressInfoForm.province = this.Area.province[0].areaCode;
   }
 };
 </script>

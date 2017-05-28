@@ -5,7 +5,7 @@
     <slot></slot>
   </div>
 </template>
-
+ 
 <script>
 /**
  * ts-tab-container-item

@@ -23,7 +23,7 @@
           <p>新增<span>{{store.newCount}}</span>款／共<span>{{store.totalCount}}</span>款</p>
           <p>{{ getPublishDate | customTime }}</p>
         </div>
-        <ts-grid>
+        <ts-grid :data="store.productList">
           <ts-grid-item v-for="product in store.productList" :key="product" @click="handleViewProduct(product.id)" :style="{'width':width}">
             <ts-image
              width="170"
