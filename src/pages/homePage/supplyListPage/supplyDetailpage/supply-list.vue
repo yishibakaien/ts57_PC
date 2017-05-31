@@ -6,7 +6,7 @@
 		<div class="title title1" v-else>
 			<img :src="item.userHeadIcon" v-errorImg class="fl" alt="用户头像" />
 			<p class="name">{{item.userName}}</p>
-			<p class="buyNum">Ta的总供应数：<em>{{obj.totalNum}}个</em> <span class="entryShop">进店逛逛</span></p>
+			<p class="buyNum">Ta的总供应数：<em>{{obj.totalNum}}个</em> <span class="entryShop" @click="goStore">进店逛逛</span></p>
 		</div>
 		<div class="content">
 			<div class="listImg" v-for="(e, index) in obj.list" @click="goDetail(index)">
@@ -113,6 +113,15 @@
 			// 跳转详情页
 			goDetail(e) {
 				window.open('#/supplyDetailPage?supplyId=' + this.obj.list[e].id);
+			},
+			// 访问店铺
+			goStore() {
+				this.$router.push({
+					name: 'shop',
+					params: {
+						id: this.item.companyId
+					}
+				});
 			}
 		}
 	};

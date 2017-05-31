@@ -5,32 +5,32 @@
 		</v-header>
 		<v-nav></v-nav>
 		<div class="release-purchase-page-box">
-				<h4 class="title">{{title}}</h4>
-				<div class="ts-form-box">
-					<ts-form :model="addBuyForm" :rules="rules" ref="addBuyForm" label-width="140px" label-position="left">
+			<h4 class="title">{{title}}</h4>
+			<div class="ts-form-box">
+				<ts-form :model="addBuyForm" :rules="rules" ref="addBuyForm" label-width="140px" label-position="left">
 					<ts-form-item label="花型分类：" prop="buyType">
 						<ts-radio-group bordered v-model="addBuyForm.buyType">
-							<ts-radio :label="item.dicValue" v-for="item in dicTree.PRODUCT_TYPE" :key="item.dicValue">{{item.name}}</ts-radio>
+							<ts-radio @change.native="handleSelect" origin :label="item.dicValue" v-for="item in dicTree.PRODUCT_TYPE" :key="item.dicValue">{{item.name}}</ts-radio>
 						</ts-radio-group>
 					</ts-form-item>
 					<ts-form-item label="大货类型：" prop="buyShapes">
 						<ts-radio-group bordered v-model="addBuyForm.buyShapes">
-							<ts-radio origin :label="item.dicValue" :key="item.dicValue" v-for="item in dicTree.PRODUCT_SHAPE">{{item.name}}</ts-radio>
+							<ts-radio @change.native="handleSelect" origin :label="item.dicValue" :key="item.dicValue" v-for="item in dicTree.PRODUCT_SHAPE">{{item.name}}</ts-radio>
 						</ts-radio-group>
 					</ts-form-item>
 					<ts-form-item label="是否接受开机：" prop="isStartUp">
 						<ts-radio-group bordered v-model="addBuyForm.isStartUp">
-							<ts-radio origin :label="item.dicValue" :key="item.dicValue" v-for="item in DICT.BuyStatus">{{item.label}}</ts-radio>
+							<ts-radio @change.native="handleSelect" origin :label="item.dicValue" :key="item.dicValue" v-for="item in DICT.BuyStatus">{{item.label}}</ts-radio>
 						</ts-radio-group>
 					</ts-form-item>
 					<ts-form-item label="求购数量：" prop="buyNum">
-						<ts-input v-model="addBuyForm.buyNum" style="width:320px"></ts-input>
+						<ts-input :maxlength='9' v-model="addBuyForm.buyNum" style="width:320px"></ts-input>
 						<ts-select style="width:12%" data-key-name="name" data-val-name="dicValue" :options='CopyDICTUnit' v-model="addBuyForm.buyUnit"></ts-select>
 					</ts-form-item>
 					<ts-form-item label="花型图片：" prop="buyPicUrl">
 						<ts-image width="200" height="200" :src="addBuyForm.buyPicUrl" v-show='Pic.show' type="local"></ts-image>
 						<label class="add-upload-button" for="addPic">{{Pic.text}}</label>
-            			<aliUpload id="addPic" @doUpload="uploadImg"></aliUpload>
+						<aliUpload id="addPic" @doUpload="uploadImg"></aliUpload>
 					</ts-form-item>
 					<ts-form-item label="求购说明：" prop="buyDesc">
 						<ts-input type="textarea" :rows="4" :maxlength='200' v-model="addBuyForm.buyDesc" placeholder="请输入供应说明"></ts-input>
@@ -39,7 +39,7 @@
 				<div slot="footer" style="margin-left: 140px;">
 					<ts-button type="primary" class="add-bottom-button" @click="submitForm('addBuyForm')">{{title}}</ts-button>
 				</div>
-				</div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -51,9 +51,9 @@
 		nav,
 		search
 	} from '@/components';
-	import {releaseProductBuy} from '@/common/api/api';
-	import {ALI_DOMAIN} from '@/common/dict/const';
-	import {mapGetters} from 'vuex';
+	import { releaseProductBuy } from '@/common/api/api';
+	import { ALI_DOMAIN } from '@/common/dict/const';
+	import { mapGetters } from 'vuex';
 	export default {
 		data() {
 			return {
@@ -116,68 +116,54 @@
 			};
 		},
 		watch: {
-			'addBuyForm.buyPicUrl' (val) {
-				this.Pic.text = val ? '修改图片' : '添加图片';
-				this.Pic.show = !!val;
-			},
-			'addBuyForm.buyType' (val) {
-				let PTJM = '100013';
-				let PUT = '400012';
-				let PSPB = '200010';
-				let PUSG = '400011';
-				// 如果面料是睫毛 => 那就显示‘条’单位
-				if (val !== PTJM) {
-					this.CopyDICTUnit = this.CopyDICTUnit.filter(item => item.dicValue !== PUT);
-				} else if (this.addBuyForm.productShape === PSPB) {
-					// 如果有选了胚布 => 那就只显示公斤
-					this.CopyDICTUnit = this.CopyDICTUnit.filter(item => item.dicValue === PUSG);
-				} else {
-					// 如果不是睫毛 => 显示所有
-					this.CopyDICTUnit = JSON.parse(JSON.stringify(this.dicTree.PRODUCT_UNIT));
-				}
-				this.addBuyForm = Object.assign({}, this.addBuyForm, {
-					stockUnit: this.CopyDICTUnit[0].dicValue
-				});
-			},
-			'addBuyForm.supplyShapes' (val) {
-				let PSPB = '200010';
-				let PUSG = '400011';
-				let PUT = '400012';
-				let PTJM = '100013';
-				// 如果是胚布 => 只显示公斤
-				if (val === PSPB) {
-					this.CopyDICTUnit = this.CopyDICTUnit.filter(item => item.dicValue === PUSG);
-				} else if (this.addBuyForm.category === PTJM) {
-					// 如果面料是睫毛 => 把‘条’也显示
-					this.CopyDICTUnit = this.dicTree.PRODUCT_UNIT;
-				} else {
-					// 什么没选的情况下 => 条是隐藏的
-					this.CopyDICTUnit = this.dicTree.PRODUCT_UNIT.filter(item => item.dicValue !== PUT);
-				}
-				this.addBuyForm = Object.assign({}, this.addBuyForm, {
-					buyUnit: this.CopyDICTUnit[0].dicValue
-				});
+			addBuyForm: {
+				handler(val, oldVal) {
+					let PTJM = '100013';
+					let PUT = '400012';
+					let PSPB = '200010';
+					let PUSG = '400011';
+					// ========
+					// 1.上传图片
+					if (val.buyPicUrl) {
+						this.Pic.text = val.buyPicUrl ? '修改图片' : '添加图片';
+						this.Pic.show = !!val.buyPicUrl;
+					}
+					// ==========
+					// 4.面料改变的时候
+					if (val.buyType !== PTJM) {
+						this.CopyDICTUnit = this.CopyDICTUnit.filter(item => item.dicValue !== PUT);
+					} else if (val.buyShapes === PSPB) {
+						// 如果有选了胚布 => 那就只显示公斤
+						this.CopyDICTUnit = this.CopyDICTUnit.filter(item => item.dicValue === PUSG);
+					} else {
+						// 如果不是睫毛 => 显示所有
+						this.CopyDICTUnit = JSON.parse(JSON.stringify(this.dicTree.PRODUCT_UNIT));
+					}
+					// =========
+					// 5.如果是胚布 => 只显示公斤
+					if (val.buyShapes === PSPB) {
+						this.CopyDICTUnit = this.CopyDICTUnit.filter(item => item.dicValue === PUSG);
+					} else if (val.buyType === PTJM) {
+						// 如果面料是睫毛 => 把‘条’也显示
+						this.CopyDICTUnit = this.dicTree.PRODUCT_UNIT;
+					} else {
+						// 什么没选的情况下 => 条是隐藏的
+						this.CopyDICTUnit = this.dicTree.PRODUCT_UNIT.filter(item => item.dicValue !== PUT);
+					}
+					val.stockUnit = this.CopyDICTUnit[0].dicValue;
+				},
+				deep: true
 			}
-//			dicTree (val) {
-//				let units = JSON.parse(JSON.stringify(this.dicTree.PRODUCT_UNIT));
-//				this.CopyDICTUnit = units.filter(item => item.dicValue !== '400012');
-//			}
 		},
 		async created() {
-//			console.log(this.$route.query.text);
 			if (this.$route.query.text) {
 				this.addBuyForm.buyDesc = this.$route.query.text;
 			};
 			if (this.$route.query.obj) {
-				this.addBuyForm.buyType = this.$route.query.obj.buyType;
-				this.addBuyForm.buyUnit = this.$route.query.obj.buyUnit;
-				this.addBuyForm.buyShapes = this.$route.query.obj.buyShape;
-				this.addBuyForm.isStartUp = this.$route.query.obj.isStartUp;
-				this.addBuyForm.buyNum = this.$route.query.obj.buyNum;
-				this.addBuyForm.buyDesc = this.$route.query.obj.buyDesc;
-				this.addBuyForm.buyPicUrl = this.$route.query.obj.buyPicUrl;
+				this.addBuyForm = this.$route.query.obj;
+				this.addBuyForm.buyType = this.$route.query.obj.buyType.toString();
+				this.addBuyForm.buyShapes = this.$route.query.obj.buyShape.toString();
 			};
-			console.log(this.$route.query.obj);
 			// 默认选择公斤
 			this.addBuyForm.buyUnit = 400011;
 			// TODO:编辑页面 => 后台并没有提供接口
@@ -187,7 +173,7 @@
 			// }
 			// ======
 			// 库存单位 首先隐藏条 当选择面料为睫毛的时候才显示
-//			console.log(this.dicTree.PRODUCT_UNIT);
+			//			console.log(this.dicTree.PRODUCT_UNIT);
 			let units = JSON.parse(JSON.stringify(this.dicTree.PRODUCT_UNIT));
 			this.CopyDICTUnit = units.filter(item => item.dicValue !== '400012');
 			// ======
@@ -209,6 +195,11 @@
 			}
 		},
 		methods: {
+			handleSelect() {
+				this.$nextTick(() => {
+					this.addBuyForm.buyUnit = this.CopyDICTUnit[0].dicValue;
+				});
+			},
 			// 上传图片
 			uploadImg(e) {
 				// 显示Base64

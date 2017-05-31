@@ -2,7 +2,7 @@
   <div class="base-item-wrapper">
     <div class="base-item" :itemId="item.id" @click="itemClick(item.id)">
       <div class="img-container">
-        <img class="item-image" v-lazy="picUrl">
+        <img class="item-image" :src="picUrl?picUrl:'/static/images/assets/defaultFlower.svg'">
       </div>
       <div class="item-desc">
         <h2 class="desc-title">{{productNo}}{{typeComputed}} {{num}}{{unit}}</h2>

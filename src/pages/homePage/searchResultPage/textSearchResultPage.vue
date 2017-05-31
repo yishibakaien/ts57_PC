@@ -33,7 +33,7 @@
 				</ts-filter>
 			</div>
 			<div class="result-container clearfix">
-				<div class="result-item-wrapper" v-for="item in items">
+				<div class="result-item-wrapper" v-for="(item, index) in items" @click="goDetail(index)">
 					<base-item :item="item" :type="'searchText'"></base-item>
 				</div>
 			</div>
@@ -219,6 +219,14 @@
 //					_data.stockType = localStorage.stockType || 0;
 //					this.$store.commit(types.SEARCH_RESULT, _data);
 //				});
+			},
+			goDetail(e) {
+				this.$router.push({
+					path: '/flowerDetailPage',
+					query: {
+						flowerId: this.items[e].id
+					}
+				});
 			}
 		}
 	};

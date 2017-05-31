@@ -31,7 +31,7 @@
 					<p class="statusSty" v-if="item.status == 3" @click="openModel(index)">删除</p>
 				</div>
 				<p class="info">{{item.leaveWord}}</p>
-				<p><span>求购 <i>{{item.productBuyBO.buyNum}}</i> 码</span><span class="time">{{item.createDate | customTime}}</span></p>
+				<p><span>求购 <i>{{item.productBuyBO.buyNum}}</i> 码</span><span class="time">{{item.productBuyBO.createDate | customTime}}</span></p>
 				<div class="tipsModel" v-show="item.tipShow">
 					<div v-if="item.status == 1">
 						<p>确认取消接单？</p>
