@@ -1,20 +1,20 @@
 <template>
 	<div class="entryList-item">
 		<div class="entryList-item-title">
-			<span>你好我好大家好</span>
+			<span>{{obj.companyName}}</span>
 			<router-link to="homePage">查看更多 ></router-link>
 		</div>
 		<div class="entryList-item-box clearfix">
 			<div class="dianpu-content fl">
-				<img src="../../../components/common/toast/icon/success.svg" alt="店铺LOGO"/>
-				<span>访问店铺</span>
+				<img :src="obj.companyHeadIcon" v-errorLogo alt="店铺LOGO"/>
+				<span @click="goStore">访问店铺</span>
 			</div>
-			<div v-for="item in [1,2,3,4,5]" class="dianpuList-item fl">
-				<img src="../../../../static/images/assets/clock.svg" alt="花型展示图片"/>
-				<span class="version">#20001</span>
+			<div v-for="item in obj.products" class="dianpuList-item fl">
+				<img v-lazy="item.defaultPicUrl" alt="花型展示图片"/>
+				<span class="version">{{item.productNo}}</span>
 				<p>
-					<span class="classes fl">面料</span>
-					<span class="yesOrNo fr">有库存</span>
+					<span class="classes fl">{{item.category | type}}</span>
+					<span class="yesOrNo fr">{{item.isStock | isStock}}</span>
 				</p>
 			</div>
 		</div>
@@ -23,9 +23,19 @@
 
 <script>
 	export default {
-		porps: {
-			item: {
+		props: {
+			obj: {
 				type: Object
+			}
+		},
+		methods: {
+			goStore() {
+				this.$router.push({
+					name: 'shop',
+					params: {
+						id: this.obj.id
+					}
+				});
 			}
 		}
 	};
@@ -43,7 +53,6 @@
 	line-height: 48px;
 	background: #f8f8f8;
 	border: 1px solid #e5e5e5;
-	border-bottom: 0;
 	a {
 		position: absolute;
 		right: 18px;
@@ -61,6 +70,7 @@
 		width: 200px;
 		height: 276px;
 		border: 1px solid #e5e5e5;
+		border-top: 0;
 		text-align: center;
 		img {
 			padding: 44px 0 60px;
@@ -86,6 +96,7 @@
 		height: 276px;
 		border: 1px solid #e5e5e5;
 		border-left: 0;
+		border-top: 0;
 		img {
 			display: inline-block;
 			margin: 13px;

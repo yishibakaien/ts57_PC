@@ -175,3 +175,15 @@ export const productStatus = item => {
 	}
 	return productStatusStr;
 };
+
+// 是否有库存
+export const isStock = item => {
+	let isStockStr;
+	if (item === 1) {
+		isStockStr = '有库存';
+	}
+	if (item === 0) {
+		isStockStr = '需要开机';
+	}
+	return isStockStr;
+};
