@@ -1,14 +1,14 @@
 <template>
 	<div class="text-search-result-page">
 		<v-header>
-			<search @searchText="search" :text="param.keywords"></search>
+			<search @searchText="search"></search>
 		</v-header>
 		<v-nav></v-nav>
 		<div class="text-search-result-page-box">
 			<p class="search-value">全部结果 > {{param.keywords}}</p>
 			<!-- 筛选器 -->
 			<div style="background: #fff;">
-				<ts-filter title="求购分类">
+				<ts-filter title="分类">
 					<ts-radio-group v-model="Filter.categorys" @change="hanleFilterSort">
 						<ts-radio label="null">全部</ts-radio>
 						<ts-radio label="100010">面料</ts-radio>
@@ -17,14 +17,14 @@
 						<ts-radio label="100013">睫毛</ts-radio>
 					</ts-radio-group>
 				</ts-filter>
-				<ts-filter title="采购布样">
+				<ts-filter title="成分">
 					<ts-radio-group v-model="Filter.ingredient" @change="hanleFilterFabric">
 						<ts-radio label="null">全部</ts-radio>
 						<ts-radio label="锦纶">锦纶</ts-radio>
 						<ts-radio label="锦氨">锦氨</ts-radio>
 					</ts-radio-group>
 				</ts-filter>
-				<ts-filter title="接受开机">
+				<ts-filter title="库存盘点">
 					<ts-radio-group v-model="Filter.isStock" @change="handleFilterSupplyShapes">
 						<ts-radio label="null">全部</ts-radio>
 						<ts-radio label="1">有库存</ts-radio>
@@ -62,9 +62,9 @@
 		data() {
 			return {
 				Filter: {
-					categorys: '',
-					ingredient: '',
-					isStock: ''
+					categorys: 'null',
+					ingredient: 'null',
+					isStock: 'null'
 				},
 				param: {
 					categorys: '', // 面料 100010 大边100011 小边100012 睫毛100013
@@ -113,9 +113,12 @@
 			} else {
 				this.param.keywords = localStorage.searchText;
 			}
-			this.param.category = localStorage.category || '';
-			this.param.isStock = localStorage.isStock || '';
-			this.param.ingredient = localStorage.ingredient || '';
+//			this.param.category = localStorage.category || '';
+//			this.param.isStock = localStorage.isStock || '';
+//			this.param.ingredient = localStorage.ingredient || '';
+//			this.Filter.categorys = localStorage.category || '';
+//			this.Filter.ingredient = localStorage.ingredient || '';
+//			this.Filter.isStock = localStorage.isStock || '';
 			searchMtd(this.param).then((res) => {
 				if (res.data.code === 0) {
 					console.log(res);
@@ -123,7 +126,7 @@
 					this.pageData.pageNO = res.data.data.pageNO;
 					this.pageData.maxNum = res.data.data.totalPage;
 					localStorage.setItem('searchText', this.param.keywords);
-					localStorage.setItem('category', this.param.category);
+					localStorage.setItem('category', this.param.categorys);
 					localStorage.setItem('isStock', this.param.isStock);
 					localStorage.setItem('ingredient', this.param.ingredient);
 				}
@@ -162,7 +165,6 @@
 				this.search();
 			},
 			handleFilterSupplyShapes(e) {
-				console.log(e);
 				if (e === 'null') {
 					this.param.isStock = null;
 				} else {
@@ -191,6 +193,10 @@
 						this.items = res.data.data.list;
 						this.pageData.pageNO = res.data.data.pageNO;
 						this.pageData.maxNum = res.data.data.totalPage;
+//						localStorage.setItem('searchText', this.param.keywords);
+//						localStorage.setItem('category', this.param.categorys);
+//						localStorage.setItem('isStock', this.param.isStock);
+//						localStorage.setItem('ingredient', this.param.ingredient);
 					}
 				}).catch();
 			},

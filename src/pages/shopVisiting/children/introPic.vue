@@ -5,7 +5,7 @@
       <ts-image :canView="false" disabledHover width="500" height="250" class="factory-company--cover" :src="companyInfo.companyBanner"></ts-image>
     </div>
     <div class="introPic-wrapper-right">
-      <div class="introPic-company-header onepx">
+      <div class="introPic-company-header">
         <!-- 公司名称 -->
         <ts-image shape="round" :canView="false" disabledHover width="50" height="50" :src="companyInfo.companyHeadIcon"></ts-image>
         <p class="introPic-company-title">{{companyInfo.companyName}}</p>
@@ -145,6 +145,7 @@ export default {
     }
     @descendent header{
       padding: 16px;
+      border: 1px solid rgba(155,155,155,.1);
     }
     @descendent content{
       @when line{
