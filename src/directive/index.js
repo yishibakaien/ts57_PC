@@ -16,8 +16,20 @@ export const loadImg = {
     };
   }
 };
-// 加载错误图片
+// 加载错误图片(头像)
 export const errorImg = value => {
+  if (!value) {
+    return;
+  }
+  value.onerror = function() {
+    value.src = '/static/images/assets/defaultHeadIcon.svg';
+  };
+  value.src = (!value.src)
+    ? '/static/images/assets/defaultHeadIcon.svg'
+    : value.src;
+};
+// 加载错误图片(公司logo)
+export const errorLogo = value => {
   if (!value) {
     return;
   }

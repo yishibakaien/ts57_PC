@@ -12,12 +12,12 @@
 					<span>更多厂家</span>
 				</div>
 				<div class="entry-box">
-					<entryListItem v-for="item in items" :key="item"></entryListItem>
+					<entryListItem v-for="item in items" :key="item" :obj="item"></entryListItem>
 				</div>
 			</div>
 		</div>
 	</div>
-	</div>
+</div>
 </template>
 
 <script>

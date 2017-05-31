@@ -72,8 +72,7 @@
 					{
 						context: '短信设置',
 						itemName: 'personalMessage',
-						isActive: false,
-						isBorder: 'ok'
+						isActive: false
 					},
 					{
 						context: '我的求购',
@@ -233,6 +232,14 @@
 		}
 		.personal-nav-b {
 			&::after {
+				content: '';
+				display: block;
+				margin: 28px auto;
+				height: 1px;
+				width: 112px;
+				background: #d1d1d1;
+			}
+			&::before {
 				content: '';
 				display: block;
 				margin: 28px auto;
