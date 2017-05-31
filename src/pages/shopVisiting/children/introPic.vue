@@ -60,7 +60,6 @@ import {
   mapGetters
 } from 'vuex';
 import {
-  favoriteBatchCancel,
   favoriteBus
 } from '@/common/api/api';
 import QrcodeVue from 'qrcode.vue';
@@ -75,24 +74,13 @@ export default {
     };
   },
   methods: {
+      // 收藏店铺
     async handleCollectStore() {
-      if (this.getIsCollect) {
-        let res = await favoriteBatchCancel({
-          busIds: this.$route.params.id,
-          businessType: this.companyInfo.companyType
-        });
-        if (!res.data.code) {
-          this.companyInfo.favoriteSatus = 0;
-        }
-      } else {
-        let res = await favoriteBus({
-          businessId: this.$route.params.id,
-          businessType: this.companyInfo.companyType
-        });
-        if (!res.data.code) {
-          this.companyInfo.favoriteSatus = 1;
-        }
-      }
+      let res = (await favoriteBus({
+        businessId: this.$route.params.id,
+        businessType: this.companyInfo.companyType
+      })).data;
+      this.companyInfo.favoriteSatus = res.message.indexOf('收藏') >= 0 ? 1 : 0;
     }
   },
   computed: {
