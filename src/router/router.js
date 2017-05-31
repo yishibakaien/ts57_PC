@@ -4,8 +4,7 @@ import * as types from '../store/types';
 import store from '../store/store';
 
 import {
-  homePage,
-  textSearchResultPage,
+  homePage, textSearchResultPage,
   // threeDDressPage,
   personalCenterPage,
   loginPage,
@@ -25,6 +24,7 @@ Vue.use(Router);
 // created By HZC
 // =============
 // 3D
+const clause = r => require.ensure([], () => r(require('@/pages/clause/')), 'clause');
 const threeDDress = r => require.ensure([], () => r(require('@/pages/3DDress/')), 'threeDDress');
 // 店铺访问
 const shopVisiting = r => require.ensure([], () => r(require('@/pages/shopVisiting/')), 'shopVisiting');
@@ -65,6 +65,10 @@ const routes = [
   {
     path: '/',
     redirect: '/homePage'
+  }, {
+    path: '/clause',
+    component: clause,
+    name: '条款'
   }, {
     path: '/homePage',
     component: homePage
