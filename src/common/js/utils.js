@@ -139,7 +139,7 @@ export default {
 // =============
 // 按钮状态
 export const btnStatus = (el, btnText) => {
-  let s = 5;
+  let s = 60;
   const obj = el.target;
   const timer = setInterval(() => {
     s--;
@@ -151,7 +151,7 @@ export const btnStatus = (el, btnText) => {
       obj.disabled = false;
       obj.style.background = '#4c93fd';
       obj.innerText = '获取验证码';
-      s = 5;
+      s = 60;
     }
   }, 1000);
 };

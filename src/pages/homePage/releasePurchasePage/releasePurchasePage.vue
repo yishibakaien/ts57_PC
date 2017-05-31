@@ -33,7 +33,7 @@
 						<aliUpload id="addPic" @doUpload="uploadImg"></aliUpload>
 					</ts-form-item>
 					<ts-form-item label="求购说明：" prop="buyDesc">
-						<ts-input type="textarea" :rows="4" :maxlength='200' v-model="addBuyForm.buyDesc" placeholder="请输入供应说明"></ts-input>
+						<ts-input type="textarea" :rows="4" :maxlength='200' v-model="addBuyForm.buyDesc" placeholder="请输入求购说明"></ts-input>
 					</ts-form-item>
 				</ts-form>
 				<div slot="footer" style="margin-left: 140px;">
@@ -74,7 +74,7 @@
 					buyNum: [{
 						required: true,
 						pattern: /^[0-9]*$/,
-						message: '请输入正确的供应数量'
+						message: '请输入正确的求购数量'
 					}],
 					isStartUp: [{
 						required: true,
@@ -86,11 +86,11 @@
 					}],
 					buyDesc: [{
 						required: true,
-						message: '请输入供应说明（最多50个字）'
+						message: '请输入求购说明（最多50个字）'
 					}, {
 						min: 1,
 						max: 50,
-						message: '请输入1-200个字'
+						message: '请输入1-50个字'
 					}],
 					buyPicUrl: [{
 						required: true,
@@ -213,7 +213,9 @@
 				this.$refs[formName].validate(async(valid) => {
 					if (valid) {
 						await releaseProductBuy(this.addBuyForm);
-						await this.$router.go(-1);
+						await this.$router.push({
+							path: '/purchaseListPage'
+						});
 					} else {
 						return false;
 					}
