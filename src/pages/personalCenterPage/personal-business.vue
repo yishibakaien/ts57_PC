@@ -16,7 +16,7 @@
 						<i class="trade"  v-if="item.companyType === 2">贸</i>
 						{{item.companyName}}
 					</span>
-					<a>查看全部{{ '(' + item.productCount + ')' }} > </a>
+					<a>查看全部({{item.productCount || 0}}) > </a>
 				</div>
 				<div class="hotSell clearfix">
 					<div class="hotSellItem" v-for="hotSellItem in item.productBOS" v-show="item.productBOS.length > 0">
@@ -63,15 +63,21 @@
 			listCompanyMethod() {
 				let _ = this;
 				listCompany(_.param).then((res) => {
-					_.items = res.data.data.list;
+					if (res.data.code === 0) {
+						_.items = res.data.data.list;
+					}
 				}).catch();
 			},
 			cancelSC(index) {
 				let _ = this;
-				_.favorite.businessId = _.items[index].id;
-				favoriteBus(_.favorite).then((res) => {
-					_.listCompanyMethod();
-				}).catch();
+				_.$messagebox.confirm('确定取消收藏该商家吗？').then(action => {
+					_.favorite.businessId = _.items[index].id;
+					favoriteBus(_.favorite).then((res) => {
+						if (res.data.code === 0) {
+							_.listCompanyMethod();
+						}
+					}).catch();
+				});
 			}
 		}
 	};

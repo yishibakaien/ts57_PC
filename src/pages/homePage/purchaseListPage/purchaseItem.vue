@@ -5,8 +5,15 @@
       <img v-lazy="item.buyPicUrl" class="image" alt="购买项" />
       <p class="info">
         <span class="number">{{item.buyNum}}码</span>
-        <span class="status" v-if="item.buyStatus === 1">求购中</span>
-        <span class="status" v-if="item.buyStatus === 2">已完成</span>
+        <span class="status" v-if="item.buyStatus === 1">
+        	<em v-if="item.buyTaskFlag === 1">我已接单</em>
+        	<em v-else-if="item.buyTaskCount > 0">{{item.buyTaskCount}}人接单</em>
+        	<em v-else>求购中</em>
+        </span>
+        <span class="status" v-if="item.buyStatus === 2">
+        	<em v-if="item.buyTaskFlag === 2">已成交</em>
+        	<em v-else>已完成</em>
+        </span>
         <span class="status" v-if="item.buyStatus === 3">已关闭</span>
       </p>
     </div>

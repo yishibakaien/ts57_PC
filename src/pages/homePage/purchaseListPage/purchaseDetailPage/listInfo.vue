@@ -4,7 +4,7 @@
 			我的接单信息
 		</div>
 		<div class="content">
-			<img v-lazy="url" alt="花型图片" class="fl" />
+			<img v-if="url" :src="url" alt="花型图片" class="fl" />
 			<p class="content-info">
 				<span class="status">{{productStatus | productStatus}}</span>
 				<span class="shuliang"><i>¥</i> {{buyPrice || 0}}/{{buyUnit | unit}}</span>
@@ -72,12 +72,13 @@
 			border-bottom: 0;
 		}
 		.content {
+			padding-left: 30px;
 			box-sizing: border-box;
 			width: 824px;
 			height: 192px;
 			border: 1px solid #e5e5e5;
 			img {
-				padding: 26px;
+				padding: 26px 26px 0 0;
 				width: 140px;
 				height: 140px;
 			}

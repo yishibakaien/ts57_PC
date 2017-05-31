@@ -17,7 +17,8 @@ import {
   //	releaseSupplyPage,
   supplyListPage,
   //	entryListPage,
-  supplyDetailPage
+  supplyDetailPage,
+  flowerDetailPage
 } from '../pages';
 
 Vue.use(Router);
@@ -127,6 +128,9 @@ const routes = [
   }, {
     path: '/purchaseDetailPage', // 求购详情
     component: purchaseDetailPage
+  }, {
+    path: '/flowerDetailPage', // 花型详情
+    component: flowerDetailPage
   }, {
     path: '/releaseSupplyPage', // 发布供应
     component: releaseSupplyPage,

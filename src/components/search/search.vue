@@ -3,7 +3,7 @@
 
 		<input class="search-input" @keyup.13="searchText" type="text" v-model="text" placeholder="可输入厂名或花型编号查找">
 		<div class="choose-pic">
-			<!-- <i class="iconfont">字</i> -->
+			 <i class="iconfont">字</i> 
 			<pic-upload class="choose-input" ref="fileUpload"></pic-upload>
 			<!-- <input class="choose-input" type="file" title="上传图片搜图"> -->
 		</div>

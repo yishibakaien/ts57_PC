@@ -10,16 +10,16 @@
 				<ts-form :model="addSupplyForm" :rules="rules" ref="addSupplyForm" label-width="125px" label-position="left">
 					<ts-form-item label="花型分类：" prop="supplyType">
 						<ts-radio-group bordered v-model="addSupplyForm.supplyType">
-							<ts-radio :label="item.dicValue" v-for="item in dicTree.PRODUCT_TYPE" :key="item.dicValue">{{item.name}}</ts-radio>
+							<ts-radio @change.native="handleSelect" :label="item.dicValue" v-for="item in dicTree.PRODUCT_TYPE" :key="item.dicValue">{{item.name}}</ts-radio>
 						</ts-radio-group>
 					</ts-form-item>
 					<ts-form-item label="大货类型：" prop="supplyShapes">
 						<ts-radio-group bordered v-model="addSupplyForm.supplyShapes">
-							<ts-radio origin :label="item.dicValue" :key="item.dicValue" v-for="item in dicTree.PRODUCT_SHAPE">{{item.name}}</ts-radio>
+							<ts-radio @change.native="handleSelect" origin :label="item.dicValue" :key="item.dicValue" v-for="item in dicTree.PRODUCT_SHAPE">{{item.name}}</ts-radio>
 						</ts-radio-group>
 					</ts-form-item>
 					<ts-form-item label="供应数量：" prop="supplyNum">
-						<ts-input v-model="addSupplyForm.supplyNum" style="width:320px"></ts-input>
+						<ts-input :maxlength='9' v-model="addSupplyForm.supplyNum" style="width:320px"></ts-input>
 						<ts-select style="width:12%" data-key-name="name" data-val-name="dicValue" :options='CopyDICTUnit' v-model="addSupplyForm.supplyUnit"></ts-select>
 					</ts-form-item>
 					<ts-form-item label="花型图片：" prop="productPicUrl">
@@ -114,50 +114,49 @@
 			};
 		},
 		watch: {
-			'addSupplyForm.productPicUrl' (val) {
-				this.Pic.text = val ? '修改图片' : '添加图片';
-				this.Pic.show = !!val;
-			},
-			'addSupplyForm.supplyType' (val) {
-				let PTJM = '100013';
-				let PUT = '400012';
-				let PSPB = '200010';
-				let PUSG = '400011';
-				// 如果面料是睫毛 => 那就显示‘条’单位
-				if (val !== PTJM) {
-					this.CopyDICTUnit = this.CopyDICTUnit.filter(item => item.dicValue !== PUT);
-				} else if (this.addSupplyForm.productShape === PSPB) {
-					// 如果有选了胚布 => 那就只显示公斤
-					this.CopyDICTUnit = this.CopyDICTUnit.filter(item => item.dicValue === PUSG);
-				} else {
-					// 如果不是睫毛 => 显示所有
-					this.CopyDICTUnit = JSON.parse(JSON.stringify(this.dicTree.PRODUCT_UNIT));
-				}
-				this.addSupplyForm = Object.assign({}, this.addSupplyForm, {
-					stockUnit: this.CopyDICTUnit[0].dicValue
-				});
-			},
-			'addSupplyForm.supplyShapes' (val) {
-				let PSPB = '200010';
-				let PUSG = '400011';
-				let PUT = '400012';
-				let PTJM = '100013';
-				// 如果是胚布 => 只显示公斤
-				if (val === PSPB) {
-					this.CopyDICTUnit = this.CopyDICTUnit.filter(item => item.dicValue === PUSG);
-				} else if (this.addSupplyForm.category === PTJM) {
-					// 如果面料是睫毛 => 把‘条’也显示
-					this.CopyDICTUnit = this.dicTree.PRODUCT_UNIT;
-				} else {
-					// 什么没选的情况下 => 条是隐藏的
-					this.CopyDICTUnit = this.dicTree.PRODUCT_UNIT.filter(item => item.dicValue !== PUT);
-				}
-				this.addSupplyForm = Object.assign({}, this.addSupplyForm, {
-					supplyUnit: this.CopyDICTUnit[0].dicValue
-				});
+			addSupplyForm: {
+				handler(val, oldVal) {
+					let PTJM = '100013';
+					let PUT = '400012';
+					let PSPB = '200010';
+					let PUSG = '400011';
+					// ========
+					// 1.上传图片
+					if (val.productPicUrl) {
+						this.Pic.text = val.productPicUrl ? '修改图片' : '添加图片';
+						this.Pic.show = !!val.productPicUrl;
+					}
+					// ==========
+					// 4.面料改变的时候
+					if (val.supplyType !== PTJM) {
+						this.CopyDICTUnit = this.CopyDICTUnit.filter(item => item.dicValue !== PUT);
+					} else if (val.supplyShapes === PSPB) {
+						// 如果有选了胚布 => 那就只显示公斤
+						this.CopyDICTUnit = this.CopyDICTUnit.filter(item => item.dicValue === PUSG);
+					} else {
+						// 如果不是睫毛 => 显示所有
+						this.CopyDICTUnit = JSON.parse(JSON.stringify(this.dicTree.PRODUCT_UNIT));
+					}
+					// =========
+					// 5.如果是胚布 => 只显示公斤
+					if (val.supplyShapes === PSPB) {
+						this.CopyDICTUnit = this.CopyDICTUnit.filter(item => item.dicValue === PUSG);
+					} else if (val.supplyType === PTJM) {
+						// 如果面料是睫毛 => 把‘条’也显示
+						this.CopyDICTUnit = this.dicTree.PRODUCT_UNIT;
+					} else {
+						// 什么没选的情况下 => 条是隐藏的
+						this.CopyDICTUnit = this.dicTree.PRODUCT_UNIT.filter(item => item.dicValue !== PUT);
+					}
+					val.stockUnit = this.CopyDICTUnit[0].dicValue;
+				},
+				deep: true
 			}
 		},
 		async created() {
+			if (this.$route.query.text) {
+				this.addSupplyForm.supplyDesc = this.$route.query.text;
+			};
 			// 默认选择公斤
 			this.addSupplyForm.supplyUnit = 400011;
 			// TODO:编辑页面 => 后台并没有提供接口
@@ -188,6 +187,11 @@
 			}
 		},
 		methods: {
+			handleSelect() {
+				this.$nextTick(() => {
+					this.addSupplyForm.supplyUnit = this.CopyDICTUnit[0].dicValue;
+				});
+			},
 			// 上传图片
 			uploadImg(e) {
 				// 显示Base64
