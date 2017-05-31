@@ -13,6 +13,7 @@
           {{getIsCollect?'已收藏店铺':'收藏店铺'}}
         </ts-button>
       </div>
+      <pre>{{companyInfo.favoriteSatus}}</pre>
       <div class="grid-col-3">
         公司简称：
       </div>
@@ -184,7 +185,6 @@ import DICT from '@/common/dict';
 import {
   getAreabyLevel,
   getAreabyParent,
-  favoriteBatchCancel,
   favoriteBus
 } from '@/common/api/api';
 import {
@@ -253,24 +253,13 @@ export default {
     }
   },
   methods: {
+    // 收藏店铺
     async handleCollectStore() {
-      if (this.getIsCollect) {
-        let res = await favoriteBus({
-          businessId: this.$route.params.id,
-          businessType: this.companyInfo.companyType
-        });
-        if (!res.data.code) {
-          this.companyInfo.favoriteSatus = 0;
-        }
-      } else {
-        let res = await favoriteBatchCancel({
-          busIds: this.$route.params.id,
-          businessType: this.companyInfo.companyType
-        });
-        if (!res.data.code) {
-          this.companyInfo.favoriteSatus = 1;
-        }
-      }
+      let res = (await favoriteBus({
+        businessId: this.$route.params.id,
+        businessType: this.companyInfo.companyType
+      })).data;
+      this.companyInfo.favoriteSatus = res.message.indexOf('收藏') >= 0 ? 1 : 0;
     }
   }
 };
