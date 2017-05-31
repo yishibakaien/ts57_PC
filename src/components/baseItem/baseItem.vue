@@ -5,8 +5,8 @@
         <img class="item-image" :src="picUrl?picUrl:'/static/images/assets/defaultFlower.svg'">
       </div>
       <div class="item-desc">
-        <h2 class="desc-title">{{productNo}}{{typeComputed}} {{num}}{{unit}}</h2>
-        <p class="desc-text">
+        <h2 class="desc-title"><span>{{productNo}}{{typeComputed}} </span>{{num}}{{unit}}</h2>
+        <p class="desc-text" :title="desc">
           {{desc}}
           <span class="time" v-if="time">{{time}}</span>
         </p>
@@ -37,7 +37,7 @@ export default {
     typeComputed() {
       if (this.type === 'supply') {
         return '供应';
-      } else if (this.type === 'purchase') {
+      } else if (this.type === 'buy') {
         return '求购';
       } else if (this.type === 'searchText') {
         return '';
@@ -134,15 +134,17 @@ export default {
       transform translateY(-50%)
   .item-desc
     .desc-title
-      font-size 24px
+      font-size 16px
       font-weight 200
       height 40px
       line-height 40px
       margin-top 16px
-      color #333
+      color #666
       overflow hidden
       text-overflow ellipsis
       white-space nowrap
+      span
+      	color #333
     .desc-text
       position relative
       height 36px

@@ -187,3 +187,15 @@ export const isStock = item => {
 	}
 	return isStockStr;
 };
+
+// 大伙类型
+export const buyShape = item => {
+	let buyShapeStr;
+	if (item === 200010) {
+		buyShapeStr = '胚布';
+	}
+	if (item === 200011) {
+		buyShapeStr = '成品';
+	}
+	return buyShapeStr;
+};

@@ -109,6 +109,7 @@ import {
 } from '@/common/js/regExp';
 // import axios from 'axios';
 import {getRegSMSCode, reg, checkPhone} from '@/common/api/api';
+import Toast from '@/components/common/toast/toast';
 export default {
   data() {
     return {
@@ -174,7 +175,7 @@ export default {
         mobile: this.registerData.userMobile
       }).then(res => {
         if (res.data.code !== 0) {
-          console.log('检查手机号码失败', res);
+//        console.log('检查手机号码失败', res);
         } else {
           if (res.data.data === true) {
             this.tip.userMobileTip = '此手机号码已被注册';
@@ -301,9 +302,15 @@ export default {
       reg(this.registerData)
         .then(res => {
           if (res.data.code !== 0) {
-            alert(res.data.message);
+            Toast({
+							type: 'error',
+							message: res.data.message
+						});
           } else {
-            alert('注册成功！');
+            Toast({
+							type: 'success',
+							message: '注册成功'
+						});
             _this.$router.push({
               path: '/loginPage'
             });

@@ -135,7 +135,6 @@
 					localStorage.setItem('email', res.data.data.email);
 					// 1工厂 2档口
 					if (res.data.data.userType === 1) {
-						this.navItems[3].isShow = true;
 						this.navItems[4].isShow = true;
 						this.navItems[8].isShow = true;
 					} else {

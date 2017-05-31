@@ -34,7 +34,7 @@
 				let _ = this;
 				const files = document.getElementById(_.id);
 				const fileLen = files.files;
-				const rFilter = /^(image\/jpeg|image\/png)$/i;
+				const rFilter = /^(image\/jpeg|image\/png|image\/bmp)$/i;
 				for (let i = 0; i < fileLen.length; i++) {
 					let imgObj = fileLen[i];
 					if (!rFilter.test(imgObj.type) && imgObj.type != '') {

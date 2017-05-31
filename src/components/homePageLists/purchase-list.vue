@@ -21,7 +21,7 @@
     <div class="right-list">
       <list-tile :title-text="titleText"></list-tile>
       <div class="item-wrapper"  v-for="item in purchaseListObj.data">
-        <base-item :item="item" :type="purchaseListObj.type" @purchaseClick="goPurchaseDetailPage"></base-item>
+        <base-item :item="item" :type="purchaseListObj.type" @purchaseClick="goPurchaseDetailPage" :key="item"></base-item>
       </div>
     </div>
   </div>

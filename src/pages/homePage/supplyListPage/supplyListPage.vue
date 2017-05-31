@@ -5,23 +5,8 @@
 		</v-header>
 		<v-nav></v-nav>
 		<div class="supply-list-page-box">
-			<!-- 筛选器 -->
-			<!--<div class="filter-container">
-        <div class="category filter-list">
-          <p class="filter-title">供应分类</p>
-          <p class="filter-detail">
-            <span class="item" v-for="item in categoryItems" :class="{active: categoryActiveItem===item}">{{item}}</span>
-          </p>
-        </div>
-        <div class="component filter-list">
-          <p class="filter-title">供应布样</p>
-          <p class="filter-detail">
-            <span class="item" v-for="item in componentItems" :class="{active: componentActiveItem===item}">{{item}}</span>
-          </p>
-        </div>
-      </div>-->
 			<div>
-				<ts-filter title="求购分类">
+				<ts-filter title="供应分类">
 					<ts-radio-group v-model="Filter.sort" @change="hanleFilterSort">
 						<ts-radio label="null">全部</ts-radio>
 						<ts-radio label="100010">面料</ts-radio>
@@ -30,7 +15,7 @@
 						<ts-radio label="100013">睫毛</ts-radio>
 					</ts-radio-group>
 				</ts-filter>
-				<ts-filter title="求购布样">
+				<ts-filter title="供应布样">
 					<ts-radio-group v-model="Filter.fabricType" @change="hanleFilterFabric">
 						<ts-radio label="null">全部</ts-radio>
 						<ts-radio label="200011">成品</ts-radio>

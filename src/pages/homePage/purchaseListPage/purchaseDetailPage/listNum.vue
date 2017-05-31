@@ -1,7 +1,10 @@
 <template>
 	<div class="list-num">
-		<div class="title">
+		<div class="title" v-if="len !== 0">
 			共有<em>{{len}}</em>人接单
+		</div>
+		<div class="title" v-else>
+			求购中
 		</div>
 		<div class="content1" v-if="len === 0">
 			暂无人接单

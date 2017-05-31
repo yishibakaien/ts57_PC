@@ -9,6 +9,9 @@
 				<span>求购类型：</span>{{item.buyType | type}}
 			</p>
 			<p class="content-info-class">
+				<span>大货类型：</span>{{item.buyShape | buyShape}}
+			</p>
+			<p class="content-info-class">
 				<span>求购数量：</span>{{item.buyNum}}{{item.buyUnit | unit}}
 			</p>
 			<p class="content-info-class">
