@@ -31,7 +31,7 @@
 					<p class="p3" v-if="item.buyStatus == 3"><span class="spanL" @click.stop="releaseBuyAgain(index)">重新发布</span><span class="spanR" @click.stop="openModel(index)">删除</span></p>
 				</div>
 				<p class="info">{{ item.buyDesc }}</p>
-				<p><span>求购 <i>{{ item.buyNum }}</i> 码</span><span class="time">{{item.createDate | customTime}}</span></p>
+				<p><span>求购 <i>{{ item.buyNum }}</i> {{item.buyUnit | unit}}</span><span class="time">{{item.createDate | customTime}}</span></p>
 				<div class="tipsModel" v-show="item.tipShow">
 					<div v-if="item.buyStatus == 1">
 						<p>确认关闭该求购？</p>

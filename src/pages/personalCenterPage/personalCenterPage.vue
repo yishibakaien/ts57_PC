@@ -130,6 +130,7 @@
 						// 'http://zsbgdev.oss-cn-shenzhen.aliyuncs.com/'
 					}
 					localStorage.setItem('userMobile', res.data.data.userMobile);
+					localStorage.setItem('userType', res.data.data.userType);
 					localStorage.setItem('userName', res.data.data.userName);
 					localStorage.setItem('qq', res.data.data.qq);
 					localStorage.setItem('email', res.data.data.email);

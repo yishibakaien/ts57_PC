@@ -26,6 +26,7 @@
 		<div class="personal-mobile-alert" v-if="alertShow">
 			<i>—</i>登录密码检验失败
 		</div>
+		<tipsModel :obj="tips" @close="closeModel"></tipsModel>
 	</div>
 </template>
 
@@ -34,6 +35,8 @@
 	import { btnStatus } from '@/common/js/utils.js';
 	import { checkPasswd, changeSMSCode, changeMobile } from '@/common/api/api';
 	import Toast from '@/components/common/toast/toast';
+	import * as types from '@/store/types';
+	import {tipsModel} from '@/components';
 	export default {
 		data() {
 			return {
@@ -50,15 +53,38 @@
 					p1: true,
 					p2: true
 				},
+				tips: {
+					isShow: false,
+					content: '成功修改手机号'
+				},
 				alertShow: false,
 				isShow: true
 			};
+		},
+		components: {
+			tipsModel
 		},
 		created() {
 			let _ = this;
 			_.phoneNum = localStorage.getItem('userMobile');
 		},
 		methods: {
+			showModel() {
+				this.tips.isShow = true;
+				setTimeout(() => {
+					this.closeModel();
+					this.$store.commit(types.LOGOUT);
+					this.$router.push({
+						path: '/loginPage'
+					});
+				}, 3000);
+			},
+			closeModel() {
+				this.$store.commit(types.LOGOUT);
+				this.$router.push({
+					path: '/loginPage'
+				});
+			},
 			checkPasswdMethod() {
 				checkPasswd(this.param).then((res) => {
 					if (res.data.code === 0) {
@@ -78,9 +104,9 @@
 				if (!this.check.p1) {
 					return;
 				};
+				btnStatus($event, '已发送');
 				changeSMSCode(this.mobile).then((res) => {
 					if (res.data.code === 0) {
-						btnStatus($event, '已发送');
 						Toast({
 							type: 'success',
 							message: '发送成功'
@@ -99,10 +125,7 @@
 				};
 				changeMobile(this.mobile).then((res) => {
 					if (res.data.code === 0) {
-						Toast({
-							type: 'success',
-							message: '修改成功'
-						});
+						this.showModel();
 						this.phoneNum = this.mobile.mobile;
 						localStorage.setItem('userMobile', this.mobile.mobile);
 					}

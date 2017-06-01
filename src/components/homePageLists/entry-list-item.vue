@@ -32,17 +32,16 @@ export default {
 <style lang="stylus" scoped>
 .entry-list-item
   box-sizing border-box
-  width 310px
-  height 210px
-  padding 16px
+  width 311px
+  height 203px
+  padding 12px 16px
   background #fff
   border-left 1px solid #d8d8d8
   border-bottom 1px  solid #d8d8d8
   cursor pointer
   &:hover
     position relative
-    border 1px solid rgba(76, 147, 253, 0.8)
-    box-shadow 0 0 5px rgba(76, 147, 253, 0.8)
+    box-shadow 0 2px 4px 0 rgba(76,147,253,0.30), 0 0 6px 0 rgba(76,147,253,0.30)
     z-index 1
   .entry-base-item
     width 278px

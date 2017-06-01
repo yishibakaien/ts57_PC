@@ -26,7 +26,7 @@
         <quality-company-list :message="companys"></quality-company-list>
       </div>
       <!--<button class="button button-block button-blue" @click="seeDetail">花型详情(需要登录才能浏览)</button>-->
-      <button @click="logout" class="button button-block button-red" v-if="showBtn">退出登录</button>
+      <!--<button @click="logout" class="button button-block button-red" v-if="showBtn">退出登录</button>-->
 
     </div>
     <!-- <fixed-topbar></fixed-topbar> -->
@@ -166,7 +166,7 @@ export default {
       padding 16px 0
       background #f2f2f2
       .list
-        margin 32px 0
+        margin 12px 0
       .button
         width 20%
         margin-top 20px

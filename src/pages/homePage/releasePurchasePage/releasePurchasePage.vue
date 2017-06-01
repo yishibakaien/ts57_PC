@@ -160,7 +160,11 @@
 				this.addBuyForm.buyDesc = this.$route.query.text;
 			};
 			if (this.$route.query.obj) {
-				this.addBuyForm = this.$route.query.obj;
+				this.addBuyForm.buyPicUrl = this.$route.query.obj.buyPicUrl;
+				this.addBuyForm.buyNum = this.$route.query.obj.buyNum;
+				this.addBuyForm.buyDesc = this.$route.query.obj.buyDesc;
+				this.addBuyForm.isStartUp = this.$route.query.obj.isStartUp;
+				this.addBuyForm.buyUnit = this.$route.query.obj.buyUnit.toString();
 				this.addBuyForm.buyType = this.$route.query.obj.buyType.toString();
 				this.addBuyForm.buyShapes = this.$route.query.obj.buyShape.toString();
 			};

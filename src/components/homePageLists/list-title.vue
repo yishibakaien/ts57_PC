@@ -30,7 +30,7 @@ export default {
 <style lang="stylus" scoped>
 .list-title
   width 100%
-  padding 18px 0
+  padding 14px 0
   background #fff
   border-bottom 1px solid #f1f1f1
   .title-name

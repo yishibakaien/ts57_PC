@@ -112,7 +112,7 @@ export default {
 .base-item
   box-sizing border-box
   width 233px
-  height 323px
+  height 300px
   padding 16px
   background #fff
   border-left 1px solid #eaeaea
@@ -136,9 +136,9 @@ export default {
     .desc-title
       font-size 16px
       font-weight 200
-      height 40px
-      line-height 40px
-      margin-top 16px
+      height 30px
+      line-height 30px
+      margin-top 8px
       color #666
       overflow hidden
       text-overflow ellipsis

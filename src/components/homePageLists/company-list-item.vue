@@ -22,18 +22,15 @@ export default {
 .company-list-item
   .company-item
     box-sizing border-box
-    width 299.5px
-    height 160.5px
+    width 299px
+    height 182px
     padding 16px
     background #fff
     border-left 1px solid #d8d8d8
     border-bottom 1px  solid #d8d8d8
     cursor pointer
     &:hover
-      position relative
-      border 1px solid rgba(76, 147, 253, 0.8)
-      box-shadow 0 0 5px rgba(76, 147, 253, 0.8)
-      z-index 1
+      box-shadow 0 2px 4px 0 rgba(76,147,253,0.30), 0 0 6px 0 rgba(76,147,253,0.30)
     .company-logo-box
       width 100%
       height 100%

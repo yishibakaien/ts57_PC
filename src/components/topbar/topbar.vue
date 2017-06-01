@@ -25,12 +25,10 @@
               <p class="red">扫码即可下载</p>
               <div class="app-type clearfix">
                 <div class="andriod">
-                  <i class="iconfont">字</i>
-                  <span>安卓</span>
+                  <i class="iconfont icon-anzhuo"></i>
                 </div>
                 <div class="ios">
-                  <i class="iconfont">字</i>
-                  <span>IOS</span>
+                  <i class="iconfont icon-iOS"></i>
                 </div>
               </div>
             </div>
@@ -171,5 +169,16 @@ export default {
                   .andriod,.ios
                     float left
                     line-height 40px
-
+                  .icon-anzhuo::before
+                  	color #38b338
+                  	font-size 22px
+                  	vertical-align middle
+                  .icon-iOS::before
+                  	position relative
+                  	top 4px
+                  	color #666
+										font-size 24px
+                  	vertical-align middle
+                  .andriod
+                  	margin-right 10px
 </style>

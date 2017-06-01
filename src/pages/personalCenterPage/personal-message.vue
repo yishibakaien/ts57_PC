@@ -23,7 +23,7 @@
 					<img src="./jujue.png" v-show="!param.isSyMsg""/>
 				</i>
 			</p>
-			<p>
+			<p v-if="isShow">
 				<span>求购接单短信</span>
 				<i @click="messageOnOff(3)">
 					<img src="./yunxu.png" v-show="param.isBuyMsg" />
@@ -52,11 +52,15 @@
 					isLookMsg: '',
 					isReceiveMsg: '',
 					isSyMsg: ''
-				}
+				},
+				isShow: false
 			};
 		},
 		created() {
 			this.getMsgSettingMethod();
+			if (localStorage.userType === 0) {
+				this.isShow = true;
+			}
 		},
 		methods: {
 			messageOnOff(index) {

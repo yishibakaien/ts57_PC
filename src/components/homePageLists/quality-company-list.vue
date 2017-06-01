@@ -1,10 +1,9 @@
 <template>
   <div class="quality-company-list">
     <div class="left-brand">
-      <img class="quality-company-pic" src="/static/images/pattern.jpg">
+      <img class="quality-company-pic" src="/static/images/youzhichangjia.png">
     </div>
     <div class="right-list">
-      <list-tile :title-text="titleText"></list-tile>
       <div class="item-wrapper"  v-for="item in message">
         <company-list-item :message="item"></company-list-item>
       </div>

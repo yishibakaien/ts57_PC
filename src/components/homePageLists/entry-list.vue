@@ -3,38 +3,39 @@
     <div class="left-brand">
       <div class="brand-header">
         <div class="brand-name">
+        	<i class="arrow"></i>
+        	<i class="arrow-bg"></i>
           <div class="left">
             <p class="brand-title">厂家入驻</p>
-            <p class="en">ENTRY</p>
+        		<p class="brand-desc">不容错过 坐视布管</p>
           </div>
           <div class="right">
-            <i class="iconfont">字</i>
+            <i class="iconfont icon-ruzhu"></i>
           </div>
         </div>
-        <p class="brand-desc">不容错过 坐视布管</p>
       </div>
       <div class="brand-body">
         <!-- <textarea class="input" maxlength="60" placeholder="请填写需求购买花型的详细描述，如花高，宽幅等信息"></textarea> -->
         <div class="entry-nav-box clearfix">
           <div class="entry-nav-item">
-            <i class="iconfont entry-nav-icon">字</i>
+            <i class="iconfont entry-nav-icon icon-huaxin"></i>
             <p class="entry-nav-text">卖花型</p>
           </div>
           <div class="entry-nav-item">
-            <i class="iconfont entry-nav-icon">字</i>
+            <i class="iconfont entry-nav-icon icon-dingdan"></i>
             <p class="entry-nav-text">找订单</p>
           </div>
           <div class="entry-nav-item">
-            <i class="iconfont entry-nav-icon">字</i>
+            <i class="iconfont entry-nav-icon icon-hezuo"></i>
             <p class="entry-nav-text">谈合作</p>
           </div>
           <div class="entry-nav-item">
-            <i class="iconfont entry-nav-icon">字</i>
+            <i class="iconfont entry-nav-icon icon-dangkou"></i>
             <p class="entry-nav-text">找档口</p>
           </div>
         </div>
         <div class="entry-button-box">
-          <button class="button button-plain button-block button-plain-blue">申请入驻</button>
+          <button class="button button-plain button-block button-plain-blue" style="margin: 26px 0 8px 0;">新增花型</button>
         </div>
       </div>
     </div>
@@ -83,17 +84,33 @@ basecolor = #4c93fd
     width 267px
     height 486px
     .brand-header
-      height 132px
-      padding 16px
+      height 86px
+      padding 12px
       color #fff
       font-family 'Microsoft YaHei'
       background basecolor
       .brand-name
         display flex
+        position relative
+        .arrow
+        	position absolute
+        	top -12px
+        	left -12px
+        	width 0
+        	height 0
+        	border-top 27px solid #f6f6f6
+        	border-right 27px solid transparent
+        .arrow-bg
+        	position absolute
+        	top -12px
+        	left -12px
+        	width 30px
+        	height 30px
+        	background url('/static/images/assets/icon/arrow.png')
         .left
           flex 1
           .brand-title
-            font-size 36px
+            font-size 28px
             height 45px
             line-height 45px
           .en
@@ -107,12 +124,15 @@ basecolor = #4c93fd
           height 75px
           line-height 75px
           .iconfont
-            font-size 60px
+            font-size 44px
             color rgba(255, 255, 255, 0.6)
+          .icon-ruzhu::before
+          	position relative
+          	top 14px
       .brand-desc
-        height 80px
-        line-height 80px
-        font-size 20px
+        height 40px
+        line-height 40px
+        font-size 16px
         color rgba(255, 255, 255, 0.6)
     .brand-body
       background #fff
@@ -128,7 +148,7 @@ basecolor = #4c93fd
           text-align center
           cursor pointer
           &:hover
-            color #ff7478
+            color #4c93fd
           .entry-nav-icon
             display inline-block
             font-size 36px
@@ -136,6 +156,8 @@ basecolor = #4c93fd
           .entry-nav-text
             font-size 18px
             line-height 30px
+          .icon-dangkou::before
+          	color #666
       .entry-button-box
         padding 16px
         .button

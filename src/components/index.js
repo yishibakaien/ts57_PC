@@ -43,6 +43,8 @@ import filter from './filter/filter';
 import pagination from './pagination/pagination';
 // 收藏
 import collection from './collection/collection';
+// 提示框
+import tipsModel from './tipsModel/tipsModel';
 
 export {
     topbar,
@@ -65,5 +67,6 @@ export {
     aliUpload,
     filter,
     pagination,
-    collection
+    collection,
+    tipsModel
 };
