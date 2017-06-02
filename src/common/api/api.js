@@ -38,6 +38,10 @@ const API = {
     search: '/product/search', // 文本搜索
     history: '/search/history' // 搜索记录列表(大家都在找)
   },
+  // 索样
+  sample: {
+    askFor: '/sample/askFor'
+  },
   // 供应求购
   buy: {
     listProductBuys: '/productBuy/listHomeProductBuys', // 获取求购列表
@@ -152,7 +156,8 @@ const API = {
     byParent: '/front/area/byParent'
   },
   enquiry: {
-    getEnquiryList: '/enquiry/list', // 询价列表
+    getEnquiryList: '/enquiry/list', //
+    askPrice: '/enquiry/askPrice', // 询价
     enquiryEskUser: '/enquiry/askUser', // 询价人详情
     getAskListByProductId: '/enquiry/getAskListByProductId' // 根据产品ID获取询价记录
   },
@@ -346,7 +351,8 @@ export function qualityCompanyList1(data) {
 export function findNewCompanys(data) {
   return _fetch(METHODS.post, data, API.company.findNewCompanys);
 }
-
+// 索样
+export const sampleAskFor = param => _fetch(METHODS.post, param, API.sample.askFor);
 /**
  * 搜索部分
  */
@@ -501,6 +507,8 @@ export const getCompanyBindingProductList = param => _fetch(METHODS.get, param, 
 // =======
 // 店铺管理
 // =======
+// 询价
+export const enquiryAskPrice = param => _fetch(METHODS.post, param, API.enquiry.askPrice);
 // 询价列表
 export const getEnquiryList = param => _fetch(METHODS.post, param, API.enquiry.getEnquiryList);
 // 询价人详情

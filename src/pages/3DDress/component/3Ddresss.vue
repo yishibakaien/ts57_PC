@@ -108,7 +108,6 @@ export default {
       console.log('正在保存图片');
       html2canvas(this.$refs.picOrigin, {
         useCORS: true,
-        allowTaint: true,
         onrendered: function(canvas) {
           var imgData = canvas.toDataURL(TYPE);
           // 加工image data，替换mime type

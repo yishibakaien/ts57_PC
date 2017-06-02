@@ -93,7 +93,7 @@ export default {
       color: var(--button-plain-color);
       border:1px solid var(--button-plain-border-color);
       background-color: var(--button-plain-background-color);
-      &:hover{
+      &:not(.is-disabled):hover{
         border-color:var(--button-primary-background-color);
         color:var(--button-primary-background-color);
       }

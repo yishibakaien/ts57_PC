@@ -31,9 +31,6 @@ import forgotPasswordPage from './formPages/forgotPasswordPage/forgotPasswordPag
 // 提示下载页
 import promptDown from './totalPages/promptDown';
 
-// 花型详情页
-import flowerDetailPage from './homePage/searchResultPage/flowerDetailPage/flowerDetailPage';
-
 export {
   homePage,
   textSearchResultPage,
@@ -48,6 +45,5 @@ export {
   releaseSupplyPage,
   supplyListPage,
   supplyDetailPage,
-  promptDown,
-  flowerDetailPage
+  promptDown
 };

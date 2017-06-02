@@ -142,7 +142,7 @@ export default {
 @component-namespace companyInfo{
   @component formItem{
     @descendent text{
-      padding-top: 10px;
+      padding-top: 6px;
     }
   }
   @component container{

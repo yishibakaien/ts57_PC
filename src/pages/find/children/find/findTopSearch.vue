@@ -24,7 +24,7 @@
          </ts-grid-item>
       </ts-grid>
       <router-link to="topSearch">
-        <ts-button type="plain" size="large"  class="hotSearch-search">更多爆款</ts-button>
+        <ts-button type="plain" size="large"  class="hotSearch-search" :disabled="isEmpty">更多爆款</ts-button>
       </router-link>
     </div>
   </div>
@@ -43,6 +43,11 @@ export default {
       },
       BurstHotSearch: {}
     };
+  },
+  computed: {
+    isEmpty() {
+      return !this.BurstHotSearch.list.length;
+    }
   },
   async created() {
     this.BurstHotSearch = (await burstHotSearch(this.Params)).data.data;
