@@ -64,7 +64,7 @@
 
 <script>
 import * as reg from '@/common/js/regExp';
-import * as types from '@/store/types';
+   import * as types from '@/store/types';
 
 import {
   login,
@@ -119,17 +119,17 @@ export default {
       login(this.userData).then((res) => {
         if (res.data.code === 0) {
           this.$store.commit(types.USER_NAME, res.data.data.userName);
+				console.log(res.headers);
           this.$store.commit('GET_USERINFO', res.data.data);
-          this.$store.commit(types.LOGIN, res.headers['x-token']);
-          this.$store.commit(types.AJAX, res.headers['x-token']);
+//        this.$store.commit(types.LOGIN, res.headers['x-token']);
+          this.$store.commit(types.LOGIN, localStorage.getItem('ajaxToken'));
+//        this.$store.commit(types.AJAX, res.headers['x-token']);
           this.$store.commit(types.LOGIN_MASK, false);
           this.$store.dispatch('getDicTree');
           // 路由重定向
-//        let redirect = decodeURIComponent(this.$route.query.redirect || '/homePage');
-          let redirect = this.$route.query.redirect || '/homePage';
-          console.log(redirect);
+          let redirect = decodeURIComponent(this.$route.query.redirect || '/');
           this.$router.push({
-            path: '/homePage'
+            path: redirect
           });
         } else if (res.data.code === 2000004) {
           this.showPicCode = true;

@@ -4,8 +4,6 @@ import store from '../../store/store';
 import * as types from '../../store/types';
 import axios from 'axios';
 import Toast from '@/components/common/toast/toast';
-//   import OSS from 'ali-oss';
-// import fs from 'fs';
 axios.defaults.baseURL = '/api';
 
 const API = {
@@ -180,14 +178,11 @@ const METHODS = {
  * @return {object || string}         格式化后的data
  */
 function _formatData(method, data) {
-  //  console.log('请求data', data);
   if (!data) {
-    //      console.log('请求data为空', data);
     return '';
   }
   let _data = Object.assign({}, data);
   if (method === METHODS.get) {
-    //      console.log('get请求data', _data);
     return _data;
   } else if (method === METHODS.post) {
     return JSON.stringify(_data);
@@ -202,19 +197,18 @@ function _formatData(method, data) {
  * @return {promise}        Promise 对象
  */
 function _fetch(method = METHODS.get, data, url) {
-  // console.info('api-ajaxToken', store.state.ajaxToken);
   let _headers = Object.assign({
-    'x-token': store.state.ajaxToken || ''
+    'x-token': localStorage.getItem('ajaxToken') || ''
   }, headers);
-  if (url === API.user.login) {
+//  if (url === API.user.login) {
     // 如果是登录的请求则删除掉请求头中的x-token
-    try {
-      // 不删除无法登录
-      delete _headers['x-token'];
-      // 删除了图形验证码不能用
-      // delete _headers['x-token'];
-    } catch (e) {}
-  }
+//  try {
+//    // 不删除无法登录
+//    delete _headers['x-token'];
+//    // 删除了图形验证码不能用
+//    // delete _headers['x-token'];
+//  } catch (e) {}
+// }
   let param;
   if (method === METHODS.get) {
     param = {
@@ -238,7 +232,7 @@ function _fetch(method = METHODS.get, data, url) {
       if (token) {
         store.commit(types.AJAX, token);
         // 让ajaxToken 和 accessToken 保持一致
-        if (store.state.accessToken) {
+        if (sessionStorage.getItem('accessToken')) {
           store.commit(types.LOGIN, token);
         }
       }

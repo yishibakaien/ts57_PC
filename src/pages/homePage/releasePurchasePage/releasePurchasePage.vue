@@ -233,9 +233,6 @@
 					if (valid) {
 						await releaseProductBuy(this.addBuyForm);
 						this.modelShow = true;
-						/* this.$router.push({
-							path: '/purchaseListPage'
-						}); */
 					} else {
 						return false;
 					}
@@ -245,10 +242,6 @@
 			againRelease() {
 				this.modelShow = false;
 				location.reload();
-//				let e;
-//				for (e in this.addBuyForm) {
-//					this.addBuyForm[e] = '';
-//				}
 			},
 			// 我的求购
 			myBuy() {

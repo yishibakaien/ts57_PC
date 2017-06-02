@@ -6,10 +6,7 @@
 		<div class="fl content-info">
 			<p class="content-info-desc">{{item.buyDesc}}</p>
 			<p class="content-info-class">
-				<span>求购类型：</span>{{item.buyType | type}}
-			</p>
-			<p class="content-info-class">
-				<span>大货类型：</span>{{item.buyShape | buyShape}}
+				<span>求购类型：</span>{{item.buyType | type}} - {{item.buyShape | buyShape}}
 			</p>
 			<p class="content-info-class">
 				<span>求购数量：</span>{{item.buyNum}}{{item.buyUnit | unit}}
@@ -91,7 +88,13 @@
 					});
 					// 显示取消接单按钮
 					if (this.item.buyStatus === 1 && yesOrNo) {
-						this.quxiao = true;
+						for (let i = 0; i < this.item.buyTaskList.length; i++) {
+							if (this.item.buyTaskList[i].userId === this.$store.state.user.userInfo.id) {
+								if (this.item.buyTaskList[i].status === 1) {
+									this.quxiao = true;
+								}
+							}
+						}
 					}
 					// 显示我要接单按钮
 					if (this.item.buyStatus === 1 && !yesOrNo) {

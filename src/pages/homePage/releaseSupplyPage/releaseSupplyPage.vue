@@ -36,8 +36,20 @@
 					<ts-button type="primary" class="add-bottom-button" @click="submitForm('addSupplyForm')" style="margin-left: 125px;">{{title}}</ts-button>
 				</div>
 			</div>
+			<div class="prompt-box" v-if="modelShow">
+				<customModel>
+					<h5>提示</h5>
+					<div class="model-content">
+						<i class="icon-chenggongfabu"></i>
+						<p>已成功发布供应</p>
+					</div>
+					<div class="btn-group">
+						<button class="btn btn-blue" @click="againRelease">继续发布</button>
+						<button class="btn btn-write" @click="myBuy">我的供应</button>
+					</div>
+				</customModel>
+			</div>
 		</div>
-	</div>
 	</div>
 </template>
 
@@ -47,7 +59,8 @@
 		aliUpload,
 		header,
 		nav,
-		search
+		search,
+		customModel
 	} from '@/components';
 	import {
 		releaseCompanySupply
@@ -61,6 +74,7 @@
 	export default {
 		data() {
 			return {
+				modelShow: false,
 				// 数据字典
 				DICT: {
 					SupplyShapes: DICT.SupplyShapes,
@@ -178,7 +192,8 @@
 			'vHeader': header,
 			search,
 			'vNav': nav,
-			aliUpload
+			aliUpload,
+			customModel
 		},
 		computed: {
 			...mapGetters(['dicTree']),
@@ -204,10 +219,21 @@
 				this.$refs[formName].validate(async(valid) => {
 					if (valid) {
 						await releaseCompanySupply(this.addSupplyForm);
-						await this.$router.go(-1);
+						this.modelShow = true;
 					} else {
 						return false;
 					}
+				});
+			},
+			// 继续发布
+			againRelease() {
+				this.modelShow = false;
+				location.reload();
+			},
+			// 我的供应
+			myBuy() {
+				this.$router.push({
+					path: '/shopManagePage/supply'
 				});
 			}
 		}
@@ -234,6 +260,50 @@
 					color: #fff;
 					background: #4c93fd;
 					cursor: pointer;
+				}
+			}
+		}
+		.prompt-box {
+			h5 {
+				padding-left: 12px;
+				height: 38px;
+				line-height: 38px;
+				font-size: 16px;
+				color: #666;
+				border-bottom: 1px solid #e5e5e5;
+			}
+			.model-content {
+				padding-top: 60px;
+				text-align: center;
+				.icon-chenggongfabu {
+					&::before {
+						font-size: 44px;
+					}
+				}
+				p {
+					margin-top: 16px;
+					font-size: 22px;
+					color: #666;
+				}
+			}
+			.btn-group {
+				margin-top: 50px;
+				.btn {
+					border: 0;
+					width: 120px;
+					height: 40px;
+					text-align: center;
+					font-size: 16px;
+				}
+				.btn-blue {
+					margin: 0 70px;
+					background: #4C93FD;
+					color: #fff;
+				}
+				.btn-write {
+					background: #fff;
+					color: #666;
+					border: 1px solid #e5e5e5;
 				}
 			}
 		}

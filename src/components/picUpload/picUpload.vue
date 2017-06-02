@@ -218,6 +218,7 @@ export default {
       this.destImg = this.$refs.canvas.toDataURL();
       this.saveSearchHistory(this.destImg);
       this.closeCrop();
+      console.log(this.destImg);
       // 这里调用搜索接口
     },
     openFile: function () {

@@ -3,8 +3,10 @@
 
 		<input class="search-input" @keyup.13="searchText" type="text" v-model="text" placeholder="可输入厂名或花型编号查找">
 		<div class="choose-pic">
-			 <i class="iconfont">字</i> 
-			<pic-upload class="choose-input" ref="fileUpload"></pic-upload>
+			<label for="input">
+				<i class="icon-xiangji"></i> 
+				<pic-upload id="input" class="choose-input" ref="fileUpload"></pic-upload>
+			</label>
 			<!-- <input class="choose-input" type="file" title="上传图片搜图"> -->
 		</div>
 		<div class="search-btn" title="搜索" @click="searchText">
@@ -75,28 +77,27 @@
       height 36px
       width 40px
       padding 0 4px
-      // overflow hidden
-      .iconfont
+      overflow hidden
+      .icon-xiangji
         display inline-block
         position absolute
-        z-index 1
+        top 5px
         right 0
         width 40px
         height 36px
-        line-height 36px
-        padding 0 4px
-        font-size 18px
-        color #3385ff
-        text-align center
-      .choose-input
+      .icon-xiangji::before
+      	color #4c93fd
+      	font-size 26px
+      	cursor pointer
+      input
+      	display none
         position absolute
         z-index 2
         right 0
         top 0
-        height 36px
+        height 50px
         width 40px
         padding 0 4px
-        cursor pointer
     .search-btn
       display inline-block
       height 36px

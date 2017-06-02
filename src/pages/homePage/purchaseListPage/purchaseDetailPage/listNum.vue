@@ -21,10 +21,11 @@
 				Ta的接单信息
 			</div>
 			<div class="content">
-				<img v-lazy="obj.userHeadIcon" alt="花型图片" class="fl" />
+				<img v-if="obj.picUrl" v-lazy="obj.picUrl" alt="花型图片" class="fl" />
 				<p class="content-info">
 					<span class="status">{{obj.productStatus | productStatus}}</span>
-					<span class="shuliang"><i>¥</i> {{obj.buyPrice || 0}}/{{item.buyUnit | unit}}</span>
+					<span class="shuliang" v-if="obj.buyPrice"><i>¥</i> {{obj.buyPrice}}/{{item.buyUnit | unit}}</span>
+					<span class="shuliang" v-else>价格面议</span>
 				</p>
 				<p class="content-desc">{{obj.leaveWord || '没有留言信息'}}</p>
 			</div>
@@ -35,7 +36,6 @@
 <script>
 	import {finishProductBuy} from '@/common/api/api';
 	import Bus from '@/common/bus/bus.js';
-	import Toast from '@/components/common/toast/toast';
 	export default {
 		data() {
 			return {
@@ -100,7 +100,7 @@
 				this.paramFinishBuy.id = this.item.buyTaskList[e].buyId;
 				finishProductBuy(this.paramFinishBuy).then((res) => {
 					if (res.data.code === 0) {
-						Toast({
+						this.$toast({
 							type: 'success',
 							message: '成功完成接单'
 						});
@@ -200,6 +200,7 @@
 			border-bottom: 0;
 		}
 		.content {
+			padding-left: 30px;
 			box-sizing: border-box;
 			width: 824px;
 			height: 192px;

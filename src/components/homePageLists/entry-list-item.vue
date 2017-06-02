@@ -1,34 +1,43 @@
 <template>
-  <div class="entry-list-item">
-    <div class="entry-base-item" :companyId="item.id" title="查看厂家详情">
-      <div class="img-container">
-        <div class="img-wrapper">
-          <img class="item-image" v-lazy="item.productPics[0]">
-        </div>
-        <div class="img-wrapper">
-          <img class="item-image" v-lazy="item.productPics[1]">
-        </div>
-      </div>
-      <div class="item-desc">
-        <div class="company-avatar">
-          <img :src="item.companyHeadIcon" v-errorImg width="31" height="31">
-        </div>
-        <h2 class="desc-title">{{item.companyName}}</h2>
-      </div>
-    </div>
-  </div>
+	<div class="entry-list-item">
+		<div class="entry-base-item" :companyId="item.id" title="查看厂家详情" @click="goStore">
+			<div class="img-container">
+				<div class="img-wrapper">
+					<img class="item-image" v-lazy="item.productPics[0]">
+				</div>
+				<div class="img-wrapper">
+					<img class="item-image" v-lazy="item.productPics[1]">
+				</div>
+			</div>
+			<div class="item-desc">
+				<div class="company-avatar">
+					<img :src="item.companyHeadIcon" v-errorImg width="31" height="31">
+				</div>
+				<h2 class="desc-title">{{item.companyName}}</h2>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>
-export default {
-  props: {
-    item: {
-      type: Object
-    }
-  }
-};
+	export default {
+		props: {
+			item: {
+				type: Object
+			}
+		},
+		methods: {
+			goStore() {
+				this.$router.push({
+					name: 'shop',
+					params: {
+						id: this.item.id
+					}
+				});
+			}
+		}
+	};
 </script>
-
 <style lang="stylus" scoped>
 .entry-list-item
   box-sizing border-box
