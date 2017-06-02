@@ -70,7 +70,15 @@
           <span class="left">公司：</span>
           <div class="right">
             <div class="tip" v-if="tip.companyNameTip">{{tip.companyNameTip}}</div>
-            <input @blur="blurCompanyName" v-model="registerData.companyName" :class="{warn: tip.companyNameTip}" class="input" type="text"  placeholder="请输入你的公司名">
+            <input @blur="blurCompanyName" v-model="registerData.companyName" :class="{warn: tip.companyNameTip}" class="input" type="text"  placeholder="请输入你的公司名称">
+          </div>
+        </div>
+        
+        <div class="tel list">
+          <span class="left">公司主营：</span>
+          <div class="right">
+            <div class="tip" v-if="tip.companyMainTip">{{tip.companyMainTip}}</div>
+            <input @blur="blurCompanyMain" v-model="registerData.companyBusiness" :class="{warn: tip.companyMainTip}" class="input" type="text"  placeholder="请输入你的公司主营业务">
           </div>
         </div>
 
@@ -107,7 +115,6 @@ import {
   testCompanyName,
   testSMSCode
 } from '@/common/js/regExp';
-// import axios from 'axios';
 import {getRegSMSCode, reg, checkPhone} from '@/common/api/api';
 import Toast from '@/components/common/toast/toast';
 export default {
@@ -119,6 +126,7 @@ export default {
         userPWD: '',
         userName: '',
         companyName: '',
+        companyBusiness: '',
         smsCode: ''
       },
       confirmPWD: '',
@@ -219,6 +227,13 @@ export default {
         this.tip.companyNameTip = '';
       }
     },
+    blurCompanyMain() {
+      if (!this.registerData.companyBusiness) {
+        this.tip.companyMainTip = '公司主营业务不能为空';
+      } else {
+        this.tip.companyMainTip = '';
+      }
+    },
     blurSmsCode() {
       if (!testSMSCode(this.registerData.smsCode)) {
         this.tip.smsCodeTip = '请输入4位短信验证码';
@@ -273,22 +288,46 @@ export default {
           console.log(key + 'Tip');
           switch (key) {
             case 'userType':
-              alert('请至少选择一个注册身份');
+              Toast({
+								type: 'error',
+								message: '请至少选择一个注册身份'
+							});
               return;
             case 'userPWD':
-              alert('请输入正确的密码');
+              Toast({
+								type: 'error',
+								message: '请输入正确的密码'
+							});
               return;
             case 'userName':
-              alert('请输入您的姓名');
+              Toast({
+								type: 'error',
+								message: '请输入您的姓名'
+							});
               return;
             case 'companyName':
-              alert('请输入公司名称');
+              Toast({
+								type: 'error',
+								message: '请输入公司名称'
+							});
+              return;
+            case 'companyBusiness':
+              Toast({
+								type: 'error',
+								message: '请输入公司主营业务'
+							});
               return;
             case 'smsCode':
-              alert('请输入短信验证码');
+              Toast({
+								type: 'error',
+								message: '请输入短信验证码'
+							});
               return;
             default:
-              alert('请填写正确的注册信息');
+              Toast({
+								type: 'error',
+								message: '请填写正确的注册信息'
+							});
               return;
           }
         }
@@ -296,7 +335,10 @@ export default {
       let _data = this.registerData;
       let checkPassword = _data.userPWD === this.confirmPWD;
       if (!(testMobile(_data.userMobile) && testPWD(_data.userPWD) && testName(_data.userName) && testCompanyName(_data.companyName) && testSMSCode(_data.smsCode) && checkPassword && !this.isRegisted && !this.samePWD)) {
-        alert('请填写正确的注册信息');
+        Toast({
+					type: 'error',
+					message: '请填写正确的注册信息'
+				});
         return;
       }
       reg(this.registerData)
@@ -317,7 +359,10 @@ export default {
           }
         })
         .catch(res => {
-          console.error('注册失败', res);
+          Toast({
+						type: 'error',
+						message: '注册失败，请重试'
+					});
         });
     }
   }

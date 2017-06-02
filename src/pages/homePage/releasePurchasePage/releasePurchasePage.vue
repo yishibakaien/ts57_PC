@@ -41,6 +41,19 @@
 				</div>
 			</div>
 		</div>
+		<div class="prompt-box" v-if="modelShow">
+			<customModel>
+				<h5>提示</h5>
+				<div class="model-content">
+					<i class="icon-chenggongfabu"></i>
+					<p>已成功发布求购</p>
+				</div>
+				<div class="btn-group">
+					<button class="btn btn-blue" @click="againRelease">继续发布</button>
+					<button class="btn btn-write" @click="myBuy">我的求购</button>
+				</div>
+			</customModel>
+		</div>
 	</div>
 </template>
 <script>
@@ -49,7 +62,8 @@
 		aliUpload,
 		header,
 		nav,
-		search
+		search,
+		customModel
 	} from '@/components';
 	import { releaseProductBuy } from '@/common/api/api';
 	import { ALI_DOMAIN } from '@/common/dict/const';
@@ -57,6 +71,7 @@
 	export default {
 		data() {
 			return {
+				modelShow: false,
 				// 数据字典
 				DICT: {
 					SupplyShapes: DICT.SupplyShapes,
@@ -190,7 +205,8 @@
 			'vHeader': header,
 			search,
 			'vNav': nav,
-			aliUpload
+			aliUpload,
+			customModel
 		},
 		computed: {
 			...mapGetters(['dicTree']),
@@ -213,15 +229,33 @@
 			},
 			// 提交表单
 			submitForm(formName) {
-				console.log(this.addBuyForm);
 				this.$refs[formName].validate(async(valid) => {
 					if (valid) {
 						await releaseProductBuy(this.addBuyForm);
-						await this.$router.push({
+						this.modelShow = true;
+						/* this.$router.push({
 							path: '/purchaseListPage'
-						});
+						}); */
 					} else {
 						return false;
+					}
+				});
+			},
+			// 继续发布
+			againRelease() {
+				this.modelShow = false;
+				location.reload();
+//				let e;
+//				for (e in this.addBuyForm) {
+//					this.addBuyForm[e] = '';
+//				}
+			},
+			// 我的求购
+			myBuy() {
+				this.$router.push({
+					path: '/personalCenterPage',
+					query: {
+						subPath: '4'
 					}
 				});
 			}
@@ -249,6 +283,50 @@
 					color: #fff;
 					background: #4c93fd;
 					cursor: pointer;
+				}
+			}
+		}
+		.prompt-box {
+			h5 {
+				padding-left: 12px;
+				height: 38px;
+				line-height: 38px;
+				font-size: 16px;
+				color: #666;
+				border-bottom: 1px solid #e5e5e5;
+			}
+			.model-content {
+				padding-top: 60px;
+				text-align: center;
+				.icon-chenggongfabu {
+					&::before {
+						font-size: 44px;
+					}
+				}
+				p {
+					margin-top: 16px;
+					font-size: 22px;
+					color: #666;
+				}
+			}
+			.btn-group {
+				margin-top: 50px;
+				.btn {
+					border: 0;
+					width: 120px;
+					height: 40px;
+					text-align: center;
+					font-size: 16px;
+				}
+				.btn-blue {
+					margin: 0 70px;
+					background: #4C93FD;
+					color: #fff;
+				}
+				.btn-write {
+					background: #fff;
+					color: #666;
+					border: 1px solid #e5e5e5;
 				}
 			}
 		}

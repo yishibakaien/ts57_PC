@@ -146,6 +146,15 @@
 			});
 		},
 		mounted() {
+			if (this.$route.query.subPath) {
+				let index = parseInt(this.$route.query.subPath);
+				this.currentView = this.navItems[index].itemName;
+				this.navItems.forEach((item) => {
+					item.isActive = false;
+				});
+				this.navItems[index].isActive = true;
+				return;
+			}
 			let index = this.$store.state.currentPerson;
 			if (index) {
 				this.currentView = this.navItems[index].itemName;

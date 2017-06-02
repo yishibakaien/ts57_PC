@@ -118,7 +118,7 @@ const routes = [
     path: '/personalCenterPage',
     component: personalCenterPage,
     meta: {
-      //          needAuth: true
+      needAuth: true
     }
   }, {
     path: '/releasePurchasePage', // 发布求购

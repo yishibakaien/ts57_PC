@@ -125,9 +125,11 @@ export default {
           this.$store.commit(types.LOGIN_MASK, false);
           this.$store.dispatch('getDicTree');
           // 路由重定向
-          let redirect = decodeURIComponent(this.$route.query.redirect || '/');
+//        let redirect = decodeURIComponent(this.$route.query.redirect || '/homePage');
+          let redirect = this.$route.query.redirect || '/homePage';
+          console.log(redirect);
           this.$router.push({
-            path: redirect
+            path: '/homePage'
           });
         } else if (res.data.code === 2000004) {
           this.showPicCode = true;

@@ -146,9 +146,6 @@ basecolor = #4c93fd
           float left
           border 1px solid #f7f7f7
           text-align center
-          cursor pointer
-          &:hover
-            color #4c93fd
           .entry-nav-icon
             display inline-block
             font-size 36px

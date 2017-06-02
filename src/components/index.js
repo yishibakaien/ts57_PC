@@ -45,6 +45,8 @@ import pagination from './pagination/pagination';
 import collection from './collection/collection';
 // 提示框
 import tipsModel from './tipsModel/tipsModel';
+// 自定义弹窗
+import customModel from './customModel/customModel';
 
 export {
     topbar,
@@ -68,5 +70,6 @@ export {
     filter,
     pagination,
     collection,
-    tipsModel
+    tipsModel,
+    customModel
 };
