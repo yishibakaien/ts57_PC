@@ -2,7 +2,8 @@
 	<div class="entryList-item">
 		<div class="entryList-item-title">
 			<span>{{obj.companyName}}</span>
-			<router-link to="homePage">查看更多 ></router-link>
+			<router-link to="{path:'/shop/${obj.id}/allProducts'}">查看更多 ></router-link>
+			<a href="javascript:;" @click="goStoreChild">查看更多 ></a>
 		</div>
 		<div class="entryList-item-box clearfix">
 			<div class="dianpu-content fl">
@@ -35,6 +36,11 @@
 					params: {
 						id: this.obj.id
 					}
+				});
+			},
+			goStoreChild() {
+				this.$router.push({
+					path: `/shop/${this.obj.id}/allProducts`
 				});
 			}
 		}

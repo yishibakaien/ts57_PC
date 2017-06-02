@@ -61,19 +61,23 @@ export default new Vuex.Store({
   },
   mutations: {
     [types.AJAX]: (state, data) => {
-      localStorage.ajaxToken = data;
+//    localStorage.ajaxToken = data;
+      localStorage.setItem('ajaxToken', data);
       state.ajaxToken = data;
     },
     [types.LOGIN]: (state, data) => {
-      localStorage.accessToken = data;
+//    localStorage.accessToken = data;
+			sessionStorage.setItem('accessToken', data);
       state.accessToken = data;
+//    alert('登陆成功');
+//    alert(data);
     },
     [types.LOGOUT]: (state) => {
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('userName');
-      localStorage.removeItem('ajaxToken');
-      state.userName = null;
-      state.ajaxToken = null;
+      sessionStorage.removeItem('accessToken');
+//    localStorage.removeItem('userName');
+//    localStorage.removeItem('ajaxToken');
+//    state.userName = null;
+//    state.ajaxToken = null;
       state.accessToken = null;
     },
     [types.SEARCH_RESULT]: (state, data) => {
@@ -90,7 +94,7 @@ export default new Vuex.Store({
     },
     [types.USER_NAME]: (state, data) => {
       state.userName = data;
-      localStorage.userName = data;
+      sessionStorage.userName = data;
     },
     [types.MODEL_SHOW]: (state, data) => {
       state.modelShow = data;

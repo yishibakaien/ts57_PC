@@ -20,7 +20,7 @@
 				<span>花型索样短信</span>
 				<i @click="messageOnOff(2)">
 					<img src="./yunxu.png" v-show="param.isSyMsg" />
-					<img src="./jujue.png" v-show="!param.isSyMsg""/>
+					<img src="./jujue.png" v-show="!param.isSyMsg"/>
 				</i>
 			</p>
 			<p v-if="isShow">
@@ -53,13 +53,14 @@
 					isReceiveMsg: '',
 					isSyMsg: ''
 				},
-				isShow: false
+				isShow: true
 			};
 		},
 		created() {
 			this.getMsgSettingMethod();
-			if (localStorage.userType === 0) {
-				this.isShow = true;
+			console.log(this.$store.state.user.userInfo.userType);
+			if (this.$store.state.user.userInfo.userType === 1) {
+				this.isShow = false;
 			}
 		},
 		methods: {

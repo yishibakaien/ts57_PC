@@ -22,7 +22,7 @@
 		<div class="personal-list-wrap clearfix">
 			<div class="personal-goods-item" v-for="(item, index) in items">
 				<div class="personal-goods-item-img">
-					<img v-lazy="item.picUrl" alt="求购"  @click.stop="goDetail(index)"/>
+					<img v-lazy="item.productBuyBO.buyPicUrl" alt="求购"  @click.stop="goDetail(index)"/>
 					<span class="states green" v-if="item.status == 1">接单中</span>
 					<span class="states yellow" v-if="item.status == 2">已成交</span>
 					<span class="states gray" v-if="item.status == 3">已关闭</span>

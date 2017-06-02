@@ -7,7 +7,7 @@
 			<img v-if="url" :src="url" alt="花型图片" class="fl" />
 			<p class="content-info">
 				<span class="status">{{productStatus | productStatus}}</span>
-				<span class="shuliang" v-if="buyPrice"><i>¥</i> {{buyPrice}}/{{buyUnit | unit}}</span>
+				<span class="shuliang" v-if="buyPrice !== 0"><i>¥</i> {{buyPrice}}/{{buyUnit | unit}}</span>
 				<span class="shuliang" v-else>价格面议</span>
 			</p>
 			<p class="content-desc">{{leaveWord || '没有留言信息'}}</p>
@@ -47,6 +47,7 @@
 						this.buyPrice = val.buyTaskList[i].buyPrice;
 						this.buyUnit = val.buyUnit;
 						this.leaveWord = val.buyTaskList[i].leaveWord;
+						console.log(this.url);
 					} else {
 						this.showOrhide = false;
 					}
@@ -54,6 +55,7 @@
 			}
 		},
 		created() {
+			console.log(this.item);
 		}
 	};
 </script>
