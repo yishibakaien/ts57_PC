@@ -1,4 +1,4 @@
-import {getCompanyInfo, getIngredientsList, getCompanyAptitude} from '@/common/api/api.js';
+import {getCompanyInfo, getIngredientsList, getCompanyAptitude, getProduct} from '@/common/api/api.js';
 
 const state = {
   // 成分列表
@@ -6,9 +6,9 @@ const state = {
   // 企业信息 => 用于店铺管理
   companyInfo: {},
   // 企业资质
-  aptitude: {}
-  // 店铺简单信息 => 用于店铺访问
-  // companySimpleInfo: {},
+  aptitude: {},
+  // 花型详情
+  productDetail: {}
   // 用户店铺信息=>不能与companySimpleInfo合并
   // CompanyInfoByUserId: {}
 };
@@ -17,6 +17,10 @@ const mutations = {
   // 成分列表
   GET_INGREDIENTS_LIST(state, ingredientList) {
     state.ingredientList = ingredientList.data;
+  },
+  // 成分列表
+  GET_PRODUCT(state, detail) {
+    state.productDetail = detail;
   },
   // 工厂信息
   GET_COMPANY_INFO(state, info) {
@@ -34,20 +38,6 @@ const mutations = {
   GET_APTITUDE(state, aptitude) {
     state.aptitude = aptitude;
   }
-  // GET_COMPANY_SIMPLE_INFO(state, info) {
-  //   state.companySimpleInfo = info;
-  // },
-  // GET_COMPANY_INFO_USER(state, usrInfo) {
-  //   for (let i in usrInfo) {
-  //     if (!usrInfo[i]) {
-  //       usrInfo[i] = '无';
-  //     }
-  //     if (['lat', 'lng', 'presence'].indexOf(i) >= 0) {
-  //       usrInfo[i] = '';
-  //     }
-  //   }
-  //   state.CompanyInfoByUserId = usrInfo;
-  // }
 };
 const actions = {
   // 获取档口OR工厂信息
@@ -57,37 +47,29 @@ const actions = {
     let data = await getCompanyInfo(params);
     commit('GET_COMPANY_INFO', data.data.data);
   },
-  // // 获取简单店铺或工厂信息
-  // async getCompanySimpleInfo({
-  //   commit
-  // }, params) {
-  //   let data = await getCompanySimpleInfo({id: params});
-  //   commit('GET_COMPANY_SIMPLE_INFO', data.data.data);
-  // },
-  // // 获取用户的店铺信息
-  // async getCompanyInfoByUserId({
-  //   commit
-  // }, params) {
-  //   let data = await getCompanyInfoByUserId({userId: params});
-  //   commit('GET_COMPANY_INFO_USER', data.data.data);
-  // },
   // 获取成分列表
   async getIngredientsList({commit}) {
     let data = await getIngredientsList();
     commit('GET_INGREDIENTS_LIST', data.data);
   },
-  // 获取成分列表
+  // 获取企业资质信息
   async getCompanyAptitude({commit}) {
     let data = await getCompanyAptitude();
     commit('GET_APTITUDE', data.data.data);
+  },
+  // 花型详情
+  async getProduct({
+    commit
+  }, params) {
+    let data = await getProduct(params);
+    commit('GET_PRODUCT', data.data.data);
   }
 };
 const getters = {
   companyInfo: (state) => state.companyInfo,
   ingredientList: (state) => state.ingredientList,
-  aptitude: (state) => state.aptitude
-  // companySimpleInfo: (state) => state.companySimpleInfo,
-  // CompanyInfoByUserId: (state) => state.CompanyInfoByUserId
+  aptitude: (state) => state.aptitude,
+  productDetail: (state) => state.productDetail
 };
 export default {
   state,

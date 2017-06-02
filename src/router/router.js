@@ -12,16 +12,16 @@ import {
   forgotPasswordPage,
   purchaseListPage,
   purchaseDetailPage,
-
   //	releaseSupplyPage,
   supplyListPage,
   //	entryListPage,
-  supplyDetailPage,
-  flowerDetailPage
+  supplyDetailPage
 } from '../pages';
 
 Vue.use(Router);
 // created By HZC
+// =============
+const flowerDetail = r => require.ensure([], () => r(require('@/pages/homePage/flowerDetailPage/flowerDetailPage.vue')), 'flowerDetail');
 // =============
 // 3D
 const clause = r => require.ensure([], () => r(require('@/pages/clause/')), 'clause');
@@ -133,8 +133,9 @@ const routes = [
     path: '/purchaseDetailPage', // 求购详情
     component: purchaseDetailPage
   }, {
-    path: '/flowerDetailPage', // 花型详情
-    component: flowerDetailPage
+    path: '/product/:id', // 花型详情
+    component: flowerDetail,
+    name: 'flowerDetail'
   }, {
     path: '/releaseSupplyPage', // 发布供应
     component: releaseSupplyPage,

@@ -15,6 +15,7 @@ const DICT = {
       dicValue: 4
     }
   ],
+
   // 人数
   Nop: [
     {

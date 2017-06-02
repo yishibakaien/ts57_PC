@@ -68,13 +68,16 @@ export default {
     return {
       // 二维码
       Qrcode: {
-        value: location.href,
+        value: '',
         size: 40
       }
     };
   },
+  created() {
+    this.Qrcode.value = 'http://www.baidu.com';
+  },
   methods: {
-      // 收藏店铺
+    // 收藏店铺
     async handleCollectStore() {
       let res = (await favoriteBus({
         businessId: this.$route.params.id,
