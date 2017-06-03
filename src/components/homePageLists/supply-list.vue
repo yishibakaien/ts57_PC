@@ -127,6 +127,7 @@ basecolor = #4c93fd
           .icon-gongying::before
           	position relative
           	top 14px
+          	color rgba(255,255,255,.3)
       .brand-desc
         height 40px
         line-height 40px

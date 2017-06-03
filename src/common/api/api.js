@@ -245,6 +245,8 @@ function _fetch(method = METHODS.get, data, url) {
         });
       }
       if (res.data.code === 210018) {
+      debugger;
+      alert('000');
         store.commit(types.LOGOUT);
       }
       resolve(res);

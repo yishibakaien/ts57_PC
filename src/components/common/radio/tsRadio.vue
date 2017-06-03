@@ -92,7 +92,7 @@ export default {
     position: relative;
     display: inline-block;
     min-height: 22px;
-    line-height: 22px;
+    line-height: 25px;
     vertical-align: middle;
     padding:0 8px;
     font-size: 13px;
@@ -102,6 +102,7 @@ export default {
     cursor: pointer;
     @modifier inner{
       display: inline-block;
+      padding: 0 5px;
     }
     @modifier origin{
       margin-top: 10px;

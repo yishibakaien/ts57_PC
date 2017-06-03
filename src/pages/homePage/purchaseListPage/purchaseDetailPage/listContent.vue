@@ -17,7 +17,8 @@
 			<p class="content-info-class"><span>求购时间：</span>{{item.createDate | customTime}}</p>
 
 			<p class="content-info-class content-info-user"><span>采购商：</span>{{item.userName}}</p>
-			<p class="content-info-class content-info-status"><span>状态：</span><span class="status">{{item.buyStatus | buyStatus}}</span></p>
+			<p class="content-info-class content-info-status" v-if="userType === 2"><span>状态：</span><span class="status">{{item.buyStatus | buyStatus}}</span></p>
+			<p class="content-info-class content-info-status" v-if="userType === 1"><span>状态：</span><span class="status">{{listState}}</span></p>
 
 			<button class="btn btn-dele" v-if="shanchu1" @click="deleteBuyTaskMethod">删除</button>
 			<button class="btn btn-dele" v-if="quxiao" @click="cancelList(item.id)">取消接单</button>
@@ -61,6 +62,8 @@
 					buyCloseDesc: '',
 					id: ''
 				},
+				listState: '',
+				userType: 2,
 				jiedan: false,
 				quxiao: false,
 				chenggong: false,
@@ -79,6 +82,7 @@
 			item(val) {
 				// 1工厂 2档口
 				if (this.$store.state.user.userInfo.userType === 1) {
+					this.userType = 1;
 					let yesOrNo = false;
 					// 判断当前用户是否接单
 					this.item.buyTaskList.forEach(item => {
@@ -91,6 +95,7 @@
 						for (let i = 0; i < this.item.buyTaskList.length; i++) {
 							if (this.item.buyTaskList[i].userId === this.$store.state.user.userInfo.id) {
 								if (this.item.buyTaskList[i].status === 1) {
+									this.listState = '已接单';
 									this.quxiao = true;
 								}
 							}
@@ -98,12 +103,14 @@
 					}
 					// 显示我要接单按钮
 					if (this.item.buyStatus === 1 && !yesOrNo) {
+						this.listState = '求购中';
 						this.jiedan = true;
 					}
 					// 显示接单成功提示
 					for (let i = 0; i < this.item.buyTaskList.length; i++) {
 						if (this.item.buyTaskList[i].userId === this.$store.state.user.userInfo.id) {
 							if (this.item.buyStatus === 2 && this.item.buyTaskList[i].status === 2) {
+								this.listState = '已成交';
 								this.chenggong = true;
 							}
 						}
@@ -113,6 +120,7 @@
 					for (let i = 0; i < this.item.buyTaskList.length; i++) {
 						if (this.item.buyTaskList[i].userId === this.$store.state.user.userInfo.id) {
 							if (this.item.buyTaskList[i].status === 3) {
+								this.listState = '已关闭';
 								this.shanchu1 = true;
 							}
 						}
@@ -122,6 +130,7 @@
 				// 显示档口用户删除按钮
 				// 求购单状态为已关闭
 				if (this.$store.state.user.userInfo.userType === 2) {
+					this.userType = 2;
 					// 判断是否是当前用户的求购单
 					if (val.userId === this.$store.state.user.userInfo.id) {
 						if (val.buyStatus === 1) {

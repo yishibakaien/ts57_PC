@@ -17,13 +17,13 @@
         <div class="input-wrapper">
           <div class="input-phone" :class="{warn: telTip}">
             <div class="tip" v-if="telTip">{{telTip}}</div>
-            <i class="text iconfont">字</i>
+            <i class="text iconfont icon-shouji"></i>
             <input class="input" type="text" placeholder="请输入手机号码" maxlength="11" v-model="userData.userMobile" @input="userMobileIpt" @blur="checkTel">
           </div>
 
           <div class="input-password" :class="{warn: passwordTip}">
             <div class="tip" v-if="passwordTip">{{passwordTip}}</div>
-            <i class="text iconfont">字</i>
+            <i class="text iconfont icon-mima"></i>
             <input class="input" type="password" maxlength="16" placeholder="请输入密码" v-model="userData.userPWD" @input="userPWDIpt" @blur="checkPWD">
           </div>
 
@@ -210,6 +210,11 @@ export default {
                         width: 50px;
                         text-align: center;
                         border-right: 1px solid #d8d8d8;
+                    }
+                    .icon-mima::before,
+                    .icon-shouji::before {
+                    	font-size: 22px;
+                    	color: #999;
                     }
                     .input {
                         width: 200px;

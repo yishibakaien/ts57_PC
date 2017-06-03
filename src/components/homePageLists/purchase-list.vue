@@ -129,10 +129,10 @@ basecolor = #4c93fd
           line-height 75px
           .icon-qiugou
             font-size 44px
-            color rgba(255, 255, 255, 0.6)
             &::before 
             	position relative
             	top 14px
+            	color rgba(255, 255, 255, 0.3)
       .brand-desc
         height 40px
         line-height 40px

@@ -58,6 +58,13 @@
 				});
 			},
 			restPasswdMethod() {
+				if (!reg.testPWD(this.param.userPasswd)) {
+					Toast({
+						type: 'error',
+						message: '您输入的原密码格式错误，请检查'
+					});
+					return;
+				}
 				if (!reg.testPWD(this.param.newPasswd)) {
 					Toast({
 						type: 'error',

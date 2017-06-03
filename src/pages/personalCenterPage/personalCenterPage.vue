@@ -246,7 +246,7 @@
 				margin: 28px auto;
 				height: 1px;
 				width: 112px;
-				background: #d1d1d1;
+				background: #e5e5e5;
 			}
 			&::before {
 				content: '';
@@ -254,7 +254,7 @@
 				margin: 28px auto;
 				height: 1px;
 				width: 112px;
-				background: #d1d1d1;
+				background: #e5e5e5;
 			}
 		}
 	}
