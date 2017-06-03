@@ -15,7 +15,16 @@ const DICT = {
       dicValue: 4
     }
   ],
-
+  // 搜索类型
+  SearchType: [
+    {
+      dicValue: 1,
+      label: '店内'
+    }, {
+      dicValue: 2,
+      label: '平台'
+    }
+  ],
   // 人数
   Nop: [
     {

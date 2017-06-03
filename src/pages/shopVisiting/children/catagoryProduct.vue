@@ -43,7 +43,11 @@ export default {
     };
   },
   methods: {
-    handleViewProduct() {}
+    handleViewProduct(id) {
+      this.$router.push({
+        path: `/product/${id}`
+      });
+    }
   },
   async created() {
     this.Params.companyId = this.$route.params.id;

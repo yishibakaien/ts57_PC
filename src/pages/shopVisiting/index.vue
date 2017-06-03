@@ -1,7 +1,9 @@
 <template lang="html">
-  <div class="shopVisiting">
+  <div class="shopVisiting all">
     <v-header>
-    	<search></search>
+    	<search>
+    	  <ts-select class="shopVisiting-select" data-key-name="label" data-val-name="dicValue" :options='DICT.SearchType' v-model="search"></ts-select>
+    	</search>
     </v-header>
     <!-- 背景图 -->
     <intro-pic></intro-pic>
@@ -24,11 +26,16 @@ import {
   mapGetters,
   mapActions
 } from 'vuex';
+import DICT from '@/common/dict';
 import introPic from './children/introPic';
 import navItem from './nav';
 export default {
   data() {
     return {
+      DICT: {
+        SearchType: DICT.SearchType
+      },
+      search: '',
       navItem: navItem
     };
   },
@@ -44,6 +51,7 @@ export default {
     await this.getCompanyInfo({
       companyId: this.$route.params.id
     });
+    this.search = 1;
   },
   components: {
     'vHeader': header,
@@ -61,6 +69,19 @@ export default {
     background: #fff;
     max-width: 1200px;
     margin: 1em auto;
+  }
+  @component select{
+    width: 88px;
+    min-width: 80px;
+    margin-right: 5px;
+  }
+}
+</style>
+<style lang="scss">
+.shopVisiting.all {
+  .ts-select-toggle {
+      border: none;
+      background: rgba(155, 155, 155, .1);
   }
 }
 </style>

@@ -28,7 +28,11 @@ export default {
     factoryUpdate
   },
   methods: {
-    handleViewProduct() {},
+    handleViewProduct(id) {
+      this.$router.push({
+        path: `/product/${id}`
+      });
+    },
     handleViewStore() {},
     handleChangePage(number) {
       this.Params.pageNo = number;

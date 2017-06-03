@@ -6,7 +6,7 @@
         </div>
     <div slot="menu">
       <ts-button type="primary" @click="handleNewPhoneDialog" v-if="phoneList.length<2">新增号码</ts-button>
-      <router-link to="/personalCenterPage">
+      <router-link :to="{path:'/personalCenterPage',query:{'subPath':'3'}}">
         <ts-button type="primary">短信设置</ts-button>
       </router-link>
     </div>

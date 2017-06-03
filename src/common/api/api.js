@@ -34,6 +34,7 @@ const API = {
   // 搜索
   search: {
     search: '/product/search', // 文本搜索
+    companySearch: '/company/search', // 文本搜索
     history: '/search/history' // 搜索记录列表(大家都在找)
   },
   // 索样
