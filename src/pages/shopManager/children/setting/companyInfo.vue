@@ -9,10 +9,11 @@
           <p v-if="Text.show" class="companyInfo-formItem-text">{{companyInfoForm.companyName}}</p>
           <ts-input v-else :maxlength="15" v-model="companyInfoForm.companyName" style="width:250px"></ts-input>
         </ts-form-item>
-        <ts-form-item label="座机电话：" prop="contactTel">
-          <p class="companyInfo-formItem-text" v-if="Text.show">{{companyInfoForm.contactTel}}</p>
-          <ts-input v-else :maxlength="20" v-model="companyInfoForm.contactTel" style="width:250px"></ts-input>
+        <ts-form-item label="公司简称：" prop="companyAbbreviation">
+          <p v-if="Text.show" class="companyInfo-formItem-text">{{companyInfoForm.companyAbbreviation}}</p>
+          <ts-input v-else v-model="companyInfoForm.companyAbbreviation" :maxlength="8" style="width:250px"></ts-input>
         </ts-form-item>
+
         <ts-form-item label="公司主营：" prop="companyBusiness">
           <p v-if="Text.show" class="companyInfo-formItem-text">{{companyInfoForm.companyExtendBO.companyBusiness}}</p>
           <ts-input v-else :maxlength="50" v-model="companyInfoForm.companyExtendBO.companyBusiness" style="width:250px"></ts-input>
@@ -29,9 +30,9 @@
         <ts-form-item label="账户号码：" prop="phone">
           <p  class="companyInfo-formItem-text">{{companyInfoForm.phone}}</p>
         </ts-form-item>
-        <ts-form-item label="公司简称：" prop="companyAbbreviation">
-          <p v-if="Text.show" class="companyInfo-formItem-text">{{companyInfoForm.companyAbbreviation}}</p>
-          <ts-input v-else v-model="companyInfoForm.companyAbbreviation" :maxlength="8" style="width:250px"></ts-input>
+        <ts-form-item label="座机电话：" prop="contactTel">
+          <p class="companyInfo-formItem-text" v-if="Text.show">{{companyInfoForm.contactTel}}</p>
+          <ts-input v-else :maxlength="20" v-model="companyInfoForm.contactTel" style="width:250px"></ts-input>
         </ts-form-item>
         <ts-form-item label="传真号码：" prop="fax">
           <p v-if="Text.show" class="companyInfo-formItem-text">{{companyInfoForm.fax}}</p>
@@ -139,7 +140,7 @@ export default {
         companyAbbreviation: [{
           min: 2,
           max: 8,
-          message: '公司简称的长度在2到50位个字符'
+          message: '公司简称的长度在2到8位个字符'
         }],
         contactTel: [{
           message: '请输入正确的座机号码',
@@ -258,7 +259,7 @@ export default {
   }
   @component formItem{
     @descendent text{
-      padding-top: 10px;
+      padding-top: 6px;
     }
   }
   @component container{

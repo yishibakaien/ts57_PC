@@ -15,7 +15,7 @@
        height="170"
        :canView="false"
        disabledHover
-       v-lazy="product.defaultPicUrl">
+       :src="product.defaultPicUrl">
        </ts-image>
        <p class="allmeterial-product--number">{{product.productNo}}</p>
        <template slot="footer">
@@ -53,7 +53,8 @@ export default {
       Params: {
         pageSize: 10,
         pageNo: 1,
-        companyId: ''
+        companyId: '',
+        category: ''
       },
       CategoryList: [],
       ProductList: {},
@@ -109,7 +110,14 @@ export default {
     ...mapGetters(['dicTree'])
   },
   methods: {
-    handleFilterCategorys() {},
+    handleFilterCategorys(e) {
+      this.Params.category = e;
+    },
+    handleViewProduct(id) {
+      this.$router.push({
+        path: `/product/${id}`
+      });
+    },
     async handleChangePage(number) {
       this.Params.pageNo = number;
     }

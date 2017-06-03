@@ -1,56 +1,51 @@
 <template>
-<div class="introPic-bg">
-  <div class="introPic-wrapper">
-    <div class="introPic-wrapper-left onepx">
-      <ts-image :canView="false" disabledHover width="500" height="250" class="factory-company--cover" :src="companyInfo.companyBanner"></ts-image>
-    </div>
-    <div class="introPic-wrapper-right">
-      <div class="introPic-company-header">
-        <!-- 公司名称 -->
-        <ts-image shape="round" :canView="false" disabledHover width="50" height="50" :src="companyInfo.companyHeadIcon"></ts-image>
-        <p class="introPic-company-title">{{companyInfo.companyName}}</p>
-        <span class="introPic-storeType" :style="{'background':getIsStore?'#13ce66':'#50BFFF'}">
+<div class="introPic-wrapper">
+  <img v-lazy="companyInfo.companyBanner" width="500" height="250"  class="introPic-wrapper-left">
+  <div class="introPic-wrapper-right">
+    <div class="introPic-company-header">
+      <!-- 公司名称 -->
+      <ts-image shape="round" :canView="false" disabledHover width="50" height="50" :src="companyInfo.companyHeadIcon"></ts-image>
+      <p class="introPic-company-title">{{companyInfo.companyName}}</p>
+      <span class="introPic-storeType" :style="{'background':getIsStore?'#13ce66':'#50BFFF'}">
           {{getIsStore?'档':'厂'}}
         </span>
-        <!-- 三个菜单：电话联系，收藏，店铺 -->
-        <ul>
-          <ts-popover trigger="click" :options="{placement: 'bottom'}">
-            <div class="popper introPic-popper-phone">
-              <p class="introPic-popper-phone-user">
-                <strong>{{companyInfo.companyPersonCharge}}</strong>
-                <span>{{companyInfo.phone}}</span>
-              </p>
-              <p class="introPic-popper-phone-tip">老板，拨打电话时，记得说明
-                <br> 是坐视不管的客户哦～
-              </p>
-            </div>
-            <li class="introPic-phone introPic-tip" slot="reference">
-              <i class="icon-dianhua"></i>电话联系
-            </li>
-          </ts-popover>
-          <li @click="handleCollectStore">
-            <i :class="getIsCollect?'icon-yishoucang':'icon-shoucang'"></i> {{getIsCollect?'已收藏店铺':'收藏店铺'}}
+      <!-- 三个菜单：电话联系，收藏，店铺 -->
+      <ul>
+        <ts-popover trigger="hover" :options="{placement: 'bottom'}">
+          <div class="popper introPic-popper-phone">
+            <p class="introPic-popper-phone-user">
+              <strong>{{companyInfo.phone}}</strong>
+            </p>
+            <p class="introPic-popper-phone-tip">老板，拨打电话时，记得说明
+              <br> 是坐视布管的客户哦～
+            </p>
+          </div>
+          <li class="introPic-phone introPic-tip" slot="reference">
+            <i class="icon-dianhua"></i>电话联系
           </li>
-          <ts-popover trigger="click" :options="{placement: 'bottom'}">
-            <div class="popper introPic-popper-qrcode">
-              <qrcode-vue :value="Qrcode.value" :size="Qrcode.size" level="H"></qrcode-vue>
-              <p class='introPic-popper-qrcode-tip'>扫描二维码，在手机上访问店铺</p>
-            </div>
-            <li class="introPic-phone introPic-tip" slot="reference">
-              <i class="icon-erweima"></i>店铺二维码
-            </li>
-          </ts-popover>
-        </ul>
-      </div>
-      <!-- 主营 -->
-      <p class="introPic-company is-line3">
-        公司主营：{{companyInfo.companyBusiness}}
-      </p>
-      <!-- 地址 -->
-      <p class="introPic-company is-line">
-        公司地址：{{companyInfo.address}}
-      </p>
+        </ts-popover>
+        <li @click="handleCollectStore">
+          <i :class="getIsCollect?'icon-yishoucang':'icon-shoucang'"></i> {{getIsCollect?'已收藏店铺':'收藏店铺'}}
+        </li>
+        <ts-popover trigger="hover" :options="{placement: 'right'}">
+          <div class="popper introPic-popper-qrcode">
+            <qrcode-vue :value="Qrcode.value" :size="Qrcode.size" level="H"></qrcode-vue>
+            <p class='introPic-popper-qrcode-tip'>扫描二维码，在手机上访问店铺</p>
+          </div>
+          <li class="introPic-phone introPic-tip" slot="reference">
+            <i class="icon-erweima"></i>店铺二维码
+          </li>
+        </ts-popover>
+      </ul>
     </div>
+    <!-- 主营 -->
+    <p class="introPic-company is-line3">
+      公司主营：{{companyInfo.companyBusiness}}
+    </p>
+    <!-- 地址 -->
+    <p class="introPic-company is-line">
+      公司地址：{{companyInfo.address}}
+    </p>
   </div>
 </div>
 </template>
@@ -69,7 +64,7 @@ export default {
       // 二维码
       Qrcode: {
         value: '',
-        size: 40
+        size: 80
       }
     };
   },
@@ -105,13 +100,13 @@ export default {
 
 <style lang="css" scoped>
 @component-namespace introPic{
-  @component bg{
+  /*@component bg{
     width: 100%;
     overflow: hidden;
     position: relative;
     background-repeat: no-repeat;
     margin-bottom: 6px;
-  }
+  }*/
   @component tip{
     position: relative;
     @descendent container{

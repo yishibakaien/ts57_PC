@@ -81,7 +81,7 @@ export default {
     }
   },
   mounted() {},
-  destoryed() {
+  destroyed() {
     sessionStorage.removeItem('flowerUrl');
   },
   watch: {

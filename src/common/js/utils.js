@@ -180,3 +180,24 @@ export const saveFile = (data, filename) => {
   event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
   savelink.dispatchEvent(event);
 };
+// 过滤一个结果的空记录添加，过滤空搜索
+export const historyItems = (() => {
+  return {
+    set: (keyword) => {
+      keyword = keyword.trim();
+      let {historyItems} = localStorage;
+      if (historyItems === undefined) {
+        localStorage.historyItems = keyword;
+      } else {
+        const onlyItem = historyItems.split(',').filter(e => e !== keyword);
+        if (onlyItem.length > 0) {
+          historyItems = keyword + ',' + onlyItem.join(',');
+          localStorage.historyItems = historyItems;
+        }
+      }
+    },
+    clear: () => {
+      localStorage.removeItem('historyItems');
+    }
+  };
+})();

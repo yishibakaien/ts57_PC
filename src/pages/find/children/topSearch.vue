@@ -9,7 +9,7 @@
            height="170"
            :canView="false"
            disabledHover
-           v-lazy="product.defaultPicUrl">
+           :src="product.defaultPicUrl">
            </ts-image>
            <template slot="footer" class="hotSearch-footer">
              <p>搜索量&nbsp;<span class="hotSearch-footer--searchNum">{{product.searchs}}</span></p>

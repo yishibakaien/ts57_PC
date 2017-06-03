@@ -4,7 +4,7 @@
     <slot></slot>
   </div>
   <div class="ts-empty onepx" v-if="empty">
-    <p class="ts-empty-text">暂无数据</p>
+    <p class="ts-empty-text">{{emptyText}}</p>
   </div>
 </div>
 </template>
@@ -16,6 +16,10 @@ export default {
    * @type {Object}
    */
   props: {
+    emptyText: {
+      type: String,
+      default: '暂无数据'
+    },
     layOut: {
       type: String,
       default: 'row',
@@ -27,7 +31,7 @@ export default {
       }
     },
     data: {
-      type: Array
+      type: [Array, Object]
     },
     type: {
       type: String,

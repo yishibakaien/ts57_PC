@@ -4,17 +4,14 @@ import * as types from '../store/types';
 import store from '../store/store';
 
 import {
-  homePage, textSearchResultPage,
-  // threeDDressPage,
+  homePage,
   personalCenterPage,
   loginPage,
   registerPage,
   forgotPasswordPage,
   purchaseListPage,
   purchaseDetailPage,
-  //	releaseSupplyPage,
   supplyListPage,
-  //	entryListPage,
   supplyDetailPage
 } from '../pages';
 
@@ -22,6 +19,7 @@ Vue.use(Router);
 // created By HZC
 // =============
 const flowerDetail = r => require.ensure([], () => r(require('@/pages/homePage/flowerDetailPage/flowerDetailPage.vue')), 'flowerDetail');
+const textSearch = r => require.ensure([], () => r(require('@/pages/homePage/searchResultPage/textSearchResultPage.vue')), 'flowerDetail');
 // =============
 // 3D
 const clause = r => require.ensure([], () => r(require('@/pages/clause/')), 'clause');
@@ -73,8 +71,8 @@ const routes = [
     path: '/homePage',
     component: homePage
   }, {
-    path: '/textSearchResultPage',
-    component: textSearchResultPage
+    path: '/textSearch',
+    component: textSearch
   }, {
     path: '/find',
     redirect: '/find/index',

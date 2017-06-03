@@ -55,7 +55,11 @@ export default {
     };
   },
   methods: {
-    handleViewProduct() {},
+    handleViewProduct(id) {
+      this.$router.push({
+        path: `/product/${id}`
+      });
+    },
     handleGoto(item) {
       if (item.className === '全部花型') {
         this.$router.push({
