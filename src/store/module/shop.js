@@ -25,9 +25,6 @@ const mutations = {
   // 工厂信息
   GET_COMPANY_INFO(state, info) {
     for (let i in info) {
-      if (info[i] === '') {
-        info[i] = '无';
-      }
       if (['lat', 'lng'].indexOf(i) >= 0) {
         info[i] = '';
       }

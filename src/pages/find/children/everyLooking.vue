@@ -40,6 +40,14 @@ export default {
   computed: {
     ...mapGetters(['dicTree'])
   },
+  methods: {
+    handleViewProduct(id) {
+      debugger;
+      this.$router.push({
+        path: `/product/${id}`
+      });
+    }
+  },
   async created() {
     this.History = (await searchHistory(this.Params)).data.data;
   }

@@ -7,15 +7,15 @@
       </div>
     </div>
     <div class="hotSearch-list">
-      <ts-grid layOut="column" :data="BurstHotSearch.list">
-        <ts-grid-item v-for="(product,index) in BurstHotSearch.list" :key="product" @click="handleViewProduct(product.productId)">
+      <ts-grid layOut="column" :data="BurstHotSearch">
+        <ts-grid-item v-for="(product,index) in BurstHotSearch" :key="product" @click="handleViewProduct(product.productId)">
           <span class="ranking hotSearch-rank" :class="'ranking_'+index" v-if="index<3"></span>
           <ts-image
            width="220"
            height="220"
            :canView="false"
            disabledHover
-           v-lazy="product.defaultPicUrl">
+           :src="product.defaultPicUrl">
            </ts-image>
            <template slot="footer" class="hotSearch-footer">
              <p>搜索量&nbsp;<span class="hotSearch-footer--searchNum">{{product.searchs}}</span></p>
@@ -46,11 +46,11 @@ export default {
   },
   computed: {
     isEmpty() {
-      return !this.BurstHotSearch.list.length;
+      return !this.BurstHotSearch.length;
     }
   },
   async created() {
-    this.BurstHotSearch = (await burstHotSearch(this.Params)).data.data;
+    this.BurstHotSearch = (await burstHotSearch(this.Params)).data.data.list;
   }
 };
 </script>

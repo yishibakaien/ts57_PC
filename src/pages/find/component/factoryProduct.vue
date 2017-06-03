@@ -9,7 +9,7 @@
            :canView="false"
            disabledHover
            class="factory-company--cover"
-           v-lazy="store.companyName"></ts-image>
+           :src="store.companyName"></ts-image>
            <p class="factory-company--title">{{store.companyName}}</p>
              <router-link :to="{ name: 'shop', params: { id: store.companyId }}" tag="span">
               <ts-button type="plain" size="large" class="factory-company--button" @click="handleViewStore(store.companyId)">
@@ -30,7 +30,7 @@
              height="170"
              :canView="false"
              disabledHover
-             v-lazy="product.picsUrl">
+             :src="product.picsUrl">
              </ts-image>
              <p class="factory-product--number">{{product.productNo}}</p>
              <template slot="footer">

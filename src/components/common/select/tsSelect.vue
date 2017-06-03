@@ -1,6 +1,7 @@
 <template>
 <div v-clickoutside="clickedOutside" class="ts-select">
-  <div @click="toggleDropdown" class="ts-select-toggle" :class="{'is-open':open, 'is-disabled':disabled}">{{selected}}
+  <div @click="toggleDropdown" class="ts-select-toggle" :class="{'is-open':open, 'is-disabled':disabled}">
+    <span>{{selected}}</span>
   </div>
   <transition name="ts-select-fade">
     <ul v-if="open" class="ts-select-wrapper">
@@ -138,6 +139,13 @@ export default {
       line-height: 30px;
       padding: 0 10px;
       box-sizing: border-box;
+      position: relative;
+      span{
+        position: absolute;
+        top: 50%;
+        left: 35%;
+        transform: translate(-50%,-50%);
+      }
       &:after{
         transition: all 0.2s ease;
         border: var(--select-border);

@@ -1,9 +1,6 @@
 'use strict';
 // 主页
 import homePage from './homePage/homePage';
-// 文本搜索结果页
-import textSearchResultPage from './homePage/searchResultPage/textSearchResultPage';
-
 // 发布求购页
 import releaseSupplyPage from './homePage/releaseSupplyPage/releaseSupplyPage';
 // 求购列表页面
@@ -33,7 +30,6 @@ import promptDown from './totalPages/promptDown';
 
 export {
   homePage,
-  textSearchResultPage,
   personalCenterPage,
   loginPage,
   registerPage,

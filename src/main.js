@@ -19,7 +19,6 @@ Vue.use(jhComponents);
 Vue.use(VueLazyload, {
   preLoad: 1.3,
   error: '/static/images/assets/defaultFlower.svg',
-  loading: '/static/images/assets/clock.svg',
   attempt: 1
 });
 Vue.config.productionTip = false;
