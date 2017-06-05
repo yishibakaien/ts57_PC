@@ -42,6 +42,7 @@ const findTopSearch = r => require.ensure([], () => r(require('@/pages/find/chil
 // =========
 // 店铺管理
 const shopManager = r => require.ensure([], () => r(require('@/pages/shopManager/')), 'shopManager');
+const shopMirco = r => require.ensure([], () => r(require('@/pages/shopManager/children/mircoSite')), 'shopMirco');
 const shopManagerMaterial = r => require.ensure([], () => r(require('@/pages/shopManager/children/material')), 'shopManagerMaterial');
 const shopManagerWareHouse = r => require.ensure([], () => r(require('@/pages/shopManager/children/warehouse')), 'shopManagerWareHouse');
 const wareHouseAdd = r => require.ensure([], () => r(require('@/pages/shopManager/children/warehouse/add')), 'shopManagerWareHouse');
@@ -171,6 +172,10 @@ const routes = [
         path: 'index',
         component: shopProductIndex,
         name: '店铺首页'
+      }, {
+        path: 'mircoSetting',
+        component: shopMirco,
+        name: '微官网设置'
       }, {
         path: 'allProducts',
         component: shopAllMeterials,

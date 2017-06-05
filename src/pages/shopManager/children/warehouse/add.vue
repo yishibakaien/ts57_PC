@@ -59,8 +59,8 @@
           <ts-radio :label="item.dicValue" :key="item.dicValue" v-for="item in DICT.PublishStatus">{{item.label}}</ts-radio>
         </ts-radio-group>
       </ts-form-item>
-      <ts-form-item label="花型图片：" prop="default_pic_url">
-        <ts-image width="200" height="200" :src="addPatternForm.default_pic_url" type="local" v-show="Pic.show"></ts-image>
+      <ts-form-item label="花型图片：" prop="defaultPicUrl">
+        <ts-image width="200" height="200" :src="addPatternForm.defaultPicUrl" type="local" v-show="Pic.show"></ts-image>
           <label class="add-upload-button">
             {{Pic.text}}
             <ts-aliupload id="addPic" @doUpload="uploadImg"></ts-aliupload>
@@ -158,7 +158,7 @@ export default {
           pattern: /^[+]?\d*[.]?\d{0,9}$/,
           message: '请输入正确的花高'
         }],
-        default_pic_url: [{
+        defaultPicUrl: [{
           required: true,
           message: '请上传一张花型图片',
           trigger: 'change'
@@ -190,7 +190,7 @@ export default {
         ingredient: '',
         isStock: '',
         outRate: '',
-        default_pic_url: '',
+        defaultPicUrl: '',
         price: '',
         priceUnit: '',
         productNo: '',
@@ -214,9 +214,9 @@ export default {
         let PUSG = '400011';
         // ========
         // 1.上传图片
-        if (val.default_pic_url) {
-          this.Pic.text = val.default_pic_url ? '修改图片' : '添加图片';
-          this.Pic.show = !!val.default_pic_url;
+        if (val.defaultPicUrl) {
+          this.Pic.text = val.defaultPicUrl ? '修改图片' : '添加图片';
+          this.Pic.show = !!val.defaultPicUrl;
         }
         // =========
         // 2.如果库存选择需要开机 => 价格单位不变
@@ -344,7 +344,7 @@ export default {
     // 上传图片
     uploadImg(e) {
       // 放到表单
-      this.addPatternForm.default_pic_url = ALI_DOMAIN + e.ossUrl[e.ossUrl.length - 1];
+      this.addPatternForm.defaultPicUrl = ALI_DOMAIN + e.ossUrl[e.ossUrl.length - 1];
     },
     handleInputAddIngredient(e) {
       if (e.length > 0) {
@@ -411,7 +411,7 @@ export default {
     }
     // // 从素材库进来
     if (this.$route.query.url) {
-      this.addPatternForm.default_pic_url = this.$route.query.url;
+      this.addPatternForm.defaultPicUrl = this.$route.query.url;
     }
   }
 };

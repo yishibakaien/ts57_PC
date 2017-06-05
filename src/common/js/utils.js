@@ -53,7 +53,6 @@ export const parseText = (str) => {
 export const isObject = (arg) => {
   return typeof arg === 'object' && arg !== null;
 };
-
 // 根据key值获取对应的cookie
 export const getCookie = (key) => {
   var data = document.cookie;
@@ -201,3 +200,19 @@ export const historyItems = (() => {
     }
   };
 })();
+// 图片转成base64
+export const convertImgToBase64 = (url, callback, outputFormat) => {
+  var canvas = document.createElement('CANVAS');
+  var ctx = canvas.getContext('2d');
+  var img = new Image();
+  img.crossOrigin = '';
+  img.onload = function() {
+    canvas.height = img.height;
+    canvas.width = img.width;
+    ctx.drawImage(img, 0, 0);
+    var dataURL = canvas.toDataURL(outputFormat || 'image/png');
+    callback.call(this, dataURL);
+    canvas = null;
+  };
+  img.src = url;
+};

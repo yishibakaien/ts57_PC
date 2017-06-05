@@ -3,7 +3,6 @@
   <div class="main-wrapper">
     <models></models>
     <topbar></topbar>
-
     <div class="main">
       <router-view :message="message"></router-view>
     </div>

@@ -8,8 +8,6 @@
 
 <script>
 import search from '../search/search';
-// import * as types from '../../store/types';
-
 export default {
   components: {
     search

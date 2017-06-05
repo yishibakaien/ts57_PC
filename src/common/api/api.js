@@ -137,6 +137,10 @@ const API = {
     getCompanySimpleInfo: '/company/getCompanySimpleInfo', // 获取简单店铺或工厂信息
     findNewCompanys: '/company/findNewCompanys' // 查询最新入驻厂家
   },
+  // 微官网
+  website: {
+    template: '/website/template'
+  },
   // 数据字典
   dicTree: {
     byTypeKey: '/front/dicTree/byTypeKey'
@@ -201,15 +205,15 @@ function _fetch(method = METHODS.get, data, url) {
   let _headers = Object.assign({
     'x-token': localStorage.getItem('ajaxToken') || ''
   }, headers);
-//  if (url === API.user.login) {
-    // 如果是登录的请求则删除掉请求头中的x-token
-//  try {
-//    // 不删除无法登录
-//    delete _headers['x-token'];
-//    // 删除了图形验证码不能用
-//    // delete _headers['x-token'];
-//  } catch (e) {}
-// }
+  //  if (url === API.user.login) {
+  // 如果是登录的请求则删除掉请求头中的x-token
+  //  try {
+  //    // 不删除无法登录
+  //    delete _headers['x-token'];
+  //    // 删除了图形验证码不能用
+  //    // delete _headers['x-token'];
+  //  } catch (e) {}
+  // }
   let param;
   if (method === METHODS.get) {
     param = {
@@ -480,6 +484,14 @@ export const getDicTree = param => _fetch(METHODS.get, param, API.dicTree.byType
 export const getAreabyLevel = param => _fetch(METHODS.get, param, API.area.byLevel);
 // 根据父级编码获取信息
 export const getAreabyParent = param => _fetch(METHODS.get, param, API.area.byParent);
+// =====
+// 微官网
+// =====
+// 更新模板
+export const updateWebsiteTemplate = param => _fetch(METHODS.post, param, API.website.template);
+// 获取已设置的模板
+export const getWebsiteTemplate = param => _fetch(METHODS.get, param, API.website.template);
+
 // =======
 // 店铺访问
 // =======

@@ -23,5 +23,8 @@ module.exports = [
   }, {
     path: 'aptitude',
     name: '企业资质'
+  }, {
+    path: 'mircoSetting',
+    name: '微官网设置'
   }
 ];

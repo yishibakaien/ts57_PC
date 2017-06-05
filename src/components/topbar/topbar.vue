@@ -8,7 +8,6 @@
       <span v-if="isLogin" class="username">{{userName}}</span>
       <span v-if="isLogin" class="logout" @click="logoutMethod">[退出]</span>
     </div>
-
     <div class="right">
       <a @click="gowhere" class="link">个人中心</a>
       <div class="app-qrcode">
@@ -19,7 +18,6 @@
             <div class="img-wrapper">
               <img src="" width="100" height="100">
             </div>
-
             <div class="desc">
               <p class="title">坐视布管</p>
               <p class="red">扫码即可下载</p>
@@ -54,12 +52,6 @@
 
 <script>
 import * as types from '../../store/types';
-// import {
-// getUserInfo
-// } from '@/common/api/api';
-// import {
-// mapGetters
-// } from 'vuex';
 export default {
 	data() {
 		return {
@@ -67,14 +59,9 @@ export default {
 		};
 	},
   async beforeUpdate() {
-//  if (this.$store.state.accessToken) {
-//    let data = (await getUserInfo()).data.data;
-//    this.$store.commit('GET_USERINFO', data);
-//  }
 		this.userName = sessionStorage.userName;
   },
   computed: {
-//  ...mapGetters(['userInfo']),
     isLogin() {
       return this.$store.state.accessToken;
     }
@@ -141,11 +128,12 @@ export default {
           .qrcode-content
             display none
             position absolute
-            z-index 2
+            z-index 10
             line-height 1
             padding 0 12px
             right 0
-            border 1px solid #d8d8d8
+            border 1px solid #eaeaea
+            border-top none
             background #fff
             .qrcode
               width 100px

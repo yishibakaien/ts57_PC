@@ -164,4 +164,5 @@ basecolor = #4c93fd
     .item-wrapper
       float left
       box-sizing border-box
+      /*transition .8s*/
 </style>

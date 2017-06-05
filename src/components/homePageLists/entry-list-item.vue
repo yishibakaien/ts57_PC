@@ -45,8 +45,8 @@
   height 203px
   padding 12px 16px
   background #fff
-  border-left 1px solid #d8d8d8
-  border-bottom 1px  solid #d8d8d8
+  border-left 1px solid #eaeaea
+  border-bottom 1px solid #eaeaea
   cursor pointer
   &:hover
     position relative
