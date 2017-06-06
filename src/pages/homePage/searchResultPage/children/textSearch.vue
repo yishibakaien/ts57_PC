@@ -1,9 +1,4 @@
 <template lang="html">
-	<div class="">
-		<v-header>
-			<search></search>
-		</v-header>
-		<v-nav></v-nav>
 		<div class="textSearch-wrapper">
 			<div class="textSearch-filter">
 		    <ts-filter title="分类">
@@ -36,15 +31,9 @@
 		     </ts-grid-item>
 		  </ts-grid>
 	  </div>
-	</div>
 </template>
 
 <script>
-import {
-  header,
-  nav,
-  search
-} from '@/components';
 import {
   mapGetters
 } from 'vuex';
@@ -86,11 +75,6 @@ export default {
       deep: true
     }
   },
-  components: {
-    vHeader: header,
-    vNav: nav,
-    search
-  },
   computed: {
     ...mapGetters(['dicTree']),
     searchValue() {
@@ -106,10 +90,6 @@ export default {
 
 <style lang="css" scoped>
 @component-namespace textSearch{
-	@component wrapper{
-		max-width: 1200px;
-		margin: 0 auto;
-	}
 	@component filter{
 		background: #fff;
 	}

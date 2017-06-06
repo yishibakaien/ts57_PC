@@ -7,7 +7,7 @@
       </router-link>
     </div>
     <div class="everyLooking-container">
-      <ts-grid :data="History.list">
+      <ts-grid>
          <ts-grid-item v-for="(product,index) in History.list" :key="product" @click="handleViewProduct(product.productId)">
            <ts-image
             width="170"
@@ -38,7 +38,7 @@ export default {
     return {
       History: {},
       Params: {
-        pageNO: 1,
+        pageNo: 1,
         pageSize: 5
       },
       BurstHotSearch: {}

@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="brand-body">
-        <ts-input type="textarea" :rows="6" :maxLength="60" placeholder="请填写求购花型的详细描述，如花高，宽幅等信息" v-model="text"></ts-input>
+        <ts-input class="purchase-textarea" type="textarea" :rows="6" :maxLength="60" placeholder="请填写求购花型的详细描述，如花高，宽幅等信息" v-model="text"></ts-input>
         <button @click="releasePurchase" class="button button-plain button-block button-plain-blue">发布求购</button>
       </div>
     </div>
@@ -78,6 +78,8 @@ export default {
 
 <style lang="stylus" scoped>
 basecolor = #4c93fd
+.purchase-textarea
+  max-height: 143px;
 .purchase-list
   display flex
   box-sizing border-box
@@ -129,7 +131,7 @@ basecolor = #4c93fd
           line-height 75px
           .icon-qiugou
             font-size 44px
-            &::before 
+            &::before
             	position relative
             	top 14px
             	color rgba(255, 255, 255, 0.3)

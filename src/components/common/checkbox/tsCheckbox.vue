@@ -167,6 +167,7 @@ export default {
       @modifier input{
         outline: none;
         display: inline-block;
+        line-height: 1;
         position: relative;
         vertical-align: middle;
         @when focus {

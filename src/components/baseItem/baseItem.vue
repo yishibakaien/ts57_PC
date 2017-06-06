@@ -7,10 +7,9 @@
       <div class="item-desc">
         <!-- <h2 class="desc-title"><span>{{productNo}}{{typeComputed}} </span>{{num}}{{unit}}</h2> -->
         <h2 class="desc-title">{{desc}}</h2>
-        <!-- <p class="desc-text" :title="desc"> -->
-
-          <!-- <span class="time" v-if="time">{{time}}</span> -->
-        <!-- </p> -->
+        <!-- <p class="desc-text" :title="desc">
+          <span class="time" v-if="time">{{time}}</span>
+        </p> -->
       </div>
     </div>
   </div>

@@ -104,9 +104,9 @@ export default {
       this.Progress.text = 100;
       this.Pic.isHandling = false;
       this.$router.push({
-        path: '/imgSearch',
+        path: '/search/image',
         query: {
-          search: val
+          imgId: val
         }
       });
     },
@@ -202,7 +202,7 @@ export default {
         let value = this.Search.val.trim();
         this.$emit('search', value);
         this.$router.push({
-          path: '/textSearch',
+          path: '/search/text',
           query: {
             search: value
           }
@@ -277,7 +277,7 @@ export default {
       position: absolute 0 0 0 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.1);
       cursor: pointer;
       display: none;
       i {

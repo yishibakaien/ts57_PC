@@ -14,3 +14,21 @@ export const MODELS = [
   'modle3_front.png',
   'modle3_side.png'
 ];
+export const MIRCO_SITE = [
+  {
+    name: '暧昧1',
+    path: 'http://192.168.1.11:5050/zentao/data/upload/1/201705/3115510507421bve.png'
+  }, {
+    name: '暧昧2',
+    path: 'http://192.168.1.11:5050/zentao/data/upload/1/201705/3115510507421bve.png'
+  }, {
+    name: '暧昧3',
+    path: 'http://192.168.1.11:5050/zentao/data/upload/1/201705/3115510507421bve.png'
+  }, {
+    name: '暧昧4',
+    path: 'http://192.168.1.11:5050/zentao/data/upload/1/201705/3115510507421bve.png'
+  }, {
+    name: '暧昧5',
+    path: 'http://192.168.1.11:5050/zentao/data/upload/1/201705/3115510507421bve.png'
+  }
+];
