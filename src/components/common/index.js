@@ -15,6 +15,7 @@ import tsMessageBox from './messagebox/messagebox';
 import tsToast from './toast/toast';
 import tsColumn from './tables/tsColumn.vue';
 import tsInput from './tsInput.vue';
+import tsProgress from './tsProgress.vue';
 import tsSelect from './select/tsSelect.vue';
 import tsButton from './tsButton.vue';
 import tsTag from './tsTag.vue';
@@ -34,6 +35,7 @@ import pagination from '../pagination/pagination.vue';
 // =========
 const Components = {
   tsGrid,
+  tsProgress,
   tsNavbar,
   tsTabContainer,
   tsTabContainerItem,

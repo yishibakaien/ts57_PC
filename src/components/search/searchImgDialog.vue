@@ -1,5 +1,5 @@
 <template lang="html">
-  <ts-dialog v-model="Search.dialog" width="60%" title="请框选图中要识别的区域">
+  <ts-dialog :close-on-press-escape='false' @close="handleClose" v-model="dialog.show" width="60%" title="请框选图中要识别的区域">
     <cropper v-model="imageUrl" @getImage="handleGetImg"></cropper>
     <div>
       <slot></slot>
@@ -12,31 +12,32 @@
 <script>
 import Cropper from '@/components/cropper/cropper.vue';
 export default {
-  data() {
-    return {
-      // image: '',
-      Search: {
-        dialog: false
+  props: {
+    imageUrl: String,
+    dialog: {
+      type: Object,
+      default: function(argument) {
+        return {
+          show: false
+        };
       }
-    };
+    }
   },
-  props: ['imageUrl', 'value'],
   watch: {
     imageUrl(val) {
       this.image = val;
-    },
-    value(val) {
-      this.$emit('input', val);
-      this.Search.dialog = val;
     }
   },
   methods: {
+    handleClose() {
+      this.$emit('close');
+    },
     handleGetImg(destImg) {
       this.$emit('change', destImg);
     },
     handleCropper() {
       this.$emit('change', this.$refs.canvas.toDataURL());
-      this.Search.dialog = false;
+      this.dialog.show = false;
     }
   },
   components: {

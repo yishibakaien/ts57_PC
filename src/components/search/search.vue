@@ -8,10 +8,10 @@
         <p><i class="icon-bianji"></i></p>
       </div>
     </ts-tag>
-    <input type="text" class="search-input" :placeholder="Pic.inputPlaceHolder" v-model="Search.val" @keyup.enter.native="handleSearch" @focus="handleDelPic">
-    <i class="icon-xiangji add-upload-button" v-show="!Pic.isUploaded" @click="Pic.isUploaded=true,Search.val=''"></i>
+    <input type="text" class="search-input" :placeholder="Pic.inputPlaceHolder" v-model="Search.val" @keyup.enter.native="handleSearch" @focus="handleDelPic" :disabled="Pic.isHandling">
+    <i class="icon-xiangji add-upload-button" v-show="!Pic.isUploaded" @click="Pic.isUploaded=true,Search.val=''" v-if="!Pic.isHandling"></i>
     <span class="search-close" v-show="Pic.isUploaded" @click="Pic.isUploaded=false">&times;</span>
-    <ts-button type="primary" class="search-button" @click="handleSearch" v-show="!Pic.isUploaded">搜 索</ts-button>
+    <ts-button type="primary" class="search-button" @click="handleSearch" v-show="!Pic.isUploaded" :disabled="Pic.isHandling">搜 索</ts-button>
   </div>
   <!-- 上传花型  -->
   <div class="search-editPic onepx" v-show="Pic.isUploaded">
@@ -22,8 +22,8 @@
           <i class="icon-shangchuan"></i>
           本地上传
         </a>
-         <input ref="input" type="file" accept="image/png,image/jpeg,image/gif" @change="uploadImg" v-show="false">
       </label>
+      <input ref="input" type="file" accept="image/png,image/jpeg,image/gif" @change="uploadImg" v-show="false">
     </p>
     <ts-grid :data="Search.picList" emptyText="暂无搜索记录">
       <ts-grid-item style="width:115px" v-for="product in showPics" :key="product" @click="handleChoosePic(product)">
@@ -36,7 +36,12 @@
       <ts-button type="cancel" @click="Pic.isUploaded=!Pic.isUploaded">关闭</ts-button>
     </div>
   </div>
-  <cropper-dialog v-model="Cropper.dialog" :imageUrl="Pic.url" @change="handleGetDestImg">
+  <div class="search-editPic onepx" v-show="Pic.isHandling&&!Pic.isUploaded">
+    <p class="upload-tip">正在处理中，请稍候...</p>
+    <ts-progress :percentage="Progress.text"></ts-progress>
+  </div>
+  <!-- 裁剪图片 -->
+  <cropper-dialog :dialog="Cropper" :imageUrl="Pic.url" @change="handleGetDestImg" @close="handleCancelFind">
     <ts-radio-group v-model="Filter.categorys" class="search-editPic--menu" @change="handleLookProduct">
       <ts-radio :label="item.dicValue" v-for="item in dicTree.PRODUCT_TYPE" :key="item.dicValue">搜{{item.name}}</ts-radio>
     </ts-radio-group>
@@ -55,16 +60,22 @@ export default {
         picList: [],
         val: ''
       },
+      // 双向绑定 => 与searchImgDialog中 dialog.show对应
       Cropper: {
-        dialog: false
+        show: false
       },
       Filter: {
         categorys: ''
+      },
+      Progress: {
+        text: 0,
+        Interval: null
       },
       Pic: {
         isUploaded: false,
         show: false,
         destImg: '',
+        isHandling: false,
         isEdit: false,
         url: '',
         inputPlaceHolder: '可输入厂名或编号查找'
@@ -89,16 +100,38 @@ export default {
         this.Search.val = to.query.search;
       }
     },
+    'search.id' (val) {
+      this.Progress.text = 100;
+      this.Pic.isHandling = false;
+      this.$router.push({
+        path: '/imgSearch',
+        query: {
+          search: val
+        }
+      });
+    },
     Pic: {
       handler(val) {
         val.show = !!val.url;
         val.inputPlaceHolder = val.url ? '' : '可输入厂名或编号查找';
+        if (val.isHandling) {
+          (() => {
+            let interval = setInterval(() => {
+              if (this.Progress.text === 95) {
+                this.Progress.text = 95;
+                clearInterval(interval);
+              } else {
+                this.Progress.text++;
+              }
+            }, 9000);
+          })();
+        }
       },
       deep: true
     }
   },
   computed: {
-    ...mapGetters(['dicTree']),
+    ...mapGetters(['dicTree', 'search']),
     showPics() {
       return this.Search.picList.length >= 5 ? this.Search.picList.splice(0, 5) : this.Search.picList;
     }
@@ -112,33 +145,32 @@ export default {
       this.Pic.destImg = pic;
     },
     async handleLookProduct(e) {
+      let data = {
+        category: e,
+        encoded: this.Pic.destImg
+      };
+      sessionStorage.setItem('find-pic', JSON.stringify(data));
+      this.Cropper.show = false;
+      this.Pic.isHandling = true;
       if (this.globalLook) {
         await this.$store.dispatch('getSearchEncoded', {
           category: e,
           encoded: this.Pic.destImg,
           searchType: 300
         });
-        await this.$router.push({
-          path: '/imgSearch',
-          query: {
-            search: this.$store.getters.search.id
-          }
-        });
       }
-      let data = {
-        category: e,
-        encoded: this.Pic.destImg
-      };
-      sessionStorage.setItem('find-pic', JSON.stringify(data));
-      this.Cropper.dialog = false;
     },
+    // 隐藏上传file控件
     handleUpload() {
       this.$refs.input.click();
+    },
+    handleCancelFind() {
+      this.Pic.url = '';
     },
     handleChoosePic(imgUrl) {
       this.Search.picList.unshift(imgUrl);
       this.historyItems.set(imgUrl);
-      // this.Cropper.dialog = true;
+      this.Cropper.show = true;
       this.Pic.url = `${imgUrl}?x-oss-process=image/resize,h_20`;
       this.Pic.isUploaded = false;
     },
@@ -147,7 +179,6 @@ export default {
       if (file) {
         var reader = new FileReader();
         reader.onload = () => {
-          this.Cropper.dialog = true;
           var url = reader.result;
           this.handleChoosePic(url);
           this.Pic.url = url;
@@ -167,8 +198,8 @@ export default {
     },
     // 搜索
     handleSearch() {
-      let value = this.Search.val.trim();
-      if (value) {
+      if (this.Search.val) {
+        let value = this.Search.val.trim();
         this.$emit('search', value);
         this.$router.push({
           path: '/textSearch',
@@ -286,6 +317,10 @@ export default {
   &:hover:before {
     color: #2371e5;
   }
+}
+
+.upload-tip {
+  line-height: 50px;
 }
 </style>
 <style lang="scss">

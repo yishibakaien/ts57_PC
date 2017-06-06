@@ -21,20 +21,24 @@ const actions = {
     commit
   }, params) {
     // 1.获取搜索的key
-    let searchKey = (await searchEncoded(params)).data.data.searchKey;
-    let setInterValFind = setInterval(async() => {
-      let result = (await searchPolling(searchKey)).data.data;
-      if (result !== -1) {
-        let param = {
-          id: result,
-          pageNo: 1,
-          pageSize: 10
-        };
-        actions.searchGetResult(param);
-        clearInterval(setInterValFind);
-        commit('GET_SEARCH_ID', result);
-      }
-    }, 3000);
+    try {
+      let searchKey = (await searchEncoded(params)).data.data.searchKey;
+      let setInterValFind = setInterval(async() => {
+        let result = (await searchPolling(searchKey)).data.data;
+        if (result !== -1) {
+          let param = {
+            id: result = 110,
+            pageNo: 1,
+            pageSize: 10
+          };
+          clearInterval(setInterValFind);
+          await commit('GET_SEARCH_ID', result);
+          await actions.searchGetResult(state, param);
+        }
+      }, 3000);
+    } catch (e) {
+      console.log(e);
+    }
   },
   async searchGetResult({
     commit
