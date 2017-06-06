@@ -1,7 +1,7 @@
 <template>
 	<div class="login-page">
 		<v-header>
-			<div class="login-title">
+			<div class="login-title onepx-l">
 				<p>欢迎登录</p>
 				<router-link to="homePage">返回首页</router-link>
 			</div>
@@ -28,7 +28,6 @@
 	.login-title {
 		margin-left: -110px;
 		padding-left: 30px;
-		border-left: 1px solid #ccc;
 		p {
 			color: #333;
 			font-size: 20px;
@@ -40,7 +39,7 @@
 			line-height: 24px;
 		}
 	}
-	
+
 	.login-page {
 		.loginPage-box {
 			position: relative;

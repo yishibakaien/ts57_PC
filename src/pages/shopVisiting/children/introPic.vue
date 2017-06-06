@@ -1,6 +1,6 @@
 <template>
 <div class="introPic-wrapper">
-  <img v-lazy="companyInfo.companyBanner" width="500" height="250"  class="introPic-wrapper-left">
+  <img v-lazy="companyInfo.companyBanner" width="500" height="250" class="introPic-wrapper-left">
   <div class="introPic-wrapper-right">
     <div class="introPic-company-header">
       <!-- 公司名称 -->
@@ -27,9 +27,9 @@
         <li @click="handleCollectStore">
           <i :class="getIsCollect?'icon-yishoucang':'icon-shoucang'"></i> {{getIsCollect?'已收藏店铺':'收藏店铺'}}
         </li>
-        <ts-popover trigger="hover" :options="{placement: 'right'}">
+        <ts-popover trigger="click" :options="{placement: 'right'}">
           <div class="popper introPic-popper-qrcode">
-            <qrcode-vue :value="Qrcode.value" :size="Qrcode.size" level="H"></qrcode-vue>
+            <ts-image :canView="false" disabledHover width="150" height="150" :src="Qrcode"></ts-image>
             <p class='introPic-popper-qrcode-tip'>扫描二维码，在手机上访问店铺</p>
           </div>
           <li class="introPic-phone introPic-tip" slot="reference">
@@ -55,21 +55,21 @@ import {
   mapGetters
 } from 'vuex';
 import {
-  favoriteBus
+  favoriteBus,
+  getCompanyQRcode
 } from '@/common/api/api';
 import QrcodeVue from 'qrcode.vue';
 export default {
   data() {
     return {
       // 二维码
-      Qrcode: {
-        value: '',
-        size: 80
-      }
+      Qrcode: ''
     };
   },
-  created() {
-    this.Qrcode.value = 'http://www.baidu.com';
+  async created() {
+    this.Qrcode = 'data:image/png;base64,' + (await getCompanyQRcode({
+      companyId: this.$route.params.id
+    })).data.data;
   },
   methods: {
     // 收藏店铺

@@ -5,12 +5,6 @@
   </v-header>
   <v-nav></v-nav>
   <div class="flower-detail-wrapper">
-    <!-- 面包屑  -->
-    <div class="flower-detail-breadcrumb">
-      <router-link to="homePage">首页</router-link> >
-      <router-link to="purchaseListPage">花型列表</router-link> >
-      <span>花型详情详情</span>
-    </div>
     <product-intro></product-intro>
     <update-product></update-product>
   </div>
@@ -44,10 +38,7 @@ export default {
 @component-namespace flower-detail {
   @component wrapper {
     max-width: 1200px;
-    margin: 0 auto;
-  }
-  @component breadcrumb {
-    margin: 20px 0;
+    margin: 10px auto;
   }
 }
 </style>

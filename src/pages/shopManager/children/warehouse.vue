@@ -5,9 +5,6 @@
       <ts-input style="width:30%" placeholder="输入花型编号搜索" v-model="Params.productNo">
         <ts-button slot="append" size="small" @click="handleSearch"><i class="icon-sousuo"></i></ts-button>
       </ts-input>
-      <ts-button type="warning" class="warehouse-photo--search">
-        <span class="icon-xiangji"></span>
-      </ts-button>
       <router-link to="addwarehouse" exact>
         <ts-button type="primary">新增花型</ts-button>
       </router-link>

@@ -2,14 +2,15 @@
   <div class="base-item-wrapper">
     <div class="base-item" :itemId="item.id" @click="itemClick(item.id)">
       <div class="img-container">
-        <img class="item-image" :src="picUrl?picUrl:'/static/images/assets/defaultFlower.svg'">
+        <img class="item-image" v-lazy="picUrl">
       </div>
       <div class="item-desc">
-        <h2 class="desc-title"><span>{{productNo}}{{typeComputed}} </span>{{num}}{{unit}}</h2>
-        <p class="desc-text" :title="desc">
-          {{desc}}
-          <span class="time" v-if="time">{{time}}</span>
-        </p>
+        <!-- <h2 class="desc-title"><span>{{productNo}}{{typeComputed}} </span>{{num}}{{unit}}</h2> -->
+        <h2 class="desc-title">{{desc}}</h2>
+        <!-- <p class="desc-text" :title="desc"> -->
+
+          <!-- <span class="time" v-if="time">{{time}}</span> -->
+        <!-- </p> -->
       </div>
     </div>
   </div>
@@ -126,7 +127,6 @@ export default {
     width 200px
     height 200px
     overflow hidden
-    background #f2f2f2
     .item-image
       width 100%
       position relative

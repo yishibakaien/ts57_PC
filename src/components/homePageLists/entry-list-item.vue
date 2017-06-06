@@ -63,7 +63,6 @@
         width 132px
         height 127.5px
         overflow hidden
-        background #f2f2f2
         &:first-child
           float left
         &:last-child

@@ -36,10 +36,6 @@
         </div>
 
         <div class="tools-wrapper">
-          <div class="remember">
-            <!-- <i class="iconfont">字</i>
-              <span class="text">记住密码</span> -->
-          </div>
           <div class="forget">
             <router-link to="/forgotPasswordPage">忘记密码?</router-link>
           </div>
@@ -64,8 +60,7 @@
 
 <script>
 import * as reg from '@/common/js/regExp';
-   import * as types from '@/store/types';
-
+import * as types from '@/store/types';
 import {
   login,
   getVerifyCode
@@ -118,19 +113,11 @@ export default {
       }
       login(this.userData).then((res) => {
         if (res.data.code === 0) {
-          this.$store.commit(types.USER_NAME, res.data.data.userName);
-				console.log(res.headers);
           this.$store.commit('GET_USERINFO', res.data.data);
-//        this.$store.commit(types.LOGIN, res.headers['x-token']);
-          this.$store.commit(types.LOGIN, localStorage.getItem('ajaxToken'));
-//        this.$store.commit(types.AJAX, res.headers['x-token']);
+          this.$store.commit('LOGIN', res.headers['x-token']);
           this.$store.commit(types.LOGIN_MASK, false);
           this.$store.dispatch('getDicTree');
-          // 路由重定向
-          let redirect = decodeURIComponent(this.$route.query.redirect || '/');
-          this.$router.push({
-            path: redirect
-          });
+          this.$router.go(-1);
         } else if (res.data.code === 2000004) {
           this.showPicCode = true;
           this.getVerifyCodeMethod();

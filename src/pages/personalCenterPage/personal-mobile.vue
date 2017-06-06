@@ -34,8 +34,6 @@
 	import * as reg from '@/common/js/regExp';
 	import { btnStatus } from '@/common/js/utils.js';
 	import { checkPasswd, changeSMSCode, changeMobile } from '@/common/api/api';
-	import Toast from '@/components/common/toast/toast';
-	import * as types from '@/store/types';
 	import {tipsModel} from '@/components';
 	export default {
 		data() {
@@ -73,14 +71,9 @@
 				this.tips.isShow = true;
 				setTimeout(() => {
 					this.closeModel();
-					this.$store.commit(types.LOGOUT);
-					this.$router.push({
-						path: '/loginPage'
-					});
 				}, 3000);
 			},
 			closeModel() {
-				this.$store.commit(types.LOGOUT);
 				this.$router.push({
 					path: '/loginPage'
 				});
@@ -107,7 +100,7 @@
 				btnStatus($event, '已发送');
 				changeSMSCode(this.mobile).then((res) => {
 					if (res.data.code === 0) {
-						Toast({
+						this.$toast({
 							type: 'success',
 							message: '发送成功'
 						});
@@ -155,7 +148,7 @@
 	.checkoutBtn {
 		margin-left: 30px !important;
 	}
-	
+
 	.personal-mobile-wrap {
 		margin-top: 35px;
 		label {
@@ -188,7 +181,7 @@
 			margin-left: 226px;
 		}
 	}
-	
+
 	.personal-mobile-alert {
 		margin-left: 225px;
 		margin-top: 8px;

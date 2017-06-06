@@ -156,7 +156,7 @@ basecolor = #4c93fd
           .icon-dangkou::before
           	color #666
       .entry-button-box
-        padding 16px
+        padding 14px
         .button
           width 100%
   .right-list

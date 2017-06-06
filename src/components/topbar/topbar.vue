@@ -3,13 +3,17 @@
   <div class="content">
     <div class="left">
       <span class="welcome">坐视布管欢迎你!</span>
-      <router-link v-if="!isLogin" to="/loginPage" class="link">登录</router-link>
-      <router-link v-if="!isLogin" to="/registerPage" class="link">免费注册</router-link>
-      <span v-if="isLogin" class="username">{{userName}}</span>
-      <span v-if="isLogin" class="logout" @click="logoutMethod">[退出]</span>
+      <span v-if="isLogin">
+        <router-link  to="/loginPage" class="link">登录</router-link>
+        <router-link to="/registerPage" class="link">免费注册</router-link>
+      </span>
+      <span v-else>
+      <span class="username">{{userInfo.userName}}</span>
+      <span class="logout" @click="handleLogout">[退出]</span>
+      </span>
     </div>
     <div class="right">
-      <a @click="gowhere" class="link">个人中心</a>
+      <a @click="handleGotoPerson" class="link">个人中心</a>
       <div class="app-qrcode">
         <i class="iconfont icon-shouji"></i>
         <span>坐视布管</span>
@@ -51,29 +55,26 @@
 </template>
 
 <script>
-import * as types from '../../store/types';
+import {
+  mapGetters
+} from 'vuex';
 export default {
-	data() {
-		return {
-			userName: ''
-		};
-	},
-  async beforeUpdate() {
-		this.userName = sessionStorage.userName;
-  },
   computed: {
+    ...mapGetters(['userInfo', 'token']),
     isLogin() {
-      return this.$store.state.accessToken;
+      return !this.token;
     }
   },
   methods: {
-    gowhere() {
+    // 个人中心
+    handleGotoPerson() {
       this.$router.push({
         path: this.isLogin ? '/personalCenterPage' : '/loginPage'
       });
     },
-    logoutMethod() {
-      this.$store.commit(types.LOGOUT);
+    // 退出
+    handleLogout() {
+      this.$store.commit('LOGIN_OUT');
       this.$router.push({
         path: '/homePage'
       });
@@ -82,16 +83,16 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-	.icon-shouji::before {
-		color: #4c93fd;
-	}
+.icon-shouji::before {
+    color: #4c93fd;
+}
 </style>
 <style lang="stylus" scoped>
   .topbar
     height 33px
     line-height 33px
     box-sizing border-box
-    border-bottom 1px solid #d8d8d8
+    border-bottom 1px solid #eaeaea
     font-size 12px
     color #999
     background #f2f2f2

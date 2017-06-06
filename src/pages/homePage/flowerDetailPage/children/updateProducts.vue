@@ -71,7 +71,7 @@ export default {
 			background: #F8F8F8;
 			border: 1px solid #E5E5E5;
 			line-height: 40px;
-			margin: 4px 0;
+			margin-top:0;
 			display: flex;
 			justify-content: space-between;
 			padding:0 20px;

@@ -2,7 +2,7 @@ import {getDicTree} from '@/common/api/api';
 
 const state = {
   // 数据字典
-  dicTree: []
+  dicTree: null
 };
 
 const mutations = {

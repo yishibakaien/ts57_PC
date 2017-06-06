@@ -1,11 +1,4 @@
-'use strict';
-import {baseURL, headers} from '../config/config';
-import store from '../../store/store';
-import * as types from '../../store/types';
 import axios from 'axios';
-import Toast from '@/components/common/toast/toast';
-axios.defaults.baseURL = '/api';
-
 const API = {
   // 用户模块API
   user: {
@@ -34,7 +27,10 @@ const API = {
   // 搜索
   search: {
     search: '/product/search', // 文本搜索
+    encoded: '/search/encoded',
+    polling: '/search/polling', // 搜索结果检查
     companySearch: '/company/search', // 文本搜索
+    getResult: '/search/getResult', // 文本搜索
     history: '/search/history' // 搜索记录列表(大家都在找)
   },
   // 索样
@@ -128,6 +124,8 @@ const API = {
   },
   // 公司
   company: {
+    getCompanyBestList: '/companyBest/getCompanyBestList', // 优质厂家
+    getCompanyQRcode: '/company/getCompanyQRcode', // 获取公司二维码图片
     getCompanyInfo: '/company/getCompanyInfo', // 获取档口OR工厂信息
     updateCompany: '/company/updateCompany', // 修改工厂或档口信息
     getCompanyAptitude: '/companyAptitude/getCompanyAptitude', // 查询公司资质信息
@@ -175,434 +173,281 @@ const METHODS = {
 };
 
 /**
- * 将data 中的 x-token 删去，并根据 请求类型，格式化data，
- * 根据目前的接口 调试情况，接口的 POST 方法 不能直接在ajax 中传递一个data对象，需要将data
- * 对象 JSON.stringify 之后再进行 POST 传递
- * @param  {string} method            请求方法 GET || POST
- * @param  {object} data              请求的数据，其中包含了 x-token
- * @return {object || string}         格式化后的data
- */
-function _formatData(method, data) {
-  if (!data) {
-    return '';
-  }
-  let _data = Object.assign({}, data);
-  if (method === METHODS.get) {
-    return _data;
-  } else if (method === METHODS.post) {
-    return JSON.stringify(_data);
-  }
-}
-
-/**
- * 请求时，可直接将 x-token 放在data 中，这里会判断 x-token 并存入header
- * @param  {string} method  请求方法 GET || POST
- * @param  {object} data    请求参数 data
- * @param  {string} url     api 地址
- * @return {promise}        Promise 对象
- */
-function _fetch(method = METHODS.get, data, url) {
-  let _headers = Object.assign({
-    'x-token': localStorage.getItem('ajaxToken') || ''
-  }, headers);
-  //  if (url === API.user.login) {
-  // 如果是登录的请求则删除掉请求头中的x-token
-  //  try {
-  //    // 不删除无法登录
-  //    delete _headers['x-token'];
-  //    // 删除了图形验证码不能用
-  //    // delete _headers['x-token'];
-  //  } catch (e) {}
-  // }
-  let param;
-  if (method === METHODS.get) {
-    param = {
-      method: method,
-      url: baseURL + url,
-      headers: _headers,
-      params: _formatData(method, data)
-    };
-  }
-  if (method === METHODS.post) {
-    param = {
-      method: method,
-      url: baseURL + url,
-      headers: _headers,
-      data: _formatData(method, data)
-    };
-  }
-  return new Promise((resolve, reject) => {
-    axios(param).then((res) => {
-      let token = res.headers['x-token'];
-      if (token) {
-        store.commit(types.AJAX, token);
-        // 让ajaxToken 和 accessToken 保持一致
-        if (sessionStorage.getItem('accessToken')) {
-          store.commit(types.LOGIN, token);
-        }
-      }
-      if (res.data.message && res.data.code !== 0) {
-        Toast({
-          type: !res.data.code
-            ? 'success'
-            : 'error',
-          message: res.data.message
-        });
-      }
-      if (res.data.code === 210018) {
-        store.commit(types.LOGOUT);
-      }
-      resolve(res);
-    }).catch((res) => {
-      Toast.error('请检查网络');
-      reject(res);
-    });
-  });
-}
-
-/**
  * 具体请求方法
- * @param  {object} data  请求参数， 将 x-token 放入data中即可
- * @return {promise}      Promise 对象
  */
 /**
  * 用户部分
  */
 // 登录
-export function login(data) {
-  return _fetch(METHODS.post, data, API.user.login);
-};
+export const login = param => axios.post(API.user.login, param);
 
 // 注册
-export function reg(data) {
-  return _fetch(METHODS.post, data, API.user.reg);
-};
+export const reg = param => axios.post(API.user.reg, param);
 
 // 找回密码
-export function findPassWd(data) {
-  return _fetch(METHODS.post, data, API.user.findPassWd);
-};
+export const findPassWd = param => axios.post(API.user.findPassWd, param);
 
 // 获取找回密码短信验证码
-export function getFindSMSCode(data) {
-  return _fetch(METHODS.post, data, API.user.getFindSMSCode);
-};
+export const getFindSMSCode = param => axios.post(API.user.getFindSMSCode, param);
 
 // 校验密码
-export function checkPasswd(data) {
-  return _fetch(METHODS.post, data, API.user.checkPasswd);
-};
+export const checkPasswd = param => axios.post(API.user.checkPasswd, param);
 
 // 获取图形验证码
-export function getVerifyCode(data) {
-  return _fetch(METHODS.post, data, API.user.getVerifyCode);
-};
+export const getVerifyCode = param => axios.post(API.user.getVerifyCode, param);
 
 // 修改个人信息
-export function updateUser(data) {
-  return _fetch(METHODS.post, data, API.user.updateUser);
-};
+export const updateUser = param => axios.post(API.user.updateUser, param);
 
 // 获取用户信息
-export function getUserInfo(data) {
-  return _fetch(METHODS.post, data, API.user.getUserInfo);
-};
+export const getUserInfo = param => axios.post(API.user.getUserInfo, param);
+
 // 获取简单用户信息
-export const getUserSimpleInfo = data => _fetch(METHODS.post, data, API.user.getUserSimpleInfo);
+export const getUserSimpleInfo = param => axios.post(API.user.getUserSimpleInfo, param);
 
 // 检验手机号码是否存在
-export function checkPhone(data) {
-  return _fetch(METHODS.get, data, API.user.checkPhone);
-};
+export const checkPhone = param => axios.get(API.user.checkPhone, {params: param});
 
 // 获取注册短信验证码
-export function getRegSMSCode(data) {
-  return _fetch(METHODS.post, data, API.user.getRegSMSCode);
-};
+export const getRegSMSCode = param => axios.post(API.user.getRegSMSCode, {params: param});
+
 /**
  * 首页部分
  */
 // 获取首页banner
-export function listHomeBanners(data) {
-  return _fetch(METHODS.get, data, API.home.listHomeBanners);
-};
+export const listHomeBanners = param => axios.get(API.home.listHomeBanners, {params: param});
 
 // 获取求购列表
-export function listProductBuys(data) {
-  return _fetch(METHODS.get, data, API.buy.listProductBuys);
-}
+export const listProductBuys = param => axios.get(API.buy.listProductBuys, {params: param});
 
 // 获取供应列表
-export function listCompanySupplys(data) {
-  return _fetch(METHODS.get, data, API.buy.listCompanySupplys);
-}
+export const listCompanySupplys = param => axios.get(API.buy.listCompanySupplys, {params: param});
 
-export function findNewCompanyByIndex(data) {
-  return _fetch(METHODS.post, data, API.home.findNewCompanyByIndex);
-}
+export const findNewCompanyByIndex = param => axios.post(API.home.findNewCompanyByIndex, param);
 
 // 优质厂家
-export function qualityCompanyList1(data) {
-  return _fetch(METHODS.get, data, API.home.qualityCompanyList);
-}
+export const qualityCompanyList1 = param => axios.get(API.home.qualityCompanyList, {params: param});
 
 // 获取最新入驻厂家列表
-export function findNewCompanys(data) {
-  return _fetch(METHODS.post, data, API.company.findNewCompanys);
-}
+export const findNewCompanys = param => axios.post(API.company.findNewCompanys, param);
+
 // 索样
-export const sampleAskFor = param => _fetch(METHODS.post, param, API.sample.askFor);
+export const sampleAskFor = param => axios.post(API.sample.askFor, param);
 /**
  * 搜索部分
  */
 // 文本搜索
-export const searchMtd = param => _fetch(METHODS.post, param, API.search.search);
+export const searchMtd = param => axios.post(API.search.search, param);
+// 搜索-BASE64文本
+export const searchEncoded = param => axios.post(API.search.encoded, param);
+// 搜索结果检查
+export const searchPolling = searchKey => axios.get(`${API.search.polling}/${searchKey}`);
 // 搜索记录列表(大家都在找)
-export const searchHistory = param => _fetch(METHODS.get, param, API.search.history);
+export const searchHistory = param => axios.get(API.search.history, {params: param});
+// 查看单条搜索记录
+export const searchGetResult = param => axios.get(API.search.getResult, {params: param});
 /**
  * 个人中心部分
  */
 // 获取修改手机短信
-export function changeSMSCode(data) {
-  return _fetch(METHODS.post, data, API.user.changeSMSCode);
-};
+export const changeSMSCode = param => axios.post(API.user.changeSMSCode, param);
 
 // 设置短信
-export function setMsg(data) {
-  return _fetch(METHODS.post, data, API.user.setMsg);
-};
+export const setMsg = param => axios.post(API.user.setMsg, param);
 
 // 获取短信设置
-export function getMsgSetting(data) {
-  return _fetch(METHODS.get, data, API.user.getMsgSetting);
-};
+export const getMsgSetting = param => axios.get(API.user.getMsgSetting, {params: param});
 
 // 修改手机号
-export function changeMobile(data) {
-  return _fetch(METHODS.post, data, API.user.changeMobile);
-};
+export const changeMobile = param => axios.post(API.user.changeMobile, param);
 
 // 修改密码
-export function restPasswd(data) {
-  return _fetch(METHODS.post, data, API.user.restPasswd);
-};
+export const restPasswd = param => axios.post(API.user.restPasswd, param);
 
 // 获取接单列表
-export function listBuyTask(data) {
-  return _fetch(METHODS.post, data, API.buy.listBuyTask);
-};
+export const listBuyTask = param => axios.post(API.buy.listBuyTask, param);
 
 // 获取我的求购列表
-export function myProductBuys(data) {
-  return _fetch(METHODS.post, data, API.buy.myProductBuys);
-};
+export const myProductBuys = param => axios.post(API.buy.myProductBuys, param);
 
 // 获取用户求购列表
-export function listUserProductBuys(data) {
-  return _fetch(METHODS.get, data, API.buy.listUserProductBuys);
-};
+export const listUserProductBuys = param => axios.get(API.buy.listUserProductBuys, {params: param});
 
 // 获取用户求购列表
-export function listUserCompanySupplys(data) {
-  return _fetch(METHODS.get, data, API.companySupply.listUserCompanySupplys);
-};
+export const listUserCompanySupplys = param => axios.get(API.companySupply.listUserCompanySupplys, {params: param});
 
 // 删除求购
-export function deleteProductBuy(data) {
-  return _fetch(METHODS.post, data, API.buy.deleteProductBuy);
-};
+export const deleteProductBuy = param => axios.post(API.buy.deleteProductBuy, param);
 
 // 获取收藏花型列表
-export function listProduct(data) {
-  return _fetch(METHODS.post, data, API.collection.listProduct);
-};
+export const listProduct = param => axios.post(API.collection.listProduct, param);
 
 // 获取收藏厂家列表
-export function listCompany(data) {
-  return _fetch(METHODS.post, data, API.collection.listCompany);
-};
+export const listCompany = param => axios.post(API.collection.listCompany, param);
 
 // 获取收藏供应列表
-export function listSupply(data) {
-  return _fetch(METHODS.post, data, API.collection.listSupply);
-};
+export const listSupply = param => axios.post(API.collection.listSupply, param);
 
 // 获取收藏供应各分类统计
-export function countSupply(data) {
-  return _fetch(METHODS.get, data, API.collection.countSupply);
-};
+export const countSupply = param => axios.get(API.collection.countSupply, {params: param});
 
 // 获取收藏花型各分类统计
-export function countProduct(data) {
-  return _fetch(METHODS.get, data, API.collection.countProduct);
-};
+export const countProduct = param => axios.get(API.collection.countProduct, {params: param});
 
 // 收藏或取消
-export const favoriteBus = param => _fetch(METHODS.post, param, API.collection.favoriteBus);
+export const favoriteBus = param => axios.post(API.collection.favoriteBus, param);
 // 批量取消收藏
-export const favoriteBatchCancel = param => _fetch(METHODS.post, param, API.collection.batchCancel);
+export const favoriteBatchCancel = param => axios.post(API.collection.batchCancel, param);
 // 判断是否已收藏
-export const favoriteIsFavorite = param => _fetch(METHODS.get, param, API.collection.isFavorite);
+export const favoriteIsFavorite = param => axios.get(API.collection.isFavorite, {params: param});
 // 关闭求购
-export function closeProductBuy(data) {
-  return _fetch(METHODS.post, data, API.buy.closeProductBuy);
-}
+export const closeProductBuy = param => axios.post(API.buy.closeProductBuy, param);
 
 // 取消接单
-export function cancelBuyTask(id) {
-  return _fetch(METHODS.post, null, `${API.buy.cancelBuyTask}/${id}`);
-}
+export const cancelBuyTask = id => axios.post(`${API.buy.cancelBuyTask}/${id}`);
 
 // 完成接单
-export function finishProductBuy(data) {
-  return _fetch(METHODS.post, data, API.buy.finishProductBuy);
-}
+export const finishProductBuy = param => axios.post(API.buy.finishProductBuy, param);
 
 // 求购详情
-export function getProductBuy(id) {
-  return _fetch(METHODS.get, null, `${API.buy.getProductBuy}/${id}`);
-}
+export const getProductBuy = id => axios.get(`${API.buy.getProductBuy}/${id}`);
 
 // 获取求购单接单人列表
-export function listBuyTaskUserByBuyId(data) {
-  return _fetch(METHODS.get, data, API.buy.listBuyTaskUserByBuyId);
-}
+export const listBuyTaskUserByBuyId = param => axios.get(API.buy.listBuyTaskUserByBuyId, {params: param});
 
 // 删除接单
-export function deleteBuyTask(data) {
-  return _fetch(METHODS.post, data, API.buy.deleteBuyTask);
-}
+export const deleteBuyTask = (param) => axios.post(API.buy.deleteBuyTask, param);
 // 获取oss_token
-export function token() {
-  return _fetch(METHODS.post, {
-    fileType: 1
-  }, API.oss.token);
-};
+export const token = () => axios.post(API.oss.token, {fileType: 1});
 // 获取数据字典
-export const getDicTree = param => _fetch(METHODS.get, param, API.dicTree.byTypeKey);
+export const getDicTree = param => axios.get(API.dicTree.byTypeKey, {params: param});
 // 根据级别获取信息
-export const getAreabyLevel = param => _fetch(METHODS.get, param, API.area.byLevel);
+export const getAreabyLevel = param => axios.get(API.area.byLevel, {params: param});
 // 根据父级编码获取信息
-export const getAreabyParent = param => _fetch(METHODS.get, param, API.area.byParent);
+export const getAreabyParent = param => axios.get(API.area.byParent, {params: param});
 // =====
 // 微官网
 // =====
 // 更新模板
-export const updateWebsiteTemplate = param => _fetch(METHODS.post, param, API.website.template);
+export const updateWebsiteTemplate = param => axios.post(API.website.template, param);
 // 获取已设置的模板
-export const getWebsiteTemplate = param => _fetch(METHODS.get, param, API.website.template);
+export const getWebsiteTemplate = param => axios.get(API.website.template, {params: param});
+// 优质厂家
+export const getCompanyBestList = param => axios.get(API.company.getCompanyBestList, {params: param});
 
 // =======
 // 店铺访问
 // =======
 // 获取店铺花型列表
-export const getVistitCompanyProductsList = param => _fetch(METHODS.post, param, API.product.listVistitCompanyProducts);
+export const getVistitCompanyProductsList = param => axios.post(API.product.listVistitCompanyProducts, param);
 // 店铺供应列表
-export const getVisitCompanySupplyList = param => _fetch(METHODS.get, param, API.companySupply.listVisitCompanySupplys);
+export const getVisitCompanySupplyList = param => axios.get(API.companySupply.listVisitCompanySupplys, {params: param});
 // 获取用户的店铺信息
-export const getCompanyInfoByUserId = param => _fetch(METHODS.get, param, API.company.getCompanyInfoByUserId);
+export const getCompanyInfoByUserId = param => axios.get(API.company.getCompanyInfoByUserId, {params: param});
+// 获取公司二维码图片
+export const getCompanyQRcode = param => axios.get(API.company.getCompanyQRcode, {params: param});
 // 获取简单店铺或工厂信息
-export const getCompanySimpleInfo = param => _fetch(METHODS.post, param, API.company.getCompanySimpleInfo);
+export const getCompanySimpleInfo = param => axios.post(API.company.getCompanySimpleInfo, param);
 // 店铺花型分类
-export const getProductCategoryList = param => _fetch(METHODS.get, param, API.productCategory.listProductCategory);
+export const getProductCategoryList = param => axios.get(API.productCategory.listProductCategory, {params: param});
 // 店铺自定义花型分类列表
-export const getVisitUserProductCategoryList = param => _fetch(METHODS.post, param, API.productCategory.listVisitUserProductCategory);
+export const getVisitUserProductCategoryList = param => axios.post(API.productCategory.listVisitUserProductCategory, param);
 // 店铺系统定义花型分类列表
-export const getVisitSystemProductCategoryList = param => _fetch(METHODS.get, param, API.productCategory.listVisitSystemProductCategory);
+export const getVisitSystemProductCategoryList = param => axios.get(API.productCategory.listVisitSystemProductCategory, {params: param});
 // 店铺分类绑定的花型列表
-export const getCompanyBindingProductList = param => _fetch(METHODS.get, param, API.productCategory.listCompanyBindingProduct);
+export const getCompanyBindingProductList = param => axios.get(API.productCategory.listCompanyBindingProduct, {params: param});
 // =======
 // 店铺管理
 // =======
 // 询价
-export const enquiryAskPrice = param => _fetch(METHODS.post, param, API.enquiry.askPrice);
+export const enquiryAskPrice = param => axios.post(API.enquiry.askPrice, param);
 // 询价列表
-export const getEnquiryList = param => _fetch(METHODS.post, param, API.enquiry.getEnquiryList);
+export const getEnquiryList = param => axios.post(API.enquiry.getEnquiryList, param);
 // 询价人详情
-export const enquiryEskUser = param => _fetch(METHODS.get, param, API.enquiry.enquiryEskUser);
+export const enquiryEskUser = param => axios.get(API.enquiry.enquiryEskUser, {params: param});
 // 根据产品ID获取询价记录
-export const getAskListByProductId = param => _fetch(METHODS.get, param, API.enquiry.getAskListByProductId);
+export const getAskListByProductId = param => axios.get(API.enquiry.getAskListByProductId, {params: param});
 // 查询公司资质信息
-export const getCompanyAptitude = param => _fetch(METHODS.get, param, API.company.getCompanyAptitude);
+export const getCompanyAptitude = param => axios.get(API.company.getCompanyAptitude, {params: param});
 // 修改公司资质信息
-export const saveCompanyAptitude = param => _fetch(METHODS.post, param, API.company.saveCompanyAptitude);
+export const saveCompanyAptitude = param => axios.post(API.company.saveCompanyAptitude, param);
 // 修改工厂或档口详细信息
-export const updateCompanyExtend = param => _fetch(METHODS.post, param, API.company.updateCompanyExtend);
+export const updateCompanyExtend = param => axios.post(API.company.updateCompanyExtend, param);
 // 获取花型列表
-export const getProductList = param => _fetch(METHODS.post, param, API.product.listProducts);
+export const getProductList = param => axios.post(API.product.listProducts, param);
 // 获取花型详情
-export const getProduct = id => _fetch(METHODS.get, null, `${API.product.getProduct}/${id}`);
+export const getProduct = id => axios.get(`${API.product.getProduct}/${id}`);
 // 新增花型
-export const addProducts = param => _fetch(METHODS.post, param, API.product.addProduct);
+export const addProducts = param => axios.post(API.product.addProduct, param);
 // 修改花型
-export const updateProduct = param => _fetch(METHODS.post, param, API.product.updateProduct);
+export const updateProduct = param => axios.post(API.product.updateProduct, param);
 // 花型上下架
-export const shelveProduct = param => _fetch(METHODS.post, param, API.product.shelveProduct);
+export const shelveProduct = param => axios.post(API.product.shelveProduct, param);
 // 删除花型
-export const deleteProduct = param => _fetch(METHODS.post, param, API.product.deleteProduct);
+export const deleteProduct = param => axios.post(METHODS, API.product.deleteProduct, param);
 // 厂家上新
-export const getCompanyNewProductList = param => _fetch(METHODS.get, param, API.product.getCompanyNewProductlist);
+export const getCompanyNewProductList = param => axios.get(API.product.getCompanyNewProductlist, {params: param});
 // 爆款热搜列表
-export const burstHotSearch = param => _fetch(METHODS.get, param, API.product.burstHotSearch);
+export const burstHotSearch = param => axios.get(API.product.burstHotSearch, {params: param});
 // 获取成分列表
-export const getIngredientsList = param => _fetch(METHODS.get, param, API.ingredient.listIngredients);
+export const getIngredientsList = param => axios.get(API.ingredient.listIngredients, {params: param});
 // 自定义成分
-export const addIngredient = param => _fetch(METHODS.post, param, API.ingredient.addIngredient);
+export const addIngredient = param => axios.post(API.ingredient.addIngredient, param);
 // 修改成分
-export const updateIngredient = param => _fetch(METHODS.post, param, API.ingredient.updateIngredient);
+export const updateIngredient = param => axios.post(API.ingredient.updateIngredient, param);
 // 删除成分
-export const deleteIngredient = param => _fetch(METHODS.post, param, API.ingredient.deleteIngredient);
+export const deleteIngredient = param => axios.post.get(API.ingredient.deleteIngredient, param);
 // 我的供应列表
-export const getCompanySupplylist = param => _fetch(METHODS.get, param, API.companySupply.listMyCompanySupplys);
+export const getCompanySupplylist = param => axios.get(API.companySupply.listMyCompanySupplys, {params: param});
 // 获取供应收藏人列表
-export const getSupplyByFavList = param => _fetch(METHODS.get, param, API.companySupply.getSupplyByFavList);
+export const getSupplyByFavList = param => axios.get(API.companySupply.getSupplyByFavList, {params: param});
 // 统计不同供应状态的数量
-export const companySupplyCountByStatus = param => _fetch(METHODS.get, param, API.companySupply.countByStatus);
+export const companySupplyCountByStatus = param => axios.get(API.companySupply.countByStatus, {params: param});
 // 关闭供应
-export const closeCompanySupply = param => _fetch(METHODS.post, param, API.companySupply.closeCompanySupply);
+export const closeCompanySupply = param => axios.post(API.companySupply.closeCompanySupply, param);
 // 获取供应详情
-export const getCompanySupply = id => _fetch(METHODS.get, null, `${API.companySupply.getCompanySupply}/${id}`);
+export const getCompanySupply = id => axios.get(`${API.companySupply.getCompanySupply}/${id}`);
 // 发布供应
-export const releaseCompanySupply = param => _fetch(METHODS.post, param, API.companySupply.releaseCompanySupply);
+export const releaseCompanySupply = param => axios.post(API.companySupply.releaseCompanySupply, param);
 // 发布求购
-export const releaseProductBuy = param => _fetch(METHODS.post, param, API.buy.releaseProductBuy);
+export const releaseProductBuy = param => axios.post(API.buy.releaseProductBuy, param);
 // 获取素材库图片列表
-export const getAlbumPicsList = param => _fetch(METHODS.post, param, API.albumPic.listAlbumPics);
+export const getAlbumPicsList = param => axios.post(API.albumPic.listAlbumPics, param);
 // 查询素材库id
-export const getAlbum = param => _fetch(METHODS.get, param, API.albumPic.getAlbum);
+export const getAlbum = param => axios.get(API.albumPic.getAlbum, {params: param});
 // 删除素材库图片
-export const deleteAlbumPic = param => _fetch(METHODS.post, param, API.albumPic.deleteAlbumPic);
+export const deleteAlbumPic = param => axios.post(API.albumPic.deleteAlbumPic, param);
 // 素材库上传图片
-export const addAlbumPic = param => _fetch(METHODS.post, param, API.albumPic.addAlbumPic);
+export const addAlbumPic = param => axios.post(API.albumPic.addAlbumPic, param);
 // 获取档口OR工厂信息
-export const getCompanyInfo = param => _fetch(METHODS.get, param, API.company.getCompanyInfo);
+export const getCompanyInfo = param => axios.get(API.company.getCompanyInfo, {params: param});
 // 修改工厂或档口信息
-export const updateCompany = param => _fetch(METHODS.post, param, API.company.updateCompany);
+export const updateCompany = param => axios.post(API.company.updateCompany, param);
 // 获取系统定义花型分类列表
-export const listSystemProductCategory = param => _fetch(METHODS.get, param, API.productCategory.listSystemProductCategory);
+export const listSystemProductCategory = param => axios.get(API.productCategory.listSystemProductCategory, {params: param});
 // 获取自定义花型分类列表
-export const listUserProductCategory = param => _fetch(METHODS.post, param, API.productCategory.listUserProductCategory);
+export const listUserProductCategory = param => axios.post(API.productCategory.listUserProductCategory, param);
 // 获取分类绑定的花型列表
-export const getBindingProductlist = param => _fetch(METHODS.get, param, API.productCategory.listBindingProduct);
+export const getBindingProductlist = param => axios.get(API.productCategory.listBindingProduct, {params: param});
 // 新增花型分类
-export const addProductCategory = param => _fetch(METHODS.post, param, API.productCategory.addProductCategory);
+export const addProductCategory = param => axios.post(API.productCategory.addProductCategory, param);
 // 修改花型分类
-export const updateProductCategory = param => _fetch(METHODS.post, param, API.productCategory.updateProductCategory);
+export const updateProductCategory = param => axios.post(API.productCategory.updateProductCategory, param);
 // 花型分类绑定解绑
-export const bindingProduct = param => _fetch(METHODS.get, param, API.productCategory.bindingProduct);
+export const bindingProduct = param => axios.get(API.productCategory.bindingProduct, {params: param});
 // 花型分类排序
-export const sortProductCategory = param => _fetch(METHODS.get, param, API.productCategory.sortProductCategory);
+export const sortProductCategory = param => axios.get(API.productCategory.sortProductCategory, {params: param});
 // 分类中的花型排序
-export const sortBindingProduct = param => _fetch(METHODS.get, param, API.productCategory.sortBindingProduct);
+export const sortBindingProduct = param => axios.get(API.productCategory.sortBindingProduct, {params: param});
 // 删除花型分类
-export const deleteProductCategory = param => _fetch(METHODS.post, param, API.productCategory.deleteProductCategory);
+export const deleteProductCategory = param => axios.post(API.productCategory.deleteProductCategory, param);
 // 获取合作厂家详情
-export const getCollaborateCompany = id => _fetch(METHODS.get, null, `${API.collaborateCompany.getCollaborateCompany}/${id}`);
+export const getCollaborateCompany = id => axios.get(`${API.collaborateCompany.getCollaborateCompany}/${id}`);
 // 修改合作厂家
-export const updateCollaborateCompany = param => _fetch(METHODS.post, param, API.collaborateCompany.updateCollaborateCompany);
+export const updateCollaborateCompany = param => axios.post(API.collaborateCompany.updateCollaborateCompany, {params: param});
 // 新增合作厂家
-export const addCollaborateCompany = param => _fetch(METHODS.post, param, API.collaborateCompany.addCollaborateCompany);
+export const addCollaborateCompany = param => axios.post(API.collaborateCompany.addCollaborateCompany, param);
 // 获取合作厂家列表
-export const getCollaborateCompanysList = param => _fetch(METHODS.get, param, API.collaborateCompany.listCollaborateCompanys);
+export const getCollaborateCompanysList = param => axios.get(API.collaborateCompany.listCollaborateCompanys, {params: param});
 // 删除合作厂家
-export const deleteCollaborateCompany = param => _fetch(METHODS.get, param, API.collaborateCompany.deleteCollaborateCompany);
+export const deleteCollaborateCompany = param => axios.get(API.collaborateCompany.deleteCollaborateCompany, {params: param});

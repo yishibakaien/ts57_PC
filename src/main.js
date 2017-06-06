@@ -4,6 +4,8 @@ import Vue from 'vue';
 import App from './App';
 import router from './router/router';
 import store from './store/store';
+import axios from './common/api/';
+import { sync } from 'vuex-router-sync';
 import * as filters from './filter/';
 import * as directive from './directive/';
 import * as utils from '@/common/js/utils';
@@ -34,11 +36,12 @@ AMap.initAMapApiLoader({
   // 插件集合
   plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor']
 });
+sync(store, router);
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-   store,
-  // axios,
+  store,
+  axios,
   render: h => h(App)
 });
