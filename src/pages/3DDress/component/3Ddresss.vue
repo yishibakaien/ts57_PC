@@ -77,7 +77,9 @@ export default {
   created() {
     this.Pic.activeIndex = 0;
     if (sessionStorage['flowerUrl']) {
-      this.Pic.uploadPic = sessionStorage['flowerUrl'];
+      this.convertImgToBase64(sessionStorage['flowerUrl'], (base64Img) => {
+        this.Pic.uploadPic = base64Img;
+      });
     }
   },
   mounted() {},

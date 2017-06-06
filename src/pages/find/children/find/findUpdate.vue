@@ -35,9 +35,17 @@ export default {
   },
   methods: {
     // 进去某个商品
-    handleViewProduct(item) {},
+    handleViewProduct(id) {
+      this.$router.push({
+        path: `/product/${id}`
+      });
+    },
     // 进去店铺
-    handleViewStore(item) {}
+    handleViewStore(id) {
+      this.$router.push({
+        path: `/shop/${id}`
+      });
+    }
   }
 };
 </script>

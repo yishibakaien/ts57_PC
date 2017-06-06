@@ -49,6 +49,13 @@ export default {
       return !this.BurstHotSearch.length;
     }
   },
+  methods: {
+    handleViewProduct(id) {
+      this.$router.push({
+        path: `/product/${id}`
+      });
+    }
+  },
   async created() {
     this.BurstHotSearch = (await burstHotSearch(this.Params)).data.data.list;
   }

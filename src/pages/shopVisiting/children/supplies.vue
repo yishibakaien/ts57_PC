@@ -25,8 +25,8 @@
        </ts-image>
        <p class="allmeterial-product--number">{{product.productNo}}</p>
        <template slot="footer">
-         ¥{{product.price}}/{{product.priceUnit | filterDict(DICT.PriceUnits) }}
-         <ts-tag>{{product.publishStatus | filterDict(DICT.PublishStatus,'label2')}}</ts-tag>
+         ¥{{product.supplyNum}}/{{product.supplyUnit | filterDict(DICT.PriceUnits) }}
+         <ts-tag>{{product.supplyStatus | filterDict(DICT.SupplyStatus)}}</ts-tag>
        </template>
      </ts-grid-item>
   </ts-grid>
@@ -48,7 +48,7 @@ export default {
     return {
       // 数据字典
       DICT: {
-        PublishStatus: DICT.PublishStatus,
+        SupplyStatus: DICT.SupplyStatus,
         PriceUnits: DICT.PriceUnits
       },
       Params: {

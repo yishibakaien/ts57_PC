@@ -1,6 +1,4 @@
 'use strict';
-// 主页
-import homePage from './homePage/homePage';
 // 发布求购页
 import releaseSupplyPage from './homePage/releaseSupplyPage/releaseSupplyPage';
 // 求购列表页面
@@ -29,7 +27,6 @@ import forgotPasswordPage from './formPages/forgotPasswordPage/forgotPasswordPag
 import promptDown from './totalPages/promptDown';
 
 export {
-  homePage,
   personalCenterPage,
   loginPage,
   registerPage,

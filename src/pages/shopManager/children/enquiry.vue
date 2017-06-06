@@ -15,7 +15,7 @@
         <ts-column slot data-key="PURCHASENUM"  align="center" name="采购数量"></ts-column>
         <ts-column slot data-key="phone"  align="center" name="联系电话" width="130px"></ts-column>
         <ts-column slot data-key="DATE"  align="center" name="询价时间"></ts-column>
-        <ts-column slot  align="center"  name="操作" action="[{'text':'查看花型','func':'view'},{'text':'询价人信息','func':'showenquiryInfo'}]"></ts-column>
+        <ts-column slot  align="center"  name="操作" action="[{'text':'查看花型','func':'hanleVisitProduct'},{'text':'询价人信息','func':'showenquiryInfo'}]"></ts-column>
       </ts-table>
       <div slot="footer" class="enquiry-footer">
         一共{{EnquiryList.totalNum}}条询价
@@ -120,8 +120,12 @@ export default {
         id: item.id
       })).data.data;
     },
-    // 访问店铺
-    hanleVisitStore() {},
+    // 查看花型
+    hanleVisitProduct(item) {
+      this.$router.push({
+        path: `/product/${item.id}`
+      });
+    },
     // ======
     // 分页处理
     async handleChangeCurrent(current) {

@@ -3,13 +3,12 @@
   <div class="main-wrapper">
     <models></models>
     <topbar></topbar>
-
     <div class="main">
-      <router-view :message="message"></router-view>
+      <router-view></router-view>
     </div>
   </div>
   <div class="footer-wrapper">
-    <v-footer :message="message"></v-footer>
+    <v-footer></v-footer>
   </div>
   <login-mask></login-mask>
 </div>
@@ -24,13 +23,11 @@ import {
 } from '@/components';
 
 export default {
-  data() {
-    return {
-      message: {
-        desc: 'message form app.vue.',
-        showLoading: false
-      }
-    };
+  created() {
+    if (localStorage.getItem('x-token')) {
+      this.$store.dispatch('getUserInfo');
+      this.$store.dispatch('getDicTree');
+    }
   },
   components: {
     topbar,

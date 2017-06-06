@@ -1,10 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import * as types from '../store/types';
 import store from '../store/store';
 
 import {
-  homePage,
   personalCenterPage,
   loginPage,
   registerPage,
@@ -18,8 +16,10 @@ import {
 Vue.use(Router);
 // created By HZC
 // =============
+const homePage = r => require.ensure([], () => r(require('@/pages/homePage/homePage.vue')), 'homePage');
 const flowerDetail = r => require.ensure([], () => r(require('@/pages/homePage/flowerDetailPage/flowerDetailPage.vue')), 'flowerDetail');
-const textSearch = r => require.ensure([], () => r(require('@/pages/homePage/searchResultPage/textSearchResultPage.vue')), 'flowerDetail');
+const textSearch = r => require.ensure([], () => r(require('@/pages/homePage/searchResultPage/textSearchResultPage.vue')), 'textSearch');
+const imgSearch = r => require.ensure([], () => r(require('@/pages/homePage/searchResultPage/imgSearchResultPage.vue')), 'textSearch');
 // =============
 // 3D
 const clause = r => require.ensure([], () => r(require('@/pages/clause/')), 'clause');
@@ -42,6 +42,7 @@ const findTopSearch = r => require.ensure([], () => r(require('@/pages/find/chil
 // =========
 // 店铺管理
 const shopManager = r => require.ensure([], () => r(require('@/pages/shopManager/')), 'shopManager');
+const shopMirco = r => require.ensure([], () => r(require('@/pages/shopManager/children/mircoSite')), 'shopMirco');
 const shopManagerMaterial = r => require.ensure([], () => r(require('@/pages/shopManager/children/material')), 'shopManagerMaterial');
 const shopManagerWareHouse = r => require.ensure([], () => r(require('@/pages/shopManager/children/warehouse')), 'shopManagerWareHouse');
 const wareHouseAdd = r => require.ensure([], () => r(require('@/pages/shopManager/children/warehouse/add')), 'shopManagerWareHouse');
@@ -73,6 +74,9 @@ const routes = [
   }, {
     path: '/textSearch',
     component: textSearch
+  }, {
+    path: '/imgSearch',
+    component: imgSearch
   }, {
     path: '/find',
     redirect: '/find/index',
@@ -171,6 +175,10 @@ const routes = [
         path: 'index',
         component: shopProductIndex,
         name: '店铺首页'
+      }, {
+        path: 'mircoSetting',
+        component: shopMirco,
+        name: '微官网设置'
       }, {
         path: 'allProducts',
         component: shopAllMeterials,
@@ -276,14 +284,6 @@ const routes = [
   }
 ];
 
-// 进入页面，判断、赋值token userInfo
-if (sessionStorage.accessToken) {
-  store.commit(types.LOGIN, sessionStorage.accessToken);
-  store.commit(types.AJAX, localStorage.ajaxToken);
-  // store.commit(types.USER_NAME, localStorage.userName);
-  store.dispatch('getDicTree');
-}
-
 const router = new Router({
   // mode: 'history', // 后端未配置
   // 每进去一个新页面翻到顶部
@@ -301,15 +301,10 @@ const router = new Router({
 // 路由钩子，判断进入的页面是否需要登录 (needAuth)
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.needAuth)) {
-    if (store.state.accessToken) {
+    if (store.getters.token) {
       next();
     } else {
-      next({
-        path: '/loginPage',
-        query: {
-          redirect: to.fullPath
-        }
-      });
+      next('/loginPage');
     }
   } else {
     next();

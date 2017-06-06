@@ -45,8 +45,8 @@
   height 203px
   padding 12px 16px
   background #fff
-  border-left 1px solid #d8d8d8
-  border-bottom 1px  solid #d8d8d8
+  border-left 1px solid #eaeaea
+  border-bottom 1px solid #eaeaea
   cursor pointer
   &:hover
     position relative
@@ -63,7 +63,6 @@
         width 132px
         height 127.5px
         overflow hidden
-        background #f2f2f2
         &:first-child
           float left
         &:last-child

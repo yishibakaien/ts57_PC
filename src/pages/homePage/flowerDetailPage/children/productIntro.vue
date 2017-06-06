@@ -47,7 +47,7 @@
 				</p>
 				<!-- 菜单 -->
 				<ts-grid class="productIntro-product-menu">
-					<ts-popover trigger="click" :options="{placement: 'bottom'}">
+					<ts-popover trigger="click" :options="{placement: 'bottom'}" >
 						<div class="popper">
 							大蒜大蒜大蒜
 						</div>
@@ -55,33 +55,35 @@
 							<i class="icon-dianhua"></i>电话
 						</ts-grid-item>
 					</ts-popover>
-					<ts-grid-item @click.native="Dialog.enquiry=!Dialog.enquiry">
-						<i class="icon-xunjia"></i>询价
-					</ts-grid-item>
-					<!-- <ts-popover trigger="click" :options="{placement: 'bottom'}">
+					<ts-popover trigger="click" :options="{placement: 'bottom'}" v-if="isLogined">
 						<div class="popper">
-							大蒜大蒜大蒜das
+								<div class="popper-tip">登陆后可以询价</div>
+								<ts-button type="plain" @click="handleLogin">登录</ts-button>
 						</div>
 						<ts-grid-item slot="reference">
 							<i class="icon-xunjia"></i>询价
 						</ts-grid-item>
-					</ts-popover> -->
+					</ts-popover>
+					<ts-grid-item @click.native="Dialog.enquiry=!Dialog.enquiry" v-else>
+						<i class="icon-xunjia"></i>询价
+					</ts-grid-item>
 				</ts-grid>
 				<ts-grid class="productIntro-product-menu">
 					<ts-grid-item @click.native="handleGoto3Ddress">
 						<i class="icon-shiyihui"></i>试衣
 					</ts-grid-item>
-					<ts-grid-item @click.native="Dialog.sendSample=!Dialog.sendSample">
-						<i class="icon-suoyang"></i>索样
-					</ts-grid-item>
-					<!-- <ts-popover trigger="click" :options="{placement: 'bottom'}">
+					<ts-popover trigger="click" :options="{placement: 'bottom'}" v-if="isLogined">
 						<div class="popper">
-							大蒜大蒜大蒜111
+							<div class="popper-tip">登陆后可以索样</div>
+							<ts-button type="plain" @click="handleLogin">登录</ts-button>
 						</div>
 						<ts-grid-item slot="reference">
 							<i class="icon-suoyang"></i>索样
 						</ts-grid-item>
-					</ts-popover> -->
+					</ts-popover>
+					<ts-grid-item @click.native="Dialog.sendSample=!Dialog.sendSample" v-else>
+						<i class="icon-suoyang"></i>索样
+					</ts-grid-item>
 				</ts-grid>
 			</div>
 		</div>
@@ -193,6 +195,11 @@ export default {
         path: '/threeDDressPage'
       });
     },
+    handleLogin() {
+      this.$router.push({
+        path: '/loginPage'
+      });
+    },
     // 取消询价
     handleCancelEnquiry() {
       this.Dialog.enquiry = false;
@@ -232,7 +239,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['dicTree', 'productDetail'])
+    ...mapGetters(['dicTree', 'productDetail', 'token']),
+    isLogined() {
+      return !this.token;
+    }
   },
   async created() {
     let res = (await favoriteIsFavorite({
@@ -385,5 +395,9 @@ export default {
 }
 .center{
 	text-align: center;
+}
+.popper-tip{
+	line-height: 40px;
+	color:grey;
 }
 </style>

@@ -1,10 +1,10 @@
 <template>
-<div style="position:relative">
+<div>
   <div class="search-wrapper all">
     <slot></slot>
     <ts-tag shape="square" type="transparent" closable v-if="Pic.show" @close="handleDelPic">
-      <div class="search-mask" @click="Pic.isEdit=!Pic.isEdit">
-        <img :src="Pic.url">
+      <div class="search-mask">
+        <img :src="Pic.url" width="20" height="20">
         <p><i class="icon-bianji"></i></p>
       </div>
     </ts-tag>
@@ -13,21 +13,16 @@
     <span class="search-close" v-show="Pic.isUploaded" @click="Pic.isUploaded=false">&times;</span>
     <ts-button type="primary" class="search-button" @click="handleSearch" v-show="!Pic.isUploaded">搜 索</ts-button>
   </div>
-  <div class="search-editPic onepx" v-show="Pic.isEdit">
-    <p>请框选图中要识别的区域</p>
-    <ts-radio-group v-model="Filter.categorys">
-      <ts-radio :label="item.dicValue" v-for="item in dicTree.PRODUCT_TYPE" :key="item.dicValue">搜{{item.name}}</ts-radio>
-    </ts-radio-group>
-  </div>
+  <!-- 上传花型  -->
   <div class="search-editPic onepx" v-show="Pic.isUploaded">
     <p class="search-editPic-title">
       <span>搜索历史</span>
       <label style="position:relative">
-        <a class="search-editPic-upload--button">
+        <a class="search-editPic-upload--button" @click="handleUpload">
           <i class="icon-shangchuan"></i>
           本地上传
         </a>
-        <ts-aliupload id="addPic" @doUpload="uploadImg"></ts-aliupload>
+         <input ref="input" type="file" accept="image/png,image/jpeg,image/gif" @change="uploadImg" v-show="false">
       </label>
     </p>
     <ts-grid :data="Search.picList" emptyText="暂无搜索记录">
@@ -41,15 +36,18 @@
       <ts-button type="cancel" @click="Pic.isUploaded=!Pic.isUploaded">关闭</ts-button>
     </div>
   </div>
+  <cropper-dialog v-model="Cropper.dialog" :imageUrl="Pic.url" @change="handleGetDestImg">
+    <ts-radio-group v-model="Filter.categorys" class="search-editPic--menu" @change="handleLookProduct">
+      <ts-radio :label="item.dicValue" v-for="item in dicTree.PRODUCT_TYPE" :key="item.dicValue">搜{{item.name}}</ts-radio>
+    </ts-radio-group>
+  </cropper-dialog>
 </div>
 </template>
 <script>
 import {
-  ALI_DOMAIN
-} from '@/common/dict/const';
-import {
   mapGetters
 } from 'vuex';
+import CropperDialog from './searchImgDialog.vue';
 export default {
   data() {
     return {
@@ -57,12 +55,16 @@ export default {
         picList: [],
         val: ''
       },
+      Cropper: {
+        dialog: false
+      },
       Filter: {
         categorys: ''
       },
       Pic: {
         isUploaded: false,
         show: false,
+        destImg: '',
         isEdit: false,
         url: '',
         inputPlaceHolder: '可输入厂名或编号查找'
@@ -73,6 +75,12 @@ export default {
     this.Search.val = this.$route.query.search;
     if (localStorage.getItem('historyItems')) {
       this.Search.picList = localStorage.getItem('historyItems').split(',');
+    }
+  },
+  props: {
+    globalLook: {
+      type: Boolean,
+      default: true
     }
   },
   watch: {
@@ -95,23 +103,63 @@ export default {
       return this.Search.picList.length >= 5 ? this.Search.picList.splice(0, 5) : this.Search.picList;
     }
   },
+  components: {
+    CropperDialog
+  },
   methods: {
+    // 获取裁剪的图片base64
+    handleGetDestImg(pic) {
+      this.Pic.destImg = pic;
+    },
+    async handleLookProduct(e) {
+      if (this.globalLook) {
+        await this.$store.dispatch('getSearchEncoded', {
+          category: e,
+          encoded: this.Pic.destImg,
+          searchType: 300
+        });
+        await this.$router.push({
+          path: '/imgSearch',
+          query: {
+            search: this.$store.getters.search.id
+          }
+        });
+      }
+      let data = {
+        category: e,
+        encoded: this.Pic.destImg
+      };
+      sessionStorage.setItem('find-pic', JSON.stringify(data));
+      this.Cropper.dialog = false;
+    },
+    handleUpload() {
+      this.$refs.input.click();
+    },
     handleChoosePic(imgUrl) {
       this.Search.picList.unshift(imgUrl);
       this.historyItems.set(imgUrl);
+      // this.Cropper.dialog = true;
       this.Pic.url = `${imgUrl}?x-oss-process=image/resize,h_20`;
       this.Pic.isUploaded = false;
     },
     uploadImg(e) {
-      this.Pic.isUploaded = false;
-      let imgUrl = `${ALI_DOMAIN}${e.ossUrl[e.ossUrl.length - 1]}`;
-      this.handleChoosePic(imgUrl);
-      this.Pic.url = `${imgUrl}?x-oss-process=image/resize,h_20`;
+      var file = this.$refs.input.files[0];
+      if (file) {
+        var reader = new FileReader();
+        reader.onload = () => {
+          this.Cropper.dialog = true;
+          var url = reader.result;
+          this.handleChoosePic(url);
+          this.Pic.url = url;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        this.$toast('出错');
+      }
     },
     handleDelPic(e) {
       this.Pic.url = '';
       this.Pic.isUploaded = false;
-      this.Pic.isEdit = false;
     },
     handleClearHistory() {
       this.Search.picList = [];
@@ -140,7 +188,6 @@ export default {
     display: flex;
     padding-left: 2px;
     align-items: center;
-    width: 580px;
     border: 2px solid #4c93fd;
     .search-input {
       margin: 0;
@@ -171,6 +218,10 @@ export default {
     @descendent menu {
       text-align: right;
       margin-top: 10px;
+    }
+    @modifier menu {
+      text-align: center;
+      clear: both;
     }
     @descendent upload {
       @modifier button {

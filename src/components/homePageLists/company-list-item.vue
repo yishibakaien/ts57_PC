@@ -2,7 +2,7 @@
   <div class="company-list-item">
     <div class="company-item">
       <div class="company-logo-box">
-        <img class="company-logo" :src="message.companyHeadIcon" v-errorImg>
+        <img class="company-logo" v-lazy="message.companyHeadIcon" v-errorImg>
       </div>
     </div>
   </div>
@@ -26,9 +26,10 @@ export default {
     height 182px
     padding 16px
     background #fff
-    border-left 1px solid #d8d8d8
-    border-bottom 1px  solid #d8d8d8
+    border-left 1px solid #eaeaea
+    border-bottom 1px  solid #eaeaea
     cursor pointer
+    transition .8s
     &:hover
       box-shadow 0 2px 4px 0 rgba(76,147,253,0.30), 0 0 6px 0 rgba(76,147,253,0.30)
     .company-logo-box

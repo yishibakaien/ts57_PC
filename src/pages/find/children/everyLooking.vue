@@ -42,7 +42,6 @@ export default {
   },
   methods: {
     handleViewProduct(id) {
-      debugger;
       this.$router.push({
         path: `/product/${id}`
       });

@@ -1,36 +1,36 @@
 <template>
-  <div class="homePage">
-    <v-header>
-    	<search></search>
-    </v-header>
-    <v-nav></v-nav>
-    <div class="swiper">
-        <banner :items="bannerImgs" :width="1200" :height="300" :pagination="true" :auto-play="true" :speed="3000" :sync="false"></banner>
-    </div>
-
-    <div class="homePage-box">
-      <div class="list">
-        <!-- 求购列表 -->
-        <purchase-list :purchase-list-obj="purchaseListObj"></purchase-list>
-      </div>
-      <div class="list">
-        <!-- 供应列表 -->
-        <supply-list :supply-list-obj="supplyListObj"></supply-list>
-      </div>
-      <div class="list">
-        <!-- 入驻厂家 -->
-        <entry-list :new-company-list="newCompanyList"></entry-list>
-      </div>
-      <div class="list company-list">
-        <!-- 优质厂家 -->
-        <quality-company-list :message="companys"></quality-company-list>
-      </div>
-      <!--<button class="button button-block button-blue" @click="seeDetail">花型详情(需要登录才能浏览)</button>-->
-      <!--<button @click="logout" class="button button-block button-red" v-if="showBtn">退出登录</button>-->
-
-    </div>
-     <!--<fixed-topbar></fixed-topbar>--> 
+<div class="homePage">
+  <v-header>
+    <search></search>
+  </v-header>
+  <v-nav></v-nav>
+  <div class="swiper">
+    <banner :items="bannerImgs" :width="1200" :height="300" :pagination="true" :auto-play="true" :speed="3000" :sync="false"></banner>
   </div>
+
+  <div class="homePage-box">
+    <div class="list">
+      <!-- 求购列表 -->
+      <purchase-list :purchase-list-obj="purchaseListObj"></purchase-list>
+    </div>
+    <div class="list">
+      <!-- 供应列表 -->
+      <supply-list :supply-list-obj="supplyListObj"></supply-list>
+    </div>
+    <div class="list">
+      <!-- 入驻厂家 -->
+      <entry-list :new-company-list="newCompanyList"></entry-list>
+    </div>
+    <div class="list company-list">
+      <!-- 优质厂家 -->
+      <quality-company-list :message="companys"></quality-company-list>
+    </div>
+    <!--<button class="button button-block button-blue" @click="seeDetail">花型详情(需要登录才能浏览)</button>-->
+    <!--<button @click="logout" class="button button-block button-red" v-if="showBtn">退出登录</button>-->
+
+  </div>
+  <!--<fixed-topbar></fixed-topbar>-->
+</div>
 </template>
 
 <script>
@@ -76,37 +76,34 @@ export default {
     qualityCompanyList
   },
   created() {
-  // 优质厂家
-  qualityCompanyList1().then((res) => {
-  this.companys = res.data.data;
-  }).catch((res) => {
-  });
-  // banner
+    // 优质厂家
+    qualityCompanyList1().then((res) => {
+      this.companys = res.data.data;
+    }).catch((res) => {});
+    // =====
+    // banner
     listHomeBanners().then(res => {
       let bannerArr = res.data.data;
-//    console.log(res);
       bannerArr.forEach(function(item) {
         item.src = item.picUrl;
         // 接口中暂时未提供轮播图的 跳转地址，先用百度代替
         item.href = 'https://www.baidu.com';
       });
       this.bannerImgs = bannerArr;
-    }).catch(res => {
-      console.log('error', res);
-    });
+    }).catch(res => {});
+    // ===
     // 获取求购列表
     listProductBuys({
       buyStatus: 0,
       pageNo: 1,
       pageSize: 4
     }).then(res => {
-      // 这里需要格式化 type 以便于后面 baseItem 逐渐分辨到底是 supply 还是 buy
       let data = {
         type: 'buy',
         data: res.data.data.list
       };
       this.purchaseListObj = data;
-    });
+    }).catch(res => {});
     // 获取供应列表
     listCompanySupplys({
       supplyStatus: 1, // 供应状态 1--供应中 2--已关闭
@@ -119,13 +116,13 @@ export default {
         data: res.data.data.list
       };
       this.supplyListObj = data;
-    });
+    }).catch(res => {});
     // 获取厂家入驻列表
     findNewCompanyByIndex({
       companyType: 1 // 1工厂 2 档口
     }).then(res => {
       this.newCompanyList = res.data.data;
-    });
+    }).catch(res => {});
   },
   computed: {
     showBtn() {

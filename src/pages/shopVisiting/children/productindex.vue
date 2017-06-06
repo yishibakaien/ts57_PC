@@ -19,7 +19,8 @@
            </ts-image>
            <p class="productIndex-product--number">{{product.productNo}}</p>
            <template slot="footer">
-             ¥{{product.price}}/{{product.priceUnit | filterDict(DICT.PriceUnits) }}
+             <span v-if="product.price>0&&!!product.price">¥{{product.price}}/{{product.priceUnit | filterDict(DICT.PriceUnits) }}</span>
+             <span v-else>价格面议</span>
              <ts-tag>{{product.publishStatus | filterDict(DICT.PublishStatus,'label2')}}</ts-tag>
            </template>
          </ts-grid-item>
