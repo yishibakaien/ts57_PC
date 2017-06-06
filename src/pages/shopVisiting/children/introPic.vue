@@ -27,7 +27,7 @@
         <li @click="handleCollectStore">
           <i :class="getIsCollect?'icon-yishoucang':'icon-shoucang'"></i> {{getIsCollect?'已收藏店铺':'收藏店铺'}}
         </li>
-        <ts-popover trigger="click" :options="{placement: 'right'}">
+        <ts-popover trigger="hover" :options="{placement: 'right'}">
           <div class="popper introPic-popper-qrcode">
             <ts-image :canView="false" disabledHover width="150" height="150" :src="Qrcode"></ts-image>
             <p class='introPic-popper-qrcode-tip'>扫描二维码，在手机上访问店铺</p>
@@ -40,7 +40,7 @@
     </div>
     <!-- 主营 -->
     <p class="introPic-company is-line3">
-      公司主营：{{companyInfo.companyBusiness}}
+      公司主营：{{companyBusiness}}
     </p>
     <!-- 地址 -->
     <p class="introPic-company is-line">
@@ -63,7 +63,8 @@ export default {
   data() {
     return {
       // 二维码
-      Qrcode: ''
+      Qrcode: '',
+      companyBusiness: ''
     };
   },
   async created() {
@@ -79,6 +80,11 @@ export default {
         businessType: this.companyInfo.companyType
       })).data;
       this.companyInfo.favoriteSatus = res.message.indexOf('收藏') >= 0 ? 1 : 0;
+    }
+  },
+  watch: {
+    companyInfo(val) {
+      this.companyBusiness = val.companyExtendBO.companyBusiness;
     }
   },
   computed: {

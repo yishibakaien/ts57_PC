@@ -1,10 +1,11 @@
 <template lang="html">
   <div class="mirco-wrapper">
-    <div class="mirco-img" v-for="item in albumPicsList.list">
+    <div class="mirco-img" v-for="(item,index) in siteList">
+      <span class="mirco-chosed" v-if="index===siteIdx">已选</span>
       <!-- 图片 -->
-      <ts-image :src="item.photoUrl" width="160" height="160" :key="item.id"></ts-image>
+      <ts-image :src="item.templatePath" width="200" height="300" :key="item.templateName"></ts-image>
       <!-- 选用模板 -->
-      <span class="mirco-img-tip" v-show="!Edit.status">
+      <span class="mirco-img-tip" @click="handleChooseTemplate(item,index)" v-if="index!==siteIdx">
           选用模板
       </span>
     </div>
@@ -12,7 +13,32 @@
 </template>
 
 <script>
+import {
+  MIRCO_SITE
+} from '@/common/dict/const';
+import {
+  updateWebsiteTemplate,
+  getWebsiteTemplate
+} from '@/common/api/api';
 export default {
+  data() {
+    return {
+      siteList: MIRCO_SITE,
+      siteIdx: ''
+    };
+  },
+  async created() {
+    let data = (await getWebsiteTemplate()).data.data;
+    this.siteIdx = this.siteList.findIndex(item => item.templateName === data.templateName);
+  },
+  methods: {
+    handleChooseTemplate(item, index) {
+      this.$messagebox.confirm('确定选用此模版？').then(async() => {
+        await updateWebsiteTemplate(item);
+        this.siteIdx = index;
+      });
+    }
+  }
 };
 </script>
 
@@ -41,10 +67,17 @@ export default {
       text-align: center;
     }
     &:hover{
-      .material-img-tip{
+      .mirco-img-tip{
         display:block;
       }
     }
+  }
+  @component chosed{
+    position: absolute 0 0 * *;
+    background: #FF8400;
+    padding: 4px 6px;
+    z-index: 1;
+    color: #fff;
   }
 }
 </style>
