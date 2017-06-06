@@ -5,7 +5,7 @@ axios.defaults.baseURL = '/api';
 if (store.getters.token) {
   axios.defaults.headers['x-token'] = store.getters.token;
 } else {
-  axios.defaults.headers['x-token'] = localStorage.getItem('x-token');
+  axios.defaults.headers['x-token'] = localStorage.getItem('x-token') || '';
   store.commit('LOGIN', localStorage.getItem('x-token'));
 }
 axios.interceptors.request.use(config => {

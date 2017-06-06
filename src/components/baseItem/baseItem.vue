@@ -5,20 +5,7 @@
         <img class="item-image" v-lazy="picUrl">
       </div>
       <div class="item-desc">
-<<<<<<< HEAD
-        <!-- <h2 class="desc-title"><span>{{productNo}}{{typeComputed}} </span>{{num}}{{unit}}</h2> -->
         <h2 class="desc-title">{{desc}}</h2>
-        <!-- <p class="desc-text" :title="desc"> -->
-
-          <!-- <span class="time" v-if="time">{{time}}</span> -->
-        <!-- </p> -->
-=======
-        <!--<h2 class="desc-title"><span>{{productNo}}{{typeComputed}} </span>{{num}}{{unit}}</h2>-->
-        <p class="desc-text" :title="desc">
-          {{desc}}
-          <span class="time" v-if="time">{{time}}</span>
-        </p>
->>>>>>> all_lyf
       </div>
     </div>
   </div>

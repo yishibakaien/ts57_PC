@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="brand-body">
-      <ts-input type="textarea" :rows="6" :maxLength="60" placeholder="请填写供应花型的详细描述，如花高，宽幅等信息" v-model="text"></ts-input>
+      <ts-input type="textarea" class="supply-textarea" :rows="6" :maxLength="60" placeholder="请填写供应花型的详细描述，如花高，宽幅等信息" v-model="text"></ts-input>
         <button @click="releaseSupply" class="button button-plain button-block button-plain-blue">发布供应</button>
       </div>
     </div>
@@ -72,6 +72,8 @@ export default {
 
 <style lang="stylus" scoped>
 basecolor = #4c93fd
+.supply-textarea
+  max-height: 143px;
 .supply-list
   display flex
   box-sizing border-box

@@ -2,21 +2,19 @@
   <div class="factory">
     <div class="factory-row" v-for="store in data.list">
       <div class="factory-row--left" :style="{'width':width}">
-        <!-- <div class="factory-company"> -->
-          <ts-image
-           width="100"
-           height="100"
-           :canView="false"
-           disabledHover
-           class="factory-company--cover"
-           :src="store.companyName"></ts-image>
-           <p class="factory-company--title">{{store.companyName}}</p>
-             <router-link :to="{ name: 'shop', params: { id: store.companyId }}" tag="span">
-              <ts-button type="plain" size="large" class="factory-company--button" @click="handleViewStore(store.companyId)">
-                访问店铺
-              </ts-button>
-              </router-link>
-        <!-- </div> -->
+        <ts-image
+         width="100"
+         height="100"
+         :canView="false"
+         disabledHover
+         class="factory-company--cover"
+         :src="store.companyName"></ts-image>
+        <p class="factory-company--title">{{store.companyName}}</p>
+         <router-link :to="{ name: 'shop', params: { id: store.companyId }}" tag="span">
+          <ts-button type="plain" size="large" class="factory-company--button" @click="handleViewStore(store.companyId)">
+            访问店铺
+          </ts-button>
+          </router-link>
       </div>
       <div class="factory-row--right">
         <div class="factory-list-block onepx-l onepx-r">

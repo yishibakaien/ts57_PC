@@ -13,7 +13,6 @@
           {{getIsCollect?'已收藏店铺':'收藏店铺'}}
         </ts-button>
       </div>
-      <pre>{{companyInfo.favoriteSatus}}</pre>
       <div class="grid-col-3">
         公司简称：
       </div>

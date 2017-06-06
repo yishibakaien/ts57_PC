@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import store from '../store/store';
+// import store from '../store/store';
 
 import {
   personalCenterPage,
@@ -18,8 +18,9 @@ Vue.use(Router);
 // =============
 const homePage = r => require.ensure([], () => r(require('@/pages/homePage/homePage.vue')), 'homePage');
 const flowerDetail = r => require.ensure([], () => r(require('@/pages/homePage/flowerDetailPage/flowerDetailPage.vue')), 'flowerDetail');
-const textSearch = r => require.ensure([], () => r(require('@/pages/homePage/searchResultPage/textSearchResultPage.vue')), 'textSearch');
-const imgSearch = r => require.ensure([], () => r(require('@/pages/homePage/searchResultPage/imgSearchResultPage.vue')), 'textSearch');
+const search = r => require.ensure([], () => r(require('@/pages/homePage/searchResultPage/index.vue')), 'search');
+const textSearch = r => require.ensure([], () => r(require('@/pages/homePage/searchResultPage/children/textSearch.vue')), 'search');
+const imgSearch = r => require.ensure([], () => r(require('@/pages/homePage/searchResultPage/children/imgSearch.vue')), 'search');
 // =============
 // 3D
 const clause = r => require.ensure([], () => r(require('@/pages/clause/')), 'clause');
@@ -72,11 +73,17 @@ const routes = [
     path: '/homePage',
     component: homePage
   }, {
-    path: '/textSearch',
-    component: textSearch
-  }, {
-    path: '/imgSearch',
-    component: imgSearch
+    path: '/search',
+    component: search,
+    children: [
+      {
+        path: 'text',
+        component: textSearch
+      }, {
+        path: 'image',
+        component: imgSearch
+      }
+    ]
   }, {
     path: '/find',
     redirect: '/find/index',
@@ -176,10 +183,6 @@ const routes = [
         component: shopProductIndex,
         name: '店铺首页'
       }, {
-        path: 'mircoSetting',
-        component: shopMirco,
-        name: '微官网设置'
-      }, {
         path: 'allProducts',
         component: shopAllMeterials,
         name: '所有花型'
@@ -210,6 +213,13 @@ const routes = [
     },
     children: [
       {
+        path: 'mircoSetting',
+        component: shopMirco,
+        meta: {
+          needAuth: true
+        },
+        name: '微官网设置'
+      }, {
         path: 'material',
         component: shopManagerMaterial,
         name: '素材库',
@@ -299,15 +309,15 @@ const router = new Router({
 });
 
 // 路由钩子，判断进入的页面是否需要登录 (needAuth)
-router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.needAuth)) {
-    if (store.getters.token) {
-      next();
-    } else {
-      next('/loginPage');
-    }
-  } else {
-    next();
-  }
-});
+// router.beforeEach((to, from, next) => {
+//   if (to.matched.some(record => record.meta.needAuth)) {
+//     if (store.getters.token) {
+//       next();
+//     } else {
+//       next('/loginPage');
+//     }
+//   } else {
+//     next();
+//   }
+// });
 export default router;

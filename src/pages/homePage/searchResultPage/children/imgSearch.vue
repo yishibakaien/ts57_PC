@@ -1,9 +1,4 @@
 <template lang="html">
-	<div class="">
-	<v-header>
-		<search></search>
-	</v-header>
-	<v-nav></v-nav>
 	<div class="imgSearch-content">
     <div class="imgSearch-result">
       <img :src="Pic.encoded" width="50" height="50" ref="uploadImg">
@@ -12,6 +7,9 @@
       <p>对结果不满意？重新框图试试</p>
       <p>白色的花型更能被查找到哦！所以请尽量添加白色无干扰的花型样板。</p>
     </div>
+		<ts-title-block :bodyStyle="{'font-size':'20px'}">
+			<i class="icon-huaxin"></i>&nbsp;相似花型
+		</ts-title-block>
 		<div class="imgSearch-wrapper">
 			<ts-grid :data="Search" class="textSearch-data">
 		    <ts-grid-item style="width:240px" v-for="product in Search" :key="product" @click="handleViewProduct(product.id)">
@@ -65,15 +63,9 @@
       </ts-radio-group>
     </cropper-dialog>
 	</div>
-		</div>
 </template>
 
 <script>
-import {
-  header,
-  nav,
-  search
-} from '@/components';
 import {
   getCompanyBestList
 } from '@/common/api/api';
@@ -118,9 +110,6 @@ export default {
     }
   },
   components: {
-    vHeader: header,
-    vNav: nav,
-    search,
     CropperDialog
   },
   computed: {
@@ -154,9 +143,9 @@ export default {
       });
       this.Cropper.dialog = false;
       await this.$router.push({
-        path: '/imgSearch',
+        path: '/search/image',
         query: {
-          search: this.$store.getters.search.id
+          imgId: this.$store.getters.search.id
         }
       });
     },
@@ -167,7 +156,7 @@ export default {
     }
   },
   async created() {
-    if (this.$route.query.search) {
+    if (this.$route.query.imgSearch) {
       this.Params.id = this.$route.query.search;
     }
     this.Pic = JSON.parse(sessionStorage.getItem('find-pic'));

@@ -1,113 +1,109 @@
 <template>
-  <div class="register-page">
-    <v-header>
-    	<div class="fl reg-title">
-				<p>欢迎注册</p>
-				<router-link to="homePage">返回首页</router-link>
-			</div>
-			<div class="fr reg-path">
-				<span>已有账号？</span>
-				<router-link to="loginPage" class="login">请登录</router-link>
-			</div>
-    </v-header>
-    <div class="register-box">
-      <div class="register-container">
-        <!--<div class="header">
-          <h1 class="title">欢迎注册</h1>
-          <div class="right">
-            <span class="text">已有账号?</span>
-            <router-link to="./loginPage" class="link">请登录</router-link>
+<div class="register-page">
+  <v-header>
+    <div class="fl reg-title">
+      <p>欢迎注册</p>
+      <router-link to="homePage">返回首页</router-link>
+    </div>
+    <div class="fr reg-path">
+      <span>已有账号？</span>
+      <router-link to="loginPage" class="login">请登录</router-link>
+    </div>
+  </v-header>
+  <div class="register-box">
+    <div class="register-container">
+      <div class="choose-type list">
+        <span class="left">选择身份：</span>
+        <div class="right">
+          <div class="type-item" ref="factory" @click="chooseFactory">
+            <h2 class="name">蕾丝厂商</h2>
+            <span class="desc">我是蕾丝生产企业</span>
           </div>
-        </div>-->
-
-        <div class="choose-type list">
-          <span class="left">选择身份：</span>
-          <div class="right">
-            <div class="type-item" ref="factory" @click="chooseFactory">
-              <h2 class="name">蕾丝厂商</h2>
-              <span class="desc">我是蕾丝生产企业</span>
-            </div>
-            <div class="type-item" ref="stalls" @click="chooseStalls">
-              <h2 class="name">档口贸易商</h2>
-              <span class="desc">从事蕾丝贸易活动</span>
-            </div>
+          <div class="type-item" ref="stalls" @click="chooseStalls">
+            <h2 class="name">档口贸易商</h2>
+            <span class="desc">从事蕾丝贸易活动</span>
           </div>
         </div>
-
-        <div class="tel list">
-          <span class="left">手机号：</span>
-          <div class="right">
-            <div class="tip" v-if="tip.userMobileTip">{{tip.userMobileTip}}</div>
-            <input @blur="blurUserMobile" v-model="registerData.userMobile" :class="{warn: tip.userMobileTip}" class="input" type="tel" maxlength="11" placeholder="请输入注册手机号">
-          </div>
-        </div>
-
-        <div class="tel list">
-          <span class="left">密码：</span>
-          <div class="right">
-            <div class="tip" v-if="tip.userPWDTip">{{tip.userPWDTip}}</div>
-            <input @blur="blurUserPWD" v-model="registerData.userPWD" :class="{warn: tip.userPWDTip}" class="input" type="password" maxlength="16" placeholder="请输入密码">
-          </div>
-        </div>
-
-        <div class="tel list">
-          <span class="left">确认密码：</span>
-          <div class="right">
-            <div class="tip" v-if="tip.confirmPWDTip">{{tip.confirmPWDTip}}</div>
-            <input @blur="blurConfirmPWD" v-model="confirmPWD" :class="{warn: tip.confirmPWDTip}" class="input" type="password" maxlength="16" placeholder="请再次输入密码">
-          </div>
-        </div>
-
-        <div class="tel list">
-          <span class="left">姓名：</span>
-          <div class="right">
-            <div class="tip" v-if="tip.userNameTip">{{tip.userNameTip}}</div>
-            <input @blur="blurUserName" v-model="registerData.userName" :class="{warn: tip.userNameTip}" class="input" type="text" maxlength="8" placeholder="请输入你的名字">
-          </div>
-        </div>
-
-        <div class="tel list">
-          <span class="left">公司：</span>
-          <div class="right">
-            <div class="tip" v-if="tip.companyNameTip">{{tip.companyNameTip}}</div>
-            <input @blur="blurCompanyName" v-model="registerData.companyName" :class="{warn: tip.companyNameTip}" class="input" type="text"  placeholder="请输入你的公司名称">
-          </div>
-        </div>
-        
-        <div class="tel list">
-          <span class="left">公司主营：</span>
-          <div class="right">
-            <div class="tip" v-if="tip.companyMainTip">{{tip.companyMainTip}}</div>
-            <input @blur="blurCompanyMain" v-model="registerData.companyBusiness" :class="{warn: tip.companyMainTip}" class="input" type="text"  placeholder="请输入你的公司主营业务">
-          </div>
-        </div>
-
-        <div class="code list">
-          <span class="left">验证码：</span>
-          <div class="right">
-            <div class="tip" v-if="tip.smsCodeTip">{{tip.smsCodeTip}}</div>
-            <input @blur="blurSmsCode" v-model="registerData.smsCode" :class="{warn: tip.smsCodeTip}" class="input" type="tel" maxlength="4" placeholder="请输入短信验证码">
-            <button @click="getSMSCode" ref="getCodeBtn" :disabled="getSMSCodeParams.disabled" class="SMSCode button button-blue" title="点击获取短信验证码">{{codeBtnText}}</button>
-          </div>
-        </div>
-
-        <div class="btn-wrapper">
-          <button class="button button-block button-blue" @click="register">注册</button>
-        </div>
-
-        <div class="agreenment-wrapper">
-          <i class="iconfont">字</i>
-          <span class="text">点击注册即代表同意</span>
-          <span class="agreenment">《坐视布管用户协议》</span>
-        </div>
-
       </div>
+
+      <div class="tel list">
+        <span class="left">手机号：</span>
+        <div class="right">
+          <div class="tip" v-if="tip.userMobileTip">{{tip.userMobileTip}}</div>
+          <input @blur="blurUserMobile" v-model="registerData.userMobile" :class="{warn: tip.userMobileTip}" class="input" type="tel" maxlength="11" placeholder="请输入注册手机号">
+        </div>
+      </div>
+
+      <div class="tel list">
+        <span class="left">密码：</span>
+        <div class="right">
+          <div class="tip" v-if="tip.userPWDTip">{{tip.userPWDTip}}</div>
+          <input @blur="blurUserPWD" v-model="registerData.userPWD" :class="{warn: tip.userPWDTip}" class="input" type="password" maxlength="16" placeholder="请输入密码">
+        </div>
+      </div>
+
+      <div class="tel list">
+        <span class="left">确认密码：</span>
+        <div class="right">
+          <div class="tip" v-if="tip.confirmPWDTip">{{tip.confirmPWDTip}}</div>
+          <input @blur="blurConfirmPWD" v-model="confirmPWD" :class="{warn: tip.confirmPWDTip}" class="input" type="password" maxlength="16" placeholder="请再次输入密码">
+        </div>
+      </div>
+
+      <div class="tel list">
+        <span class="left">姓名：</span>
+        <div class="right">
+          <div class="tip" v-if="tip.userNameTip">{{tip.userNameTip}}</div>
+          <input @blur="blurUserName" v-model="registerData.userName" :class="{warn: tip.userNameTip}" class="input" type="text" maxlength="8" placeholder="请输入你的名字">
+        </div>
+      </div>
+
+      <div class="tel list">
+        <span class="left">公司：</span>
+        <div class="right">
+          <div class="tip" v-if="tip.companyNameTip">{{tip.companyNameTip}}</div>
+          <input @blur="blurCompanyName" v-model="registerData.companyName" :class="{warn: tip.companyNameTip}" class="input" type="text" placeholder="请输入你的公司名称">
+        </div>
+      </div>
+
+      <div class="tel list">
+        <span class="left">公司主营：</span>
+        <div class="right">
+          <div class="tip" v-if="tip.companyMainTip">{{tip.companyMainTip}}</div>
+          <input @blur="blurCompanyMain" v-model="registerData.companyBusiness" :class="{warn: tip.companyMainTip}" class="input" type="text" placeholder="请输入你的公司主营业务">
+        </div>
+      </div>
+
+      <div class="code list">
+        <span class="left">验证码：</span>
+        <div class="right">
+          <div class="tip" v-if="tip.smsCodeTip">{{tip.smsCodeTip}}</div>
+          <input @blur="blurSmsCode" v-model="registerData.smsCode" :class="{warn: tip.smsCodeTip}" class="input" type="tel" maxlength="4" placeholder="请输入短信验证码">
+          <button @click="getSMSCode" ref="getCodeBtn" :disabled="getSMSCodeParams.disabled" class="SMSCode button button-blue" title="点击获取短信验证码">{{codeBtnText}}</button>
+        </div>
+      </div>
+
+      <div class="btn-wrapper">
+        <!-- <button class="button button-block button-blue" @click="register"></button> -->
+        <ts-button size="large" type="primary" class="register-submit button" :disabled="!isAgree">
+          注&nbsp;册
+        </ts-button>
+      </div>
+
+      <div class="agreenment-wrapper">
+        <ts-checkbox type="origin" v-model="isAgree">点击注册即代表同意</ts-checkbox>
+        <router-link tag="span" to="/clause" class="agreenment">《坐视布管用户协议》</router-link>
+      </div>
+
     </div>
   </div>
+</div>
 </template>
 
 <script>
-import {header} from '@/components';
+import {
+  header
+} from '@/components';
 import {
   testMobile,
   testPWD,
@@ -115,7 +111,11 @@ import {
   testCompanyName,
   testSMSCode
 } from '@/common/js/regExp';
-import {getRegSMSCode, reg, checkPhone} from '@/common/api/api';
+import {
+  getRegSMSCode,
+  reg,
+  checkPhone
+} from '@/common/api/api';
 import Toast from '@/components/common/toast/toast';
 export default {
   data() {
@@ -129,6 +129,7 @@ export default {
         companyBusiness: '',
         smsCode: ''
       },
+      isAgree: false,
       confirmPWD: '',
       isRegisted: true,
       samePWD: true,
@@ -183,7 +184,7 @@ export default {
         mobile: this.registerData.userMobile
       }).then(res => {
         if (res.data.code !== 0) {
-//        console.log('检查手机号码失败', res);
+          //        console.log('检查手机号码失败', res);
         } else {
           if (res.data.data === true) {
             this.tip.userMobileTip = '此手机号码已被注册';
@@ -289,45 +290,45 @@ export default {
           switch (key) {
             case 'userType':
               Toast({
-								type: 'error',
-								message: '请至少选择一个注册身份'
-							});
+                type: 'error',
+                message: '请至少选择一个注册身份'
+              });
               return;
             case 'userPWD':
               Toast({
-								type: 'error',
-								message: '请输入正确的密码'
-							});
+                type: 'error',
+                message: '请输入正确的密码'
+              });
               return;
             case 'userName':
               Toast({
-								type: 'error',
-								message: '请输入您的姓名'
-							});
+                type: 'error',
+                message: '请输入您的姓名'
+              });
               return;
             case 'companyName':
               Toast({
-								type: 'error',
-								message: '请输入公司名称'
-							});
+                type: 'error',
+                message: '请输入公司名称'
+              });
               return;
             case 'companyBusiness':
               Toast({
-								type: 'error',
-								message: '请输入公司主营业务'
-							});
+                type: 'error',
+                message: '请输入公司主营业务'
+              });
               return;
             case 'smsCode':
               Toast({
-								type: 'error',
-								message: '请输入短信验证码'
-							});
+                type: 'error',
+                message: '请输入短信验证码'
+              });
               return;
             default:
               Toast({
-								type: 'error',
-								message: '请填写正确的注册信息'
-							});
+                type: 'error',
+                message: '请填写正确的注册信息'
+              });
               return;
           }
         }
@@ -336,23 +337,23 @@ export default {
       let checkPassword = _data.userPWD === this.confirmPWD;
       if (!(testMobile(_data.userMobile) && testPWD(_data.userPWD) && testName(_data.userName) && testCompanyName(_data.companyName) && testSMSCode(_data.smsCode) && checkPassword && !this.isRegisted && !this.samePWD)) {
         Toast({
-					type: 'error',
-					message: '请填写正确的注册信息'
-				});
+          type: 'error',
+          message: '请填写正确的注册信息'
+        });
         return;
       }
       reg(this.registerData)
         .then(res => {
           if (res.data.code !== 0) {
             Toast({
-							type: 'error',
-							message: res.data.message
-						});
+              type: 'error',
+              message: res.data.message
+            });
           } else {
             Toast({
-							type: 'success',
-							message: '注册成功'
-						});
+              type: 'success',
+              message: '注册成功'
+            });
             _this.$router.push({
               path: '/loginPage'
             });
@@ -360,9 +361,9 @@ export default {
         })
         .catch(res => {
           Toast({
-						type: 'error',
-						message: '注册失败，请重试'
-					});
+            type: 'error',
+            message: '注册失败，请重试'
+          });
         });
     }
   }
@@ -370,35 +371,40 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-	.reg-title {
-		margin-left: -110px;
-		padding-left: 30px;
-		border-left: 1px solid #ccc;
-		p {
-			color: #333;
-			font-size: 20px;
-			line-height: 30px;
-		}
-		a {
-			font-size: 16px;
-			color: #4c93fd;
-			line-height: 24px;
-		}
-	}
-	.reg-path {
-		a {
-			position: relative;
-			top: 10px;
-			font-size: 20px;
-			color: #4c93fd;
-		}
-		span {
-			position: relative;
-			top: 10px;
-			font-size: 20px;
-			color: #999;
-		}
-	}
+.register-submit.button {
+    height: 45px;
+    font-size: 16px;
+    letter-spacing: 4px;
+}
+.reg-title {
+    margin-left: -110px;
+    padding-left: 30px;
+    border-left: 1px solid #ccc;
+    p {
+        color: #333;
+        font-size: 20px;
+        line-height: 30px;
+    }
+    a {
+        font-size: 16px;
+        color: #4c93fd;
+        line-height: 24px;
+    }
+}
+.reg-path {
+    a {
+        position: relative;
+        top: 10px;
+        font-size: 20px;
+        color: #4c93fd;
+    }
+    span {
+        position: relative;
+        top: 10px;
+        font-size: 20px;
+        color: #999;
+    }
+}
 </style>
 <style lang="stylus" scoped>
   .input
@@ -507,7 +513,7 @@ export default {
             .SMSCode
               position absolute
               width 142px
-              height 36px
+              height 34px
               line-height 34px
               right 0
               top 1px

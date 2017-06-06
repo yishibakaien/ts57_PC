@@ -35,7 +35,6 @@
             <i class="add-radio-close" @click.self="handleDelIngredient(item,'newIngredient')">&times</i>
           </div>
           <!-- 新增的成分 -->
-
             <ts-input :validateEvent="false" placeholder="自定义成分" @keyup.enter.native="handleAddIngredient" class="add-input" v-model="EditIngredient.newIngredient" @input="handleInputAddIngredient" v-clickoutside="handleAddIngredient"></ts-input>
           </div>
         </ts-radio-group>
