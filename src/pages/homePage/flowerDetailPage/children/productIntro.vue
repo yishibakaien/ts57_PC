@@ -20,7 +20,12 @@
 				<p>{{productDetail.productNo}}</p>
 				<p>
 					<span class="grey">参考价：</span>
-					<span class="productIntro-product-intro--price">¥{{productDetail.price}}/{{productDetail.priceUnit | filterDict(dicTree.PRODUCT_UNIT,'name')}}</span>
+					<span class="productIntro-product-intro--price" v-if="!!productDetail.price">
+						¥{{productDetail.price}}/{{productDetail.priceUnit | filterDict(dicTree.PRODUCT_UNIT,'name')}}
+					</span>
+					<span v-else class="productIntro-product-intro--price">
+						价格面议
+					</span>
 				</p>
 				<br>
 				<p>
@@ -222,7 +227,13 @@ export default {
       this.$refs[formName].validate(async(valid) => {
         if (valid) {
           this.enquiryForm.productId = this.$route.params.id;
-          await enquiryAskPrice(this.enquiryForm);
+          for (let i in this.enquiryForm) {
+            this.enquiryForm[i] = Number(this.enquiryForm[i]);
+          }
+          let res = await enquiryAskPrice(this.enquiryForm);
+          if (!res.data.code) {
+            this.$toast('询价成功');
+          }
           this.Dialog.enquiry = false;
         } else {
           return false;
@@ -231,10 +242,13 @@ export default {
     },
     // 确定索样
     async handleConfirmSendSample() {
-      await sampleAskFor({
+      let res = await sampleAskFor({
         companyId: this.productDetail.companyId,
         productId: this.productDetail.id
       });
+      if (!res.data.code) {
+        this.$toast('索样成功');
+      }
       this.Dialog.sendSample = false;
     }
   },

@@ -21,13 +21,12 @@ import {
   loginMask,
   models
 } from '@/components';
-
 export default {
   created() {
     if (localStorage.getItem('x-token')) {
       this.$store.dispatch('getUserInfo');
-      this.$store.dispatch('getDicTree');
     }
+    this.$store.dispatch('getDicTree');
   },
   components: {
     topbar,

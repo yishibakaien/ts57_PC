@@ -28,9 +28,10 @@ export default {
 <style lang="css" scoped>
 @component-namespace search{
   @component wrapper{
-			max-width: 1200px;
-			padding: 0 6px;
-			margin: 10px auto;
+    max-width: 1200px;
+padding: 8px 6px;
+margin: 10px auto;
+background: #fff;
   }
 }
 </style>

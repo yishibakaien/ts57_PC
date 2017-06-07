@@ -1,17 +1,18 @@
 <template>
 <div>
   <div class="search-wrapper all">
-    <slot></slot>
+    <ts-select class="search-select" data-key-name="label" data-val-name="dicValue" :options='DICT.SearchType' v-model="searchSelect" v-if="!globalLook" :disabled="search.handleStatus"></ts-select>
+    <!-- 标签 -->
     <ts-tag shape="square" type="transparent" closable v-if="Pic.show" @close="handleDelPic">
       <div class="search-mask">
         <img :src="Pic.url" width="20" height="20">
         <p><i class="icon-bianji"></i></p>
       </div>
     </ts-tag>
-    <input type="text" class="search-input" :placeholder="Pic.inputPlaceHolder" v-model="Search.val" @keyup.enter.native="handleSearch" @focus="handleDelPic" :disabled="Pic.isHandling">
-    <i class="icon-xiangji add-upload-button" v-show="!Pic.isUploaded" @click="Pic.isUploaded=true,Search.val=''" v-if="!Pic.isHandling"></i>
+    <input type="text" class="search-input" :placeholder="Pic.inputPlaceHolder" v-model="Search.val" @keyup.enter.native="handleSearch" @focus="handleDelPic" :disabled="search.handleStatus">
+    <i class="icon-xiangji add-upload-button" v-show="!Pic.isUploaded" @click="Pic.isUploaded=true,Search.val=''" v-if="!search.handleStatus"></i>
     <span class="search-close" v-show="Pic.isUploaded" @click="Pic.isUploaded=false">&times;</span>
-    <ts-button type="primary" class="search-button" @click="handleSearch" v-show="!Pic.isUploaded" :disabled="Pic.isHandling">搜 索</ts-button>
+    <ts-button type="primary" class="search-button" @click="handleSearch" v-show="!Pic.isUploaded" :disabled="search.handleStatus">搜 索</ts-button>
   </div>
   <!-- 上传花型  -->
   <div class="search-editPic onepx" v-show="Pic.isUploaded">
@@ -36,7 +37,7 @@
       <ts-button type="cancel" @click="Pic.isUploaded=!Pic.isUploaded">关闭</ts-button>
     </div>
   </div>
-  <div class="search-editPic onepx" v-show="Pic.isHandling&&!Pic.isUploaded">
+  <div class="search-editPic onepx" v-show="search.handleStatus&&!Pic.isUploaded">
     <p class="upload-tip">正在处理中，请稍候...</p>
     <ts-progress :percentage="Progress.text"></ts-progress>
   </div>
@@ -52,10 +53,15 @@
 import {
   mapGetters
 } from 'vuex';
+import DICT from '@/common/dict';
 import CropperDialog from './searchImgDialog.vue';
 export default {
   data() {
     return {
+      searchSelect: '',
+      DICT: {
+        SearchType: DICT.SearchType
+      },
       Search: {
         picList: [],
         val: ''
@@ -75,7 +81,6 @@ export default {
         isUploaded: false,
         show: false,
         destImg: '',
-        isHandling: false,
         isEdit: false,
         url: '',
         inputPlaceHolder: '可输入厂名或编号查找'
@@ -83,6 +88,7 @@ export default {
     };
   },
   created() {
+    this.searchSelect = 1;
     this.Search.val = this.$route.query.search;
     if (localStorage.getItem('historyItems')) {
       this.Search.picList = localStorage.getItem('historyItems').split(',');
@@ -94,6 +100,9 @@ export default {
       default: true
     }
   },
+  destroyed() {
+    this.$store.commit('SET_HANDLE_STATUS', false);
+  },
   watch: {
     $route(to, from) {
       if (to.query.search) {
@@ -102,19 +111,28 @@ export default {
     },
     'search.id' (val) {
       this.Progress.text = 100;
-      this.Pic.isHandling = false;
-      this.$router.push({
-        path: '/search/image',
-        query: {
-          imgId: val
-        }
-      });
+      this.$store.commit('SET_HANDLE_STATUS', false);
+      if (this.globalLook) {
+        this.$router.push({
+          path: '/search/image',
+          query: {
+            imgId: val
+          }
+        });
+      } else {
+        this.$router.push({
+          path: `/shop/${this.$route.params.id}/s/image`,
+          query: {
+            imgId: val
+          }
+        });
+      }
     },
     Pic: {
       handler(val) {
         val.show = !!val.url;
         val.inputPlaceHolder = val.url ? '' : '可输入厂名或编号查找';
-        if (val.isHandling) {
+        if (this.search.handleStatus) {
           (() => {
             let interval = setInterval(() => {
               if (this.Progress.text === 95) {
@@ -131,7 +149,8 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['dicTree', 'search']),
+    ...mapGetters(['dicTree', 'search', 'userInfo']),
+    // 显示5张最近记录
     showPics() {
       return this.Search.picList.length >= 5 ? this.Search.picList.splice(0, 5) : this.Search.picList;
     }
@@ -144,6 +163,7 @@ export default {
     handleGetDestImg(pic) {
       this.Pic.destImg = pic;
     },
+    // 选择分类的时候
     async handleLookProduct(e) {
       let data = {
         category: e,
@@ -151,12 +171,19 @@ export default {
       };
       sessionStorage.setItem('find-pic', JSON.stringify(data));
       this.Cropper.show = false;
-      this.Pic.isHandling = true;
+      this.$store.commit('SET_HANDLE_STATUS', true);
       if (this.globalLook) {
         await this.$store.dispatch('getSearchEncoded', {
           category: e,
           encoded: this.Pic.destImg,
           searchType: 300
+        });
+      } else {
+        await this.$store.dispatch('getSearchEncoded', {
+          category: e,
+          companyId: this.$route.params.id,
+          encoded: this.Pic.destImg,
+          searchType: this.searchSelect === 1 ? Number(`${this.userInfo.userType}00`) : 300
         });
       }
     },
@@ -201,12 +228,23 @@ export default {
       if (this.Search.val) {
         let value = this.Search.val.trim();
         this.$emit('search', value);
-        this.$router.push({
-          path: '/search/text',
-          query: {
-            search: value
-          }
-        });
+        if (this.globalLook) {
+          this.$router.push({
+            path: '/search/text',
+            query: {
+              search: value,
+              searchType: 2
+            }
+          });
+        } else {
+          this.$router.push({
+            path: `/shop/${this.$route.params.id}/s/text`,
+            query: {
+              search: value,
+              searchType: 1
+            }
+          });
+        }
       }
     }
   }
@@ -270,6 +308,12 @@ export default {
       padding: 0 6px;
       margin-bottom: 6px;
     }
+  }
+  @component select {
+    width: 88px;
+    min-width: 80px;
+    max-width: 80px;
+    margin-right: 5px;
   }
   @component mask {
     position: relative;

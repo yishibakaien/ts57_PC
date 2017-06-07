@@ -4,7 +4,8 @@ const state = {
   // 搜索-BASE64文本
   search: {
     id: '',
-    list: ''
+    list: '',
+    handleStatus: false
   }
 };
 
@@ -14,6 +15,9 @@ const mutations = {
   },
   GET_SEARCH_ID(state, id) {
     state.search.id = id;
+  },
+  SET_HANDLE_STATUS(state, status) {
+    state.search.handleStatus = status;
   }
 };
 const actions = {
@@ -37,7 +41,7 @@ const actions = {
         }
       }, 3000);
     } catch (e) {
-      console.log(e);
+      return e;
     }
   },
   async searchGetResult({

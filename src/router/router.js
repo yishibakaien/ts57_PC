@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-// import store from '../store/store';
+import store from '../store/store';
 
 import {
   personalCenterPage,
@@ -27,6 +27,7 @@ const clause = r => require.ensure([], () => r(require('@/pages/clause/')), 'cla
 const threeDDress = r => require.ensure([], () => r(require('@/pages/3DDress/')), 'threeDDress');
 // 店铺访问
 const shopVisiting = r => require.ensure([], () => r(require('@/pages/shopVisiting/')), 'shopVisiting');
+const shopSearch = r => require.ensure([], () => r(require('@/pages/shopVisiting/children/search')), 'shopVisiting');
 const shopAllMeterials = r => require.ensure([], () => r(require('@/pages/shopVisiting/children/allmeterial')), 'shopVisiting');
 const shopCompanyIntro = r => require.ensure([], () => r(require('@/pages/shopVisiting/children/companyintro')), 'shopVisiting');
 const shopModels = r => require.ensure([], () => r(require('@/pages/shopVisiting/children/models')), 'shopVisiting');
@@ -187,6 +188,19 @@ const routes = [
         component: shopAllMeterials,
         name: '所有花型'
       }, {
+        path: 's',
+        component: shopSearch,
+        children: [
+          {
+            path: 'text',
+            component: textSearch
+          }, {
+            path: 'image',
+            component: imgSearch
+          }
+        ],
+        name: '店内搜索'
+      }, {
         path: 'supplies',
         component: shopSupplies,
         name: '店铺-厂家供应'
@@ -309,15 +323,15 @@ const router = new Router({
 });
 
 // 路由钩子，判断进入的页面是否需要登录 (needAuth)
-// router.beforeEach((to, from, next) => {
-//   if (to.matched.some(record => record.meta.needAuth)) {
-//     if (store.getters.token) {
-//       next();
-//     } else {
-//       next('/loginPage');
-//     }
-//   } else {
-//     next();
-//   }
-// });
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.needAuth)) {
+    if (store.getters.token) {
+      next();
+    } else {
+      next('/loginPage');
+    }
+  } else {
+    next();
+  }
+});
 export default router;

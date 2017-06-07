@@ -3,7 +3,7 @@
     <div class="mirco-img" v-for="(item,index) in siteList">
       <span class="mirco-chosed" v-if="index===siteIdx">已选</span>
       <!-- 图片 -->
-      <ts-image :src="item.templatePath" width="200" height="300" :key="item.templateName"></ts-image>
+      <ts-image :src='`static/images/template/${item}.png`' width="200" height="360" :key="item"></ts-image>
       <!-- 选用模板 -->
       <span class="mirco-img-tip" @click="handleChooseTemplate(item,index)" v-if="index!==siteIdx">
           选用模板
@@ -29,12 +29,15 @@ export default {
   },
   async created() {
     let data = (await getWebsiteTemplate()).data.data;
-    this.siteIdx = this.siteList.findIndex(item => item.templateName === data.templateName);
+    this.siteIdx = this.siteList.findIndex(item => item === data.templateName);
   },
   methods: {
     handleChooseTemplate(item, index) {
       this.$messagebox.confirm('确定选用此模版？').then(async() => {
-        await updateWebsiteTemplate(item);
+        await updateWebsiteTemplate({
+          templateName: item,
+          templatePath: `/indexPages/${item}.html`
+        });
         this.siteIdx = index;
       });
     }

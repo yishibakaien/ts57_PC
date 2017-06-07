@@ -79,7 +79,7 @@ export default {
       }
     }
     @when flexbox{
-      display: flex;
+      display: inline-flex;
       flex-wrap:wrap;
     }
     @when column{

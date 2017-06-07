@@ -77,12 +77,19 @@ export default {
   },
   computed: {
     ...mapGetters(['dicTree']),
+    isShopRoute() {
+      return this.$route.path.indexOf('/shop/') >= 0;
+    },
     searchValue() {
       return this.$route.query.search;
     }
   },
   async created() {
-    this.Params.keywords = this.$route.query.search;
+    this.Params = Object.assign({}, this.Params, {
+      keywords: this.$route.query.search,
+      searchType: this.$route.query.searchType,
+      companyId: this.isShopRoute ? this.$route.params.id : null
+    });
     this.Search = (await searchMtd(this.Params)).data.data;
   }
 };

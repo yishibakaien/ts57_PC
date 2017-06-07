@@ -28,9 +28,9 @@ export default {
       if (this.userInfo.userType === 2 && item.path === 'supply') {
         item.show = false;
       }
-      if (!this.userInfo.hasWebsite && item.path === 'mircoSetting') {
-        item.show = false;
-      }
+      // if (!this.userInfo.hasWebsite && item.path === 'mircoSetting') {
+      //   item.show = false;
+      // }
     });
   },
   computed: {
