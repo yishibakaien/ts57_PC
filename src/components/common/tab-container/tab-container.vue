@@ -60,7 +60,7 @@ export default {
 <style scoped>
   @component-namespace ts{
     @component tab-container{
-          margin-top: 10px;
+          margin-top: 16px;
     }
   }
 </style>

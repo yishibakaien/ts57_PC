@@ -29,7 +29,7 @@ const API = {
     search: '/product/search', // 文本搜索
     encoded: '/search/encoded',
     polling: '/search/polling', // 搜索结果检查
-    companySearch: '/company/search', // 文本搜索
+    companySearch: '/company/search', // 文本搜索--公司搜索
     getResult: '/search/getResult', // 文本搜索
     history: '/search/history' // 搜索记录列表(大家都在找)
   },
@@ -229,6 +229,8 @@ export const sampleAskFor = param => axios.post(API.sample.askFor, param);
  */
 // 文本搜索
 export const searchMtd = param => axios.post(API.search.search, param);
+// 公司搜索
+export const searchCompany = param => axios.post(API.search.companySearch, param);
 // 搜索-BASE64文本
 export const searchEncoded = param => axios.post(API.search.encoded, param);
 // 搜索结果检查

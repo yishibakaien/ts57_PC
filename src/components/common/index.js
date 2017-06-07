@@ -30,6 +30,7 @@ import tsNavbar from './navbar/navbar.vue';
 import tsTabItem from './navbar/tabItem.vue';
 import tsTabContainer from './tab-container/tab-container.vue';
 import tsTabContainerItem from './tab-container/tab-container-item.vue';
+import InfiniteScroll from './infinite-scroll/directive.js';
 // =========
 import pagination from '../pagination/pagination.vue';
 // =========
@@ -71,6 +72,7 @@ const install = function(Vue) {
   for (let i in Components) {
     Vue.component(i, Components[i]);
   };
+  Vue.directive('InfiniteScroll', InfiniteScroll);
   Vue.$messagebox = Vue.prototype.$messagebox = tsMessageBox;
   Vue.$toast = Vue.prototype.$toast = tsToast;
 };

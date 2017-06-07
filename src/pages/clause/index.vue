@@ -387,12 +387,6 @@
 <p>
     <span style="font-size: 12px">【可分性】</span><span style="font-size: 12px">本协议任一条款被视为废止、无效或不可执行，该条应视为可分的且并不影响本协议其余条款的有效性及可执行性。</span>
 </p>
-<p>
-    &nbsp;
-</p>
-<p>
-    <br/>
-</p>
  </div>
 </template>
 
@@ -400,5 +394,8 @@
 export default {};
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
+.clause{
+  padding: 10px;
+}
 </style>

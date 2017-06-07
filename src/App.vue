@@ -2,12 +2,12 @@
 <div>
   <div class="main-wrapper">
     <models></models>
-    <topbar></topbar>
+    <topbar v-if='!isClauseRoute'></topbar>
     <div class="main">
       <router-view></router-view>
     </div>
   </div>
-  <div class="footer-wrapper">
+  <div class="footer-wrapper" v-if='!isClauseRoute'>
     <v-footer></v-footer>
   </div>
   <login-mask></login-mask>
@@ -27,6 +27,11 @@ export default {
       this.$store.dispatch('getUserInfo');
     }
     this.$store.dispatch('getDicTree');
+  },
+  computed: {
+    isClauseRoute() {
+      return this.$route.path === '/clause';
+    }
   },
   components: {
     topbar,
