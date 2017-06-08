@@ -17,6 +17,7 @@ Vue.use(Router);
 // created By HZC
 // =============
 const homePage = r => require.ensure([], () => r(require('@/pages/homePage/homePage.vue')), 'homePage');
+const productAdd = r => require.ensure([], () => r(require('@/pages/homePage/addProductPage/addProduct.vue')), 'productAdd');
 const flowerDetail = r => require.ensure([], () => r(require('@/pages/homePage/flowerDetailPage/flowerDetailPage.vue')), 'flowerDetail');
 const search = r => require.ensure([], () => r(require('@/pages/homePage/searchResultPage/index.vue')), 'search');
 const textSearch = r => require.ensure([], () => r(require('@/pages/homePage/searchResultPage/children/textSearch.vue')), 'search');
@@ -70,6 +71,19 @@ const routes = [
     path: '/clause',
     component: clause,
     name: '条款'
+  }, {
+    path: '/product',
+    component: productAdd,
+    name: '新增花型',
+    children: [
+      {
+        path: 'add',
+        meta: {
+          needAuth: true
+        },
+        component: wareHouseAdd
+      }
+    ]
   }, {
     path: '/homePage',
     component: homePage

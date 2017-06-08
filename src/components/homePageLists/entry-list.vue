@@ -35,7 +35,7 @@
         </div>
       </div>
       <div class="entry-button-box">
-        <router-link to="/shopManagePage/addwarehouse" tag="button" class="button button-plain button-block button-plain-blue" style="margin: 25px 0 8px 0;">
+        <router-link to="/product/add" tag="button" class="button button-plain button-block button-plain-blue" style="margin: 25px 0 8px 0;">
           新增花型
         </router-link>
       </div>
