@@ -177,7 +177,6 @@ export default {
         display: block;
         resize: vertical;
         padding: 5px 7px;
-        line-height: 1.5;
         box-sizing: border-box;
         width: 100%;
         color: var(--input-color);

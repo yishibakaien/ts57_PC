@@ -21,7 +21,7 @@
       <!-- 入驻厂家 -->
       <entry-list :new-company-list="newCompanyList"></entry-list>
     </div>
-    <div class="list company-list">
+    <div class="list">
       <!-- 优质厂家 -->
       <quality-company-list :message="companys"></quality-company-list>
     </div>
@@ -167,6 +167,4 @@ export default {
       .button
         width 20%
         margin-top 20px
-			.company-list
-				overflow hidden
 </style>

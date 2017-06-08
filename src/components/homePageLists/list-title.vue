@@ -1,5 +1,5 @@
 <template>
-  <div class="list-title">
+  <div class="list-title onepx-b">
     <span class="title-name">{{titleText.title}}</span>
     <div class="right-nav" @click="goListPage">
       <span class="right-nav-text">{{titleText.extend}}</span>
@@ -32,7 +32,6 @@ export default {
   width 100%
   padding 14px 0
   background #fff
-  border-bottom 1px solid #f1f1f1
   .title-name
     display inline-block
     font-size 24px

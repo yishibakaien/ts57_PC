@@ -200,7 +200,7 @@ export const getUserSimpleInfo = param => axios.post(API.user.getUserSimpleInfo,
 export const checkPhone = param => axios.get(API.user.checkPhone, {params: param});
 
 // 获取注册短信验证码
-export const getRegSMSCode = param => axios.post(API.user.getRegSMSCode, {params: param});
+export const getRegSMSCode = param => axios.post(API.user.getRegSMSCode, param);
 
 /**
  * 首页部分

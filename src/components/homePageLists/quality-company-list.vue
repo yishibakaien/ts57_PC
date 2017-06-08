@@ -1,11 +1,11 @@
 <template>
   <div class="quality-company-list">
-    <div class="left-brand">
+    <div class="left-brand onepx-r">
       <img class="quality-company-pic" src="/static/images/youzhichangjia.png">
     </div>
     <div class="right-list">
-      <div class="item-wrapper"  v-for="item in message">
-        <company-list-item :message="item"></company-list-item>
+      <div class="item-wrapper">
+        <company-list-item :message="item" v-for="item in message"></company-list-item>
       </div>
     </div>
   </div>
@@ -28,9 +28,7 @@ export default {
     listTile,
     companyListItem
   },
-  props: {
-    message: {}
-  }
+  props: ['message']
 };
 </script>
 
@@ -39,7 +37,6 @@ export default {
   display flex
   box-sizing border-box
   width 100%
-  height 544px
   .left-brand
     flex 0 0 300px
     width 300px
@@ -49,7 +46,8 @@ export default {
       height 100%
   .right-list
     flex 1
+    background #fff
     .item-wrapper
-      float left
-      box-sizing border-box
+      display:flex
+      flex-wrap wrap
 </style>

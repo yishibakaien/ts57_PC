@@ -1,5 +1,5 @@
 <template>
-	<div class="entry-list-item">
+	<div class="entry-list-item onepx">
 		<div class="entry-base-item" :companyId="item.id" title="查看厂家详情" @click="goStore">
 			<div class="img-container">
 				<div class="img-wrapper">
@@ -42,22 +42,14 @@
 .entry-list-item
   box-sizing border-box
   width 311px
-  height 203px
+  height 200px
   padding 12px 16px
-  background #fff
-  border-left 1px solid #eaeaea
-  border-bottom 1px solid #eaeaea
   cursor pointer
+  transition 1s
   &:hover
-    position relative
     box-shadow 0 2px 4px 0 rgba(76,147,253,0.30), 0 0 6px 0 rgba(76,147,253,0.30)
-    z-index 1
   .entry-base-item
-    width 278px
-    height 210px
     .img-container
-      width 278px
-      height 127.5px
       overflow hidden
       .img-wrapper
         width 132px

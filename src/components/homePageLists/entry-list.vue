@@ -1,53 +1,53 @@
 <template>
-  <div class="entry-list">
-    <div class="left-brand">
-      <div class="brand-header">
-        <div class="brand-name">
-        	<i class="arrow"></i>
-        	<i class="arrow-bg"></i>
-          <div class="left">
-            <p class="brand-title">商家入驻</p>
-        		<p class="brand-desc">布容错过 坐视布管</p>
-          </div>
-          <div class="right">
-            <i class="iconfont icon-ruzhu"></i>
-          </div>
+<div class="entry-list">
+  <div class="left-brand">
+    <div class="brand-header">
+      <div class="brand-name">
+        <i class="arrow"></i>
+        <i class="arrow-bg"></i>
+        <div class="left">
+          <p class="brand-title">商家入驻</p>
+          <p class="brand-desc">布容错过 坐视布管</p>
         </div>
-      </div>
-      <div class="brand-body">
-        <!-- <textarea class="input" maxlength="60" placeholder="请填写需求购买花型的详细描述，如花高，宽幅等信息"></textarea> -->
-        <div class="entry-nav-box clearfix">
-          <div class="entry-nav-item">
-            <i class="iconfont entry-nav-icon icon-huaxin"></i>
-            <p class="entry-nav-text">卖花型</p>
-          </div>
-          <div class="entry-nav-item">
-            <i class="iconfont entry-nav-icon icon-dingdan"></i>
-            <p class="entry-nav-text">找订单</p>
-          </div>
-          <div class="entry-nav-item">
-            <i class="iconfont entry-nav-icon icon-hezuo"></i>
-            <p class="entry-nav-text">谈合作</p>
-          </div>
-          <div class="entry-nav-item">
-            <i class="iconfont entry-nav-icon icon-dangkou"></i>
-            <p class="entry-nav-text">找客户</p>
-          </div>
-        </div>
-        <div class="entry-button-box">
-          <router-link to="/shopManagePage/addwarehouse" tag="button" class="button button-plain button-block button-plain-blue" style="margin: 26px 0 8px 0;">
-            新增花型
-          </router-link>
+        <div class="right">
+          <i class="iconfont icon-ruzhu"></i>
         </div>
       </div>
     </div>
-    <div class="right-list">
-      <list-tile :title-text="titleText"></list-tile>
-      <div class="item-wrapper"  v-for="item in newCompanyList">
-        <entry-list-item :item="item"></entry-list-item>
+    <div class="brand-body">
+      <!-- <textarea class="input" maxlength="60" placeholder="请填写需求购买花型的详细描述，如花高，宽幅等信息"></textarea> -->
+      <div class="entry-nav-box clearfix">
+        <div class="entry-nav-item">
+          <i class="iconfont entry-nav-icon icon-huaxin"></i>
+          <p class="entry-nav-text">卖花型</p>
+        </div>
+        <div class="entry-nav-item">
+          <i class="iconfont entry-nav-icon icon-dingdan"></i>
+          <p class="entry-nav-text">找订单</p>
+        </div>
+        <div class="entry-nav-item">
+          <i class="iconfont entry-nav-icon icon-hezuo"></i>
+          <p class="entry-nav-text">谈合作</p>
+        </div>
+        <div class="entry-nav-item">
+          <i class="iconfont entry-nav-icon icon-dangkou"></i>
+          <p class="entry-nav-text">找客户</p>
+        </div>
+      </div>
+      <div class="entry-button-box">
+        <router-link to="/shopManagePage/addwarehouse" tag="button" class="button button-plain button-block button-plain-blue" style="margin: 25px 0 8px 0;">
+          新增花型
+        </router-link>
       </div>
     </div>
   </div>
+  <div class="right-list">
+    <list-tile :title-text="titleText"></list-tile>
+    <div class="entry-flexbox">
+      <entry-list-item :item="item" v-for="item in newCompanyList"></entry-list-item>
+    </div>
+  </div>
+</div>
 </template>
 
 <script>
@@ -74,7 +74,13 @@ export default {
   }
 };
 </script>
-
+<style lang="scss" scoped>
+  .entry-flexbox{
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #fff;
+  }
+</style>
 <style lang="stylus" scoped>
 basecolor = #4c93fd
 .entry-list
@@ -84,7 +90,8 @@ basecolor = #4c93fd
   .left-brand
     flex 0 0 267px 164 +322
     width 267px
-    height 486px
+    height: 454px;
+    background: #fff;
     .brand-header
       height 86px
       padding 12px
@@ -138,7 +145,6 @@ basecolor = #4c93fd
         font-size 16px
         color rgba(255, 255, 255, 0.6)
     .brand-body
-      background #fff
       .entry-nav-box
         color #666
         .entry-nav-item
@@ -164,8 +170,4 @@ basecolor = #4c93fd
           width 100%
   .right-list
     flex 1
-    .item-wrapper
-      float left
-      box-sizing border-box
-      /*transition .8s*/
 </style>
