@@ -87,11 +87,12 @@ export default {
   },
   created() {
     // 默认选择第一个 店内
-    this.searchSelect = 1;
+    this.searchSelect = '1';
     this.Search.val = this.$route.query.search;
     if (localStorage.getItem('historyItems')) {
       this.Search.picList = localStorage.getItem('historyItems').split('|');
     }
+    // 监听localStorage.historyItem的变化
     window.addEventListener('storage', () => {
       this.Search.picList = localStorage.getItem('historyItems').split('|');
     }, false);
@@ -235,7 +236,7 @@ export default {
       if (this.Search.val) {
         let value = this.Search.val.trim();
         this.$emit('search', value);
-        if (this.globalLook) {
+        if (this.globalLook || this.searchSelect === 2) {
           this.$router.push({
             path: '/search/text',
             query: {

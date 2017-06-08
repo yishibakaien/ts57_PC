@@ -17,25 +17,25 @@
         公司简称：
       </div>
       <div class="grid-col-9">
-        {{companyInfo.companyAbbreviation}}
+        {{companyInfo.companyAbbreviation}}&nbsp;
       </div>
       <div class="grid-col-3">
         公司简介：
       </div>
       <div class="grid-col-9">
-        {{companyInfo.companyProfile}}
+        {{companyInfo.companyProfile}}&nbsp;
       </div>
       <div class="grid-col-3">
         座机号码：
       </div>
       <div class="grid-col-9">
-        {{companyInfo.contactTel}}
+        {{companyInfo.contactTel}}&nbsp;
       </div>
       <div class="grid-col-3">
         传真号码：
       </div>
       <div class="grid-col-9">
-        {{companyInfo.fax}}
+        {{companyInfo.fax}}&nbsp;
       </div>
     </div>
     <div class="companyIntro-manage grid-row-table">
@@ -44,7 +44,7 @@
             注册资本
           </div>
           <div class="grid-col-tab-3 is-content">
-            {{companyExtendBO.registeredMoney | filterDict(DICT.RegisteredMoney)}}
+            <!-- {{companyExtendBO.registeredMoney | filterDict(DICT.RegisteredMoney)}} -->
           </div>
           <div class="grid-col-tab-1 is-title">
             地区
@@ -153,13 +153,13 @@
         城市：
       </div>
       <div class="grid-col-9">
-        {{companyInfo.province}} - {{companyInfo.city}}
+        {{companyInfo.province}} - {{companyInfo.city}}&nbsp;
       </div>
       <div class="grid-col-3">
         详细地址：
       </div>
       <div class="grid-col-9">
-        {{companyInfo.address}}
+        {{companyInfo.address}}&nbsp;
       </div>
       <div class="grid-col-3">
         地图坐标：

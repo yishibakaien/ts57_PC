@@ -25,11 +25,7 @@
       <!-- 优质厂家 -->
       <quality-company-list :message="companys"></quality-company-list>
     </div>
-    <!--<button class="button button-block button-blue" @click="seeDetail">花型详情(需要登录才能浏览)</button>-->
-    <!--<button @click="logout" class="button button-block button-red" v-if="showBtn">退出登录</button>-->
-
   </div>
-  <!--<fixed-topbar></fixed-topbar>-->
 </div>
 </template>
 
@@ -52,8 +48,6 @@ import {
   findNewCompanyByIndex,
   qualityCompanyList1
 } from '@/common/api/api';
-import * as types from '@/store/types';
-
 export default {
   data() {
     return {
@@ -78,7 +72,7 @@ export default {
   created() {
     // 优质厂家
     qualityCompanyList1().then((res) => {
-      this.companys = res.data.data;
+      this.companys = res.data.data.list;
     }).catch((res) => {});
     // =====
     // banner
@@ -123,23 +117,6 @@ export default {
     }).then(res => {
       this.newCompanyList = res.data.data;
     }).catch(res => {});
-  },
-  computed: {
-    showBtn() {
-      return this.$store.state.token;
-    }
-  },
-  methods: {
-    seeDetail() {
-      if (this.$store.state.accessToken) {
-        alert('这是花型详情页面');
-      } else {
-        this.$store.commit(types.LOGIN_MASK, true);
-      }
-    },
-    logout() {
-      this.$store.commit(types.LOGOUT);
-    }
   }
 };
 </script>

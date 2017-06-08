@@ -74,7 +74,6 @@ const routes = [
   }, {
     path: '/product',
     component: productAdd,
-    name: '新增花型',
     children: [
       {
         path: 'add',

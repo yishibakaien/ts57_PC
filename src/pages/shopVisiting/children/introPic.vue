@@ -4,11 +4,13 @@
   <div class="introPic-wrapper-right">
     <div class="introPic-company-header">
       <!-- 公司名称 -->
-      <ts-image shape="round" :canView="false" disabledHover width="50" height="50" :src="companyInfo.companyHeadIcon"></ts-image>
-      <p class="introPic-company-title">{{companyInfo.companyName}}</p>
-      <span class="introPic-storeType" :style="{'background':getIsStore?'#13ce66':'#50BFFF'}">
-          {{getIsStore?'档':'厂'}}
-        </span>
+      <div class="introPic-company-header--title">
+        <ts-image shape="round" :canView="false" disabledHover width="50" height="50" :src="companyInfo.companyHeadIcon"></ts-image>
+        <p class="introPic-company-title">{{companyInfo.companyName}}</p>
+        <span class="introPic-storeType" :style="{'background':getIsStore?'#13ce66':'#50BFFF'}">
+            {{getIsStore?'档':'厂'}}
+          </span>
+      </div>
       <!-- 三个菜单：电话联系，收藏，店铺 -->
       <ul>
         <ts-popover trigger="hover" :options="{placement: 'bottom'}">
@@ -106,13 +108,6 @@ export default {
 
 <style lang="css" scoped>
 @component-namespace introPic{
-  /*@component bg{
-    width: 100%;
-    overflow: hidden;
-    position: relative;
-    background-repeat: no-repeat;
-    margin-bottom: 6px;
-  }*/
   @component tip{
     position: relative;
     @descendent container{
@@ -129,15 +124,21 @@ export default {
     @utils-ellipsis 2;
     @descendent title{
       font-size: 24px;
-      margin-bottom: 22px;
       padding-left: 8px;
       font-weight: bold;
+      padding-right: 4px;
       display: inline-block;
-      vertical-align: sub;
+      max-width: 500px;
+      @utils-ellipsis;
     }
     @descendent header{
       padding: 16px;
       border: 1px solid rgba(155,155,155,.1);
+      @modifier title{
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+      }
     }
     @descendent content{
       @when line{

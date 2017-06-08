@@ -1,5 +1,5 @@
 <template>
-<div class="company-item onepx">
+<div class="company-item onepx" @click="handleGotoShop(message)">
   <div class="company-logo-box">
     <img class="company-logo" v-lazy="message.companyHeadIcon" v-errorImg>
   </div>
@@ -8,9 +8,13 @@
 
 <script>
 export default {
-  props: {
-    message: {
-      type: [Object, Array]
+  props: ['message'],
+  methods: {
+    handleGotoShop(item) {
+      console.log(item);
+      this.$router.push({
+        path: `/shop/${item.companyId}`
+      });
     }
   }
 };

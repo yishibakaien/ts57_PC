@@ -24,7 +24,7 @@
 				<img v-if="obj.picUrl" v-lazy="obj.picUrl" alt="花型图片" class="fl" />
 				<p class="content-info">
 					<span class="status">{{obj.productStatus | productStatus}}</span>
-					<span class="shuliang" v-if="obj.buyPrice"><i>¥</i> {{obj.buyPrice}}/{{item.buyUnit | unit}}</span>
+					<span class="shuliang" v-if="obj.buyPrice"><i>¥</i> {{obj.buyPrice/100}}/{{item.buyUnit | unit}}</span>
 					<span class="shuliang" v-else>价格面议</span>
 				</p>
 				<p class="content-desc">{{obj.leaveWord || '没有留言信息'}}</p>
@@ -122,11 +122,11 @@
 			border: 1px solid #fff;
 		}
 	}
-	
+
 	.active {
 		border: 1px solid #4C93FD;
 	}
-	
+
 	.title {
 		box-sizing: border-box;
 		padding-left: 26px;
@@ -142,7 +142,7 @@
 			color: #4C93FD;
 		}
 	}
-	
+
 	.content {
 		box-sizing: border-box;
 		width: 824px;
@@ -173,7 +173,7 @@
 			}
 		}
 	}
-	
+
 	.content1 {
 		box-sizing: border-box;
 		width: 824px;
@@ -184,7 +184,7 @@
 		text-align: center;
 		line-height: 192px;
 	}
-	
+
 	.list-content-info {
 		margin-top: 10px;
 		.title {
