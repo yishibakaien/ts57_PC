@@ -8,7 +8,7 @@
     </div>
     <div class="everyLooking-container">
       <ts-grid>
-         <ts-grid-item v-for="(product,index) in History.list" :key="product" @click="handleViewProduct(product.productId)">
+         <ts-grid-item v-for="(product,index) in History.list" :key="product" @click="handleViewProduct(product.id)">
            <ts-image
             width="170"
             height="170"
@@ -43,6 +43,13 @@ export default {
       },
       BurstHotSearch: {}
     };
+  },
+  methods: {
+    handleViewProduct(id) {
+      this.$router.push({
+        path: `/product/${id}`
+      });
+    }
   },
   computed: {
     ...mapGetters(['dicTree'])

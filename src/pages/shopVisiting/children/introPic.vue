@@ -77,7 +77,7 @@ export default {
     async handleCollectStore() {
       let res = (await favoriteBus({
         businessId: this.$route.params.id,
-        businessType: this.companyInfo.companyType
+        businessType: 2
       })).data;
       this.companyInfo.favoriteSatus = res.message.indexOf('收藏') >= 0 ? 1 : 0;
     }

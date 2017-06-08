@@ -2,7 +2,7 @@
     <div class="hotSearch-content" ref="hotSearch">
       <ts-title-block>爆款热搜</ts-title-block>
       <ts-grid>
-        <ts-grid-item width="200px" v-for="(product,index) in BurstHotSearch" :key="product" @click="handleViewProduct(product.productId)">
+        <ts-grid-item width="200px" v-for="(product,index) in BurstHotSearch" :key="product" @click="handleViewProduct(product.id)">
           <span class="ranking hotSearch-rank" :class="'ranking_'+index" v-if="index<3"></span>
           <ts-image
            width="170"
@@ -42,6 +42,12 @@ export default {
       this.Params.pageNo++;
       let data = (await burstHotSearch(this.Params)).data.data.list;
       this.BurstHotSearch = this.BurstHotSearch.concat(data);
+    },
+    // 进去某个商品
+    handleViewProduct(id) {
+      this.$router.push({
+        path: `/product/${id}`
+      });
     }
   },
   async created() {

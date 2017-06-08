@@ -84,11 +84,10 @@ basecolor = #4c93fd
   display flex
   box-sizing border-box
   width 100%
-  height 384px
   .left-brand
     flex 0 0 267px
     width 267px
-    height 384px
+    height 185px
     .brand-header
       height 86px
       padding 12px
@@ -141,7 +140,7 @@ basecolor = #4c93fd
         font-size 16px
         color rgba(255, 255, 255, 0.6)
     .brand-body
-      height 213px
+      height 185px
       padding 16px
       background #fff
       .input
@@ -153,7 +152,7 @@ basecolor = #4c93fd
         &::-webkit-input-placeholder
           font-size 16px
       .button
-        margin-top 36px
+        margin-top 16px
   .right-list
     flex 1
     .item-wrapper

@@ -33,7 +33,11 @@ export default {
         path: `/product/${id}`
       });
     },
-    handleViewStore() {},
+    handleViewStore(id) {
+      this.$router.push({
+        path: `/shop/${id}`
+      });
+    },
     handleChangePage(number) {
       this.Params.pageNo = number;
     }

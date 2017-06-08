@@ -163,7 +163,7 @@ export default {
       padding 16px 0
       background #f2f2f2
       .list
-        margin 12px 0
+        margin 32px 0
       .button
         width 20%
         margin-top 20px

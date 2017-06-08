@@ -1,23 +1,16 @@
 <template>
-  <div class="base-item-wrapper">
-    <div class="base-item" :itemId="item.id" @click="itemClick(item.id)">
-      <div class="img-container">
-        <img class="item-image" v-lazy="picUrl">
-      </div>
-      <div class="item-desc">
-<<<<<<< HEAD
-        <!-- <h2 class="desc-title"><span>{{productNo}}{{typeComputed}} </span>{{num}}{{unit}}</h2> -->
-        <h2 class="desc-title">{{desc}}</h2>
-        <!-- <p class="desc-text" :title="desc"> -->
-
-          <!-- <span class="time" v-if="time">{{time}}</span> -->
-        <!-- </p> -->
-=======
-        <h2 class="desc-title">{{desc}}</h2>
->>>>>>> 7cea7fd70a3ed92b6a1041cfd105ddfa1aa7ac7c
-      </div>
+<div class="base-item-wrapper">
+  <div class="base-item" :itemId="item.id" @click="itemClick(item.id)">
+    <div class="img-container">
+      <img class="item-image" v-lazy="picUrl">
+    </div>
+    <div class="item-desc">
+      <h2 class="desc-title" v-show="false"><span>{{productNo}}{{typeComputed}} </span>{{num}}{{unit}}</h2>
+      <h2 class="desc-title">{{desc}}</h2>
+      <span class="time" v-if="time">{{time}}</span>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -117,7 +110,7 @@ export default {
 .base-item
   box-sizing border-box
   width 233px
-  height 300px
+  height 272px
   padding 16px
   background #fff
   border-left 1px solid #eaeaea
