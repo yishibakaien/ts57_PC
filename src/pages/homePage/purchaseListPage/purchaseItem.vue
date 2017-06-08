@@ -1,6 +1,6 @@
 
 <template>
-  <div class="purchase-item">
+  <div class="purchase-item onepx">
     <div class="purchase-item-image-wrapper">
       <img v-lazy="item.buyPicUrl" class="image" alt="购买项" />
       <p class="info">
@@ -19,7 +19,7 @@
     </div>
     <p class="purchase-item-title" :title="item.buyDesc">{{item.buyDesc}}
     </p>
-    <div class="purchase-item-person">
+    <div class="purchase-item-person onepx-t">
       <span class="name">{{item.userName}}</span>
       <span class="time">{{item.createDate | customTime}}</span>
     </div>
@@ -41,11 +41,11 @@ export default {
   height 328px
   padding 16px
   background #fff
-  border 1px solid #d8d8d8
+  /*border 1px solid #eaeaea*/
   cursor pointer
+  transition .8s
   &:hover
-    border 1px solid rgba(76, 147, 253, 0.8)
-    box-shadow 0 0 5px rgba(76, 147, 253, 0.8)
+    box-shadow  0 2px 4px 0 rgba(76,147,253,0.3), 0 0 6px 0 rgba(76,147,253,0.3)
   .purchase-item-image-wrapper
     position relative
     width 200px
@@ -84,7 +84,7 @@ export default {
 
   .purchase-item-person
     padding 6px 0
-    border-top 1px solid #d8d8d8
+    /*border-top 1px solid #d8d8d8*/
     .name
       display inline-block
       width 120px

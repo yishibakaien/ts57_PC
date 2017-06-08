@@ -48,7 +48,7 @@ export default {
   },
   watch: {
     item(val) {
-      // 1工厂 2档口
+      // 1工厂 2贸易商
       if (this.$store.state.user.userInfo.userType === 1) {
         this.userType = true;
       }

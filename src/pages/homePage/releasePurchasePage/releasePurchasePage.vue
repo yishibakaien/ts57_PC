@@ -211,7 +211,7 @@
 		computed: {
 			...mapGetters(['dicTree']),
 			title() {
-				return this.$route.query.id ? '修改供应' : '发布档口求购';
+				return this.$route.query.id ? '修改供应' : '发布贸易商求购';
 			}
 		},
 		methods: {

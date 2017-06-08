@@ -11,7 +11,7 @@
 		</div>
 		<div class="everyLooking-container">
 			<ts-grid :data="Update.list">
-				 <ts-grid-item v-for="(product,index) in Update.list" :key="product" @click="handleViewProduct(product.productId)">
+				 <ts-grid-item v-for="(product,index) in Update.list" :key="product" @click="handleViewProduct(product.id)">
 					 <ts-image
 						width="170"
 						height="170"
@@ -58,8 +58,10 @@ export default {
     }
   },
   methods: {
-    handleViewProduct() {
-
+    handleViewProduct(id) {
+      this.$router.push({
+        path: `/product/${id}`
+      });
     }
   }
 };

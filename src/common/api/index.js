@@ -3,7 +3,7 @@ import store from '@/store/store';
 import Toast from '@/components/common/toast/toast';
 // x-client
 axios.defaults.headers['x-client'] = 1;
-axios.defaults.baseURL = '/api';
+axios.defaults.baseURL = 'api';
 // x-token
 axios.defaults.headers['x-token'] = localStorage.getItem('x-token') || '';
 console.log(localStorage.getItem('x-token'));

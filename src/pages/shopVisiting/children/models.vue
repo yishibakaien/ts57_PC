@@ -9,10 +9,10 @@
         <i :class="Collect.isCollected?'icon-yishoucang':'icon-shoucang'"></i>
         {{Collect.isCollected?'取消收藏花型':'收藏花型'}}
       </ts-button>
-      <ts-button :disabled="Collect.disabled">
-        <i class="icon-huaxin"></i>
-        花型详情
-      </ts-button>
+        <ts-button :disabled="Collect.disabled" @click="handleGotoProduct">
+          <i class="icon-huaxin"></i>
+          花型详情
+        </ts-button>
     </div>
   </threed-dress>
   <ts-dialog v-model="Dialog.show" width="90%" @confirm="handleChooseProduct" @cancel="handleCancelChoose">
@@ -140,6 +140,14 @@ export default {
     this.Params.supplies = JSON.parse(JSON.stringify(params));
   },
   methods: {
+    handleGotoProduct() {
+      this.$router.push({
+        name: 'flowerDetail',
+        params: {
+          id: this.Choose.item.id
+        }
+      });
+    },
     // 点击选择花型
     handleChooseStore(item, index) {
       this.Choose.item = item;

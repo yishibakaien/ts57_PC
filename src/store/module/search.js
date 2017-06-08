@@ -5,7 +5,9 @@ const state = {
   search: {
     id: '',
     list: '',
-    handleStatus: false
+    progress: 0,
+    handleStatus: false,
+    setInterval: null
   }
 };
 
@@ -18,26 +20,28 @@ const mutations = {
   },
   SET_HANDLE_STATUS(state, status) {
     state.search.handleStatus = status;
+  },
+  // 进度条控制
+  SET_PROGRESS(state, progress) {
+    state.search.progress = progress;
+  },
+  CLEAR_INTERVAL(state) {
+    clearInterval(state.search.setInterval);
   }
 };
 const actions = {
   async getSearchEncoded({
-    commit
+    commit,
+    state
   }, params) {
     // 1.获取搜索的key
     try {
       let searchKey = (await searchEncoded(params)).data.data.searchKey;
-      let setInterValFind = setInterval(async() => {
+      state.search.setInterval = setInterval(async() => {
         let result = (await searchPolling(searchKey)).data.data;
         if (result !== -1) {
-          let param = {
-            id: result = 110,
-            pageNo: 1,
-            pageSize: 10
-          };
-          clearInterval(setInterValFind);
+          clearInterval(state.search.setInterval);
           await commit('GET_SEARCH_ID', result);
-          await actions.searchGetResult(state, param);
         }
       }, 3000);
     } catch (e) {

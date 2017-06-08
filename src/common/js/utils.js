@@ -188,9 +188,9 @@ export const historyItems = (() => {
       if (historyItems === undefined) {
         localStorage.historyItems = keyword;
       } else {
-        const onlyItem = historyItems.split(',').filter(e => e !== keyword);
+        const onlyItem = historyItems.split('|').filter(e => e !== keyword);
         if (onlyItem.length > 0) {
-          historyItems = keyword + ',' + onlyItem.join(',');
+          historyItems = keyword + '|' + onlyItem.join('|');
           localStorage.historyItems = historyItems;
         }
       }
@@ -205,7 +205,7 @@ export const convertImgToBase64 = (url, callback, outputFormat) => {
   var canvas = document.createElement('CANVAS');
   var ctx = canvas.getContext('2d');
   var img = new Image();
-  img.crossOrigin = '';
+  img.crossOrigin = 'Anonymous';
   img.onload = function() {
     canvas.height = img.height;
     canvas.width = img.width;
@@ -215,20 +215,4 @@ export const convertImgToBase64 = (url, callback, outputFormat) => {
     canvas = null;
   };
   img.src = url;
-};
-// 生成UUID
-export const generateUUID = () => {
-  var d = new Date().getTime();
-  if (window.performance && typeof window.performance.now === 'function') {
-    d += performance.now();
-  }
-  var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-    var r = (d + Math.random() * 16) % 16 | 0;
-    d = Math.floor(d / 16);
-    return (c === 'x'
-      ? r
-      : (r & 0x3 | 0x8)).toString(16);
-  });
-  let result = uuid.replace(/-/gi, '');
-  return result;
 };

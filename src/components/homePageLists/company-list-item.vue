@@ -1,18 +1,18 @@
 <template>
-  <div class="company-list-item">
-    <div class="company-item">
-      <div class="company-logo-box">
-        <img class="company-logo" v-lazy="message.companyHeadIcon" v-errorImg>
-      </div>
+<div class="company-list-item">
+  <div class="company-item">
+    <div class="company-logo-box">
+      <img class="company-logo" v-lazy="message.companyHeadIcon" v-errorImg>
     </div>
   </div>
+</div>
 </template>
 
 <script>
 export default {
   props: {
     message: {
-      type: Object
+      type: [Object, Array]
     }
   }
 };
@@ -35,7 +35,6 @@ export default {
     .company-logo-box
       width 100%
       height 100%
-      background #f1f1f1
       .company-logo
         width 100%
         height 100%

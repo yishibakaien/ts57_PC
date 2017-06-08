@@ -6,8 +6,8 @@
         	<i class="arrow"></i>
         	<i class="arrow-bg"></i>
           <div class="left">
-            <p class="brand-title">档口求购</p>
-            <p class="brand-desc">海量档口真实采购需求</p>
+            <p class="brand-title">贸易商求购</p>
+            <p class="brand-desc">海量贸易商真实采购需求</p>
           </div>
           <div class="right">
             <i class="icon-qiugou"></i>

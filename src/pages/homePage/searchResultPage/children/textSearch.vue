@@ -1,9 +1,9 @@
 <template lang="html">
 		<div class="textSearch-wrapper">
-			<!-- <ts-navbar v-model="selected">
+			<ts-navbar v-model="selected" v-if="!isShopRoute">
 				<ts-tab-item class="textSearch-tab-item" id="1">搜索花型结果</ts-tab-item>
 				<ts-tab-item class="textSearch-tab-item" id="2">搜索厂家结果</ts-tab-item>
-			</ts-navbar> -->
+			</ts-navbar>
 			<ts-tab-container v-model="selected" class="models-tab-container">
 				<!-- 搜索花型 -->
 				<ts-tab-container-item id="1">
@@ -22,7 +22,7 @@
 				 </ts-filter>
 			  </div>
 				<ts-grid :data="Search.list" class="textSearch-data">
-			    <ts-grid-item style="width:240px" v-for="product in Search.list" :key="product">
+			    <ts-grid-item style="width:240px" v-for="product in Search.list" :key="product" @click="handleGotoProduct(product.id)">
 			      <ts-image
 			       width="170"
 			       height="170"
@@ -41,7 +41,7 @@
 			<!-- 搜索厂家 -->
 			<ts-tab-container-item id="2">
 			<ts-grid :data="SearchCompany.list" class="textSearch-data">
-				<ts-grid-item style="width:240px" v-for="product in SearchCompany.list" :key="product">
+				<ts-grid-item style="width:240px" v-for="product in SearchCompany.list" :key="product" @click="handleGotoShop(product.id)">
 					<ts-image
 					 width="170"
 					 height="170"
@@ -96,13 +96,25 @@ export default {
       }
     };
   },
+  methods: {
+    handleGotoShop(id) {
+      this.$router.push({
+        path: `/shop/${id}`
+      });
+    },
+    handleGotoProduct(id) {
+      this.$router.push({
+        path: `/product/${id}`
+      });
+    }
+  },
   watch: {
-     searchValue(val) {
+    searchValue(val) {
       this.Params.keywords = val;
     },
     async selected(val) {
-      if (val === '2' && !Object.key(this.SearchCompany).length) {
-        this.SearchCompany = (await searchCompany(this.CompanySearchParams)).data.data;
+      if (val === '2') {
+        this.CompanySearchParams.companyname = this.$route.query.search;
       }
     },
     Params: {
@@ -111,7 +123,7 @@ export default {
       },
       deep: true
     },
-		CompanySearchParams: {
+    CompanySearchParams: {
       async handler(val) {
         this.SearchCompany = (await searchCompany(val)).data.data;
       },
@@ -133,7 +145,6 @@ export default {
       searchType: this.$route.query.searchType,
       companyId: this.isShopRoute ? this.$route.params.id : null
     });
-    this.Search = (await searchMtd(this.Params)).data.data;
   }
 };
 </script>
@@ -148,7 +159,7 @@ export default {
 		background: #fff;
 	}
 	@component tab-item{
-
+		max-width: 150px;
 	}
 }
 </style>

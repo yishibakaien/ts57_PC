@@ -9,7 +9,7 @@
 			<div class="entry-wrap">
 				<div class="entry-nav">
 					<router-link to="homePage">首页</router-link>&nbsp;>
-					<span>更多厂家</span>
+					<span>更多商家</span>
 				</div>
 				<div class="entry-box">
 					<entryListItem v-for="item in items" :key="item" :obj="item"></entryListItem>
@@ -49,7 +49,6 @@
 		methods: {
 			findNewCompanysMethod() {
 				findNewCompanys(this.param).then((res) => {
-					console.log(res);
 					this.items = res.data.data;
 				}).catch();
 			}

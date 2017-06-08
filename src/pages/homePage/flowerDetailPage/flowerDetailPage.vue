@@ -27,6 +27,11 @@ export default {
     ProductIntro,
     UpdateProduct
   },
+  watch: {
+    $route(to, from) {
+      this.$store.dispatch('getProduct', this.$route.params.id);
+    }
+  },
   created() {
     document.querySelector('.main-wrapper').style.background = '#fff';
     this.$store.dispatch('getProduct', this.$route.params.id);

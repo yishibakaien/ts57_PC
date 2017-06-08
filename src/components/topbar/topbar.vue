@@ -69,7 +69,7 @@ export default {
     // 个人中心
     handleGotoPerson() {
       this.$router.push({
-        path: this.isLogin ? '/personalCenterPage' : '/loginPage'
+        path: !this.isLogin ? '/personalCenterPage' : '/loginPage'
       });
     },
     // 退出

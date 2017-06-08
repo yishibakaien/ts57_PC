@@ -9,7 +9,7 @@
         <p><i class="icon-bianji"></i></p>
       </div>
     </ts-tag>
-    <input type="text" class="search-input" :placeholder="Pic.inputPlaceHolder" v-model="Search.val" @keyup.enter.native="handleSearch" @focus="handleDelPic" :disabled="search.handleStatus">
+    <input type="text" class="search-input" :placeholder="inputPlaceHolder" v-model="Search.val" @keyup.enter.native="handleSearch" @focus="handleDelPic" :disabled="search.handleStatus">
     <i class="icon-xiangji add-upload-button" v-show="!Pic.isUploaded" @click="Pic.isUploaded=true,Search.val=''" v-if="!search.handleStatus"></i>
     <span class="search-close" v-show="Pic.isUploaded" @click="Pic.isUploaded=false">&times;</span>
     <ts-button type="primary" class="search-button" @click="handleSearch" v-show="!Pic.isUploaded" :disabled="search.handleStatus">搜 索</ts-button>
@@ -39,7 +39,7 @@
   </div>
   <div class="search-editPic onepx" v-show="search.handleStatus&&!Pic.isUploaded">
     <p class="upload-tip">正在处理中，请稍候...</p>
-    <ts-progress :percentage="Progress.text"></ts-progress>
+    <ts-progress :percentage="search.progress"></ts-progress>
   </div>
   <!-- 裁剪图片 -->
   <cropper-dialog :dialog="Cropper" :imageUrl="Pic.url" @change="handleGetDestImg" @close="handleCancelFind">
@@ -74,7 +74,6 @@ export default {
         categorys: ''
       },
       Progress: {
-        text: 0,
         Interval: null
       },
       Pic: {
@@ -82,26 +81,34 @@ export default {
         show: false,
         destImg: '',
         isEdit: false,
-        url: '',
-        inputPlaceHolder: '可输入厂名或编号查找'
+        url: ''
       }
     };
   },
   created() {
+    // 默认选择第一个 店内
     this.searchSelect = 1;
     this.Search.val = this.$route.query.search;
     if (localStorage.getItem('historyItems')) {
-      this.Search.picList = localStorage.getItem('historyItems').split(',');
+      this.Search.picList = localStorage.getItem('historyItems').split('|');
     }
+    window.addEventListener('storage', () => {
+      this.Search.picList = localStorage.getItem('historyItems').split('|');
+    }, false);
   },
   props: {
     globalLook: {
       type: Boolean,
       default: true
+    },
+    inputPlaceHolder: {
+      type: String,
+      default: '可输入厂名或编号查找'
     }
   },
   destroyed() {
     this.$store.commit('SET_HANDLE_STATUS', false);
+    this.$store.commit('CLEAR_INTERVAL');
   },
   watch: {
     $route(to, from) {
@@ -110,7 +117,7 @@ export default {
       }
     },
     'search.id' (val) {
-      this.Progress.text = 100;
+      this.$store.commit('SET_PROGRESS', 100);
       this.$store.commit('SET_HANDLE_STATUS', false);
       if (this.globalLook) {
         this.$router.push({
@@ -131,17 +138,16 @@ export default {
     Pic: {
       handler(val) {
         val.show = !!val.url;
-        val.inputPlaceHolder = val.url ? '' : '可输入厂名或编号查找';
         if (this.search.handleStatus) {
           (() => {
             let interval = setInterval(() => {
-              if (this.Progress.text === 95) {
-                this.Progress.text = 95;
+              if (this.search.progress === 95) {
+                this.$store.commit('SET_PROGRESS', 95);
                 clearInterval(interval);
               } else {
-                this.Progress.text++;
+                this.$store.commit('SET_PROGRESS', ++this.search.progress);
               }
-            }, 9000);
+            }, 10000);
           })();
         }
       },
@@ -166,11 +172,11 @@ export default {
     // 选择分类的时候
     async handleLookProduct(e) {
       let data = {
-        category: e,
         encoded: this.Pic.destImg
       };
       sessionStorage.setItem('find-pic', JSON.stringify(data));
       this.Cropper.show = false;
+      this.$store.commit('SET_PROGRESS', 1);
       this.$store.commit('SET_HANDLE_STATUS', true);
       if (this.globalLook) {
         await this.$store.dispatch('getSearchEncoded', {
@@ -198,9 +204,10 @@ export default {
       this.Search.picList.unshift(imgUrl);
       this.historyItems.set(imgUrl);
       this.Cropper.show = true;
-      this.Pic.url = `${imgUrl}?x-oss-process=image/resize,h_20`;
+      this.Pic.url = imgUrl;
       this.Pic.isUploaded = false;
     },
+    // 上传图片
     uploadImg(e) {
       var file = this.$refs.input.files[0];
       if (file) {
@@ -280,7 +287,6 @@ export default {
   }
   @component editPic {
     padding: 4px;
-    text-align: center;
     position: absolute * 0 * 0;
     background: #fff;
     z-index: 2;
@@ -291,6 +297,7 @@ export default {
     @modifier menu {
       text-align: center;
       clear: both;
+      padding-top: 16px;
     }
     @descendent upload {
       @modifier button {

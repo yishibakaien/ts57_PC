@@ -37,7 +37,7 @@ const mutations = {
   }
 };
 const actions = {
-  // 获取档口OR工厂信息
+  // 获取贸易商OR工厂信息
   async getCompanyInfo({
     commit
   }, params) {

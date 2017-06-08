@@ -242,7 +242,7 @@ const DICT = {
       label: '工厂',
       dicValue: 1
     }, {
-      label: '档口',
+      label: '贸易商',
       dicValue: 2
     }
   ],

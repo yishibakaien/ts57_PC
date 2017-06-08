@@ -22,7 +22,7 @@ const API = {
   home: {
     listHomeBanners: '/homeBanner/listHomeBanners', // 首页banner
     findNewCompanyByIndex: '/company/findNewCompanyByIndex', // 获取最新入驻厂家列表
-    qualityCompanyList: '/company/qualityCompanyList' // 优质厂家列表
+    qualityCompanyList: '/companyBest/getCompanyBestList' // 优质厂家列表
   },
   // 搜索
   search: {
@@ -126,11 +126,11 @@ const API = {
   company: {
     getCompanyBestList: '/companyBest/getCompanyBestList', // 优质厂家
     getCompanyQRcode: '/company/getCompanyQRcode', // 获取公司二维码图片
-    getCompanyInfo: '/company/getCompanyInfo', // 获取档口OR工厂信息
-    updateCompany: '/company/updateCompany', // 修改工厂或档口信息
+    getCompanyInfo: '/company/getCompanyInfo', // 获取贸易商OR工厂信息
+    updateCompany: '/company/updateCompany', // 修改工厂或贸易商信息
     getCompanyAptitude: '/companyAptitude/getCompanyAptitude', // 查询公司资质信息
     saveCompanyAptitude: '/companyAptitude/saveCompanyAptitude', // 修改公司资质信息
-    updateCompanyExtend: '/company/updateCompanyExtend', // 修改工厂或档口详细信息
+    updateCompanyExtend: '/company/updateCompanyExtend', // 修改工厂或贸易商详细信息
     getCompanyInfoByUserId: '/company/getCompanyInfoByUserId', // 获取用户的店铺信息
     getCompanySimpleInfo: '/company/getCompanySimpleInfo', // 获取简单店铺或工厂信息
     findNewCompanys: '/company/findNewCompanys' // 查询最新入驻厂家
@@ -364,7 +364,7 @@ export const getAskListByProductId = param => axios.get(API.enquiry.getAskListBy
 export const getCompanyAptitude = param => axios.get(API.company.getCompanyAptitude, {params: param});
 // 修改公司资质信息
 export const saveCompanyAptitude = param => axios.post(API.company.saveCompanyAptitude, param);
-// 修改工厂或档口详细信息
+// 修改工厂或贸易商详细信息
 export const updateCompanyExtend = param => axios.post(API.company.updateCompanyExtend, param);
 // 获取花型列表
 export const getProductList = param => axios.post(API.product.listProducts, param);
@@ -412,9 +412,9 @@ export const getAlbum = param => axios.get(API.albumPic.getAlbum, {params: param
 export const deleteAlbumPic = param => axios.post(API.albumPic.deleteAlbumPic, param);
 // 素材库上传图片
 export const addAlbumPic = param => axios.post(API.albumPic.addAlbumPic, param);
-// 获取档口OR工厂信息
+// 获取贸易商OR工厂信息
 export const getCompanyInfo = param => axios.get(API.company.getCompanyInfo, {params: param});
-// 修改工厂或档口信息
+// 修改工厂或贸易商信息
 export const updateCompany = param => axios.post(API.company.updateCompany, param);
 // 获取系统定义花型分类列表
 export const listSystemProductCategory = param => axios.get(API.productCategory.listSystemProductCategory, {params: param});

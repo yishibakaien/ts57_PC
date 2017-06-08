@@ -8,7 +8,7 @@
 			<div class="purchase-detail-wrap clearfix">
 				<div class="purchase-detail-nav">
 					<router-link to="homePage">首页</router-link> >
-					<router-link to="purchaseListPage">档口求购</router-link> >
+					<router-link to="purchaseListPage">贸易商求购</router-link> >
 					<span>求购详情</span>
 				</div>
 				<div class="purchase-detail-left fl">

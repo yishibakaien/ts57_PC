@@ -1,6 +1,6 @@
 
 <template>
-  <div class="supply-item">
+  <div class="supply-item onepx">
     <div class="supply-item-image-wrapper" @click="clickMethod">
       <img v-lazy="item.productPicUrl" class="image" alt="供应项">
       <p class="info">
@@ -16,7 +16,7 @@
     </div>
     <p class="supply-item-title" :title="item.supplyDesc">{{item.supplyDesc}}
     </p>
-    <div class="supply-item-company">
+    <div class="supply-item-company onepx-t">
       <img :src="item.userHeadIcon" v-errorImg class="company-avatar" />
       <span class="company-name">{{item.userName}}</span>
     </div>
@@ -43,11 +43,10 @@ export default {
   height 335px
   padding 16px
   background #fff
-  border 1px solid #d8d8d8
   cursor pointer
+  transition .8s
   &:hover
-    border 1px solid rgba(76, 147, 253, 0.8)
-    box-shadow 0 0 5px rgba(76, 147, 253, 0.8)
+    box-shadow  0 2px 4px 0 rgba(76,147,253,0.3), 0 0 6px 0 rgba(76,147,253,0.3)
   .supply-item-image-wrapper
     position relative
     width 200px
@@ -85,8 +84,7 @@ export default {
     white-space nowrap
 
   .supply-item-company
-    padding 6px 0
-    border-top 1px solid #d8d8d8
+    padding-top 12px
     .company-avatar
       display inline-block
       vertical-align top

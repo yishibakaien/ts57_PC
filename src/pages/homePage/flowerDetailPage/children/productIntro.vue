@@ -53,9 +53,14 @@
 				<!-- 菜单 -->
 				<ts-grid class="productIntro-product-menu">
 					<ts-popover trigger="click" :options="{placement: 'bottom'}" >
-						<div class="popper">
-							大蒜大蒜大蒜
-						</div>
+							<div class="popper productIntro-popper-phone">
+		            <p class="productIntro-popper-phone-user">
+		              <strong>{{CompanySimpleInfo.phone}}</strong>
+		            </p>
+		            <div class="productIntro-popper-phone-tip">老板，拨打电话时，记得说明
+		              <br> 是坐视布管的客户哦～
+		            </div>
+		          </div>
 						<ts-grid-item slot="reference">
 							<i class="icon-dianhua"></i>电话
 						</ts-grid-item>
@@ -146,7 +151,7 @@ import {
 } from 'vuex';
 import DICT from '@/common/dict/';
 import {
-  getCompanySimpleInfo,
+  getCompanyInfo,
   sampleAskFor,
   enquiryAskPrice,
   favoriteIsFavorite,
@@ -268,7 +273,7 @@ export default {
   watch: {
     productDetail: {
       async handler(val) {
-        this.CompanySimpleInfo = (await getCompanySimpleInfo({
+        this.CompanySimpleInfo = (await getCompanyInfo({
           id: val.companyId
         })).data.data;
       },
@@ -348,6 +353,17 @@ export default {
 			text-align: center;
 		}
 	}
+	@component popper-phone{
+    line-height: 140%;
+    padding: 15px;
+    @descendent user{
+      margin: 10px 0;
+      font-size: 23px;
+    }
+    @descendent tip{
+      color: #999;
+    }
+  }
 	@component product{
 		@descendent cover{
 			float: left;

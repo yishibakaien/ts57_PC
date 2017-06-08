@@ -6,17 +6,16 @@
         <span class="imgSearch-image-box-tip" @click="handleChoosePic">手动框图</span>
       </div>
       <div class="imgSearch-image-box-text">
-        <p>对该图片的最佳猜测：#erew</p>
+        <p>对该图片的最佳猜测：{{firstProductNo}}</p>
         <p>对结果不满意？重新框图试试</p>
         <p>白色的花型更能被查找到哦！所以请尽量添加白色无干扰的花型样板。</p>
       </div>
-      <!--  {{Search[0].productNo}}-->
     </div>
 		<ts-title-block :bodyStyle="{'font-size':'20px'}">
 			<i class="icon-huaxin"></i>&nbsp;相似花型
 		</ts-title-block>
 		<div class="">
-			<!-- <ts-grid :data="Search" class="textSearch-data">
+			<ts-grid :data="Search" class="textSearch-data">
 		    <ts-grid-item style="width:240px" v-for="product in Search" :key="product" @click="handleViewProduct(product.id)">
 		      <ts-image
 		       width="170"
@@ -31,7 +30,7 @@
 		         <span>{{product.publishDate}}</span>
 		       </template>
 		     </ts-grid-item>
-		  </ts-grid> -->
+		  </ts-grid>
       <br/>
 			<div class="imgSearch-tip imgSearch-wrapper">
         <p><ts-button type="plain" @click="handleLoadMore">查看更多</ts-button></p>
@@ -44,7 +43,7 @@
 			<div class="imgSearch-bestCompany">
 				<p class="imgSearch-bestCompany-tip">没找到合适的？可以找优质厂家开机</p>
 				<ts-grid :data="companyBestList.list" class="imgSearch-data">
-			    <ts-grid-item style="width:400px" v-for="product in companyBestList.list" :key="product" @click="handleViewProduct(product.id)">
+			    <ts-grid-item style="width:400px" v-for="product in companyBestList.list" :key="product" @click="handleGotoShop(product)">
 			      <ts-image
 			       width="300"
 			       height="260"
@@ -52,7 +51,7 @@
 			       disabledHover
 			       :src="product.pic">
 			       </ts-image>
-			       <div slot="footer" class="onepx imgSearch-data-menu" @click.stop="handleGotoShop(product)">
+			       <div slot="footer" class="onepx imgSearch-data-menu">
 							 	<a>
 									找他开机
 								</a>
@@ -108,12 +107,6 @@ export default {
       }
     };
   },
-  mounted() {
-    this.$nextTick(() => {
-      this.Pic.naturalHeight = this.$refs.uploadImg.height;
-      this.Pic.naturalWidth = this.$refs.uploadImg.width;
-    });
-  },
   watch: {
     Params: {
       handler(val) {
@@ -121,9 +114,12 @@ export default {
       },
       deep: true
     },
+    $route(to, from) {
+      this.Params.id = to.query.imgId;
+    },
     search: {
       handler(val) {
-        this.Search = this.Search.concat(val.list.list);
+        this.Search = val.list.list;
       },
       deep: true
     }
@@ -131,16 +127,27 @@ export default {
   components: {
     CropperDialog
   },
+  destroyed() {
+    this.$store.commit('SET_HANDLE_STATUS', false);
+    this.$store.commit('CLEAR_INTERVAL');
+  },
   computed: {
     ...mapGetters(['search', 'dicTree']),
     isShopRoute() {
       return this.$route.path.indexOf('/shop/') >= 0;
+    },
+    // 去搜索列表第一个数据
+    firstProductNo() {
+      if (this.Search[0]) {
+        return this.Search[0].productNo;
+      }
     }
   },
   methods: {
     handleLoadMore() {
       this.Params.pageNo++;
     },
+    // 进入商店
     handleGotoShop(item) {
       this.$router.push({
         name: 'shop',
@@ -149,31 +156,38 @@ export default {
         }
       });
     },
+    // 选择图片
     handleChoosePic(pic) {
       this.Pic.url = this.Pic.encoded;
       this.Cropper.show = true;
     },
-    // 获取裁剪的图片base64
+    // change--获取裁剪的图片base64
     handleGetDestImg(pic) {
       this.Pic.destImg = pic;
     },
-    destroyed() {
-      this.$store.commit('SET_HANDLE_STATUS', false);
-    },
+    // 寻找花型(最终一步)
     async handleLookProduct(e) {
+      sessionStorage.setItem('find-pic', JSON.stringify({
+        encoded: this.Pic.destImg
+      }));
       this.$store.commit('SET_HANDLE_STATUS', true);
+      this.$store.commit('SET_PROGRESS', 1);
       this.Cropper.show = false;
+			this.historyItems.set(this.Pic.destImg);
+      this.Pic.encoded = this.Pic.destImg;
       await this.$store.dispatch('getSearchEncoded', {
         category: e,
         encoded: this.Pic.destImg,
         searchType: 300
       });
-      await this.$router.push({
-        path: this.isShopRoute ? `/shop/${this.$route.params.id}/s/image` : '/search/image',
-        query: {
-          imgId: this.$store.getters.search.id
-        }
-      });
+      if (this.$store.getters.search.id) {
+        await this.$router.push({
+          path: this.isShopRoute ? `/shop/${this.$route.params.id}/s/image` : '/search/image',
+          query: {
+            imgId: this.$store.getters.search.id
+          }
+        });
+      }
     },
     handleViewProduct(id) {
       this.$router.push({
@@ -182,14 +196,15 @@ export default {
     }
   },
   async created() {
-    if (this.$route.query.imgSearch) {
-      this.Params.id = this.$route.query.search;
+    if (this.$route.query.imgId) {
+      this.Params.id = this.$route.query.imgId;
+      this.companyBestList = (await getCompanyBestList({
+        pageNo: 1,
+        pageSize: 3
+      })).data.data;
     }
+    // 从sessionStorage获取裁剪的图片
     this.Pic = JSON.parse(sessionStorage.getItem('find-pic'));
-    this.companyBestList = (await getCompanyBestList({
-      pageNo: 1,
-      pageSize: 3
-    })).data.data;
   }
 };
 </script>
@@ -218,7 +233,6 @@ export default {
     @modifier menu{
       clear: both;
       padding-top: 15px;
-      text-align: center;
     }
   }
   @component image-box{

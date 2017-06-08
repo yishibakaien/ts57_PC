@@ -134,7 +134,7 @@
 					localStorage.setItem('userName', res.data.data.userName);
 					localStorage.setItem('qq', res.data.data.qq);
 					localStorage.setItem('email', res.data.data.email);
-					// 1工厂 2档口
+					// 1工厂 2贸易商
 					if (res.data.data.userType === 1) {
 						this.navItems[4].isShow = true;
 						this.navItems[8].isShow = true;
@@ -185,13 +185,13 @@
 </style>
 <style lang="scss" scoped="scoped">
 	.personal {}
-	
+
 	.personal-container {
 		width: 1200px;
 		/*margin: 0 auto;*/
 		margin: 50px auto;
 	}
-	
+
 	.personal-nav {
 		float: left;
 		width: 256px;
@@ -209,7 +209,7 @@
 				margin: 15px auto 30px;
 				width: 85%;
 				height: 1px;
-				background: #d1d1d1;
+				background: #eaeaea;
 			}
 		}
 		li {
@@ -246,7 +246,7 @@
 				margin: 28px auto;
 				height: 1px;
 				width: 112px;
-				background: #e5e5e5;
+				background: #eaeaea;
 			}
 			&::before {
 				content: '';
@@ -254,11 +254,11 @@
 				margin: 28px auto;
 				height: 1px;
 				width: 112px;
-				background: #e5e5e5;
+				background: #eaeaea;
 			}
 		}
 	}
-	
+
 	.personal-item {
 		float: left;
 		width: 944px;
@@ -276,7 +276,7 @@
 				margin: 15px auto 0;
 				width: 100%;
 				height: 1px;
-				background: #d1d1d1;
+				background: #eaeaea;
 			}
 		}
 	}

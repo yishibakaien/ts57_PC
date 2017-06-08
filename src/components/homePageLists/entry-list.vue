@@ -6,8 +6,8 @@
         	<i class="arrow"></i>
         	<i class="arrow-bg"></i>
           <div class="left">
-            <p class="brand-title">厂家入驻</p>
-        		<p class="brand-desc">不容错过 坐视布管</p>
+            <p class="brand-title">商家入驻</p>
+        		<p class="brand-desc">布容错过 坐视布管</p>
           </div>
           <div class="right">
             <i class="iconfont icon-ruzhu"></i>
@@ -31,11 +31,13 @@
           </div>
           <div class="entry-nav-item">
             <i class="iconfont entry-nav-icon icon-dangkou"></i>
-            <p class="entry-nav-text">找档口</p>
+            <p class="entry-nav-text">找客户</p>
           </div>
         </div>
         <div class="entry-button-box">
-          <button class="button button-plain button-block button-plain-blue" style="margin: 26px 0 8px 0;">新增花型</button>
+          <router-link to="/shopManagePage/addwarehouse" tag="button" class="button button-plain button-block button-plain-blue" style="margin: 26px 0 8px 0;">
+            新增花型
+          </router-link>
         </div>
       </div>
     </div>
@@ -55,8 +57,8 @@ export default {
   data() {
     return {
       titleText: {
-        title: '厂家入驻',
-        extend: '更多厂家',
+        title: '最新入驻',
+        extend: '更多商家',
         type: 'entry'
       }
     };
