@@ -21,8 +21,8 @@
     </div>
     <div class="right-list">
       <list-tile :title-text="titleText"></list-tile>
-      <div class="item-wrapper"  v-for="item in supplyListObj.data">
-        <base-item :item="item" :type="supplyListObj.type" @supplyClick="goSupplyDetailPage"></base-item>
+      <div class="item-wrapper"  v-for="item in purchaseListObj.data">
+        <base-item :item="item" type="purchase" @purchaseClick="goPurchaseDetailPage"></base-item>
       </div>
     </div>
   </div>
@@ -35,13 +35,14 @@ export default {
   data() {
     return {
       titleText: {
-        title: '最新供应',
-        extend: '更多供应',
-        type: 'supply'
+        title: '最新求购',
+        extend: '更多求购',
+        type: 'purchase'
       },
       text: ''
     };
   },
+  props: ['purchaseListObj'],
   methods: {
     releaseSupply() {
       this.$router.push({
@@ -51,11 +52,11 @@ export default {
         }
       });
     },
-    goSupplyDetailPage(id) {
+    goPurchaseDetailPage(id) {
       this.$router.push({
-        path: '/supplyDetailPage',
+        path: '/purchaseDetailPage',
         query: {
-          supplyId: id
+          purchaseId: id
         }
       });
     }
@@ -63,8 +64,7 @@ export default {
   components: {
     baseItem,
     listTile
-  },
-  props: ['supplyListObj']
+  }
 };
 </script>
 
@@ -132,7 +132,7 @@ basecolor = #4c93fd
         font-size 16px
         color rgba(255, 255, 255, 0.6)
     .brand-body
-      height 185px
+      height 184px
       padding 16px
       background #fff
       .input
