@@ -88,19 +88,15 @@ export default {
   },
   methods: {
     itemClick(id) {
-      if (this.type === 'buy') {
-        console.log('purchaseClick');
+      if (this.type === 'purchase') {
         this.$emit('purchaseClick', id);
       }
       if (this.type === 'supply') {
-        console.log('supplyClick');
         this.$emit('supplyClick', id);
       }
       if (this.type === 'searchText') {
-        console.log('searchTextClick');
         this.$emit('searchTextClick', id);
       }
-      console.log('clicked');
     }
   }
 };

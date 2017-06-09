@@ -36,15 +36,11 @@ export default {
   methods: {
     // 进去某个商品
     handleViewProduct(id) {
-      this.$router.push({
-        path: `/product/${id}`
-      });
+      this.goto(`/product/${id}`);
     },
     // 进去店铺
     handleViewStore(id) {
-      this.$router.push({
-        path: `/shop/${id}`
-      });
+      this.goto(`/shop/${id}`);
     }
   }
 };

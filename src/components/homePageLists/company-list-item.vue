@@ -11,9 +11,7 @@ export default {
   props: ['message'],
   methods: {
     handleGotoShop(item) {
-      this.$router.push({
-        path: `/shop/${item.companyId}`
-      });
+      this.goto(`/shop/${item.companyId}`);
     }
   }
 };

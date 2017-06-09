@@ -115,13 +115,11 @@ export default {
     },
     // 跳转详情页
     goDetail(e) {
-      window.open('#/supplyDetailPage?supplyId=' + this.obj.list[e].id);
+      this.goto(`/supplyDetailPage?supplyId=${this.obj.list[e].id}`);
     },
     // 访问店铺
     goStore() {
-      this.$router.push({
-        path: `/shop/${this.item.companyId}`
-      });
+      this.goto(`/shop/${this.item.companyId}`);
     }
   }
 };

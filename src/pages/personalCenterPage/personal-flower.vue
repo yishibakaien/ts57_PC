@@ -83,7 +83,6 @@ export default {
     let _ = this;
     //			console.log(listProduct);
     listProduct(_.param).then((res) => {
-      console.log(res.data.data.list);
       if (res.data.data.list.length === 0) {
         _.defaultShow = true;
         return;
@@ -94,7 +93,6 @@ export default {
       _.pageMax = res.data.data.totalPage;
     }).catch((res) => {});
     countProduct().then((res) => {
-      console.log(res.data.data);
       _.classes.totalNum = res.data.data.countProduct;
       _.classes.mianliao = res.data.data.countML;
       _.classes.large = res.data.data.countDB;
@@ -133,9 +131,7 @@ export default {
       _.listProductMethod();
     },
     handleGotoDetail(item) {
-      this.$router.push({
-        path: `/product/${item.id}`
-      });
+      this.goto(`/product/${item.id}`);
     },
     // TODO:连接到相似页面
     handleGotoFind() {

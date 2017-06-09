@@ -100,9 +100,7 @@ export default {
   },
   methods: {
     handleGotoShop(id) {
-      this.$router.push({
-        path: `/shop/${id}`
-      });
+			this.goto(`/shop/${id}`);
     },
 		handleChangeProductNum(number) {
       this.Params.pageNo = number;
@@ -111,9 +109,7 @@ export default {
       this.CompanySearchParams.pageNo = number;
     },
     handleGotoProduct(id) {
-      this.$router.push({
-        path: `/product/${id}`
-      });
+			this.goto(`/product/${id}`);
     }
   },
   watch: {

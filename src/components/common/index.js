@@ -28,6 +28,8 @@ import tsTitleBlock from './tsTitleBlock.vue';
 import tsPopover from './popover/tsPopover.vue';
 import tsNavbar from './navbar/navbar.vue';
 import tsTabItem from './navbar/tabItem.vue';
+import tsCarousel from './carousel/carousel.vue';
+import tsCarouselItem from './carousel/carousel-item.vue';
 import tsTabContainer from './tab-container/tab-container.vue';
 import tsTabContainerItem from './tab-container/tab-container-item.vue';
 import InfiniteScroll from './infinite-scroll/directive.js';
@@ -36,6 +38,8 @@ import pagination from '../pagination/pagination.vue';
 // =========
 const Components = {
   tsGrid,
+  tsCarousel,
+  tsCarouselItem,
   tsProgress,
   tsNavbar,
   tsTabContainer,

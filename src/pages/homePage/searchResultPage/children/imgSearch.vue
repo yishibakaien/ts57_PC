@@ -193,9 +193,7 @@ export default {
       }
     },
     handleViewProduct(id) {
-      this.$router.push({
-        path: `/product/${id}`
-      });
+			this.goto(`/product/${id}`);
     }
   },
   async created() {

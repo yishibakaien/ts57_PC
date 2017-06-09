@@ -45,9 +45,7 @@ export default {
     },
     // 进去某个商品
     handleViewProduct(id) {
-      this.$router.push({
-        path: `/product/${id}`
-      });
+      this.goto(`/product/${id}`);
     }
   },
   async created() {

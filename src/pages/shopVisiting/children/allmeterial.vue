@@ -116,9 +116,7 @@ export default {
       this.Params.category = e;
     },
     handleViewProduct(id) {
-      this.$router.push({
-        path: `/product/${id}`
-      });
+      this.goto(`/product/${id}`);
     }
   }
 };

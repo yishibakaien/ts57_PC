@@ -38,14 +38,10 @@ export default {
   },
   methods: {
     handleViewProduct(id) {
-      this.$router.push({
-        path: `/product/${id}`
-      });
+      this.goto(`/product/${id}`);
     },
     handleViewStore(id) {
-      this.$router.push({
-        path: `/shop/${id}`
-      });
+      this.goto(`/shop/${id}`);
     },
     handleChangePage(number) {
       this.Params.pageNo = number;

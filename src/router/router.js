@@ -105,9 +105,6 @@ const routes = [
       {
         path: 'index',
         component: findIndex,
-        meta: {
-          needAuth: true
-        },
         name: '发现'
       }, {
         path: 'everyLooking',
@@ -156,6 +153,9 @@ const routes = [
     component: purchaseDetailPage
   }, {
     path: '/product/:id', // 花型详情
+    meta: {
+      needAuth: true
+    },
     component: flowerDetail,
     name: 'flowerDetail'
   }, {
@@ -188,37 +188,64 @@ const routes = [
   }, {
     path: '/shop/:id',
     name: 'shop',
+    meta: {
+      needAuth: true
+    },
     redirect: '/shop/:id/index',
     component: shopVisiting,
     children: [
       {
         path: 'index',
+        meta: {
+          needAuth: true
+        },
         component: shopProductIndex,
         name: '店铺首页'
       }, {
         path: 'allProducts',
+        meta: {
+          needAuth: true
+        },
         component: shopAllMeterials,
         name: '所有花型'
       }, {
         path: 'searchtext',
+        meta: {
+          needAuth: true
+        },
         component: textSearch
       }, {
         path: 'searchimage',
+        meta: {
+          needAuth: true
+        },
         component: imgSearch
       }, {
         path: 'supplies',
+        meta: {
+          needAuth: true
+        },
         component: shopSupplies,
         name: '店铺-厂家供应'
       }, {
         path: 'models',
+        meta: {
+          needAuth: true
+        },
         component: shopModels,
         name: '模特试衣'
       }, {
         path: 'intro',
+        meta: {
+          needAuth: true
+        },
         component: shopCompanyIntro,
         name: '公司介绍'
       }, {
         path: 'catagory',
+        meta: {
+          needAuth: true
+        },
         component: shopCatagoryProduct,
         name: '产品'
       }

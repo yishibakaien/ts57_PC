@@ -54,9 +54,7 @@ export default {
       this.Params.pageNo = number;
     },
     handleViewProduct(id) {
-      this.$router.push({
-        path: `/product/${id}`
-      });
+      this.goto(`/product/${id}`);
     }
   },
   async mounted() {

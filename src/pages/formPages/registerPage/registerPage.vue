@@ -259,7 +259,6 @@ export default {
               this.tip.userMobileTip = res.data.message;
             }
           } else {
-            console.log('短信获取成功', res);
             this.getSMSCodeParams.disabled = true;
             let timer = setInterval(() => {
               if (this.getSMSCodeParams.seconds < 1) {

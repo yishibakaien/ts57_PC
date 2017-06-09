@@ -107,9 +107,7 @@ export default {
   },
   methods: {
     handleGotoStore(item) {
-      this.$router.push({
-        path: `/shop/${item.companyId}`
-      });
+      this.goto(`/shop/${item.companyId}`);
     },
     // 搜索
     async handleSearch() {
@@ -127,9 +125,7 @@ export default {
     },
     // 查看花型
     hanleVisitProduct(item) {
-      this.$router.push({
-        path: `/product/${item.productId}`
-      });
+      this.goto(`/product/${item.productId}`);
     },
     // ======
     // 分页处理

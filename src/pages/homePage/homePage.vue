@@ -6,6 +6,20 @@
   <v-nav></v-nav>
   <div class="swiper">
     <banner :items="bannerImgs" :width="1200" :height="300" :pagination="true" :auto-play="true" :speed="3000" :sync="false"></banner>
+    <!-- <ts-carousel autoplay v-model="value2">
+      <ts-carousel-item>
+        <div class="demo-carousel">1</div>
+      </ts-carousel-item>
+      <ts-carousel-item>
+        <div class="demo-carousel">2</div>
+      </ts-carousel-item>
+      <ts-carousel-item>
+        <div class="demo-carousel">3</div>
+      </ts-carousel-item>
+      <ts-carousel-item>
+        <div class="demo-carousel">4</div>
+      </ts-carousel-item>
+    </ts-carousel> -->
   </div>
 
   <div class="homePage-box">
@@ -51,6 +65,7 @@ import {
 export default {
   data() {
     return {
+      value2: 0,
       imgs: [], // 轮播图假数据
       bannerImgs: [], // 真正的轮播图
       purchaseListObj: {}, // 求购列表

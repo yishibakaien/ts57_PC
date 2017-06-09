@@ -65,16 +65,7 @@
 							<i class="icon-dianhua"></i>电话
 						</ts-grid-item>
 					</ts-popover>
-					<ts-popover trigger="click" :options="{placement: 'bottom'}" v-if="isLogined">
-						<div class="popper">
-								<div class="popper-tip">登陆后可以询价</div>
-								<ts-button type="plain" @click="handleLogin">登录</ts-button>
-						</div>
-						<ts-grid-item slot="reference">
-							<i class="icon-xunjia"></i>询价
-						</ts-grid-item>
-					</ts-popover>
-					<ts-grid-item @click.native="Dialog.enquiry=!Dialog.enquiry" v-else>
+					<ts-grid-item @click.native="Dialog.enquiry=!Dialog.enquiry">
 						<i class="icon-xunjia"></i>询价
 					</ts-grid-item>
 				</ts-grid>
@@ -82,16 +73,7 @@
 					<ts-grid-item @click.native="handleGoto3Ddress">
 						<i class="icon-shiyihui"></i>试衣
 					</ts-grid-item>
-					<ts-popover trigger="click" :options="{placement: 'bottom'}" v-if="isLogined">
-						<div class="popper">
-							<div class="popper-tip">登陆后可以索样</div>
-							<ts-button type="plain" @click="handleLogin">登录</ts-button>
-						</div>
-						<ts-grid-item slot="reference">
-							<i class="icon-suoyang"></i>索样
-						</ts-grid-item>
-					</ts-popover>
-					<ts-grid-item @click.native="Dialog.sendSample=!Dialog.sendSample" v-else>
+					<ts-grid-item @click.native="Dialog.sendSample=!Dialog.sendSample">
 						<i class="icon-suoyang"></i>索样
 					</ts-grid-item>
 				</ts-grid>
@@ -258,10 +240,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['dicTree', 'productDetail', 'token']),
-    isLogined() {
-      return !this.token;
-    }
+    ...mapGetters(['dicTree', 'productDetail', 'token'])
   },
   async created() {
     let res = (await favoriteIsFavorite({

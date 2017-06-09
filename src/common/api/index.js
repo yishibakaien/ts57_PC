@@ -3,7 +3,7 @@ import store from '@/store/store';
 import Toast from '@/components/common/toast/toast';
 // x-client
 axios.defaults.headers['x-client'] = 1;
-axios.defaults.baseURL = 'https://dev.tswq.wang/api';
+axios.defaults.baseURL = 'http://api.tswq.wang';
 // x-token
 axios.defaults.headers['x-token'] = localStorage.getItem('x-token') || '';
 store.commit('LOGIN', axios.defaults.headers['x-token'] || '');

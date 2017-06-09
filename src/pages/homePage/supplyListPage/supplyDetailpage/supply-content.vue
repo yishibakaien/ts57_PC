@@ -58,9 +58,7 @@ export default {
   },
   methods: {
     goSupplyListPage(item) {
-      this.$router.push({
-        path: `/shop/${item.companyId}/supplies`
-      });
+      this.goto(`/shop/${item.companyId}/supplies`);
     },
     // 收藏
     collectionMethod() {
