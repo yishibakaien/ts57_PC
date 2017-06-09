@@ -11,7 +11,7 @@
         <ts-grid-item :style="{'width':item.classId===getHotSearch?'400px':'240px'}" v-for="(product,e) in item.list" :key="product" @click="handleViewProduct(product.id)">
           <span class="topRanking productIndex-rank" :class="'topRanking_'+e" v-if="item.classId===getHotSearch"></span>
           <ts-image
-           :width="getHotSearch?'':170"
+           :width="getHotSearch?'':'170'"
            height="170"
            :canView="false"
            disabledHover

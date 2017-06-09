@@ -28,7 +28,7 @@
       @change="handleChangeCurrent"
       @page-size-change="handleChangePageSize"
       :current="albumPicsList.pageNO"
-      :totalPages="albumPicsList.totalPage">
+      :total="albumPicsList.totalPage">
       </ts-pagination>
     </div>
     <!--  对话框 -->

@@ -84,8 +84,7 @@
       </div>
 
       <div class="btn-wrapper">
-        <!-- <button class="button button-block button-blue" @click="register"></button> -->
-        <ts-button size="large" type="primary" class="register-submit button" :disabled="!isAgree">
+        <ts-button size="large" type="primary" class="register-submit button" @click="register" :disabled="!isAgree">
           注&nbsp;册
         </ts-button>
       </div>

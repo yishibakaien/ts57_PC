@@ -81,7 +81,7 @@
       @change="handleChangeCurrent"
       @page-size-change="handleChangePageSize"
       :current="productList.pageNO"
-      :totalPages="productList.totalPage">
+      :total="productList.totalPage">
       </ts-pagination>
     </div>
   </ts-section>
@@ -111,7 +111,7 @@
       @change="handleChangeAskListCurrent"
       @page-size-change="handleChangeAskListPageSize"
       :current="Collect.data.pageNO"
-      :totalPages="Collect.data.totalPage">
+      :total="Collect.data.totalPage">
       </ts-pagination>
     </div>
     <div slot="footer"></div>

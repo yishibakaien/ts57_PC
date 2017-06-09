@@ -11,7 +11,7 @@
     <!-- <ts-button type="cancel">删除</ts-button> -->
     <div slot="footer" class="cooperation-footer">
       一共{{Cooperation.totalNum}}个厂家
-      <ts-pagination class="cooperation-footer--pagation" @change="handleChangeCurrent" @page-size-change="handleChangePageSize" :current="Cooperation.pageNO" :totalPages="Cooperation.totalPage">
+      <ts-pagination class="cooperation-footer--pagation" @change="handleChangeCurrent" @page-size-change="handleChangePageSize" :current="Cooperation.pageNO" :total="Cooperation.totalPage">
       </ts-pagination>
     </div>
     <ts-table :data="Cooperation.list">

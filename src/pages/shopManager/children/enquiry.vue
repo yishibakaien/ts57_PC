@@ -24,7 +24,7 @@
         @change="handleChangeCurrent"
         @page-size-change="handleChangePageSize"
         :current="EnquiryList.pageNO"
-        :totalPages="EnquiryList.totalPage">
+        :total="EnquiryList.totalPage">
         </ts-pagination>
       </div>
     </ts-section>

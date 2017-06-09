@@ -71,7 +71,7 @@
     </div>
     <div slot="footer" class="supply-footer">
       <ts-button type="primary" @click="handleShowDialog(chooseItem)" v-if="Filter.supplyStatus===1" :disabled="chooseItem.length<=0">关闭</ts-button>
-      <ts-pagination class="supply-footer--pagation" @change="handleChangeCurrent" @page-size-change="handleChangePageSize" :current="companySupplyList.pageNO" :totalPages="companySupplyList.totalPage">
+      <ts-pagination class="supply-footer--pagation" @change="handleChangeCurrent" @page-size-change="handleChangePageSize" :current="companySupplyList.pageNO" :total="companySupplyList.totalPage">
       </ts-pagination>
     </div>
   </ts-section>
@@ -93,7 +93,7 @@
     </ts-table>
     <div class="supply-collect-dialog-footer supply-footer">
       <span>共{{Collect.data.totalNum}}条收藏</span>
-      <ts-pagination class="supply-footer--pagation" @change="handleChangeFavListCurrent" @page-size-change="handleChangeFavListPageSize" :current="Collect.data.pageNO" :totalPages="Collect.data.totalPage">
+      <ts-pagination class="supply-footer--pagation" @change="handleChangeFavListCurrent" @page-size-change="handleChangeFavListPageSize" :current="Collect.data.pageNO" :total="Collect.data.totalPage">
       </ts-pagination>
     </div>
     <div slot="footer"></div>

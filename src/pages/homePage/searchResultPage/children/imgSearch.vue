@@ -14,9 +14,10 @@
 		<ts-title-block :bodyStyle="{'font-size':'20px'}">
 			<i class="icon-huaxin"></i>&nbsp;相似花型
 		</ts-title-block>
+		<!-- 图片列表 -->
 		<div class="">
-			<ts-grid :data="Search.list" class="textSearch-data">
-		    <ts-grid-item style="width:240px" v-for="product in Search.list" :key="product" @click="handleViewProduct(product.id)">
+			<ts-grid :data="Search" class="textSearch-data">
+		    <ts-grid-item style="width:240px" v-for="product in Search" :key="product" @click="handleViewProduct(product.id)">
 		      <ts-image
 		       width="170"
 		       height="170"
@@ -33,13 +34,14 @@
 		  </ts-grid>
       <br/>
 			<div class="imgSearch-tip imgSearch-wrapper">
-        <p><ts-button type="plain" @click="handleLoadMore">查看更多</ts-button></p>
+        <p><ts-button type="plain" @click="handleLoadMore">查看更多花型</ts-button></p>
 				没找到合适的？赶紧
         <router-link tag="a" to="/releasePurchasePage">
           <a>发布求购</a>
         </router-link>
         吧
 			</div>
+			<!-- 合作厂家的列表 -->
 			<div class="imgSearch-bestCompany">
 				<p class="imgSearch-bestCompany-tip">没找到合适的？可以找优质厂家开机</p>
 				<ts-grid :data="companyBestList.list" class="imgSearch-data">
@@ -115,11 +117,12 @@ export default {
       deep: true
     },
     $route(to, from) {
+      this.Search = [];
       this.Params.id = to.query.imgId;
     },
     search: {
       handler(val) {
-        this.Search = val;
+        this.Search = this.Search.concat(val.list.list);
       },
       deep: true
     }
@@ -139,7 +142,7 @@ export default {
     // 去搜索列表第一个数据
     firstProductNo() {
       if (this.Search[0]) {
-        return this.Search.list[0].productNo;
+        return this.Search[0].productNo;
       }
     }
   },
@@ -173,7 +176,7 @@ export default {
       this.$store.commit('SET_HANDLE_STATUS', true);
       this.$store.commit('SET_PROGRESS', 1);
       this.Cropper.show = false;
-			this.historyItems.set(this.Pic.destImg);
+      this.historyItems.set(this.Pic.destImg);
       this.Pic.encoded = this.Pic.destImg;
       await this.$store.dispatch('getSearchEncoded', {
         category: e,

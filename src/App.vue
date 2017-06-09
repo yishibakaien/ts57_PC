@@ -27,6 +27,11 @@ export default {
       this.$store.dispatch('getUserInfo');
     }
     this.$store.dispatch('getDicTree');
+    // 每切换路由都会置顶
+    window.addEventListener('hashchange', () => {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    });
   },
   computed: {
     isClauseRoute() {

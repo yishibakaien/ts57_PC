@@ -161,7 +161,7 @@ export default {
         overflow: hidden;
         visibility: hidden;
     }
-    .is-simple{
+    &.is-simple{
       @modifier select{
         margin:  0 8px;
       }

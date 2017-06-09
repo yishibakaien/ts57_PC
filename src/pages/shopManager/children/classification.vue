@@ -8,7 +8,7 @@
     <div slot="footer" class="classification-footer">
       <ts-button :disabled="chooseItem.length<=0" type="primary" v-show="Params.unbinding" @click="handleUnbindProduct({ids:chooseItem,unbinding:true,classId:Params.classId})">从本类移出</ts-button>
       <ts-button :disabled="chooseItem.length<=0" v-show="!Params.unbinding" type="primary" @click="handleShowDialog(chooseItem)" v-if="false">加入本类</ts-button>
-      <ts-pagination class="classification-footer--pagation" @change="handleChangeCurrent" @page-size-change="handleChangePageSize" :current="BindingProductList.pageNO" :totalPages="BindingProductList.totalPage">
+      <ts-pagination class="classification-footer--pagation" @change="handleChangeCurrent" @page-size-change="handleChangePageSize" :current="BindingProductList.pageNO" :total="BindingProductList.totalPage">
       </ts-pagination>
     </div>
     <!-- 过滤器 -->
