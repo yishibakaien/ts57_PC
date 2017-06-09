@@ -62,7 +62,7 @@
         <ts-image width="200" height="200" :src="addPatternForm.defaultPicUrl" type="local" v-show="Pic.show"></ts-image>
           <label class="add-upload-button">
             {{Pic.text}}
-            <ts-aliupload id="addPic" @doUpload="uploadImg"></ts-aliupload>
+            <ts-aliupload fileType="3" id="addPic" @doUpload="uploadImg"></ts-aliupload>
           </label>
       </ts-form-item>
     <p class="add-list-title">选填内容</p>

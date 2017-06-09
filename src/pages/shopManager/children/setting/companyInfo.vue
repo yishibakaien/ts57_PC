@@ -22,7 +22,7 @@
           <ts-image width="90" height="90" :src="companyInfoForm.companyHeadIcon"></ts-image>
             <label class="companyInfo-upload-button" v-if="!Text.show">
               {{Pic.avatar.text}}
-              <ts-aliupload :id="Pic.avatar.id" @doUpload="uploadAvatar"></ts-aliupload>
+              <ts-aliupload fileType="1" :id="Pic.avatar.id" @doUpload="uploadAvatar"></ts-aliupload>
             </label>
         </ts-form-item>
       </div>
@@ -42,7 +42,7 @@
           <ts-image width="224" height="112" :src="companyInfoForm.companyBanner"></ts-image>
             <label class="companyInfo-upload-button" v-if="!Text.show">
               {{Pic.banner.text}}
-              <ts-aliupload :id="Pic.banner.id" @doUpload="uploadBanner"></ts-aliupload>
+              <ts-aliupload fileType="1" :id="Pic.banner.id" @doUpload="uploadBanner"></ts-aliupload>
             </label>
         </ts-form-item>
       </div>
@@ -59,7 +59,7 @@
         </div>
         <label class="companyInfo-upload-button companyInfo-plus-img" v-if="!Text.show&&companyInfoForm.presence.length<9">
           <!-- {{Pic.banner.text}} -->
-          <ts-aliupload :id="Pic.views.id" @doUpload="uploadViews"></ts-aliupload>
+          <ts-aliupload fileType="2" :id="Pic.views.id" @doUpload="uploadViews"></ts-aliupload>
         </label>
       </ts-form-item>
     </ts-form>

@@ -311,7 +311,7 @@ export const listBuyTaskUserByBuyId = param => axios.get(API.buy.listBuyTaskUser
 // 删除接单
 export const deleteBuyTask = (param) => axios.post(API.buy.deleteBuyTask, param);
 // 获取oss_token
-export const token = () => axios.post(API.oss.token, {fileType: 1});
+export const token = fileType => axios.post(API.oss.token, {fileType: fileType});
 // 获取数据字典
 export const getDicTree = param => axios.get(API.dicTree.byTypeKey, {params: param});
 // 根据级别获取信息

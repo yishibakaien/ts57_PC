@@ -19,7 +19,7 @@
       <ts-image width="200" height="200" :src="addSupplyForm.productPicUrl" v-show='Pic.show' type="local"></ts-image>
       <label class="add-upload-button">
           {{Pic.text}}
-          <aliUpload id="addPic" @doUpload="uploadImg"></aliUpload>
+          <aliUpload fileType="3" id="addPic" @doUpload="uploadImg"></aliUpload>
         </label>
     </ts-form-item>
     <ts-form-item label="供应说明：" prop="supplyDesc">

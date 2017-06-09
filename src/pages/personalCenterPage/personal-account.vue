@@ -2,7 +2,7 @@
 <div class="personal-account">
   <div class="personal-account-item headImg personal-form">
     <label>头像</label>
-    <aliUpload :multiple="false" :id="id" v-on:doUpload="uploadImg"></aliUpload>
+    <aliUpload fileType="1" :multiple="false" :id="id" v-on:doUpload="uploadImg"></aliUpload>
     <div class="headImgSee">
       <label for="headImg" class="lb">重新上传</label>
       <img :src="userHeadUrl" v-errorImg alt="头像" />

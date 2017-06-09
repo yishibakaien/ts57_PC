@@ -111,6 +111,7 @@ export default {
       if (!reg.testMobile(this.userData.userMobile) || !reg.testPWD(this.userData.userPWD)) {
         return;
       }
+      this.userData.userPWD = this.Encrypt(this.userData.userPWD);
       login(this.userData).then((res) => {
         if (res.data.code === 0) {
           this.$store.commit('GET_USERINFO', res.data.data);

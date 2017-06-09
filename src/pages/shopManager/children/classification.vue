@@ -38,7 +38,7 @@
             <span class="classification-table--classList" v-for="i in item.classList">{{i}}</span>
           </div>
           <ts-menu-table-item width="580" class="classification-table--avatar">
-            <ts-image width="80" height="80" :src="item.picsUrl"></ts-image>
+            <ts-image width="80" height="80" :src="item.defaultPicUrl"></ts-image>
           </ts-menu-table-item>
           <!-- Price -->
           <ts-menu-table-item>

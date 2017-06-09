@@ -15,8 +15,8 @@
 			<i class="icon-huaxin"></i>&nbsp;相似花型
 		</ts-title-block>
 		<div class="">
-			<ts-grid :data="Search" class="textSearch-data">
-		    <ts-grid-item style="width:240px" v-for="product in Search" :key="product" @click="handleViewProduct(product.id)">
+			<ts-grid :data="Search.list" class="textSearch-data">
+		    <ts-grid-item style="width:240px" v-for="product in Search.list" :key="product" @click="handleViewProduct(product.id)">
 		      <ts-image
 		       width="170"
 		       height="170"
@@ -119,7 +119,7 @@ export default {
     },
     search: {
       handler(val) {
-        this.Search = val.list.list;
+        this.Search = val;
       },
       deep: true
     }
@@ -139,7 +139,7 @@ export default {
     // 去搜索列表第一个数据
     firstProductNo() {
       if (this.Search[0]) {
-        return this.Search[0].productNo;
+        return this.Search.list[0].productNo;
       }
     }
   },
@@ -235,6 +235,10 @@ export default {
       padding-top: 15px;
     }
   }
+	@component pagination{
+		display: table;
+		margin: 7px auto;
+	}
   @component image-box{
     position: relative;
     max-width: 150px;

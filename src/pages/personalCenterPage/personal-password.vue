@@ -79,8 +79,8 @@
 					});
 					return;
 				}
+				this.param.newPasswd = this.Encrypt(this.param.newPasswd);
 				restPasswd(this.param).then((res) => {
-					console.log(res.data.code);
 					if (res.data.code === 0) {
 						this.showModel();
 					};

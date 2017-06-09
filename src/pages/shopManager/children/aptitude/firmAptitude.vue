@@ -12,7 +12,7 @@
       暂无资质图片
     </div>
     <label class="aptitude-plus-img" v-if="Close.isShow">
-        <ts-aliupload :id="Pic.id" @doUpload="upload"></ts-aliupload>
+        <ts-aliupload fileType="2" :id="Pic.id" @doUpload="upload"></ts-aliupload>
     </label>
   </div>
 </ts-section>

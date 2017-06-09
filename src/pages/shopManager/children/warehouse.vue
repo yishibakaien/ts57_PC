@@ -57,7 +57,7 @@
           询价次数：<a class="warehouse-table--collect" @click.self="handleCollect(item)">{{item.askCount}}</a>
         </ts-menu-table-item>
         <ts-menu-table-item>
-          <a class="warehouse-table--link" v-if="item.publishStatus!==2" @click="handleShelveProduct({goal:2,ids:item.id,isUp:true})">上架平台</a>
+          <a class="warehouse-table--link" v-if="item.publishStatus!==2,getIsStore" @click="handleShelveProduct({goal:2,ids:item.id,isUp:true})">上架平台</a>
           <a class="warehouse-table--link" v-if="item.publishStatus!==1" @click="handleShelveProduct({goal:1,ids:item.id,isUp:true})">上架店铺</a>
           <a class="warehouse-table--link" v-if="item.publishStatus!==0" @click="handleShelveProduct({goal:0,ids:item.id})">下架</a>
           <router-link tag="a" class="warehouse-table--link" :to="{path:'addwarehouse',query:{id:item.id}}">

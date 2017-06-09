@@ -93,9 +93,6 @@
 		},
 		methods: {
 			listProductBuysMethod() {
-//				this.param.buyShapes = null;
-//				this.param.buyStatus = null;
-//				this.param.buyTypes = null;
 				listProductBuys(this.param).then((res) => {
 				if (res.data.code === 0) {
 					this.items = res.data.data.list;
@@ -105,7 +102,6 @@
 			}).catch();
 			},
 			hanleFilterSort(e) {
-				console.log(e);
 				if (e === 'null') {
 					this.param.buyTypes = null;
 				} else {
@@ -115,7 +111,6 @@
 				this.listProductBuysMethod();
 			},
 			handleFilterSupplyShapes(e) {
-				console.log(e);
 				if (e === 'null') {
 					this.param.isStartUp = null;
 				} else {
@@ -125,7 +120,6 @@
 				this.listProductBuysMethod();
 			},
 			hanleFilterFabric(e) {
-				console.log(e);
 				if (e === 'null') {
 					this.param.buyShapes = null;
 				} else {
@@ -135,7 +129,6 @@
 				this.listProductBuysMethod();
 			},
 			selectedPageNum(e) {
-				console.log(e);
 				this.param.pageNo = e;
 				this.listProductBuysMethod();
 			},

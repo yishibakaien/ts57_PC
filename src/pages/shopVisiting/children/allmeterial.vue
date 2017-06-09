@@ -8,6 +8,7 @@
       </ts-radio-group>
     </ts-filter>
   </div>
+  {{Params.pageNo}}
   <ts-grid :data="ProductList.list">
     <ts-grid-item style="width:240px" v-for="product in ProductList.list" :key="product" @click="handleViewProduct(product.id)">
       <ts-image
@@ -24,7 +25,7 @@
        </template>
      </ts-grid-item>
   </ts-grid>
-  <pagination :page="pageData" @selectedPageNum="handleChangePage"></pagination>
+<ts-pagination type="page" :total="ProductList.totalNum"  :current="ProductList.pageNO" :pageSize="ProductList.pageSize" @change="handleChangePage" class="allmeterial-pagination"></ts-pagination>
 </div>
 </template>
 
@@ -45,6 +46,10 @@ export default {
       Filter: {
         classId: null
       },
+      Infinite: {
+        loading: false,
+        wrapperHeight: 0
+      },
       // 数据字典
       DICT: {
         PublishStatus: DICT.PublishStatus,
@@ -57,19 +62,13 @@ export default {
         category: ''
       },
       CategoryList: [],
-      ProductList: {},
-      pageData: {}
+      ProductList: []
     };
   },
   watch: {
     Params: {
       async handler(val) {
         this.ProductList = (await getVistitCompanyProductsList(val)).data.data;
-        this.pageData = {
-          maxNum: this.ProductList.totalPage,
-          pageNO: this.ProductList.pageNO,
-          pageNumArr: []
-        };
       },
       deep: true
     },
@@ -110,6 +109,9 @@ export default {
     ...mapGetters(['dicTree'])
   },
   methods: {
+    handleChangePage(number) {
+      this.Params.pageNo = number;
+    },
     handleFilterCategorys(e) {
       this.Params.category = e;
     },
@@ -117,9 +119,6 @@ export default {
       this.$router.push({
         path: `/product/${id}`
       });
-    },
-    async handleChangePage(number) {
-      this.Params.pageNo = number;
     }
   }
 };
@@ -129,6 +128,10 @@ export default {
 @component-namespace allmeterial{
   @component filter{
     margin-bottom: 16px;
+  }
+  @component pagination{
+    display: table;
+    margin:7px auto;
   }
   @component product{
     @modifier number{

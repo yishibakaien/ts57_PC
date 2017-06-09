@@ -129,7 +129,7 @@ export default {
         });
       } else {
         this.$router.push({
-          path: `/shop/${this.$route.params.id}/s/image`,
+          path: `searchimage`,
           query: {
             imgId: val
           }
@@ -148,7 +148,7 @@ export default {
               } else {
                 this.$store.commit('SET_PROGRESS', ++this.search.progress);
               }
-            }, 10000);
+            }, 1000);
           })();
         }
       },
@@ -156,7 +156,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['dicTree', 'search', 'userInfo']),
+    ...mapGetters(['dicTree', 'search', 'userInfo', 'companyInfo']),
     // 显示5张最近记录
     showPics() {
       return this.Search.picList.length >= 5 ? this.Search.picList.splice(0, 5) : this.Search.picList;
@@ -190,7 +190,7 @@ export default {
           category: e,
           companyId: this.$route.params.id,
           encoded: this.Pic.destImg,
-          searchType: this.searchSelect === 1 ? Number(`${this.userInfo.userType}00`) : 300
+          searchType: this.searchSelect === 1 ? Number(`${this.companyInfo.companyType}00`) : 300
         });
       }
     },
@@ -246,7 +246,7 @@ export default {
           });
         } else {
           this.$router.push({
-            path: `/shop/${this.$route.params.id}/s/text`,
+            path: `searchtext`,
             query: {
               search: value,
               searchType: 1

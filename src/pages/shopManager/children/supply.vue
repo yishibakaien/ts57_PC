@@ -12,8 +12,8 @@
         <ts-radio-group v-model="Filter.supplyStatus" @change="handleFilterSupplyStatus">
           <ts-radio :label='null'>全部({{getToTal}})</ts-radio>
           <ts-radio :label="item.dicValue" :key="item.dicValue" v-for="item in DICT.SupplyStatus">
-            <span v-if="item.dicValue===1">{{item.label}}({{companySupplyList.countSale}})</span>
-            <span v-if="item.dicValue===2">{{item.label}}({{companySupplyList.countSaleOff}})</span>
+            <span v-if="item.dicValue===1">{{item.label}}({{count.countSale}})</span>
+            <span v-if="item.dicValue===2">{{item.label}}({{count.countSaleOff}})</span>
           </ts-radio>
         </ts-radio-group>
       </ts-filter>
@@ -161,6 +161,7 @@ export default {
         day: 7
       },
       companySupplyList: {},
+      count: {},
       // 选择
       chooseItem: [],
       Filter: {
@@ -175,17 +176,15 @@ export default {
       this.Filter = JSON.parse(sessionStorage.getItem('supply-filter'));
       this.Params = Object.assign({}, this.Params, this.Filter);
     }
+    this.count = (await companySupplyCountByStatus()).data.data;
     this.companySupplyList = (await getCompanySupplylist(this.Params)).data.data;
-    let counts = (await companySupplyCountByStatus()).data.data;
-    this.companySupplyList = Object.assign({}, this.companySupplyList, counts);
-    console.log('this.companySupplyList', this.companySupplyList);
     // 默认创建一个cookie
     !this.getCookie(this.Cookie.key) ? this.setCookie(this.Cookie.key, this.Cookie.value, this.Cookie.day) : '';
   },
   computed: {
     ...mapGetters(['dicTree']),
     getToTal() {
-      return this.companySupplyList.countSale + this.companySupplyList.countSaleOff;
+      return this.count.countSale + this.count.countSaleOff;
     }
   },
   beforeDestroy() {

@@ -7,7 +7,7 @@
       </router-link>
     </div>
     <div class="update-container">
-      <factory-update @viewProduct="handleViewProduct" @viewStore="handleViewStore" :data="NewProductList"></factory-update>
+      <factory-update @viewProduct="handleViewProduct" @viewStore="handleViewStore" :data="NewProductList.list"></factory-update>
     </div>
   </ts-section>
 </template>

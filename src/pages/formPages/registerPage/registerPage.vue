@@ -285,8 +285,6 @@ export default {
         }
         // 点击注册时表单漏填的情况
         if (!data[key]) {
-          console.log(data[key]);
-          console.log(key + 'Tip');
           switch (key) {
             case 'userType':
               Toast({
@@ -342,6 +340,7 @@ export default {
         });
         return;
       }
+      this.registerData.userPWD = this.Encrypt(this.registerData.userPWD);
       reg(this.registerData)
         .then(res => {
           if (res.data.code !== 0) {

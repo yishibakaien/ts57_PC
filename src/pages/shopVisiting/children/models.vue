@@ -45,7 +45,7 @@
            height="170"
            :canView="false"
            disabledHover
-           :src="product.defaultPicUrl">
+           :src="product.productPicUrl">
            </ts-image>
          </ts-grid-item>
       </ts-grid>

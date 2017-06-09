@@ -2,7 +2,7 @@
 <div class="allmeterial-wrapper">
   <div class="allmeterial-filter">
     <ts-filter title="供应分类">
-      <ts-radio-group v-model="Params.supplyTypes">
+      <ts-radio-group v-model="Params.supplyType">
         <ts-radio :label="null">全部</ts-radio>
         <ts-radio :label="item.dicValue" v-for="item in dicTree.PRODUCT_TYPE" :key="item.dicValue">{{item.name}}</ts-radio>
       </ts-radio-group>
@@ -21,17 +21,15 @@
        height="170"
        :canView="false"
        disabledHover
-       :src="product.defaultPicUrl">
+       :src="product.productPicUrl">
        </ts-image>
        <p class="allmeterial-product--number">{{product.productNo}}</p>
        <template slot="footer">
-         ¥{{product.supplyNum}}/{{product.supplyUnit | filterDict(DICT.PriceUnits) }}
-         <ts-tag>{{product.supplyStatus | filterDict(DICT.SupplyStatus)}}</ts-tag>
+         <span class="allmeterial-desc">{{product.supplyDesc}}</span>
        </template>
      </ts-grid-item>
   </ts-grid>
-  <pagination :page="pageData" @selectedPageNum="handleChangePage"></pagination>
-
+<ts-pagination type="page" :total="ProductList.totalNum"  :current="ProductList.pageNO" :pageSize="ProductList.pageSize" @change="handleChangePage" class="allmeterial-pagination"></ts-pagination>
 </div>
 </template>
 
@@ -55,10 +53,9 @@ export default {
         pageSize: 10,
         pageNo: 1,
         companyId: '',
-        supplyTypes: null,
+        supplyType: null,
         supplyShapes: null
       },
-      pageData: {},
       CategoryList: [],
       ProductList: {}
     };
@@ -67,11 +64,6 @@ export default {
     Params: {
       async handler(val) {
         this.ProductList = (await getVisitCompanySupplyList(val)).data.data;
-        this.pageData = {
-          maxNum: this.ProductList.totalPage,
-          pageNO: this.ProductList.pageNO,
-          pageNumArr: []
-        };
       },
       deep: true
     }
@@ -86,7 +78,10 @@ export default {
   methods: {
     handleViewProduct(id) {
       this.$router.push({
-        path: `/product/${id}`
+        path: `/supplyDetailPage`,
+        query: {
+          supplyId: id
+        }
       });
     },
     handleChangePage(number) {
@@ -100,6 +95,13 @@ export default {
 @component-namespace allmeterial{
   @component filter{
     margin-bottom: 16px;
+  }
+  @component pagination{
+    display: table;
+      margin:7px auto;
+  }
+  @component desc{
+    @utils-ellipsis;
   }
   @component product{
     @modifier number{

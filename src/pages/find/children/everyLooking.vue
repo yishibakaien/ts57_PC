@@ -2,7 +2,7 @@
     <div class="">
       <ts-title-block>大家在找</ts-title-block>
       <ts-grid :data="History.list">
-         <ts-grid-item v-for="(product,index) in History.list" :key="product" @click="handleViewProduct(product.productId)">
+         <ts-grid-item v-for="(product,index) in History.list" :key="product" @click="handleViewProduct(product.id)">
            <ts-image
             width="170"
             height="170"
@@ -16,6 +16,7 @@
             </template>
           </ts-grid-item>
       </ts-grid>
+      <ts-pagination type="page" :total="History.totalNum" :current="History.pageNO" :pageSize="History.pageSize" class="everyLooking-pagination" @change="handleChangePage"></ts-pagination>
     </div>
 </template>
 
@@ -32,7 +33,7 @@ export default {
       History: {},
       Params: {
         pageNo: 1,
-        pageSize: 12
+        pageSize: 6
       },
       BurstHotSearch: {}
     };
@@ -40,15 +41,34 @@ export default {
   computed: {
     ...mapGetters(['dicTree'])
   },
+  watch: {
+    Params: {
+      async handler(val) {
+        this.History = (await searchHistory(this.Params)).data.data;
+      },
+      deep: true
+    }
+  },
   methods: {
+    handleChangePage(number) {
+      this.Params.pageNo = number;
+    },
     handleViewProduct(id) {
       this.$router.push({
         path: `/product/${id}`
       });
     }
   },
-  async created() {
+  async mounted() {
     this.History = (await searchHistory(this.Params)).data.data;
   }
 };
 </script>
+<style scoped>
+  @component-namespace everyLooking{
+    @component pagination{
+      margin: 7px auto;
+      display: table;
+    }
+  }
+</style>

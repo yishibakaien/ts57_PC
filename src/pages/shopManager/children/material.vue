@@ -3,7 +3,7 @@
     <div slot="menu">
       <label>
           <i class="icon-fangda material-add--icon"></i>
-          <ts-aliupload id="addMaterial" @doUpload="uploadImg"></ts-aliupload>
+          <ts-aliupload fileType="2" id="addMaterial" @doUpload="uploadImg"></ts-aliupload>
       </label>
       <ts-button :type="Edit.status?'cancel':'primary'" :class="Edit.status?'':'button-blue'" @click="Edit.status=!Edit.status">{{Edit.text}}</ts-button>
     </div>

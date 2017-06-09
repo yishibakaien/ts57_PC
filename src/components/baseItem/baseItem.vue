@@ -35,7 +35,7 @@ export default {
     typeComputed() {
       if (this.type === 'supply') {
         return '供应';
-      } else if (this.type === 'buy') {
+      } else if (this.type === 'purchase') {
         return '求购';
       } else if (this.type === 'searchText') {
         return '';
@@ -56,23 +56,25 @@ export default {
       }
     },
     unit() {
+      this.$nextTick(() => {
+        if (this.type === 'supply') {
+          unit = this.item.supplyUnit;
+          this.num = this.item.supplyNum;
+          this.desc = this.item.supplyDesc;
+          this.picUrl = this.item.productPicUrl;
+        }
+        if (this.type === 'purchase') {
+          unit = this.item.buyUnit;
+          this.num = this.item.buyNum;
+          this.desc = this.item.buyDesc;
+          this.picUrl = this.item.buyPicUrl;
+        }
+        if (this.type === 'searchText') {
+          this.picUrl = this.item.defaultPicUrl;
+          this.desc = this.item.companyName;
+        }
+      });
       let unit;
-      if (this.type === 'supply') {
-        unit = this.item.supplyUnit;
-        this.num = this.item.supplyNum;
-        this.desc = this.item.supplyDesc;
-        this.picUrl = this.item.productPicUrl;
-      }
-      if (this.type === 'buy') {
-        unit = this.item.buyUnit;
-        this.num = this.item.buyNum;
-        this.desc = this.item.buyDesc;
-        this.picUrl = this.item.buyPicUrl;
-      }
-      if (this.type === 'searchText') {
-        this.picUrl = this.item.defaultPicUrl;
-        this.desc = this.item.companyName;
-      }
       if (unit === 400010) {
         return '码';
       }
@@ -86,8 +88,6 @@ export default {
   },
   methods: {
     itemClick(id) {
-      console.log(id);
-      console.log(this.type);
       if (this.type === 'buy') {
         console.log('purchaseClick');
         this.$emit('purchaseClick', id);

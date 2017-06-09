@@ -44,7 +44,7 @@
             注册资本
           </div>
           <div class="grid-col-tab-3 is-content">
-            <!-- {{companyExtendBO.registeredMoney | filterDict(DICT.RegisteredMoney)}} -->
+            {{companyExtendBO.registeredMoney | filterDict(DICT.RegisteredMoney)}}
           </div>
           <div class="grid-col-tab-1 is-title">
             地区

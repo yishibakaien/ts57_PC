@@ -37,6 +37,7 @@
 			       </template>
 			     </ts-grid-item>
 			  </ts-grid>
+				<ts-pagination type="page" class="textSearch-pagination" :total="Search.totalNum" :current="Search.pageNO" :pageSize="Search.pageSize" @change="handleChangeProductNum"></ts-pagination>
 			</ts-tab-container-item>
 			<!-- 搜索厂家 -->
 			<ts-tab-container-item id="2">
@@ -52,6 +53,7 @@
 					 <p class="allmeterial-product--number">{{product.companyName}}</p>
 				 </ts-grid-item>
 			</ts-grid>
+			<ts-pagination type="page" :total="SearchCompany.totalNum" class="textSearch-pagination" :current="SearchCompany.pageNO" @change="handleChangeCompanyNum" :pageSize="SearchCompany.pageSize"></ts-pagination>
 		</ts-tab-container-item>
 			</ts-tab-container>
 	  </div>
@@ -101,6 +103,12 @@ export default {
       this.$router.push({
         path: `/shop/${id}`
       });
+    },
+		handleChangeProductNum(number) {
+      this.Params.pageNo = number;
+    },
+		handleChangeCompanyNum(number) {
+      this.CompanySearchParams.pageNo = number;
     },
     handleGotoProduct(id) {
       this.$router.push({
@@ -157,6 +165,10 @@ export default {
 	@component data{
 		margin: 16px 0;
 		background: #fff;
+	}
+	@component pagination{
+		display: table;
+		margin: 7px auto;
 	}
 	@component tab-item{
 		max-width: 150px;

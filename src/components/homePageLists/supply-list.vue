@@ -64,9 +64,7 @@ export default {
     baseItem,
     listTile
   },
-  props: {
-    supplyListObj: {}
-  }
+  props: ['supplyListObj']
 };
 </script>
 

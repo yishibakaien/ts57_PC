@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="factory">
-    <div class="factory-row" v-for="store in data.list">
+    <div class="factory-row" v-for="store in data">
       <div class="factory-row--left" :style="{'width':width}">
         <ts-image
          width="100"
@@ -67,7 +67,7 @@ export default {
   computed: {
     ...mapGetters(['dicTree']),
     getPublishDate() {
-      let firstPublish = this.data.list[0].productList[0];
+      let firstPublish = this.data[0].productList[0];
       if (firstPublish) {
         return firstPublish.publishDate;
       }

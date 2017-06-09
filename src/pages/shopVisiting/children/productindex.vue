@@ -3,15 +3,15 @@
     <div v-for="(item,index) in CompanyProducts">
       <ts-title-block :bodyStyle="{'font-size':'20px'}">
         <i class="icon-huaxin"></i>&nbsp;{{item.className}}
-        <a slot="menu" v-if="!!item.list.length" @click="handleGoto(item)">
+        <a slot="menu" v-if="!!item.list.length&&item.classId!==getHotSearch" @click="handleGoto(item)">
             更多&nbsp;&nbsp;<i class="icon-gengduo"></i>
         </a>
       </ts-title-block>
       <ts-grid :type="item.className==='全部花型'?'flexbox':'table'" :data="item.list">
-        <ts-grid-item :style="{'width':item.classId===22659?'400px':'240px'}" v-for="(product,e) in item.list" :key="product" @click="handleViewProduct(product.id)">
-          <span class="topRanking productIndex-rank" :class="'topRanking_'+e" v-if="item.classId===22659"></span>
+        <ts-grid-item :style="{'width':item.classId===getHotSearch?'400px':'240px'}" v-for="(product,e) in item.list" :key="product" @click="handleViewProduct(product.id)">
+          <span class="topRanking productIndex-rank" :class="'topRanking_'+e" v-if="item.classId===getHotSearch"></span>
           <ts-image
-           width="170"
+           :width="getHotSearch?'':170"
            height="170"
            :canView="false"
            disabledHover
@@ -77,6 +77,13 @@ export default {
       }
     }
   },
+  computed: {
+    getHotSearch() {
+      if (this.CategoryList.some(item => item.className === '爆款')) {
+        return this.CategoryList.filter(item => item.className === '爆款')[0].id;
+      }
+    }
+  },
   async created() {
     // ========
     // 绑定公司ID
@@ -98,7 +105,7 @@ export default {
       this.Params.classId = this.CategoryList[i].id;
       // 如果为爆款=>加载3款，
       // 其他加载5款
-      this.Params.pageSize = this.CategoryList[i].id === 22659 ? 3 : 5;
+      this.Params.pageSize = this.CategoryList[i].id === this.getHotSearch ? 3 : 5;
       let lists = (await getCompanyBindingProductList(this.Params)).data.data.list;
       this.CompanyProducts.push({
         classId: this.CategoryList[i].id,

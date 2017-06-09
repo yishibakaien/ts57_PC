@@ -46,7 +46,7 @@
         </div>
         <div slot="footer">
           <div class="enquiry-dialog-footer">
-            <ts-button type="primary">访问店铺</ts-button>
+            <ts-button type="primary" @click="handleGotoStore(enquiryEskUser)">访问店铺</ts-button>
           </div>
         </div>
     </ts-dialog>
@@ -106,6 +106,11 @@ export default {
     ...mapGetters(['dicTree'])
   },
   methods: {
+    handleGotoStore(item) {
+      this.$router.push({
+        path: `/shop/${item.companyId}`
+      });
+    },
     // 搜索
     async handleSearch() {
       this.Params = Object.assign({}, this.Params, {
@@ -123,7 +128,7 @@ export default {
     // 查看花型
     hanleVisitProduct(item) {
       this.$router.push({
-        path: `/product/${item.id}`
+        path: `/product/${item.productId}`
       });
     },
     // ======

@@ -28,7 +28,6 @@ const clause = r => require.ensure([], () => r(require('@/pages/clause/')), 'cla
 const threeDDress = r => require.ensure([], () => r(require('@/pages/3DDress/')), 'threeDDress');
 // 店铺访问
 const shopVisiting = r => require.ensure([], () => r(require('@/pages/shopVisiting/')), 'shopVisiting');
-const shopSearch = r => require.ensure([], () => r(require('@/pages/shopVisiting/children/search')), 'shopVisiting');
 const shopAllMeterials = r => require.ensure([], () => r(require('@/pages/shopVisiting/children/allmeterial')), 'shopVisiting');
 const shopCompanyIntro = r => require.ensure([], () => r(require('@/pages/shopVisiting/children/companyintro')), 'shopVisiting');
 const shopModels = r => require.ensure([], () => r(require('@/pages/shopVisiting/children/models')), 'shopVisiting');
@@ -201,18 +200,11 @@ const routes = [
         component: shopAllMeterials,
         name: '所有花型'
       }, {
-        path: 's',
-        component: shopSearch,
-        children: [
-          {
-            path: 'text',
-            component: textSearch
-          }, {
-            path: 'image',
-            component: imgSearch
-          }
-        ],
-        name: '店内搜索'
+        path: 'searchtext',
+        component: textSearch
+      }, {
+        path: 'searchimage',
+        component: imgSearch
       }, {
         path: 'supplies',
         component: shopSupplies,
