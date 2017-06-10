@@ -4,7 +4,8 @@ import Toast from '@/components/common/toast/toast';
 // x-client
 axios.defaults.headers['x-client'] = 1;
 // http://api.tswq.wang
-axios.defaults.baseURL = 'http://192.168.2.11/api';
+// http://192.168.2.11/api
+axios.defaults.baseURL = 'http://api.tswq.wang';
 // x-token
 axios.defaults.headers['x-token'] = localStorage.getItem('x-token') || '';
 store.commit('LOGIN', axios.defaults.headers['x-token'] || '');

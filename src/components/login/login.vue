@@ -13,7 +13,6 @@
 
     <div class="login-body">
       <div class="login-main" v-if="showLogin">
-
         <div class="input-wrapper">
           <div class="input-phone" :class="{warn: telTip}">
             <div class="tip" v-if="telTip">{{telTip}}</div>
