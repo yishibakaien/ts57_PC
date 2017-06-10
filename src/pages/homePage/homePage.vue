@@ -16,11 +16,11 @@
   <div class="homePage-box">
     <div class="list">
       <!-- 求购列表 -->
-      <purchase-list :purchase-list-obj="purchaseListObj"></purchase-list>
+      <purchase-list :supply-list-obj="supplyListObj"></purchase-list>
     </div>
     <div class="list">
       <!-- 供应列表 -->
-      <supply-list :supply-list-obj="supplyListObj"></supply-list>
+      <supply-list :purchase-list-obj="purchaseListObj"></supply-list>
     </div>
     <div class="list">
       <!-- 入驻厂家 -->
