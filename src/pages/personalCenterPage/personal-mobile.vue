@@ -79,6 +79,7 @@
 				});
 			},
 			checkPasswdMethod() {
+				this.param.userPasswd = this.Encrypt(this.param.userPasswd);
 				checkPasswd(this.param).then((res) => {
 					if (res.data.code === 0) {
 						if (res.data.data) {
