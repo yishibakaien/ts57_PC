@@ -78,7 +78,6 @@ export default {
     document.addEventListener('mouseup', () => {
       this.mouseup();
     });
-    // console.log(this.value);
     this.canvas.ctx = this.$refs.canvas.getContext('2d');
   },
   computed: {
@@ -109,6 +108,7 @@ export default {
   },
   methods: {
     setImageURL(url) {
+      this.image.crossOrigin = 'anonymous';
       this.image.onload = () => {
         this.draw();
       };

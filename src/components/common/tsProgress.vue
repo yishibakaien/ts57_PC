@@ -47,11 +47,9 @@ export default {
     line-height: 1;
   }
   @component progress-bar{
-    padding-right: 50px;
     display: inline-block;
     vertical-align: middle;
     width: 100%;
-    margin-right: -55px;
     box-sizing: border-box;
     @descendent outer {
       height: 6px;

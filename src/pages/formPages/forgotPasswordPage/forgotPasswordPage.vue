@@ -176,14 +176,14 @@
 		text-align: center;
 		cursor: pointer;
 	}
-	
+
 	.fgPwd-box {
 		position: relative;
 		width: 100%;
 		height: 732px;
 		background: url(../../../../static/images/beijing.jpg);
 	}
-	
+
 	.fgPwd-form {
 		position: absolute;
 		top: 16%;

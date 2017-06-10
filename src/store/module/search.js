@@ -4,7 +4,7 @@ const state = {
   // 搜索-BASE64文本
   search: {
     id: '',
-    list: '',
+    list: [],
     progress: 0,
     handleStatus: false,
     setInterval: null
@@ -13,7 +13,10 @@ const state = {
 
 const mutations = {
   GET_SEARCH_LIST(state, info) {
-    state.search.list = info;
+    state.search.list = state.search.list.concat(info);
+  },
+  SET_SEARCH_EMPTY(state) {
+    state.search.list = [];
   },
   GET_SEARCH_ID(state, id) {
     state.search.id = id;
@@ -51,7 +54,7 @@ const actions = {
   async searchGetResult({
     commit
   }, param) {
-    let data = (await searchGetResult(param)).data.data;
+    let data = (await searchGetResult(param)).data.data.list;
     commit('GET_SEARCH_LIST', data);
   }
 };

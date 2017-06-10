@@ -36,7 +36,7 @@
              height="100"
              :canView="false"
              disabledHover
-             :src="`${MODEL_THUMBNAIL_DOMAIN}/${item}`">
+             :src="`${MODEL_THUMBNAIL_DOMAIN}${item}`">
              </ts-image>
            </ts-grid-item>
         </ts-grid>

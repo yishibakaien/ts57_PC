@@ -43,9 +43,6 @@
   </div>
   <!-- 裁剪图片 -->
   <cropper-dialog :dialog="Cropper" :imageUrl="Pic.url" @change="handleGetDestImg" @close="handleCancelFind">
-    <!-- <ts-radio-group v-model="Filter.categorys" class="search-editPic--menu" @change="handleLookProduct">
-      <ts-radio :label="item.dicValue" v-for="item in dicTree.PRODUCT_TYPE" :key="item.dicValue">搜{{item.name}}</ts-radio>
-    </ts-radio-group> -->
     <div class="search-editPic--menu">
       <ts-button type="primary" v-for="item in dicTree.PRODUCT_TYPE" :key="item.dicValue" @click="handleLookProduct(item.dicValue)">搜{{item.name}}</ts-button>
     </div>
@@ -73,11 +70,8 @@ export default {
       Cropper: {
         show: false
       },
-      Filter: {
-        categorys: ''
-      },
       Progress: {
-        Interval: null
+        interval: null
       },
       Pic: {
         isUploaded: false,
@@ -110,9 +104,9 @@ export default {
       default: '可输入厂名或编号查找'
     }
   },
-  destroyed() {
-    this.$store.commit('SET_HANDLE_STATUS', false);
-    this.$store.commit('CLEAR_INTERVAL');
+  beforeDestroy() {
+    this.$store.commit('SET_PROGRESS', 1);
+    clearInterval(this.Progress.interval);
   },
   watch: {
     $route(to, from) {
@@ -120,9 +114,17 @@ export default {
         this.Search.val = to.query.search;
       }
     },
+    // dicTree: {
+    //   handler(val) {
+    //     this.dicTree.PRODUCT_TYPE = val.PRODUCT_TYPE;
+    //   },
+    //   deep: true
+    // },
     'search.id' (val) {
       this.$store.commit('SET_PROGRESS', 100);
       this.$store.commit('SET_HANDLE_STATUS', false);
+      this.$store.commit('CLEAR_INTERVAL');
+      clearInterval(this.Progress.interval);
       if (this.globalLook) {
         this.$router.push({
           path: '/search/image',
@@ -142,18 +144,6 @@ export default {
     Pic: {
       handler(val) {
         val.show = !!val.url;
-        if (this.search.handleStatus) {
-          (() => {
-            let interval = setInterval(() => {
-              if (this.search.progress === 95) {
-                this.$store.commit('SET_PROGRESS', 95);
-                clearInterval(interval);
-              } else {
-                this.$store.commit('SET_PROGRESS', ++this.search.progress);
-              }
-            }, 1000);
-          })();
-        }
       },
       deep: true
     }
@@ -182,6 +172,16 @@ export default {
       this.Cropper.show = false;
       this.$store.commit('SET_PROGRESS', 1);
       this.$store.commit('SET_HANDLE_STATUS', true);
+      if (this.search.handleStatus) {
+        this.Progress.interval = setInterval(() => {
+          if (this.search.progress === 95) {
+            this.$store.commit('SET_PROGRESS', 95);
+            clearInterval(this.Progress.interval);
+          } else {
+            this.$store.commit('SET_PROGRESS', ++this.search.progress);
+          }
+        }, 1000);
+      }
       if (this.globalLook) {
         await this.$store.dispatch('getSearchEncoded', {
           category: e,
@@ -290,7 +290,7 @@ export default {
     color: #4c93fd;
   }
   @component editPic {
-    padding: 4px;
+    padding: 10px;
     position: absolute * 0 * 0;
     background: #fff;
     z-index: 2;
@@ -302,7 +302,7 @@ export default {
       text-align: center;
       clear: both;
       padding-top: 16px;
-      button{
+      button {
         margin: 0 4px;
       }
     }

@@ -1,31 +1,31 @@
 <template>
-  <div class="supply-list">
-    <div class="left-brand">
-      <div class="brand-header">
-        <div class="brand-name">
-        	<i class="arrow"></i>
-        	<i class="arrow-bg"></i>
-          <div class="left">
-            <p class="brand-title">厂家供应</p>
-            <p class="brand-desc">海量厂家真实供货渠道</p>
-          </div>
-          <div class="right">
-            <i class="iconfont icon-gongying"></i>
-          </div>
+<div class="supply-list">
+  <div class="left-brand">
+    <div class="brand-header">
+      <div class="brand-name">
+        <i class="arrow"></i>
+        <i class="arrow-bg"></i>
+        <div class="left">
+          <p class="brand-title">厂家供应</p>
+          <p class="brand-desc">海量厂家真实供货渠道</p>
+        </div>
+        <div class="right">
+          <i class="iconfont icon-gongying"></i>
         </div>
       </div>
-      <div class="brand-body">
-      <ts-input type="textarea" class="supply-textarea" :rows="6" :maxLength="60" placeholder="请填写供应花型的详细描述，如花高，宽幅等信息" v-model="text"></ts-input>
-        <button @click="releaseSupply" class="button button-plain button-block button-plain-blue">发布供应</button>
-      </div>
     </div>
-    <div class="right-list">
-      <list-tile :title-text="titleText"></list-tile>
-      <div class="item-wrapper"  v-for="item in purchaseListObj.data">
-        <base-item :item="item" type="purchase" @purchaseClick="goPurchaseDetailPage"></base-item>
-      </div>
+    <div class="brand-body">
+      <ts-input type="textarea" class="supply-textarea" :rows="6" :maxLength="60" placeholder="请填写供应花型的详细描述，如花高，宽幅等信息" v-model="text"></ts-input>
+      <button @click="releaseSupply" class="button button-plain button-block button-plain-blue">发布供应</button>
     </div>
   </div>
+  <div class="right-list">
+    <list-tile :title-text="titleText"></list-tile>
+    <div class="item-wrapper" v-for="item in data">
+      <base-item :item="item" type="purchase" @purchaseClick="goPurchaseDetailPage"></base-item>
+    </div>
+  </div>
+</div>
 </template>
 
 <script>
@@ -39,8 +39,17 @@ export default {
         extend: '更多求购',
         type: 'purchase'
       },
+      data: [],
       text: ''
     };
+  },
+  watch: {
+    purchaseListObj: {
+      handler(val) {
+        this.data = val.data;
+      },
+      deep: true
+    }
   },
   props: ['purchaseListObj'],
   methods: {
@@ -53,12 +62,7 @@ export default {
       });
     },
     goPurchaseDetailPage(id) {
-      this.$router.push({
-        path: '/purchaseDetailPage',
-        query: {
-          purchaseId: id
-        }
-      });
+      this.goto(`/purchaseDetailPage?purchaseId=${id}`);
     }
   },
   components: {

@@ -15,8 +15,6 @@ import supplyDetailPage from './homePage/supplyListPage/supplyDetailPage/supplyD
 
 // 更多优质厂家
 import entryListPage from './homePage/entryListPage/entryListPage';
-// 个人中心
-import personalCenterPage from './personalCenterPage/personalCenterPage';
 
 // 注册、登录、修改密码等表单页面
 import loginPage from './formPages/loginPage/loginPage';
@@ -27,7 +25,6 @@ import forgotPasswordPage from './formPages/forgotPasswordPage/forgotPasswordPag
 import promptDown from './totalPages/promptDown';
 
 export {
-  personalCenterPage,
   loginPage,
   registerPage,
   forgotPasswordPage,

@@ -197,7 +197,7 @@
 								message: '已成功删除接单信息'
 							});
 							_.$router.push({
-								path: '/homePage'
+								path: '/'
 							});
 						}
 					}).catch();
@@ -214,7 +214,7 @@
 								message: '已成功关闭该求购'
 							});
 							this.$router.push({
-								path: '/homePage'
+								path: '/'
 							});
 						}
 					}).catch();

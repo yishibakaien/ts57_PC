@@ -16,8 +16,8 @@
 		</ts-title-block>
 		<!-- 图片列表 -->
 		<div class="">
-			<ts-grid :data="Search" class="textSearch-data">
-		    <ts-grid-item style="width:240px" v-for="product in Search" :key="product" @click="handleViewProduct(product.id)">
+			<ts-grid :data="search.list" class="textSearch-data">
+		    <ts-grid-item style="width:240px" v-for="product in search.list" :key="product" @click="handleViewProduct(product.id)">
 		      <ts-image
 		       width="170"
 		       height="170"
@@ -68,9 +68,9 @@
 			<p>400-801-3357</p>
 		</div>
     <cropper-dialog :dialog="Cropper" :imageUrl="Pic.encoded" @change="handleGetDestImg">
-      <ts-radio-group v-model="Filter.categorys" class="imgSearch-editPic--menu" @change="handleLookProduct">
-        <ts-radio :label="item.dicValue" v-for="item in dicTree.PRODUCT_TYPE" :key="item.dicValue">搜{{item.name}}</ts-radio>
-      </ts-radio-group>
+			<div class="imgSearch-editPic--menu">
+	      <ts-button type="primary" v-for="item in dicTree.PRODUCT_TYPE" :key="item.dicValue" @click="handleLookProduct(item.dicValue)">搜{{item.name}}</ts-button>
+	    </div>
     </cropper-dialog>
 	</div>
 </template>
@@ -90,9 +90,6 @@ export default {
       Cropper: {
         show: false
       },
-      Filter: {
-        categorys: ''
-      },
       companyBestList: {},
       Pic: {
         destImg: '',
@@ -101,7 +98,6 @@ export default {
         naturalWidth: 0,
         encoded: ''
       },
-      Search: [],
       Params: {
         id: '',
         pageNo: 1,
@@ -110,20 +106,15 @@ export default {
     };
   },
   watch: {
-    Params: {
-      handler(val) {
-        this.$store.dispatch('searchGetResult', this.Params);
-      },
-      deep: true
-    },
     $route(to, from) {
-      this.Search = [];
+      this.Params.pageNo = 1;
       this.Params.id = to.query.imgId;
-			this.Pic.encoded = this.Pic.destImg;
+      this.$store.commit('SET_SEARCH_EMPTY');
+      this.$store.dispatch('searchGetResult', this.Params);
     },
     search: {
       handler(val) {
-        this.Search = this.Search.concat(val.list.list);
+        this.Pic.encoded = val.list[0].defaultPicUrl;
       },
       deep: true
     }
@@ -131,9 +122,11 @@ export default {
   components: {
     CropperDialog
   },
-  destroyed() {
+  beforeDestroy() {
+    this.$store.commit('SET_PROGRESS', 1);
     this.$store.commit('SET_HANDLE_STATUS', false);
     this.$store.commit('CLEAR_INTERVAL');
+    this.$store.commit('SET_SEARCH_EMPTY');
   },
   computed: {
     ...mapGetters(['search', 'dicTree']),
@@ -142,14 +135,15 @@ export default {
     },
     // 去搜索列表第一个数据
     firstProductNo() {
-      if (this.Search[0]) {
-        return this.Search[0].productNo;
+      if (this.search.list[0]) {
+        return this.search.list[0].productNo;
       }
     }
   },
   methods: {
     handleLoadMore() {
       this.Params.pageNo++;
+      this.$store.dispatch('searchGetResult', this.Params);
     },
     // 进入商店
     handleGotoShop(item) {
@@ -193,19 +187,18 @@ export default {
       }
     },
     handleViewProduct(id) {
-			this.goto(`/product/${id}`);
+      this.goto(`/product/${id}`);
     }
   },
   async created() {
     if (this.$route.query.imgId) {
       this.Params.id = this.$route.query.imgId;
+      this.$store.dispatch('searchGetResult', this.Params);
       this.companyBestList = (await getCompanyBestList({
         pageNo: 1,
         pageSize: 3
       })).data.data;
     }
-    // 从sessionStorage获取裁剪的图片
-    this.Pic = JSON.parse(sessionStorage.getItem('find-pic'));
   }
 };
 </script>
@@ -231,10 +224,14 @@ export default {
 		}
 	}
   @component editPic{
-    @modifier menu{
-      clear: both;
-      padding-top: 15px;
-    }
+		@modifier menu {
+			text-align: center;
+			clear: both;
+			padding-top: 16px;
+			button {
+				margin: 0 4px;
+			}
+		}
   }
 	@component pagination{
 		display: table;
@@ -303,6 +300,7 @@ export default {
 			}
 		}
 	}
+
 	@component wrapper{
 		text-align: center;
 	}

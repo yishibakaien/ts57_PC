@@ -54,12 +54,7 @@ export default {
       });
     },
     goSupplyDetailPage(id) {
-      this.$router.push({
-        path: '/supplyDetailPage',
-        query: {
-          supplyId: id
-        }
-      });
+      this.goto(`/supplyDetailPage?supplyId=${id}`);
     }
   },
   components: {

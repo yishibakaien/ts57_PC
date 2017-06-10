@@ -3,7 +3,6 @@ import Router from 'vue-router';
 import store from '../store/store';
 
 import {
-  personalCenterPage,
   loginPage,
   registerPage,
   forgotPasswordPage,
@@ -17,6 +16,9 @@ Vue.use(Router);
 // created By HZC
 // =============
 const homePage = r => require.ensure([], () => r(require('@/pages/homePage/homePage.vue')), 'homePage');
+// =============
+const personalCenterPage = r => require.ensure([], () => r(require('@/pages/personalCenterPage/personalCenterPage')), 'personalCenterPage');
+// =============
 const productAdd = r => require.ensure([], () => r(require('@/pages/homePage/addProductPage/addProduct.vue')), 'productAdd');
 const flowerDetail = r => require.ensure([], () => r(require('@/pages/homePage/flowerDetailPage/flowerDetailPage.vue')), 'flowerDetail');
 const search = r => require.ensure([], () => r(require('@/pages/homePage/searchResultPage/index.vue')), 'search');
@@ -147,10 +149,16 @@ const routes = [
     }
   }, {
     path: '/purchaseListPage', // 求购列表
+    meta: {
+      needAuth: true
+    },
     component: purchaseListPage
   }, {
     path: '/purchaseDetailPage', // 求购详情
-    component: purchaseDetailPage
+    component: purchaseDetailPage,
+    meta: {
+      needAuth: true
+    }
   }, {
     path: '/product/:id', // 花型详情
     meta: {
@@ -166,12 +174,21 @@ const routes = [
     }
   }, {
     path: '/supplyListPage', // 供应列表
-    component: supplyListPage
+    component: supplyListPage,
+    meta: {
+      needAuth: true
+    }
   }, {
     path: '/supplyDetailPage', // 供应详情
-    component: supplyDetailPage
+    component: supplyDetailPage,
+    meta: {
+      needAuth: true
+    }
   }, {
     path: '/entryListPage', // 厂家列表
+    meta: {
+      needAuth: true
+    },
     component: entryListPage
   }, {
     path: '/loginPage',
