@@ -228,5 +228,5 @@ export const Encrypt = (word) => {
   return encrypted.toString();
 };
 export const goto = (url) => {
-  window.open(`#${url}`);
+  window.open(`${url}`);
 };
