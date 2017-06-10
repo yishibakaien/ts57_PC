@@ -13,32 +13,35 @@
       </span>
     </div>
     <div class="right">
+      <!-- 个人中心 -->
       <a @click="handleGotoPerson" class="link">个人中心</a>
       <div class="app-qrcode">
+        <!-- 坐视不管 -->
         <i class="iconfont icon-shouji"></i>
         <span>坐视布管</span>
         <div class="qrcode-content">
           <div class="qrcode clearfix">
             <div class="img-wrapper">
-              <img src="" width="100" height="100">
+              <qrcode-vue :value="getAndriodLink" size="50" level="M"></qrcode-vue>
             </div>
             <div class="desc">
-              <p class="title">坐视布管</p>
+              <p class="title">坐视布管APP</p>
               <p class="red">扫码即可下载</p>
               <div class="app-type clearfix">
                 <div class="andriod">
                   <i class="iconfont icon-anzhuo"></i>
                 </div>
                 <div class="ios">
-                  <i class="iconfont icon-iOS"></i>
+                  <i class="iconfont icon-iOS" style="font-size:17px"></i>
                 </div>
               </div>
             </div>
           </div>
-
+        </div>
+        <div class="qrcode-content">
           <div class="qrcode clearfix">
             <div class="img-wrapper">
-              <img src="" width="100" height="100">
+              <qrcode-vue :value="getIosLink" size="50" level="H"></qrcode-vue>
             </div>
             <div class="desc">
               <p class="title">关注微信公众号</p>
@@ -48,7 +51,9 @@
           </div>
         </div>
       </div>
-
+      <a href="http://www.57lace.com/" class="link" target="_blank">
+        <img src="static/images/leisikong.png" width="10" class="leisikong"> 蕾丝控
+      </a>
     </div>
   </div>
 </div>
@@ -58,12 +63,25 @@
 import {
   mapGetters
 } from 'vuex';
+import {
+  APP_LINK
+} from '@/common/dict/const';
+import QrcodeVue from 'qrcode.vue';
 export default {
   computed: {
     ...mapGetters(['userInfo', 'token']),
     isLogin() {
       return !this.token;
+    },
+    getAndriodLink() {
+      return APP_LINK.andriod;
+    },
+    getIosLink() {
+      return APP_LINK.ios;
     }
+  },
+  components: {
+    QrcodeVue
   },
   methods: {
     // 个人中心
@@ -119,6 +137,9 @@ export default {
       .right
         float right
         height 33px
+        .leisikong
+          vertical-align initial
+          margin-left 20px
         .app-qrcode
           display inline-block
           position relative
@@ -127,7 +148,7 @@ export default {
           &:hover .qrcode-content
             display block
           .qrcode-content
-            display none
+            /*display none*/
             position absolute
             z-index 10
             line-height 1
@@ -141,9 +162,6 @@ export default {
               height 100px
               margin 12px 0
               width 220px
-              &:first-child
-                padding-bottom 12px
-                border-bottom 1px solid #d8d8d8
               .img-wrapper
                 float left
                 width 100px
@@ -160,7 +178,6 @@ export default {
                   line-height 30px
                 .app-type
                   height 40px
-
                   .andriod,.ios
                     float left
                     line-height 40px
