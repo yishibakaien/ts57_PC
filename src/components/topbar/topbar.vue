@@ -38,6 +38,10 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="app-qrcode">
+        <i class="iconfont icon-shouji"></i>
+        <span>公众号</span>
         <div class="qrcode-content">
           <div class="qrcode clearfix">
             <div class="img-wrapper">
@@ -148,7 +152,7 @@ export default {
           &:hover .qrcode-content
             display block
           .qrcode-content
-            /*display none*/
+            display none
             position absolute
             z-index 10
             line-height 1
