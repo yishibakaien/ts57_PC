@@ -5,7 +5,7 @@ import App from './App';
 import router from './router/router';
 import store from './store/store';
 import axios from './common/api/';
-import { sync } from 'vuex-router-sync';
+import {sync} from 'vuex-router-sync';
 import * as filters from './filter/';
 import * as directive from './directive/';
 import * as utils from '@/common/js/utils';
@@ -27,15 +27,29 @@ Vue.config.productionTip = false;
 // 注册过滤器
 Object.keys(filters).forEach(k => Vue.filter(k, filters[k]));
 Object.keys(directive).forEach(k => Vue.directive(k, directive[k]));
-Object.keys(utils).forEach(k => { Vue.prototype[k] = utils[k]; });
-Object.keys(filters).forEach(k => { Vue.prototype[k] = filters[k]; });
+Object.keys(utils).forEach(k => {
+  Vue.prototype[k] = utils[k];
+});
+Object.keys(filters).forEach(k => {
+  Vue.prototype[k] = filters[k];
+});
 // 初始化vue-amap
 AMap.initAMapApiLoader({
   // 高德的key
   key: GAODE_MAP_KEY,
   // 插件集合
-  plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor']
+  plugin: [
+    'AMap.Autocomplete',
+    'AMap.PlaceSearch',
+    'AMap.Scale',
+    'AMap.OverView',
+    'AMap.ToolBar',
+    'AMap.MapType',
+    'AMap.PolyEditor',
+    'AMap.CircleEditor'
+  ]
 });
+store.dispatch('getDicTree');
 sync(store, router);
 /* eslint-disable no-new */
 new Vue({

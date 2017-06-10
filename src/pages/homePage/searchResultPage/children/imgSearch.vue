@@ -3,7 +3,7 @@
     <div class="imgSearch-result">
       <div class="imgSearch-image-box">
         <img :src="Pic.encoded" width="150" height="150" ref="uploadImg">
-        <span class="imgSearch-image-box-tip" @click="handleChoosePic">手动框图</span>
+        <span class="imgSearch-image-box-tip" v-if="Pic.canCropper" @click="handleChoosePic">手动框图</span>
       </div>
       <div class="imgSearch-image-box-text">
         <p>对该图片的最佳猜测：{{firstProductNo}}</p>
@@ -96,7 +96,8 @@ export default {
         url: '',
         naturalHeight: 0,
         naturalWidth: 0,
-        encoded: ''
+        encoded: '',
+        canCropper: true
       },
       Params: {
         id: '',
@@ -114,7 +115,17 @@ export default {
     },
     search: {
       handler(val) {
-        this.Pic.encoded = val.list[0].defaultPicUrl;
+        if (val.list[0]) {
+          this.Pic.encoded = val.list[0].defaultPicUrl;
+          let img = new Image();
+          img.src = this.Pic.encoded;
+          img.onload = () => {
+            this.Pic.canCropper = true;
+          };
+          img.onerror = () => {
+            this.Pic.canCropper = false;
+          };
+        }
       },
       deep: true
     }
@@ -147,12 +158,7 @@ export default {
     },
     // 进入商店
     handleGotoShop(item) {
-      this.$router.push({
-        name: 'shop',
-        params: {
-          id: item.companyId
-        }
-      });
+			this.goto(`/shop/${item.companyId}`);
     },
     // 选择图片
     handleChoosePic(pic) {

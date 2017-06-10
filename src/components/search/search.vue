@@ -44,7 +44,7 @@
   <!-- 裁剪图片 -->
   <cropper-dialog :dialog="Cropper" :imageUrl="Pic.url" @change="handleGetDestImg" @close="handleCancelFind">
     <div class="search-editPic--menu">
-      <ts-button type="primary" v-for="item in dicTree.PRODUCT_TYPE" :key="item.dicValue" @click="handleLookProduct(item.dicValue)">搜{{item.name}}</ts-button>
+      <ts-button type="primary" v-for="item in DICT.productType" :key="item.dicValue" @click="handleLookProduct(item.dicValue)">搜{{item.label}}</ts-button>
     </div>
   </cropper-dialog>
 </div>
@@ -60,7 +60,8 @@ export default {
     return {
       searchSelect: '',
       DICT: {
-        SearchType: DICT.SearchType
+        SearchType: DICT.SearchType,
+        productType: DICT.SupplyType
       },
       Search: {
         picList: [],
@@ -114,12 +115,12 @@ export default {
         this.Search.val = to.query.search;
       }
     },
-    // dicTree: {
-    //   handler(val) {
-    //     this.dicTree.PRODUCT_TYPE = val.PRODUCT_TYPE;
-    //   },
-    //   deep: true
-    // },
+    dicTree: {
+      handler(val) {
+        this.DICT.productType = val.PRODUCT_TYPE;
+      },
+      deep: true
+    },
     'search.id' (val) {
       this.$store.commit('SET_PROGRESS', 100);
       this.$store.commit('SET_HANDLE_STATUS', false);

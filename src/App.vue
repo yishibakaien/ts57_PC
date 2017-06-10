@@ -26,7 +26,6 @@ export default {
     if (localStorage.getItem('x-token')) {
       this.$store.dispatch('getUserInfo');
     }
-    this.$store.dispatch('getDicTree');
     // 每切换路由都会置顶
     window.addEventListener('hashchange', () => {
       document.body.scrollTop = 0;
