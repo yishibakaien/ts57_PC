@@ -33,7 +33,7 @@
              <p class="factory-product--number">{{product.productNo}}</p>
              <template slot="footer">
                {{product.category | filterDict(dicTree.PRODUCT_TYPE,'name')}}
-               <ts-tag>{{product.publishStatus | filterDict(DICT.PublishStatus,'label2')}}</ts-tag>
+               <ts-tag>{{product.publishStatus | filterDict(DICT.PublishStatus,'label')}}</ts-tag>
              </template>
            </ts-grid-item>
         </ts-grid>

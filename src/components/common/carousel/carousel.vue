@@ -94,7 +94,7 @@ export default {
       });
     },
     handleResize() {
-      this.listWidth = parseInt(this.$el.style.width);
+      this.listWidth = parseInt(this.$el.clientWidth);
       this.updatePos();
       this.updateOffset();
     },
@@ -316,7 +316,22 @@ export default {
         font-size: 1em;
         transform: translateY(-50%);
         background-color: rgba(31, 45, 61, .11);
-        color: #fff;
+        color: #fff;&-always {
+            display: inherit;
+        }
+        @when hover {
+            display: inherit;
+            opacity: 0;
+        }
+        @when always {
+            display: inherit;
+        }
+
+        &-hover {
+            display: inherit;
+
+            opacity: 0;
+        }
         & > * {
             vertical-align: baseline;
         }

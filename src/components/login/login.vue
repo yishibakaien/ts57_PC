@@ -62,6 +62,9 @@
 import * as reg from '@/common/js/regExp';
 import * as types from '@/store/types';
 import {
+  mapGetters
+} from 'vuex';
+import {
   login,
   getVerifyCode
 } from '@/common/api/api';
@@ -80,7 +83,9 @@ export default {
       showLogin: true
     };
   },
-  computed: {},
+  computed: {
+    ...mapGetters(['token'])
+  },
   methods: {
     checkTel() {
       if (!reg.testMobile(this.userData.userMobile)) {
@@ -114,11 +119,15 @@ export default {
       this.userData.userPWD = this.Encrypt(this.userData.userPWD);
       login(this.userData).then((res) => {
         if (res.data.code === 0) {
+          if (this.token) {
+            this.$router.go(-1);
+          } else {
+            this.$router.push('/homePage');
+          }
           this.$store.commit('GET_USERINFO', res.data.data);
           this.$store.commit('LOGIN', res.headers['x-token']);
           this.$store.commit(types.LOGIN_MASK, false);
           this.$store.dispatch('getDicTree');
-          this.$router.go(-1);
         } else if (res.data.code === 2000004) {
           this.showPicCode = true;
           this.getVerifyCodeMethod();
@@ -201,8 +210,8 @@ export default {
                     }
                     .icon-mima::before,
                     .icon-shouji::before {
-                    	font-size: 22px;
-                    	color: #999;
+                        font-size: 22px;
+                        color: #999;
                     }
                     .input {
                         width: 200px;

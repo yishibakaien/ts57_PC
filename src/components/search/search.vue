@@ -43,9 +43,12 @@
   </div>
   <!-- 裁剪图片 -->
   <cropper-dialog :dialog="Cropper" :imageUrl="Pic.url" @change="handleGetDestImg" @close="handleCancelFind">
-    <ts-radio-group v-model="Filter.categorys" class="search-editPic--menu" @change="handleLookProduct">
+    <!-- <ts-radio-group v-model="Filter.categorys" class="search-editPic--menu" @change="handleLookProduct">
       <ts-radio :label="item.dicValue" v-for="item in dicTree.PRODUCT_TYPE" :key="item.dicValue">搜{{item.name}}</ts-radio>
-    </ts-radio-group>
+    </ts-radio-group> -->
+    <div class="search-editPic--menu">
+      <ts-button type="primary" v-for="item in dicTree.PRODUCT_TYPE" :key="item.dicValue" @click="handleLookProduct(item.dicValue)">搜{{item.name}}</ts-button>
+    </div>
   </cropper-dialog>
 </div>
 </template>
@@ -299,6 +302,9 @@ export default {
       text-align: center;
       clear: both;
       padding-top: 16px;
+      button{
+        margin: 0 4px;
+      }
     }
     @descendent upload {
       @modifier button {

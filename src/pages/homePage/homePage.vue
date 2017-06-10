@@ -5,21 +5,12 @@
   </v-header>
   <v-nav></v-nav>
   <div class="swiper">
-    <banner :items="bannerImgs" :width="1200" :height="300" :pagination="true" :auto-play="true" :speed="3000" :sync="false"></banner>
-    <!-- <ts-carousel autoplay v-model="value2">
-      <ts-carousel-item>
-        <div class="demo-carousel">1</div>
+    <!-- <banner :items="bannerImgs" :width="1200" :height="300" :pagination="true" :auto-play="true" :speed="3000" :sync="false"></banner> -->
+    <ts-carousel v-model="value2" arrow="never" autoplay :autoplay-speed="3000" easing='linear'>
+      <ts-carousel-item v-for="item in bannerImgs">
+        <ts-image :src="item.src" height="300" class="home-image" :canView="false" disabledHover></ts-image>
       </ts-carousel-item>
-      <ts-carousel-item>
-        <div class="demo-carousel">2</div>
-      </ts-carousel-item>
-      <ts-carousel-item>
-        <div class="demo-carousel">3</div>
-      </ts-carousel-item>
-      <ts-carousel-item>
-        <div class="demo-carousel">4</div>
-      </ts-carousel-item>
-    </ts-carousel> -->
+    </ts-carousel>
   </div>
 
   <div class="homePage-box">
@@ -65,6 +56,7 @@ import {
 export default {
   data() {
     return {
+      value: 0,
       value2: 0,
       imgs: [], // 轮播图假数据
       bannerImgs: [], // 真正的轮播图
@@ -88,6 +80,11 @@ export default {
     // 优质厂家
     qualityCompanyList1().then((res) => {
       this.companys = res.data.data.list;
+      let count = 9 - this.companys.length;
+      for (let i = 0; i <= count; i++) {
+        this.companys = this.companys.concat(this.companys);
+      }
+      this.companys = this.companys.splice(0, 9);
     }).catch((res) => {});
     // =====
     // banner
@@ -135,7 +132,13 @@ export default {
   }
 };
 </script>
-
+<style>
+.home-image {
+  img {
+    width: 100vw;
+  }
+}
+</style>
 <style lang="stylus" scoped>
   .homePage
     background #f2f2f2

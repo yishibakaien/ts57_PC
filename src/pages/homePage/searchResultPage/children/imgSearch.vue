@@ -119,6 +119,7 @@ export default {
     $route(to, from) {
       this.Search = [];
       this.Params.id = to.query.imgId;
+			this.Pic.encoded = this.Pic.destImg;
     },
     search: {
       handler(val) {
@@ -177,7 +178,6 @@ export default {
       this.$store.commit('SET_PROGRESS', 1);
       this.Cropper.show = false;
       this.historyItems.set(this.Pic.destImg);
-      this.Pic.encoded = this.Pic.destImg;
       await this.$store.dispatch('getSearchEncoded', {
         category: e,
         encoded: this.Pic.destImg,

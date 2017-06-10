@@ -8,7 +8,7 @@
             height="170"
             :canView="false"
             disabledHover
-            :src="product.defaultPicUrl">
+            :src="product.searchSource">
             </ts-image>
             <template slot="footer" class="everyLooking-footer">
               <p>{{product.category | filterDict(dicTree.PRODUCT_TYPE,'name')}}</p>
