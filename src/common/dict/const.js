@@ -1,6 +1,10 @@
 export const ALI_DOMAIN = `http://zsbgdev.oss-cn-shenzhen.aliyuncs.com/`;
 export const ECB_KEY = `zuoshibuguanzsbg`;
 export const GAODE_MAP_KEY = `6d31eef168eeb05a84f0b1eeabb0de75`;
+export const APP_LINK = {
+  ios: 'http://www.baidu.com',
+  andriod: 'http://a.app.qq.com/o/simple.jsp?pkgname=cn.ts57.app'
+};
 export const MODELS = [
   'modle1_all.png',
   'modle1_back.png',

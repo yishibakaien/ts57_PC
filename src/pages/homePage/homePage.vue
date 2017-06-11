@@ -14,7 +14,7 @@
   </div>
 
   <div class="homePage-box">
-    <div class="list">
+    <div class="list" v-if="">
       <!-- 求购列表 -->
       <purchase-list :supply-list-obj="supplyListObj"></purchase-list>
     </div>

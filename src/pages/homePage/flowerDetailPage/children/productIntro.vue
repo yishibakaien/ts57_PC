@@ -73,7 +73,7 @@
 					<ts-grid-item @click.native="handleGoto3Ddress">
 						<i class="icon-shiyihui"></i>试衣
 					</ts-grid-item>
-					<ts-grid-item @click.native="Dialog.sendSample=!Dialog.sendSample">
+					<ts-grid-item @click.native="Dialog.sendSample=!Dialog.sendSample" v-if='getIsShowSample'>
 						<i class="icon-suoyang"></i>索样
 					</ts-grid-item>
 				</ts-grid>
@@ -240,7 +240,11 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['dicTree', 'productDetail', 'token'])
+    ...mapGetters(['dicTree', 'productDetail', 'userInfo', 'companyInfo']),
+		// 是否显示索样
+    getIsShowSample() {
+      return this.userInfo.userType === 1 && this.companyInfo.city === 440100 && this.companyInfo.province === 440000;
+    }
   },
   async created() {
     let res = (await favoriteIsFavorite({
@@ -248,6 +252,7 @@ export default {
       businessType: 1
     })).data.data;
     this.Collect.isCollected = res !== 0;
+    this.$store.dispatch('getCompanyInfo', this.userInfo.companyId);
   },
   watch: {
     productDetail: {

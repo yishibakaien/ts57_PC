@@ -9,13 +9,14 @@
 				<ts-tab-container-item id="1">
 				<div class="textSearch-filter">
 			    <ts-filter title="分类">
-			      <ts-radio-group v-model="Filter.categorys" @change="Params.categorys = Filter.categorys">
+			      <ts-radio-group v-model="Filter.categorys" @change="handleChangeCategorys">
 			        <ts-radio :label="null">全部</ts-radio>
 			        <ts-radio :label="item.dicValue" v-for="item in dicTree.PRODUCT_TYPE" :key="item.dicValue">{{item.name}}</ts-radio>
 			      </ts-radio-group>
 			    </ts-filter>
+
 					<ts-filter title="库存盘点">
-					 <ts-radio-group v-model="Filter.isStock" @change="Params.isStock = Filter.isStock">
+					 <ts-radio-group v-model="Filter.isStock" @change="handleChangeIsStock">
 						 <ts-radio :label="null">全部</ts-radio>
 						 <ts-radio :label="item.dicValue" v-for="item in DICT.isStock" :key="item.id">{{item.label}}</ts-radio>
 					 </ts-radio-group>
@@ -100,16 +101,24 @@ export default {
   },
   methods: {
     handleGotoShop(id) {
-			this.goto(`/shop/${id}`);
+      this.goto(`/shop/${id}`);
     },
-		handleChangeProductNum(number) {
+    handleChangeProductNum(number) {
       this.Params.pageNo = number;
     },
-		handleChangeCompanyNum(number) {
+    handleChangeCompanyNum(number) {
       this.CompanySearchParams.pageNo = number;
     },
     handleGotoProduct(id) {
-			this.goto(`/product/${id}`);
+      this.goto(`/product/${id}`);
+    },
+    handleChangeCategorys() {
+      this.Params.categorys = this.Filter.categorys;
+      this.Params.pageNo = 1;
+    },
+    handleChangeIsStock() {
+      this.Params.isStock = this.Filter.isStock;
+      this.Params.pageNo = 1;
     }
   },
   watch: {

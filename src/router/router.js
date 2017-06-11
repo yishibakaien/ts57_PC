@@ -358,7 +358,7 @@ const routes = [
 ];
 
 const router = new Router({
-  // mode: 'history', // 后端未配置
+  mode: 'history', // 后端未配置
   // 每进去一个新页面翻到顶部
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
