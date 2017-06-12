@@ -17,17 +17,16 @@
           <div class="input-phone" :class="{warn: telTip}">
             <div class="tip" v-if="telTip">{{telTip}}</div>
             <i class="text iconfont icon-shouji"></i>
-            <input class="input" type="text" placeholder="请输入手机号码" maxlength="11" v-model="userData.userMobile" @input="userMobileIpt" @blur="checkTel">
+            <input class="input" autocomplete="off" type="text" placeholder="请输入手机号码" maxlength="11" v-model="userData.userMobile" @input="userMobileIpt" @blur="checkTel">
           </div>
 
           <div class="input-password" :class="{warn: passwordTip}">
             <div class="tip" v-if="passwordTip">{{passwordTip}}</div>
             <i class="text iconfont icon-mima"></i>
-            <input class="input" type="password" maxlength="16" placeholder="请输入密码" v-model="userData.userPWD" @input="userPWDIpt" @blur="checkPWD">
+            <input class="input" autocomplete="off" type="password" maxlength="16" placeholder="请输入密码" v-model="userData.userPWD" @input="userPWDIpt" @blur="checkPWD">
           </div>
 
           <div class="input-imgCode" v-if="showPicCode">
-            <i class="text iconfont">字</i>
             <input class="input" type="text" placeholder="请输入图形验证码" v-model="userData.picCode">
             <img :src="imgCode" alt="picCode" @click="getVerifyCodeMethod" />
           </div>
@@ -234,11 +233,11 @@ export default {
                 .input-imgCode {
                     position: relative;
                     img {
-                        position: absolute;
-                        width: 76px;
-                        height: 35px;
-                        top: 3px;
-                        right: 0;
+                      position: absolute;
+                      width: 76px;
+                      height: 34px;
+                      top: 4px;
+                      right: 4px;
                     }
                 }
             }
