@@ -6,8 +6,13 @@
         <i class="icon-gengduo"></i>
       </router-link>
     </div>
-    <div class="update-container">
-      <factory-update @viewProduct="handleViewProduct" @viewStore="handleViewStore" :data="NewProductList.list"></factory-update>
+    <div class="update-container" v-for="item in NewProductList.list">
+      <factory-update @viewProduct="handleViewProduct" @viewStore="handleViewStore" :data="item">
+        <template slot="header">
+          <p>新增&nbsp;<span>{{item.newCount}}</span>&nbsp;款／共&nbsp;<span>{{item.totalCount}}</span>&nbsp;款</p>
+          <p>{{ item.publishDate | customTime }}</p>
+        </template>
+      </factory-update>
     </div>
   </ts-section>
 </template>

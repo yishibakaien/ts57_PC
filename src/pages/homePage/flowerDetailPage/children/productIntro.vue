@@ -21,7 +21,7 @@
 				<p>
 					<span class="grey">参考价：</span>
 					<span class="productIntro-product-intro--price" v-if="!!productDetail.price">
-						¥{{productDetail.price}}/{{productDetail.priceUnit | filterDict(dicTree.PRODUCT_UNIT,'name')}}
+						¥{{productDetail.price/100}}/{{productDetail.priceUnit | filterDict(dicTree.PRODUCT_UNIT,'name')}}
 					</span>
 					<span v-else class="productIntro-product-intro--price">
 						价格面议
@@ -36,7 +36,7 @@
 					<span class="">{{productDetail.ingredient}}</span>
 				</p><p>
 					<span class="grey">库&nbsp;&nbsp;&nbsp;存：</span>
-					<span class="">{{productDetail.isStock | filterDict(DICT.isStock,'label')}}</span>
+					<span class="">{{productDetail.isStock | filterDict(DICT.isStock,'label2')}}</span>
 				</p><p>
 					<span class="grey">货&nbsp;&nbsp;&nbsp;型：</span>
 					<span class="">{{productDetail.productShape | filterDict(dicTree.PRODUCT_SHAPE,'name')}}</span>
@@ -396,6 +396,9 @@ export default {
 				}
 				&:nth-of-type(1){
 					font-size: 22px;
+					word-break: break-all;
+					max-width: 350px;
+					line-height: 150%;
 				}
 			}
 		}

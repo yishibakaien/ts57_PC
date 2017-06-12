@@ -5,7 +5,7 @@
         <div slot="menu">
           <ts-button type="primary" @click="handleSavePic" :disabled="!Pic.uploadPic">保存图片</ts-button>
         </div>
-          <img :src="Pic.origin" ref="picOrigin" class="transition" :style="{'background-image':`url(${Pic.uploadPic})`,'background-size':`${ratio/4}%`}">
+          <img :src="Pic.origin" crossOrigin="anonymous" ref="picOrigin" class="transition" :style="{'background-image':`url(${Pic.uploadPic})`,'background-size':`${ratio/4}%`}">
       </ts-section>
     </div>
     <div class="dress-wrapper-right">
@@ -74,12 +74,13 @@ export default {
     };
   },
   props: ['chooseItem'],
-  created() {
-    // location.reload();
+  mounted() {
     this.Pic.activeIndex = 0;
     if (sessionStorage['flowerUrl']) {
-      this.convertImgToBase64(sessionStorage['flowerUrl'], (base64Img) => {
-        this.Pic.uploadPic = base64Img;
+      this.$nextTick(() => {
+        this.convertImgToBase64(sessionStorage['flowerUrl'], (base64Img) => {
+          this.Pic.uploadPic = base64Img;
+        });
       });
     }
   },

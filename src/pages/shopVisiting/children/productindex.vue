@@ -21,7 +21,6 @@
            <template slot="footer">
              <span v-if="product.price>0&&!!product.price">¥{{product.price}}/{{product.priceUnit | filterDict(DICT.PriceUnits) }}</span>
              <span v-else>价格面议</span>
-             <ts-tag>{{product.publishStatus | filterDict(DICT.PublishStatus,'label2')}}</ts-tag>
            </template>
          </ts-grid-item>
       </ts-grid>
@@ -132,7 +131,9 @@ export default {
   @component product{
     @modifier number{
       font-size: 16px;
-      line-height: 40px;
+      margin-top: 10px;
+      text-align: left;
+      @utils-ellipsis;
     }
   }
 }

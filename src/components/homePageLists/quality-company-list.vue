@@ -40,7 +40,7 @@ export default {
   .left-brand
     flex 0 0 300px
     width 300px
-    height 544px
+    height 546px
     .quality-company-pic
       width 100%
       height 100%

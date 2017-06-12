@@ -5,7 +5,7 @@
 		</v-header>
 		<v-nav></v-nav>
 		<div class="supply-list-page-box">
-			<div>
+			<div style="background:#fff">
 				<ts-filter title="供应分类">
 					<ts-radio-group v-model="Filter.sort" @change="hanleFilterSort">
 						<ts-radio label="null">全部</ts-radio>
@@ -125,12 +125,12 @@
 </script>
 <style lang="stylus" scoped>
   .supply-list-page
-    background #fff
+    /*background #fff*/
     .supply-list-page-box
       width 1200px
       margin 0 auto
       padding 16px 0
-      background #fff
+      /*background #fff*/
       .filter-container
         .filter-list
           display flex
@@ -168,7 +168,7 @@
               &.active
                 color #4c93fd
       .supply-list-item-wrapper
-        margin-top 32px
+        margin-top 10px
         .item-wrapper
           float left
           margin-left 10px

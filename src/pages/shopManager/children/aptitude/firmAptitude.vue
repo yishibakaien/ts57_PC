@@ -139,6 +139,7 @@ export default {
       border-radius: 50%;
       text-align: center;
       font-size: 17px;
+      line-height: 1;
       z-index: 2;
       cursor: pointer;
       background: var(--aptitude-close-bg);

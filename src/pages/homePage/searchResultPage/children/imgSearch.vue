@@ -36,8 +36,11 @@
 			<div class="imgSearch-tip imgSearch-wrapper">
         <p><ts-button type="plain" @click="handleLoadMore">查看更多花型</ts-button></p>
 				没找到合适的？赶紧
-        <router-link tag="a" to="/releasePurchasePage">
+        <router-link tag="a" to="/releasePurchasePage" v-if="userInfo.userType===2">
           <a>发布求购</a>
+        </router-link>
+				<router-link tag="a" to="/releaseSupplyPage" v-else>
+          <a>发布供应</a>
         </router-link>
         吧
 			</div>
@@ -134,13 +137,13 @@ export default {
     CropperDialog
   },
   beforeDestroy() {
-    this.$store.commit('SET_PROGRESS', 1);
+    this.$store.commit('SET_PROGRESS', 10);
     this.$store.commit('SET_HANDLE_STATUS', false);
     this.$store.commit('CLEAR_INTERVAL');
     this.$store.commit('SET_SEARCH_EMPTY');
   },
   computed: {
-    ...mapGetters(['search', 'dicTree']),
+    ...mapGetters(['search', 'dicTree', 'userInfo']),
     isShopRoute() {
       return this.$route.path.indexOf('/shop/') >= 0;
     },
@@ -158,7 +161,7 @@ export default {
     },
     // 进入商店
     handleGotoShop(item) {
-			this.goto(`/shop/${item.companyId}`);
+      this.goto(`/shop/${item.companyId}`);
     },
     // 选择图片
     handleChoosePic(pic) {

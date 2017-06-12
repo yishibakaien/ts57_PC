@@ -118,7 +118,8 @@ export default {
   @component product{
     @modifier number{
       font-size: 16px;
-      line-height: 40px;
+      margin-top: 10px;
+      text-align: left;
       @utils-ellipsis;
     }
   }

@@ -2,7 +2,14 @@
   <div class="update">
     <ts-title-block class="topSearch-title">厂家上新</ts-title-block>
     <div class="update-container">
-      <factory-update @viewProduct="handleViewProduct" @viewStore="handleViewStore" :data="NewProductList.list"></factory-update>
+      <div v-for="item in NewProductList.list">
+        <factory-update @viewProduct="handleViewProduct" @viewStore="handleViewStore" :data="item">
+          <template slot="header">
+            <p>新增&nbsp;<span>{{item.newCount}}</span>&nbsp;款／共&nbsp;<span>{{item.totalCount}}</span>&nbsp;款</p>
+            <p>{{ item.publishDate | customTime }}</p>
+          </template>
+        </factory-update>
+      </div>
     </div>
     <ts-pagination type="page" :total="NewProductList.totalNum" :current="NewProductList.pageNO" :pageSize="NewProductList.pageSize" class="topSearch-pagination" @change="handleChangePage"></ts-pagination>
   </div>

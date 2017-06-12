@@ -139,7 +139,7 @@
   <ts-section pageTitle="企业风采" class="companyIntro-section">
       <div class="grid-row-fluid">
       <div class="grid-col-3" v-for="i in companyInfo.presence">
-        <ts-image width="160" height="160" :src="i.picDesc"></ts-image>
+        <ts-image width="160" height="160" :src="i.picUrl"></ts-image>
       </div>
     </div>
       <div v-if="!companyInfo.presence||!companyInfo.presence.length">
@@ -235,7 +235,7 @@ export default {
     }
     if (this.companyInfo.city) {
       this.Area.city = (await getAreabyParent({
-        areaCode: this.addressInfoForm.province
+        areaCode: this.companyInfo.province
       })).data.data;
     }
     // ===========

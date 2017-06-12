@@ -34,14 +34,15 @@ export default {
   background #fff
   .title-name
     display inline-block
-    font-size 24px
+    font-size 20px
     line-height 24px
     margin-left 32px
-    color #4c93fd
+    font-weight bold
+    color #333
   .right-nav
     float right
     margin-right 16px
-    font-size 20px
+    font-size 16px
     height 24px
     line-height 24px
     color #999
@@ -52,10 +53,10 @@ export default {
     .iconfont
       display inline-block
       vertical-align top
-      height 24px
-      width 24px
+      height 18px
+      width 18px
       background #fff
-      font-size 24px
+      font-size 18px
       line-height 24px
       text-align center
       border-radius 50%

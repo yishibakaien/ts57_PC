@@ -6,7 +6,7 @@
 		<v-nav></v-nav>
 		<div class="purchase-list-page-box">
 			<!-- 筛选器 -->
-			<div>
+			<div style="background:#fff">
 				<ts-filter title="求购分类">
 					<ts-radio-group v-model="Filter.sort" @change="hanleFilterSort">
 						<ts-radio label="null">全部</ts-radio>
@@ -145,12 +145,12 @@
 </script>
 <style lang="stylus" scoped>
 .purchase-list-page
-  background #fff
+  /*background #fff*/
   .purchase-list-page-box
     width 1200px
     margin 0 auto
     padding 16px 0
-    background #fff
+    /*background #fff*/
     .filter-container
       .filter-list
         display flex
@@ -188,7 +188,7 @@
             &.active
               color #4c93fd
     .pruchase-list-item-wrapper
-      margin-top 32px
+      margin-top 10px
       .item-wrapper
         float left
         margin-left 10px

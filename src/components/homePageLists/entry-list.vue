@@ -35,9 +35,7 @@
         </div>
       </div>
       <div class="entry-button-box">
-        <router-link to="/product/add" tag="button" class="button button-plain button-block button-plain-blue" style="margin: 25px 0 8px 0;">
-          新增花型
-        </router-link>
+        <ts-button type="plain" size="large" class="addProduct--button button" @click="handleGotoAddProduct">新增花型</ts-button>
       </div>
     </div>
   </div>
@@ -63,6 +61,13 @@ export default {
       }
     };
   },
+  methods: {
+    handleGotoAddProduct() {
+      this.$router.push({
+        path: '/product/add'
+      });
+    }
+  },
   components: {
     listTile,
     entryListItem
@@ -75,11 +80,11 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-  .entry-flexbox{
+.entry-flexbox {
     display: flex;
     flex-wrap: wrap;
     background-color: #fff;
-  }
+}
 </style>
 <style lang="stylus" scoped>
 basecolor = #4c93fd
@@ -87,10 +92,19 @@ basecolor = #4c93fd
   display flex
   box-sizing border-box
   width 100%
+  .addProduct--button.button
+    height 48px
+    margin-top 24px
+    border-color #4c93fd
+    border-radius 4px
+    color #4c93fd
+    font-size 20px
+    border-radius 4px
+    letter-spacing 1px
   .left-brand
     flex 0 0 267px 164 +322
     width 267px
-    height: 454px;
+    height: 453px;
     background: #fff;
     .brand-header
       height 86px
@@ -160,7 +174,7 @@ basecolor = #4c93fd
             font-size 36px
             line-height 60px
           .entry-nav-text
-            font-size 18px
+            font-size 16px
             line-height 30px
           .icon-dangkou::before
           	color #666

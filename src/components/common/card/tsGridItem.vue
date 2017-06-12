@@ -40,6 +40,7 @@ export default {
     @modifier footer{
       padding-top: 10px;
       display: flex;
+      color: #666;
       align-items: center;
       justify-content: space-between;
     }

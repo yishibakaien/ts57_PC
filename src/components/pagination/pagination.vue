@@ -149,6 +149,7 @@ export default {
     text-align: center;
 		transition: .8s;
     border: 1px solid #e5e5e5;
+    background: #fff;
     color: #333;
     cursor: pointer;
     &:hover {

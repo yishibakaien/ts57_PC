@@ -66,6 +66,7 @@ export default {
     position: relative;
     text-align: center;
     min-width:var(--button-width);
+    transition: .2s;
     &::after {
       background-color: var(--buton-active-bg);
       content: " ";
@@ -94,14 +95,17 @@ export default {
       border:1px solid var(--button-plain-border-color);
       background-color: var(--button-plain-background-color);
       &:not(.is-disabled):hover{
-        border-color:var(--button-primary-background-color);
-        color:var(--button-primary-background-color);
+        border-color:var(--button-plain-hover-color);
+        color:var(--button-plain-hover-color);
       }
     }
     @modifier primary {
       color: var(--button-primary-color);
       border:none;
       background-color: var(--button-primary-background-color);
+      &:not(.is-disabled):hover{
+        background:var(--button-primary-hover-color);
+      }
     }
     @modifier warning {
       color: var(--button-warning-color);

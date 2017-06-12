@@ -106,7 +106,7 @@ export default {
     }
   },
   beforeDestroy() {
-    this.$store.commit('SET_PROGRESS', 1);
+    this.$store.commit('SET_PROGRESS', 10);
     clearInterval(this.Progress.interval);
   },
   watch: {
@@ -171,7 +171,7 @@ export default {
       };
       sessionStorage.setItem('find-pic', JSON.stringify(data));
       this.Cropper.show = false;
-      this.$store.commit('SET_PROGRESS', 1);
+      this.$store.commit('SET_PROGRESS', 10);
       this.$store.commit('SET_HANDLE_STATUS', true);
       if (this.search.handleStatus) {
         this.Progress.interval = setInterval(() => {

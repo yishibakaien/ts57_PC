@@ -85,7 +85,7 @@ export default {
     color: #fff;
     text-align: center;
     font-size: 16px;
-    background: #FF494F;
+    background:#f4543c;
   }
   @component rank{
     position: absolute;

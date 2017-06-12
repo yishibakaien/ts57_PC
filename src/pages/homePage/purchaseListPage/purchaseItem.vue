@@ -2,7 +2,7 @@
 <template>
   <div class="purchase-item onepx">
     <div class="purchase-item-image-wrapper">
-      <img v-lazy="item.buyPicUrl" class="image" alt="购买项" />
+      <ts-image width="200" height="200" :canView="false" :src="item.buyPicUrl" disabledHover></ts-image>
       <p class="info">
         <span class="number">{{item.buyNum}}码</span>
         <span class="status" v-if="item.buyStatus === 1">
@@ -38,7 +38,7 @@ export default {
 .purchase-item
   box-sizing border-box
   width 232px
-  height 328px
+  height 312px
   padding 16px
   background #fff
   /*border 1px solid #eaeaea*/
@@ -63,34 +63,31 @@ export default {
       height 32px
       line-height 32px
       color #fff
-      background rgba(0, 0, 0, 0.4);
+      background rgba(0, 0, 0, 0.4)
+      font-size 14px
       .number
         float left
         margin-left 6px
-        font-size 18px
       .status
         float right
         margin-right 6px
-        font-size 14px
   .purchase-item-title
     position relative
     margin 16px 0
     width 200px
     height 25px
+    font-size 16px
     line-height 25px
     overflow hidden
     text-overflow ellipsis
     white-space nowrap
 
   .purchase-item-person
-    padding 6px 0
-    /*border-top 1px solid #d8d8d8*/
+    font-size 13px
     .name
       display inline-block
       width 120px
-      height 40px
-      line-height 40px
-      font-size 15px
+      line-height 39px
       color #666
       overflow hidden
       text-overflow ellipsis
@@ -98,8 +95,6 @@ export default {
     .time
       display inline-block
       float right
-      height 40px
-      line-height 40px
-      font-size 14px
+      line-height 39px
       color #999
 </style>

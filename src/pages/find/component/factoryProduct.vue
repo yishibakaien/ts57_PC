@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="factory">
-    <div class="factory-row" v-for="store in data">
+    <div class="factory-row">
       <div class="factory-row--left" :style="{'width':width}">
         <ts-image
          width="100"
@@ -8,19 +8,18 @@
          :canView="false"
          disabledHover
          class="factory-company--cover"
-         :src="store.companyHeadIcon"></ts-image>
-        <p class="factory-company--title">{{store.companyName}}</p>
-          <ts-button type="plain" size="large" class="factory-company--button" @click="handleViewStore(store.companyId)">
+         :src="data.companyHeadIcon"></ts-image>
+        <p class="factory-company--title">{{data.companyName}}</p>
+          <ts-button type="plain" size="large" class="factory-company--button button" @click="handleViewStore(data.companyId)">
             访问店铺
           </ts-button>
       </div>
       <div class="factory-row--right">
-        <div class="factory-list-block onepx-l onepx-r">
-          <p>新增<span>{{store.newCount}}</span>款／共<span>{{store.totalCount}}</span>款</p>
-          <p>{{ getPublishDate | customTime }}</p>
+        <div class="factory-list-block onepx">
+          <slot name="header"></slot>
         </div>
-        <ts-grid :data="store.productList">
-          <ts-grid-item v-for="product in store.productList" :key="product" @click="handleViewProduct(product.id)" :style="{'width':width}">
+        <ts-grid :data="data.productList">
+          <ts-grid-item v-for="product in data.productList" :key="product" @click="handleViewProduct(product.id)" :style="{'width':width}">
             <ts-image
              width="170"
              height="170"
@@ -109,6 +108,7 @@ export default {
       position: relative;
       margin-bottom: 0;
       height: 100%;
+      background: #f8f8f8;
       &:after{
         @mixin setBottomLine var(--grid-border-color);
       }
@@ -130,21 +130,23 @@ export default {
       margin-top: 38px;
     }
     @modifier button{
-      position: absolute * * 25px 50%;
-      transform: translate(-50%);
-      width: 80%;
+      &.button{
+        position: absolute * * 25px 50%;
+        transform: translate(-50%);
+        width: 80%;
+      }
     }
   }
   @component product{
     @modifier number{
       font-size: 16px;
-      line-height: 40px;
+      margin-top: 10px;
+      text-align: left;
       @utils-ellipsis;
     }
   }
   @component list{
     @descendent block{
-      background-color: #F8F8F8;
       line-height: 48px;
       white-space: nowrap;
       display: flex;

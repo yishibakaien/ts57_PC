@@ -57,6 +57,8 @@
   --button-plain-background-color: #fff;
   --button-primary-color: #fff;
   --button-primary-background-color: #4C93FD;
+  --button-primary-hover-color:#1c76fa;
+  --button-plain-hover-color: #FF8400;
   --button-cancel-background-color: #D1D1D1;
   --button-cancel-color: #fff;
   --button-warning-background-color: #FF8400;

@@ -238,6 +238,8 @@ export const searchPolling = searchKey => axios.get(`${API.search.polling}/${sea
 // 搜索记录列表(大家都在找)
 export const searchHistory = param => axios.get(API.search.history, {params: param});
 // 查看单条搜索记录
+export const searchHistoryId = id => axios.get(`${API.search.history}/${id}`);
+// 获取搜索记录中的产品列表
 export const searchGetResult = param => axios.get(API.search.getResult, {params: param});
 /**
  * 个人中心部分

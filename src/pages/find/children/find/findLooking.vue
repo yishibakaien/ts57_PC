@@ -8,7 +8,7 @@
     </div>
     <div class="everyLooking-container">
       <ts-grid>
-         <ts-grid-item v-for="(product,index) in History.list" :key="product" @click="handleViewProduct(product.id)">
+         <ts-grid-item v-for="(product,index) in History.list" :key="product" @click="handleViewResult(product.id)">
            <ts-image
             width="170"
             height="170"
@@ -18,7 +18,7 @@
             </ts-image>
             <template slot="footer" class="everyLooking-footer">
               <p>{{product.category | filterDict(dicTree.PRODUCT_TYPE,'name')}}</p>
-              <p class="everyLooking-footer--time">{{product.createDate | customTime}}</p>
+              <a>查找结果</a>
             </template>
           </ts-grid-item>
       </ts-grid>
@@ -45,8 +45,8 @@ export default {
     };
   },
   methods: {
-    handleViewProduct(id) {
-      this.goto(`/product/${id}`);
+    handleViewResult(id) {
+      this.goto(`/catagory/${id}`);
     }
   },
   computed: {
@@ -112,13 +112,9 @@ export default {
   @component product{
     @modifier number{
       font-size: 16px;
-      line-height: 40px;
-    }
-  }
-  @component footer{
-    @modifier time{
-      color:#999999;
-      font-size: 12px;
+      margin-top: 10px;
+      text-align: left;
+      @utils-ellipsis;
     }
   }
   @component list{

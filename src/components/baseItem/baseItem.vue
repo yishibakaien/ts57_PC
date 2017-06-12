@@ -106,7 +106,7 @@ export default {
 .base-item
   box-sizing border-box
   width 233px
-  height 272px
+  height 264px
   padding 16px
   background #fff
   border-left 1px solid #eaeaea
@@ -132,7 +132,7 @@ export default {
       height 30px
       line-height 30px
       margin-top 8px
-      color #666
+      color #333
       overflow hidden
       text-overflow ellipsis
       white-space nowrap

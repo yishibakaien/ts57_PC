@@ -2,7 +2,7 @@
   <div class="messagePhone">
       <ts-section>
         <div slot="title">
-          接受短信号码<span class="pot-warning" @click="Phone.showNoticeDialog=!Phone.showNoticeDialog">?</span>
+          接收短信号码<span class="pot-warning" @click="Phone.showNoticeDialog=!Phone.showNoticeDialog">?</span>
         </div>
     <div slot="menu">
       <ts-button type="primary" @click="handleNewPhoneDialog" v-if="phoneList.length<2">新增号码</ts-button>

@@ -75,6 +75,7 @@ export default {
         font-size 20px
         color #333
         overflow hidden
+        font-size 16px
         text-overflow ellipsis
         white-space nowrap
 </style>

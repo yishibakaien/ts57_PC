@@ -39,10 +39,11 @@ const shopCatagoryProduct = r => require.ensure([], () => r(require('@/pages/sho
 // =============
 // 发现模块
 const find = r => require.ensure([], () => r(require('@/pages/find/')), 'find');
-const findIndex = r => require.ensure([], () => r(require('@/pages/find/children/find')), 'findIndex');
-const findEveryLooking = r => require.ensure([], () => r(require('@/pages/find/children/everyLooking')), 'findEveryLooking');
-const findFactoryUpdate = r => require.ensure([], () => r(require('@/pages/find/children/factoryUpdate')), 'factoryUpdate');
-const findTopSearch = r => require.ensure([], () => r(require('@/pages/find/children/topSearch')), 'findHotSearch');
+const findIndex = r => require.ensure([], () => r(require('@/pages/find/children/find')), 'find');
+const findEveryLooking = r => require.ensure([], () => r(require('@/pages/find/children/everyLooking')), 'find');
+const findFactoryUpdate = r => require.ensure([], () => r(require('@/pages/find/children/factoryUpdate')), 'find');
+const findTopSearch = r => require.ensure([], () => r(require('@/pages/find/children/topSearch')), 'find');
+const findLookingResult = r => require.ensure([], () => r(require('@/pages/find/children/lookingResult')), 'find');
 // =========
 // 店铺管理
 const shopManager = r => require.ensure([], () => r(require('@/pages/shopManager/')), 'shopManager');
@@ -108,6 +109,13 @@ const routes = [
         path: 'index',
         component: findIndex,
         name: '发现'
+      }, {
+        path: '/catagory/:id', // 查找结果
+        meta: {
+          needAuth: true
+        },
+        component: findLookingResult,
+        name: 'findLookingResult'
       }, {
         path: 'everyLooking',
         component: findEveryLooking,
@@ -358,7 +366,7 @@ const routes = [
 ];
 
 const router = new Router({
-  // mode: 'history', // 后端未配置
+  mode: 'history', // 后端未配置
   // 每进去一个新页面翻到顶部
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {

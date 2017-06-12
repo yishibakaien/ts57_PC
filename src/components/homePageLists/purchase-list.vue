@@ -16,7 +16,7 @@
     </div>
     <div class="brand-body">
       <ts-input class="purchase-textarea" type="textarea" :rows="6" :maxLength="60" placeholder="请填写求购花型的详细描述，如花高，宽幅等信息" v-model="text"></ts-input>
-      <ts-button type="plain" size="large" @click="releasePurchase">发布求购</ts-button>
+      <ts-button type="plain" size="large" @click="releasePurchase" class="release--button button">发布求购</ts-button>
     </div>
   </div>
   <div class="right-list">
@@ -68,6 +68,14 @@ export default {
 basecolor = #4c93fd
 .purchase-textarea
   max-height: 143px;
+.release--button.button
+  height 48px
+  margin-top 32px
+  border-color #4c93fd
+  color #4c93fd
+  font-size 20px
+  border-radius 4px
+  letter-spacing 1px
 .purchase-list
   display flex
   box-sizing border-box
@@ -128,7 +136,7 @@ basecolor = #4c93fd
         font-size 16px
         color rgba(255, 255, 255, 0.6)
     .brand-body
-      height 184px
+      height 175px
       padding 16px
       background #fff
       .input
@@ -140,7 +148,7 @@ basecolor = #4c93fd
         &::-webkit-input-placeholder
           font-size 16px
       .button
-        margin-top 16px
+        margin-top 26px
   .right-list
     flex 1
     .item-wrapper

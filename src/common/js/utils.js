@@ -204,10 +204,10 @@ export const historyItems = (() => {
 })();
 // 图片转成base64
 export const convertImgToBase64 = (url, callback, outputFormat) => {
-  var canvas = document.createElement('CANVAS');
+  var canvas = document.createElement('canvas');
   var ctx = canvas.getContext('2d');
   var img = new Image();
-  img.crossOrigin = 'anonymous';
+  img.crossOrigin = 'Anonymous';
   img.onload = function() {
     canvas.height = img.height;
     canvas.width = img.width;
@@ -230,5 +230,6 @@ export const Encrypt = (word) => {
 };
 
 export const goto = (url) => {
-  window.open(`#${url}`);
+  // window.open(`#${url}`);
+  window.open(`${url}`);
 };

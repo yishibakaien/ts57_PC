@@ -70,7 +70,7 @@
         <span class="left">公司主营：</span>
         <div class="right">
           <div class="tip" v-if="tip.companyMainTip">{{tip.companyMainTip}}</div>
-          <input @blur="blurCompanyMain" v-model="registerData.companyBusiness" :class="{warn: tip.companyMainTip}" class="input" type="text" placeholder="请输入你的公司主营业务">
+          <input @blur="blurCompanyMain" v-model="registerData.companyBusiness" :class="{warn: tip.companyMainTip}" class="input" type="text" :maxlength="50" placeholder="请输入你的公司主营业务">
         </div>
       </div>
 

@@ -1,38 +1,42 @@
 
 <template>
-  <div class="supply-item onepx">
-    <div class="supply-item-image-wrapper" @click="clickMethod">
-      <img v-lazy="item.productPicUrl" class="image" alt="供应项">
-      <p class="info">
-        <span class="number">
-        	{{item.supplyNum}}
-        	<span v-if="item.supplyUnit === 400010">码</span>
-        	<span v-if="item.supplyUnit === 400011">公斤</span>
-        	<span v-if="item.supplyUnit === 400012">条</span>
-        	<span v-if="item.supplyUnit === 400013">吨</span>
-        </span>
-        <span class="time">{{item.createDate | customTime}}</span>
-      </p>
-    </div>
-    <p class="supply-item-title" :title="item.supplyDesc">{{item.supplyDesc}}
+<div class="supply-item onepx">
+  <div class="supply-item-image-wrapper" @click="clickMethod">
+    <!-- <img v-lazy="" class="image" alt="供应项"> -->
+    <ts-image width="200" height="200" :canView="false" :src="item.productPicUrl" disabledHover></ts-image>
+    <p class="info">
+      <span class="number">
+        	{{item.supplyNum}}&nbsp;{{item.supplyUnit | filterDict(dicTree.PRODUCT_UNIT,'name') }}
+      </span>
+      <span class="time">{{item.createDate | customTime}}</span>
     </p>
-    <div class="supply-item-company onepx-t">
-      <img :src="item.userHeadIcon" v-errorImg class="company-avatar" />
-      <span class="company-name">{{item.userName}}</span>
-    </div>
   </div>
+  <p class="supply-item-title" :title="item.supplyDesc">{{item.supplyDesc}}
+  </p>
+  <div class="supply-item-company onepx-t">
+    <!-- <img :src="item.userHeadIcon" v-errorImg class="company-avatar" /> -->
+    <ts-image width="25" height="25" shape="round" :canView="false" :src="item.userHeadIcon" disabledHover style="vertical-align:initial"></ts-image>
+    <span class="company-name">{{item.userName}}</span>
+  </div>
+</div>
 </template>
 
 <script>
+import {
+  mapGetters
+} from 'vuex';
 export default {
-	methods: {
-		clickMethod() {
-			this.$emit('clickMethod');
-		}
-	},
-	props: {
-		item: {}
-	}
+  methods: {
+    clickMethod() {
+      this.$emit('clickMethod');
+    }
+  },
+  computed: {
+    ...mapGetters(['dicTree'])
+  },
+  props: {
+    item: {}
+  }
 };
 </script>
 
@@ -40,7 +44,7 @@ export default {
 .supply-item
   box-sizing border-box
   width 232px
-  height 335px
+  height 311px
   padding 16px
   background #fff
   cursor pointer
@@ -65,14 +69,13 @@ export default {
       line-height 32px
       color #fff
       background rgba(0, 0, 0, 0.4);
+      font-size 14px
       .number
         float left
         margin-left 6px
-        font-size 18px
       .time
         float right
         margin-right 6px
-        font-size 14px
   .supply-item-title
     position relative
     margin 16px 0
@@ -80,23 +83,24 @@ export default {
     height 25px
     line-height 25px
     overflow hidden
+    font-size 16px
     text-overflow ellipsis
     white-space nowrap
 
   .supply-item-company
-    padding-top 12px
+    padding-top 6px
     .company-avatar
       display inline-block
       vertical-align top
-      height 40px
-      width 40px
+      height 26px
+      width 26px
       border-radius 50%
     .company-name
       display inline-block
-      vertical-align top
-      height 40px
-      line-height 40px
+      line-height 26px
       width 138px
+      color #999
+      font-size 13px
       margin-left 6px
       overflow hidden
       white-space nowrap

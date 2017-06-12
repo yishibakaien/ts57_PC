@@ -14,7 +14,6 @@
 			        <ts-radio :label="item.dicValue" v-for="item in dicTree.PRODUCT_TYPE" :key="item.dicValue">{{item.name}}</ts-radio>
 			      </ts-radio-group>
 			    </ts-filter>
-
 					<ts-filter title="库存盘点">
 					 <ts-radio-group v-model="Filter.isStock" @change="handleChangeIsStock">
 						 <ts-radio :label="null">全部</ts-radio>
@@ -31,10 +30,10 @@
 			       disabledHover
 			       :src="product.defaultPicUrl">
 			       </ts-image>
-			       <p class="allmeterial-product--number">{{product.productNo}}</p>
+			       <p class="textSearch-product--number">{{product.productNo}}</p>
 			       <template slot="footer">
-			         ¥{{product.price}}/{{product.priceUnit | filterDict(DICT.PriceUnits) }}
-			         <ts-tag>{{product.publishStatus | filterDict(DICT.PublishStatus,'label2')}}</ts-tag>
+							 <span v-if="product.price>0&&!!product.price">¥{{product.price/100}}/{{product.priceUnit | filterDict(DICT.PriceUnits) }}</span>
+ 		          <span v-else>价格面议</span>
 			       </template>
 			     </ts-grid-item>
 			  </ts-grid>
@@ -175,6 +174,14 @@ export default {
 		display: table;
 		margin: 7px auto;
 	}
+	@component product{
+		@modifier number{
+      font-size: 16px;
+      margin-top: 10px;
+      text-align: left;
+      @utils-ellipsis;
+    }
+  }
 	@component tab-item{
 		max-width: 150px;
 	}

@@ -2,7 +2,7 @@
     <div class="">
       <ts-title-block>大家在找</ts-title-block>
       <ts-grid :data="History.list">
-         <ts-grid-item v-for="(product,index) in History.list" :key="product" @click="handleViewProduct(product.id)">
+         <ts-grid-item v-for="(product,index) in History.list" :key="product" @click="handleViewResult(product.id)" >
            <ts-image
             width="170"
             height="170"
@@ -50,11 +50,17 @@ export default {
     }
   },
   methods: {
+    // 页数改变
     handleChangePage(number) {
       this.Params.pageNo = number;
     },
+    // 查看花型
     handleViewProduct(id) {
       this.goto(`/product/${id}`);
+    },
+    // 查看结果
+    handleViewResult(id) {
+      this.goto(`/catagory/${id}`);
     }
   },
   async mounted() {
@@ -63,10 +69,10 @@ export default {
 };
 </script>
 <style scoped>
-  @component-namespace everyLooking{
-    @component pagination{
-      margin: 7px auto;
-      display: table;
-    }
+@component-namespace everyLooking {
+  @component pagination {
+    margin: 7px auto;
+    display: table;
   }
+}
 </style>
