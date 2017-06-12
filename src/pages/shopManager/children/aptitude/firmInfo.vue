@@ -44,8 +44,8 @@
         <ts-input v-else v-model="companyInfoForm.mainClient" :maxlength='20' style="width:250px"></ts-input>
       </ts-form-item>
       <ts-form-item label="厂房面积：" prop="plant">
-        <p v-if="Text.show" class="companyInfo-formItem-text">{{companyInfoForm.plant?companyInfoForm.plant+'㎡':''}}</p>
-        <ts-input v-else v-model="companyInfoForm.plant" style="width:250px">
+        <p v-if="Text.show" class="companyInfo-formItem-text">{{companyInfoForm.plant?companyInfoForm.plant+' ㎡':''}}</p>
+        <ts-input v-else :maxlenght="9" v-model="companyInfoForm.plant" style="width:250px">
           <span slot="append" style="padding:0 10px">㎡</span>
         </ts-input>
       </ts-form-item>

@@ -35,7 +35,7 @@
             <i class="add-radio-close" @click.self="handleDelIngredient(item,'newIngredient')">&times</i>
           </div>
           <!-- 新增的成分 -->
-            <ts-input :validateEvent="false" placeholder="自定义成分" @keyup.enter.native="handleAddIngredient" class="add-input" v-model="EditIngredient.newIngredient" @input="handleInputAddIngredient" v-clickoutside="handleAddIngredient"></ts-input>
+            <ts-input :validateEvent="false" placeholder="自定义成分" @keyup.enter.native="handleAddIngredient" class="add-input" v-model="EditIngredient.newIngredient" :maxlength="8" @input="handleInputAddIngredient" v-clickoutside="handleAddIngredient"></ts-input>
           </div>
         </ts-radio-group>
       </ts-form-item>
@@ -67,17 +67,17 @@
       </ts-form-item>
     <p class="add-list-title">选填内容</p>
     <ts-form-item label="价格：" prop="price">
-      <ts-input v-model="prince" style="width:320px" placeholder="请输入单价"></ts-input>
-      <ts-select style="width:12%" data-key-name="name" data-val-name="dicValue" placeholder="选择单位" :options='CopyDICTUnit' v-model="addPatternForm.priceUnit" :disabled="addPatternForm.isStock===1"></ts-select>
+      <ts-input v-model="prince" style="width:320px" :maxlength='9' placeholder="请输入单价"></ts-input>
+      <ts-select style="width:12%" data-key-name="name"  data-val-name="dicValue" placeholder="选择单位" :options='CopyDICTUnit' v-model="addPatternForm.priceUnit" :disabled="addPatternForm.isStock===1"></ts-select>
     </ts-form-item>
     <ts-form-item label="幅宽：" prop="width">
-      <ts-input v-model="addPatternForm.width" style="width:320px" placeholder="请输入幅宽"></ts-input>
+      <ts-input v-model="addPatternForm.width" :maxlength='9' style="width:320px" placeholder="请输入幅宽"></ts-input>
     </ts-form-item>
     <ts-form-item label="花高：" prop="height">
-      <ts-input v-model="addPatternForm.height" style="width:320px" placeholder="请输入花高"></ts-input>
+      <ts-input v-model="addPatternForm.height" :maxlength='9' style="width:320px" placeholder="请输入花高"></ts-input>
     </ts-form-item>
     <ts-form-item label="出码率：" prop="outRate">
-      <ts-input v-model="addPatternForm.outRate" style="width:320px" placeholder="请输入出码率"></ts-input>
+      <ts-input v-model="addPatternForm.outRate" :maxlength='9' style="width:320px" placeholder="请输入出码率"></ts-input>
     </ts-form-item>
     </ts-form>
     <ts-button type="primary" class="add-bottom-button" @click="submitForm('addPatternForm')">{{title}}</ts-button>

@@ -75,6 +75,7 @@ export default {
   },
   props: ['chooseItem'],
   created() {
+    // location.reload();
     this.Pic.activeIndex = 0;
     if (sessionStorage['flowerUrl']) {
       this.convertImgToBase64(sessionStorage['flowerUrl'], (base64Img) => {
@@ -82,8 +83,7 @@ export default {
       });
     }
   },
-  mounted() {},
-  destroyed() {
+  beforeDestroy() {
     sessionStorage.removeItem('flowerUrl');
   },
   watch: {

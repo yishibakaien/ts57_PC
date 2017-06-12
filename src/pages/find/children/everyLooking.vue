@@ -33,7 +33,7 @@ export default {
       History: {},
       Params: {
         pageNo: 1,
-        pageSize: 6
+        pageSize: 12
       },
       BurstHotSearch: {}
     };

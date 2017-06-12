@@ -1,5 +1,5 @@
-// import {ECB_KEY} from '@/common/dict/const';
-// import CryptoJS from 'crypto-js';
+import {ECB_KEY} from '@/common/dict/const';
+import CryptoJS from 'crypto-js';
 /**
  * @param  {date} Date 类型
  * @param  {fmt} 格式化格式 如 'yyyy-MM-dd hh:mm' -> 2017-04-20 13:47
@@ -207,7 +207,7 @@ export const convertImgToBase64 = (url, callback, outputFormat) => {
   var canvas = document.createElement('CANVAS');
   var ctx = canvas.getContext('2d');
   var img = new Image();
-  img.crossOrigin = 'Anonymous';
+  img.crossOrigin = 'anonymous';
   img.onload = function() {
     canvas.height = img.height;
     canvas.width = img.width;
@@ -219,16 +219,16 @@ export const convertImgToBase64 = (url, callback, outputFormat) => {
   img.src = url;
 };
 export const Encrypt = (word) => {
-  // var key = CryptoJS.enc.Utf8.parse(ECB_KEY);
-  // var srcs = CryptoJS.enc.Utf8.parse(word);
-  // var encrypted = CryptoJS.AES.encrypt(srcs, key, {
-  //   mode: CryptoJS.mode.ECB,
-  //   padding: CryptoJS.pad.Pkcs7
-  // });
-  // return encrypted.toString();
-  return word;
+  var key = CryptoJS.enc.Utf8.parse(ECB_KEY);
+  var srcs = CryptoJS.enc.Utf8.parse(word);
+  var encrypted = CryptoJS.AES.encrypt(srcs, key, {
+    mode: CryptoJS.mode.ECB,
+    padding: CryptoJS.pad.Pkcs7
+  });
+  return encrypted.toString();
+  // return word;
 };
 
 export const goto = (url) => {
-  window.open(`${url}`);
+  window.open(`#${url}`);
 };

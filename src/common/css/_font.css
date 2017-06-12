@@ -18,8 +18,12 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.icon-anzhuo:before {
+.icon-weixin:before {
   content: "\e900";
+  color: #00d00d;
+}
+.icon-anzhuo:before {
+  content: "\e901";
 }
 .icon-iOS:before {
   content: "\e92f";

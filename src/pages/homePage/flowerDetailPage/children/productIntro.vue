@@ -10,7 +10,7 @@
 				disabledHover
 				:src="productDetail.defaultPicUrl">
 				</ts-image>
-				<div class="productIntro-product-share" @click="handleCollected">
+				<div class="productIntro-product-share" @click="handleCollected" v-if="productDetail.userId!==userInfo.id">
 						<i :class="Collect.isCollected?'icon-yishoucang':'icon-shoucang'"></i>
 		        {{Collect.isCollected?'已收藏':'收藏'}}
 				</div>
@@ -36,7 +36,7 @@
 					<span class="">{{productDetail.ingredient}}</span>
 				</p><p>
 					<span class="grey">库&nbsp;&nbsp;&nbsp;存：</span>
-					<span class="">{{productDetail.isStock | filterDict(DICT.isStock,'label2')}}</span>
+					<span class="">{{productDetail.isStock | filterDict(DICT.isStock,'label')}}</span>
 				</p><p>
 					<span class="grey">货&nbsp;&nbsp;&nbsp;型：</span>
 					<span class="">{{productDetail.productShape | filterDict(dicTree.PRODUCT_SHAPE,'name')}}</span>
@@ -51,11 +51,11 @@
 					<span class="">{{productDetail.outRate}}</span>
 				</p>
 				<!-- 菜单 -->
-				<ts-grid class="productIntro-product-menu">
+				<ts-grid class="productIntro-product-menu" v-if="productDetail.userId!==userInfo.id">
 					<ts-popover trigger="click" :options="{placement: 'bottom'}" >
 							<div class="popper productIntro-popper-phone">
 		            <p class="productIntro-popper-phone-user">
-		              <strong>{{CompanySimpleInfo.phone}}</strong>
+		              <strong>{{companyInfo.phone}}</strong>
 		            </p>
 		            <div class="productIntro-popper-phone-tip">老板，拨打电话时，记得说明
 		              <br> 是坐视布管的客户哦～
@@ -69,7 +69,7 @@
 						<i class="icon-xunjia"></i>询价
 					</ts-grid-item>
 				</ts-grid>
-				<ts-grid class="productIntro-product-menu">
+				<ts-grid class="productIntro-product-menu" v-if="productDetail.userId!==userInfo.id">
 					<ts-grid-item @click.native="handleGoto3Ddress">
 						<i class="icon-shiyihui"></i>试衣
 					</ts-grid-item>
@@ -81,16 +81,16 @@
 		</div>
 		<!-- 右侧 -->
 		<div class="productIntro-wrapper-right onepx center">
-				<ts-image :src="CompanySimpleInfo.companyBanner" width="326" height="163" :canView="false"
+				<ts-image :src="companyInfo.companyBanner" width="326" height="163" :canView="false"
 				disabledHover class="productIntro-company-cover">
 				</ts-image>
-				<p class="productIntro-company-name">{{CompanySimpleInfo.companyName}}</p>
+				<p class="productIntro-company-name">{{companyInfo.companyName}}</p>
 				<div class="productIntro-company--type">
-					<span>{{CompanySimpleInfo.companyType | filterDict(DICT.userType)}}</span>
+					<span>{{companyInfo.companyType | filterDict(DICT.userType)}}</span>
 				</div>
 				<p class="productIntro-company-business">公司主营</p>
 				<div class="productIntro-company--span">
-					{{CompanySimpleInfo.companyBusiness}}
+					{{companyExtendBO.companyBusiness}}
 				</div>
 				<router-link :to="{path:`/shop/${productDetail.companyId}`}">
 					<ts-button type="primary"  class="productIntro-company--button">进入店铺</ts-button>
@@ -133,7 +133,6 @@ import {
 } from 'vuex';
 import DICT from '@/common/dict/';
 import {
-  getCompanyInfo,
   sampleAskFor,
   enquiryAskPrice,
   favoriteIsFavorite,
@@ -142,7 +141,7 @@ import {
 export default {
   data() {
     return {
-      CompanySimpleInfo: {},
+      companyExtendBO: {},
       DICT: {
         purchaseType: DICT.purchaseType,
         isStock: DICT.isStock,
@@ -241,7 +240,7 @@ export default {
   },
   computed: {
     ...mapGetters(['dicTree', 'productDetail', 'userInfo', 'companyInfo']),
-		// 是否显示索样
+    // 是否显示索样
     getIsShowSample() {
       return this.userInfo.userType === 1 && this.companyInfo.city === 440100 && this.companyInfo.province === 440000;
     }
@@ -255,11 +254,9 @@ export default {
     this.$store.dispatch('getCompanyInfo', this.userInfo.companyId);
   },
   watch: {
-    productDetail: {
+    companyInfo: {
       async handler(val) {
-        this.CompanySimpleInfo = (await getCompanyInfo({
-          id: val.companyId
-        })).data.data;
+        this.companyExtendBO = val.companyExtendBO;
       },
       deep: true
     }

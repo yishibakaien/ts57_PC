@@ -22,7 +22,7 @@
         <div class="qrcode-content">
           <div class="qrcode clearfix">
             <div class="img-wrapper">
-              <qrcode-vue :value="getAndriodLink" size="50" level="M"></qrcode-vue>
+              <qrcode-vue :value="getAppLink" size="50" level="M"></qrcode-vue>
             </div>
             <div class="desc">
               <p class="title">坐视布管APP</p>
@@ -40,12 +40,12 @@
         </div>
       </div>
       <div class="app-qrcode">
-        <i class="iconfont icon-shouji"></i>
+        <i class="iconfont icon-weixin"></i>
         <span>公众号</span>
         <div class="qrcode-content">
           <div class="qrcode clearfix">
             <div class="img-wrapper">
-              <qrcode-vue :value="getIosLink" size="50" level="H"></qrcode-vue>
+              <qrcode-vue :value="getWebLink" size="50" level="H"></qrcode-vue>
             </div>
             <div class="desc">
               <p class="title">关注微信公众号</p>
@@ -77,11 +77,11 @@ export default {
     isLogin() {
       return !this.token;
     },
-    getAndriodLink() {
-      return APP_LINK.andriod;
+    getAppLink() {
+      return APP_LINK.app;
     },
-    getIosLink() {
-      return APP_LINK.ios;
+    getWebLink() {
+      return APP_LINK.web;
     }
   },
   components: {

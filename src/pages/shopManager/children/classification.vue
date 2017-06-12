@@ -6,7 +6,7 @@
       <ts-button type="plain" @click="handleEditDialog">编辑分类</ts-button>
     </div>
     <div slot="footer" class="classification-footer">
-      <ts-button :disabled="chooseItem.length<=0" type="primary" v-show="Params.unbinding" @click="handleUnbindProduct({ids:chooseItem,unbinding:true,classId:Params.classId})">从本类移出</ts-button>
+      <ts-button :disabled="chooseItem.length<=0" type="primary" v-show="!Params.unbinding" @click="handleUnbindProduct({ids:chooseItem,unbinding:true,classId:Params.classId})">从本类移出</ts-button>
       <ts-button :disabled="chooseItem.length<=0" v-show="!Params.unbinding" type="primary" @click="handleShowDialog(chooseItem)" v-if="false">加入本类</ts-button>
       <ts-pagination class="classification-footer--pagation" @change="handleChangeCurrent" @page-size-change="handleChangePageSize" :current="BindingProductList.pageNO" :total="BindingProductList.totalPage">
       </ts-pagination>
@@ -189,7 +189,6 @@ export default {
   created() {
     this.index();
     !this.getCookie(this.Cookie.key) ? this.setCookie(this.Cookie.key, this.Cookie.value, this.Cookie.day) : '';
-    console.log(this.getCookie(this.Cookie.key));
   },
   computed: {
     ...mapGetters(['dicTree']),
@@ -288,6 +287,7 @@ export default {
           ids: params.ids,
           unbinding: params.unbinding
         });
+        this.BindingProductList = (await getBindingProductlist(this.Params)).data.data;
       });
     },
     // XXX:函数去抖=> 因为PC端修改分类不能批量修改 所以修改一个等800毫秒后执行
@@ -296,7 +296,7 @@ export default {
         className: event,
         id: item.id
       });
-    }, 1500),
+    }, 500),
     // 新增分类
     handleNew(formName) {
       this.$refs[formName].validate(async(valid) => {

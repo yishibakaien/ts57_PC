@@ -153,7 +153,7 @@
         城市：
       </div>
       <div class="grid-col-9">
-        {{companyInfo.province}} - {{companyInfo.city}}&nbsp;
+        {{companyInfo.province | filterArea(Area.province)}} - {{companyInfo.city | filterArea(Area.city)}}&nbsp;
       </div>
       <div class="grid-col-3">
         详细地址：
@@ -193,6 +193,10 @@ let amapManager = new AMapManager();
 export default {
   data() {
     return {
+      Area: {
+        province: [],
+        city: []
+      },
       DICT: {
         Nop: DICT.Nop,
         MachineNum: DICT.MachineNum,
@@ -201,10 +205,6 @@ export default {
         CompanyType: DICT.CompanyType
       },
       companyExtendBO: {},
-      Area: {
-        province: [],
-        city: []
-      },
       map: {
         mapCenter: [113.275, 23.11],
         zoom: 15,
@@ -228,7 +228,17 @@ export default {
     }
   },
   async created() {
-    this.Area.province = (await getAreabyLevel(0)).data.data;
+    // 省市的数据过滤成中文
+    // ==========
+    if (this.companyInfo.province) {
+      this.Area.province = (await getAreabyLevel(0)).data.data;
+    }
+    if (this.companyInfo.city) {
+      this.Area.city = (await getAreabyParent({
+        areaCode: this.addressInfoForm.province
+      })).data.data;
+    }
+    // ===========
   },
   watch: {
     // companyExtendBO的数据要深拷贝获取

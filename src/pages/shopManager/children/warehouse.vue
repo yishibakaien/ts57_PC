@@ -34,8 +34,8 @@
       <ts-checkbox-group v-model="chooseItem">
       <ts-menu-table v-for="item in productList.list" :key="item.id">
         <div slot="header-left">
-          <ts-checkbox :label="item.id" v-if="Filter.publishStatuss!==''">{{item.productNo}}&nbsp{{item.category | filterDict(dicTree.PRODUCT_TYPE,'name')}}</ts-checkbox>
-          <span v-else>{{item.productNo}}&nbsp{{item.category | filterDict(dicTree.PRODUCT_TYPE,'name')}}</span>
+          <ts-checkbox :label="item.id" v-if="Filter.publishStatuss!==''">{{item.productNo}}-{{item.category | filterDict(dicTree.PRODUCT_TYPE,'name')}}</ts-checkbox>
+          <span v-else>{{item.productNo}}-{{item.category | filterDict(dicTree.PRODUCT_TYPE,'name')}}</span>
         </div>
         <div slot="header-right">
           状态：<b>{{item.publishStatus | filterDict(DICT.PublishStatus,'label2')}}</b>
@@ -45,7 +45,7 @@
         </ts-menu-table-item>
         <!-- PublishStatus -->
         <ts-menu-table-item>
-          <p>{{item.isStock| filterDict(DICT.isStock,'label2')}}</p>
+          <p v-if="item.isStock===0">{{item.isStock| filterDict(DICT.isStock,'label2')}}</p>
           <p v-if="item.isStock===1">{{item.stock}}{{item.stockUnit|filterDict(DICT.StockUnits)}}</p>
         </ts-menu-table-item>
         <!-- Price -->
@@ -57,7 +57,7 @@
           询价次数：<a class="warehouse-table--collect" @click.self="handleCollect(item)">{{item.askCount}}</a>
         </ts-menu-table-item>
         <ts-menu-table-item>
-          <a class="warehouse-table--link" v-if="item.publishStatus!==2,getIsStore" @click="handleShelveProduct({goal:2,ids:item.id,isUp:true})">上架平台</a>
+          <a class="warehouse-table--link" v-if="item.publishStatus!==2&&getIsStore" @click="handleShelveProduct({goal:2,ids:item.id,isUp:true})">上架平台</a>
           <a class="warehouse-table--link" v-if="item.publishStatus!==1" @click="handleShelveProduct({goal:1,ids:item.id,isUp:true})">上架店铺</a>
           <a class="warehouse-table--link" v-if="item.publishStatus!==0" @click="handleShelveProduct({goal:0,ids:item.id})">下架</a>
           <router-link tag="a" class="warehouse-table--link" :to="{path:'addwarehouse',query:{id:item.id}}">
@@ -71,7 +71,7 @@
     </div>
     <div slot="footer" class="warehouse-footer">
       <div v-if="Filter.publishStatuss!==''">
-        <ts-button type="primary" :disabled="chooseItem.length<=0" v-if="Filter.publishStatuss!==2,getIsStore" @click="handleShelveProduct({goal:2,ids:chooseItem,isUp:true})">上架平台</ts-button>
+        <ts-button type="primary" :disabled="chooseItem.length<=0" v-if="Filter.publishStatuss!==2&&getIsStore" @click="handleShelveProduct({goal:2,ids:chooseItem,isUp:true})">上架平台</ts-button>
         <ts-button type="primary" :disabled="chooseItem.length<=0" v-if="Filter.publishStatuss!==1" @click="handleShelveProduct({goal:1,ids:chooseItem,isUp:true})">上架店铺</ts-button>
         <ts-button type="cancel" :disabled="chooseItem.length<=0" v-if="Filter.publishStatuss!==0" @click="handleShelveProduct({goal:0,ids:chooseItem})">下架</ts-button>
         <ts-button type="cancel" :disabled="chooseItem.length<=0" v-if="Filter.publishStatuss===0" @click="handleShowDialog(chooseItem)">删除</ts-button>
@@ -90,8 +90,8 @@
     <div slot="title" class="warehouse-collect-dialog--title">
       <div class="left">
         花型询价记录
-        <ts-image width='72' :canView="false" height="72" :src="Collect.productItem.picsUrl" style="vertical-align:bottom"></ts-image>
-        #{{Collect.productItem.productNo}} {{Collect.productItem.category | filterDict(dicTree.PRODUCT_TYPE,'name')}}
+        <ts-image width='72' :canView="false" height="72" :src="Collect.productItem.defaultPicUrl" style="vertical-align:bottom"></ts-image>
+        {{Collect.productItem.productNo}}-{{Collect.productItem.category | filterDict(dicTree.PRODUCT_TYPE,'name')}}
       </div>
       <ts-button type="cancel" @click="Collect.show=!Collect.show">关闭</ts-button>
     </div>
@@ -283,12 +283,18 @@ export default {
     },
     // 添加“分类”条件搜索
     async handleFilterPublishStatus(e) {
-      this.Params.publishStatuss = e;
+      this.Params = Object.assign({}, this.Params, {
+        publishStatuss: e,
+        pageNo: 1
+      });
       this.productList = (await getProductList(this.Params)).data.data;
     },
     // 添加“面料”条件搜索
     async handleFilterCategorys(e) {
-      this.Params.categorys = !e ? null : [this.Filter.categorys].map(item => parseInt(item));
+      this.Params = Object.assign({}, this.Params, {
+        categorys: !e ? null : [this.Filter.categorys].map(item => parseInt(item)),
+        pageNo: 1
+      });
       this.productList = (await getProductList(this.Params)).data.data;
     },
     // 处理接口处理

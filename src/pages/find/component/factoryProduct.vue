@@ -10,11 +10,9 @@
          class="factory-company--cover"
          :src="store.companyHeadIcon"></ts-image>
         <p class="factory-company--title">{{store.companyName}}</p>
-         <router-link :to="{ name: 'shop', params: { id: store.companyId }}" tag="span">
           <ts-button type="plain" size="large" class="factory-company--button" @click="handleViewStore(store.companyId)">
             访问店铺
           </ts-button>
-          </router-link>
       </div>
       <div class="factory-row--right">
         <div class="factory-list-block onepx-l onepx-r">

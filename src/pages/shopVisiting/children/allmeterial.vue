@@ -113,7 +113,10 @@ export default {
       this.Params.pageNo = number;
     },
     handleFilterCategorys(e) {
-      this.Params.category = e;
+      this.Params = Object.assign({}, this.Params, {
+        category: e,
+        pageNo: 1
+      });
     },
     handleViewProduct(id) {
       this.goto(`/product/${id}`);

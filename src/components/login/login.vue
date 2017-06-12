@@ -50,7 +50,7 @@
         </div>
       </div>
       <div class="download-main" v-if="!showLogin">
-        我是二维码
+        <qrcode-vue :value="getWebLink" size="150" level="H"></qrcode-vue>
       </div>
     </div>
   </div>
@@ -60,6 +60,7 @@
 <script>
 import * as reg from '@/common/js/regExp';
 import * as types from '@/store/types';
+import QrcodeVue from 'qrcode.vue';
 import {
   mapGetters
 } from 'vuex';
@@ -67,6 +68,9 @@ import {
   login,
   getVerifyCode
 } from '@/common/api/api';
+import {
+  APP_LINK
+} from '@/common/dict/const';
 export default {
   data() {
     return {
@@ -82,8 +86,14 @@ export default {
       showLogin: true
     };
   },
+  components: {
+    QrcodeVue
+  },
   computed: {
-    ...mapGetters(['token'])
+    ...mapGetters(['token']),
+    getAppLink() {
+      return APP_LINK.app;
+    }
   },
   methods: {
     checkTel() {
@@ -175,6 +185,7 @@ export default {
         }
         .login-body {
             padding: 32px;
+            height: 300px;
             .login-main {
                 .input-imgCode,
                 .input-password,

@@ -60,7 +60,7 @@
             </ts-menu-table-item>
             <!-- 收藏次数 -->
             <ts-menu-table-item>
-              收藏次数：<span class="supply-table--collect" @click.self="handleCollect(item.id)">{{item.favoriteCount}}</span>
+              收藏次数：<span class="supply-table--collect" @click.self="handleCollect(item)">{{item.favoriteCount}}</span>
             </ts-menu-table-item>
             <ts-menu-table-item>
               <a class="supply-table--link" @click="handleShowDialog(item.id)">关闭</a>
@@ -79,17 +79,17 @@
   <ts-dialog v-model="Collect.show" width="80%" class="supply-dialog" @confirm="Collect.show=false">
     <div slot="title" class="supply-collect-dialog--title">
       <div class="left">
-        <strong>花型询价记录</strong>
-        <ts-image width='72' :canView="false" height="72" :src="Collect.productItem.picsUrl" style="vertical-align:bottom"></ts-image>
+        <strong>供应收藏记录</strong>
+        <ts-image width='72' :canView="false" height="72" :src="Collect.productItem.productPicUrl" style="vertical-align:bottom"></ts-image>
         {{Collect.productItem.productNo}} {{Collect.productItem.category | filterDict(dicTree.PRODUCT_TYPE,'name')}}
       </div>
       <ts-button type="cancel" @click="Collect.show=!Collect.show">关闭</ts-button>
     </div>
     <ts-table :data="Collect.data.list">
-      <ts-column slot data-key="userMobile" align="center" name="手机号码"></ts-column>
+      <ts-column slot data-key="userMobile" align="center" name="收藏人账号"></ts-column>
       <ts-column slot data-key="userName" align="center" name="姓名"></ts-column>
-      <ts-column slot data-key="USERATYPE" align="center" name="身份"></ts-column>
-      <ts-column slot data-key="favDate" align="center" name="收藏时间"></ts-column>
+      <ts-column slot data-key="PURCHASETYPE" align="center" name="身份"></ts-column>
+      <ts-column slot data-key="DATE" align="center" name="收藏时间"></ts-column>
     </ts-table>
     <div class="supply-collect-dialog-footer supply-footer">
       <span>共{{Collect.data.totalNum}}条收藏</span>
@@ -125,7 +125,8 @@ export default {
         SupplyType: DICT.SupplyType,
         StockUnits: DICT.StockUnits,
         SupplyStatus: DICT.SupplyStatus,
-        SupplyShapes: DICT.SupplyShapes
+        SupplyShapes: DICT.SupplyShapes,
+        userType: DICT.userType
       },
       // =========
       // 传参
@@ -197,7 +198,8 @@ export default {
       handler(val) {
         if (val) {
           val.forEach(item => {
-            item.USERATYPE = this.filterDicts(item.userType, DICT.userType);
+            item.DATE = this.filterDate(item.favDate, 'date');
+            item.PURCHASETYPE = this.filterDict(item.userType, DICT.userType);
           });
         }
       },
@@ -211,7 +213,7 @@ export default {
       if (this.Collect.show) {
         this.Collect.productItem = id;
         this.Collect.data = (await getSupplyByFavList({
-          id: id,
+          id: id.id,
           pageSize: this.ParamsFavList.pageSize,
           pageNo: this.ParamsFavList.pageNo
         })).data.data;
@@ -238,17 +240,26 @@ export default {
     // ========
     // 添加“分类”条件搜索
     async handleFilterSupplyStatus(e) {
-      this.Params.supplyStatus = e;
+      this.Params = Object.assign({}, this.Params, {
+        supplyStatus: e,
+        pageNo: 1
+      });
       this.companySupplyList = (await getCompanySupplylist(this.Params)).data.data;
     },
     // 添加“面料种类”条件搜索
     async handleFilterSupplyTypes(e) {
-      this.Params.supplyTypes = e;
+      this.Params = Object.assign({}, this.Params, {
+        supplyTypes: e,
+        pageNo: 1
+      });
       this.companySupplyList = (await getCompanySupplylist(this.Params)).data.data;
     },
     // 添加“供货方式”条件搜索
     async handleFilterSupplyShapes(e) {
-      this.Params.supplyShapes = e;
+      this.Params = Object.assign({}, this.Params, {
+        supplyShapes: e,
+        pageNo: 1
+      });
       this.companySupplyList = (await getCompanySupplylist(this.Params)).data.data;
     },
     // 点击“删除”=>判断cookie是否显示

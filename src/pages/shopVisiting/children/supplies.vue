@@ -2,13 +2,13 @@
 <div class="allmeterial-wrapper">
   <div class="allmeterial-filter">
     <ts-filter title="供应分类">
-      <ts-radio-group v-model="Params.supplyType">
+      <ts-radio-group v-model="Params.supplyType" @change="handleFilterSupplyTypes">
         <ts-radio :label="null">全部</ts-radio>
         <ts-radio :label="item.dicValue" v-for="item in dicTree.PRODUCT_TYPE" :key="item.dicValue">{{item.name}}</ts-radio>
       </ts-radio-group>
     </ts-filter>
     <ts-filter title="供应布样">
-      <ts-radio-group v-model="Params.supplyShapes">
+      <ts-radio-group v-model="Params.supplyShapes" @change="handleFilterSupplyShapes">
         <ts-radio :label="null">全部</ts-radio>
         <ts-radio :label="item.dicValue" v-for="item in dicTree.PRODUCT_SHAPE" :key="item.dicValue">{{item.name}}</ts-radio>
       </ts-radio-group>
@@ -82,6 +82,18 @@ export default {
         query: {
           supplyId: id
         }
+      });
+    },
+    handleFilterSupplyTypes(e) {
+      this.Params = Object.assign({}, this.Params, {
+        supplyType: e,
+        pageNo: 1
+      });
+    },
+    handleFilterSupplyShapes(e) {
+      this.Params = Object.assign({}, this.Params, {
+        supplyShapes: e,
+        pageNo: 1
       });
     },
     handleChangePage(number) {
