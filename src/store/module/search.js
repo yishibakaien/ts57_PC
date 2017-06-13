@@ -15,12 +15,15 @@ const mutations = {
   GET_SEARCH_LIST(state, info) {
     state.search.list = state.search.list.concat(info);
   },
+  // 搜索记录清空
   SET_SEARCH_EMPTY(state) {
     state.search.list = [];
   },
+  // 获取搜索ID
   GET_SEARCH_ID(state, id) {
     state.search.id = id;
   },
+  // 处理状态
   SET_HANDLE_STATUS(state, status) {
     state.search.handleStatus = status;
   },

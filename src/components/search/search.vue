@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="search-wrapper all">
-    <ts-select class="search-select" data-key-name="label" data-val-name="dicValue" :options='DICT.SearchType' v-model="searchSelect" v-if="!globalLook" :disabled="search.handleStatus"></ts-select>
+    <slot name="select"></slot>
     <!-- 标签 -->
     <ts-tag shape="square" type="transparent" closable v-if="Pic.show" @close="handleDelPic">
       <div class="search-mask">
@@ -37,16 +37,14 @@
       <ts-button type="cancel" @click="Pic.isUploaded=!Pic.isUploaded">关闭</ts-button>
     </div>
   </div>
+  <!-- 正在处理 -->
   <div class="search-editPic onepx" v-show="search.handleStatus&&!Pic.isUploaded">
     <ts-button type="cancel" size="small" class="upload-tip--button button" @click="handleCanceSearch">取消搜索</ts-button>
     <p class="upload-tip">正在处理中，请稍候...</p>
     <ts-progress :percentage="search.progress"></ts-progress>
   </div>
   <!-- 裁剪图片 -->
-  <cropper-dialog :dialog="Cropper" :imageUrl="Pic.url" @change="handleGetDestImg" @close="handleCancelFind">
-    <div class="search-editPic--menu">
-      <ts-button type="primary" v-for="item in DICT.productType" :key="item.dicValue" @click="handleLookProduct(item.dicValue)">搜{{item.label}}</ts-button>
-    </div>
+  <cropper-dialog :dialog="Cropper" :imageUrl="Pic.url" @check="handleLookProduct" @change="handleGetResult">
   </cropper-dialog>
 </div>
 </template>
@@ -54,16 +52,10 @@
 import {
   mapGetters
 } from 'vuex';
-import DICT from '@/common/dict';
 import CropperDialog from './searchImgDialog.vue';
 export default {
   data() {
     return {
-      searchSelect: '',
-      DICT: {
-        SearchType: DICT.SearchType,
-        productType: DICT.SupplyType
-      },
       Search: {
         picList: [],
         val: ''
@@ -71,9 +63,6 @@ export default {
       // 双向绑定 => 与searchImgDialog中 dialog.show对应
       Cropper: {
         show: false
-      },
-      Progress: {
-        interval: null
       },
       Pic: {
         isUploaded: false,
@@ -85,8 +74,6 @@ export default {
     };
   },
   created() {
-    // 默认选择第一个 店内
-    this.searchSelect = '1';
     this.Search.val = this.$route.query.search;
     if (localStorage.getItem('historyItems')) {
       this.Search.picList = localStorage.getItem('historyItems').split('|');
@@ -108,39 +95,11 @@ export default {
   },
   beforeDestroy() {
     this.$store.commit('SET_PROGRESS', 1);
-    clearInterval(this.Progress.interval);
   },
   watch: {
     $route(to, from) {
       if (to.query.search) {
         this.Search.val = to.query.search;
-      }
-    },
-    dicTree: {
-      handler(val) {
-        this.DICT.productType = val.PRODUCT_TYPE;
-      },
-      deep: true
-    },
-    'search.id' (val) {
-      this.$store.commit('SET_PROGRESS', 100);
-      this.$store.commit('SET_HANDLE_STATUS', false);
-      this.$store.commit('CLEAR_INTERVAL');
-      clearInterval(this.Progress.interval);
-      if (this.globalLook) {
-        this.$router.push({
-          path: '/search/image',
-          query: {
-            imgId: val
-          }
-        });
-      } else {
-        this.$router.push({
-          path: `searchimage`,
-          query: {
-            imgId: val
-          }
-        });
       }
     },
     Pic: {
@@ -151,7 +110,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['dicTree', 'search', 'userInfo', 'companyInfo']),
+    ...mapGetters(['dicTree', 'search']),
     // 显示5张最近记录
     showPics() {
       return this.Search.picList.length >= 5 ? this.Search.picList.splice(0, 5) : this.Search.picList;
@@ -161,63 +120,25 @@ export default {
     CropperDialog
   },
   methods: {
-    // 获取裁剪的图片base64
-    handleGetDestImg(pic) {
-      this.Pic.destImg = pic;
-    },
+    // 取消搜索
     handleCanceSearch() {
       this.$store.commit('SET_HANDLE_STATUS', false);
       this.$store.commit('SET_PROGRESS', 1);
       this.$store.commit('CLEAR_INTERVAL');
-      clearInterval(this.Progress.interval);
     },
     // 选择分类的时候
-    async handleLookProduct(e) {
-      let data = {
-        encoded: this.Pic.destImg
-      };
-      sessionStorage.setItem('find-pic', JSON.stringify(data));
-      this.Cropper.show = false;
-      this.$store.commit('SET_PROGRESS', 1);
-      this.$store.commit('SET_HANDLE_STATUS', true);
-      if (this.search.handleStatus) {
-        this.Progress.interval = setInterval(() => {
-          if (this.search.progress === 95) {
-            this.$store.commit('SET_PROGRESS', 95);
-            clearInterval(this.Progress.interval);
-          } else {
-            this.$store.commit('SET_PROGRESS', (Math.random() * (this.search.progress += 3) + (this.search.progress++)).toFixed(2));
-          }
-        }, 1000);
-      }
+    async handleLookProduct(item) {
       if (this.globalLook) {
         await this.$store.dispatch('getSearchEncoded', {
-          category: e,
-          encoded: this.Pic.destImg,
+          category: item.category,
+          encoded: item.encoded,
           searchType: 300
-        });
-      } else {
-        await this.$store.dispatch('getSearchEncoded', {
-          category: e,
-          companyId: this.$route.params.id,
-          encoded: this.Pic.destImg,
-          searchType: this.searchSelect === 1 ? Number(`${this.companyInfo.companyType}00`) : 300
         });
       }
     },
     // 隐藏上传file控件
     handleUpload() {
       this.$refs.input.click();
-    },
-    handleCancelFind() {
-      this.Pic.url = '';
-    },
-    handleChoosePic(imgUrl) {
-      this.Search.picList.unshift(imgUrl);
-      this.historyItems.set(imgUrl);
-      this.Cropper.show = true;
-      this.Pic.url = imgUrl;
-      this.Pic.isUploaded = false;
     },
     // 上传图片
     uploadImg(e) {
@@ -234,33 +155,44 @@ export default {
         this.$toast('出错');
       }
     },
+    // 历史记录中选择
+    handleChoosePic(imgUrl) {
+      this.Search.picList.unshift(imgUrl);
+      this.historyItems.set(imgUrl);
+      // 裁剪对话框打开
+      this.Cropper.show = true;
+      this.Pic.url = imgUrl;
+      this.Pic.isUploaded = false;
+    },
+    // 删除图片
     handleDelPic(e) {
       this.Pic.url = '';
       this.Pic.isUploaded = false;
     },
+    // 清除历史记录
     handleClearHistory() {
       this.Search.picList = [];
       this.historyItems.clear();
+    },
+    handleGetResult(val) {
+      this.$router.push({
+          path: '/search/image',
+          query: {
+            imgId: val
+          }
+        });
     },
     // 搜索
     handleSearch() {
       if (this.Search.val) {
         let value = this.Search.val.trim();
         this.$emit('search', value);
-        if (this.globalLook || this.searchSelect === 2) {
+        if (this.globalLook) {
           this.$router.push({
             path: '/search/text',
             query: {
               search: value,
               searchType: 2
-            }
-          });
-        } else {
-          this.$router.push({
-            path: `searchtext`,
-            query: {
-              search: value,
-              searchType: 1
             }
           });
         }
@@ -331,12 +263,7 @@ export default {
       margin-bottom: 6px;
     }
   }
-  @component select {
-    width: 88px;
-    min-width: 80px;
-    max-width: 80px;
-    margin-right: 5px;
-  }
+
   @component mask {
     position: relative;
     p {
