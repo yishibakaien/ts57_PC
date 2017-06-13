@@ -30,7 +30,8 @@
       <ts-checkbox-group v-model="chooseItem">
         <ts-menu-table v-for="(item,index) in BindingProductList.list" :key="item.id">
           <div slot="header-left">
-            <ts-checkbox :label="item.id">{{item.productNo}}&nbsp{{item.category | filterDict(dicTree.PRODUCT_SHAPE)}}</ts-checkbox>
+            <ts-checkbox :label="item.id" v-if="!Params.unbinding"></ts-checkbox>
+            <span v-else>{{item.productNo}}&nbsp{{item.category | filterDict(dicTree.PRODUCT_SHAPE)}}</span>
           </div>
           <div slot="header-right">
             状态：
@@ -261,11 +262,9 @@ export default {
       await deleteProductCategory({
         ids: item.id
       });
-      this.Classification.userCategory = (await listUserProductCategory({
-        pageNo: 1,
-        pageSize: 1000
-      })).data.data.list;
+      await this.index();
     },
+    // 编辑分类
     async handleEditDialog() {
       this.Classification.editDialog = true;
     },
@@ -275,10 +274,7 @@ export default {
     },
     async closeEdit() {
       this.closeDialog('editDialog');
-      this.Classification.userCategory = (await listUserProductCategory({
-        pageNo: 1,
-        pageSize: 1000
-      })).data.data.list;
+      await this.index();
     },
     // 取消分类
     closeNew() {
@@ -296,9 +292,10 @@ export default {
       this.$messagebox.confirm('确认将选中花型从本类移出?').then(async action => {
         await bindingProduct({
           classId: params.classId,
-          ids: params.ids,
+          ids: params.ids.toString(),
           unbinding: params.unbinding
         });
+        await this.index();
         this.BindingProductList = (await getBindingProductlist(this.Params)).data.data;
       });
     },
@@ -327,10 +324,6 @@ export default {
         await sortProductCategory({
           ids: this.Classification.MovedIds
         });
-        this.Classification.userCategory = (await listUserProductCategory({
-          pageNo: 1,
-          pageSize: 1000
-        })).data.data.list;
         await this.index();
       }
       this.closeDialog('editDialog');
@@ -356,6 +349,7 @@ export default {
         isHot: this.Params.classId === this.ProductCategory.filter(item => item.className === '爆款')[0].id,
         productId: this.ConfirmDialog.id.toString()
       });
+      await this.index();
       this.ConfirmDialog.show = false;
       this.chooseItem = [];
       this.BindingProductList = (await getBindingProductlist(this.Params)).data.data;

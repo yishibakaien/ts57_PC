@@ -71,7 +71,8 @@
     </div>
     <div slot="footer" class="warehouse-footer">
       <div v-if="Filter.publishStatuss!==''">
-        <ts-checkbox v-if="!!Filter.publishStatuss" @change='handleChooseAll'>全选</ts-checkbox>
+        <ts-checkbox v-if="Filter.publishStatuss!==null" @change='handleChooseAll' v-model="checkAll">全选</ts-checkbox>
+        &nbsp;
         <ts-button type="primary" :disabled="chooseItem.length<=0" v-if="Filter.publishStatuss!==2&&getIsStore" @click="handleShelveProduct({goal:2,ids:chooseItem,isUp:true})">上架平台</ts-button>
         <ts-button type="primary" :disabled="chooseItem.length<=0" v-if="Filter.publishStatuss!==1" @click="handleShelveProduct({goal:1,ids:chooseItem,isUp:true})">上架店铺</ts-button>
         <ts-button type="cancel" :disabled="chooseItem.length<=0" v-if="Filter.publishStatuss!==0" @click="handleShelveProduct({goal:0,ids:chooseItem})">下架</ts-button>
@@ -153,6 +154,8 @@ export default {
       searchVal: '',
       // 选择的项目
       chooseItem: [],
+      // 全选
+      checkAll: '',
       // 参数
       // =======
       Params: {
@@ -221,6 +224,13 @@ export default {
         }
       },
       deep: true
+    },
+    Params: {
+      handler(val) {
+        this.checkAll = false;
+        this.chooseItem = [];
+      },
+      deep: true
     }
   },
   async created() {
@@ -270,8 +280,9 @@ export default {
       };
       this.productList = (await getProductList(this.Params)).data.data;
     },
+    // 全选
     handleChooseAll(event) {
-      this.chooseItem = this.productList.list.map(item => item.id);
+      this.chooseItem = event.target.checked ? this.productList.list.map(item => item.id) : [];
     },
     // 打开花型询价记录
     async handleCollect(item) {
@@ -312,6 +323,7 @@ export default {
         ids: [params.ids].join(','),
         isUp: params.isUp
       });
+      this.checkAll = false;
       this.chooseItem = [];
       // 重新花型列表接口
       this.productList = (await getProductList(this.Params)).data.data;
