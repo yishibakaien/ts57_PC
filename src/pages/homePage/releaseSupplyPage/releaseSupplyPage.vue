@@ -8,6 +8,12 @@
 			<h4 class="title">{{title}}</h4>
 			<div class="ts-form-box">
 				<ts-form :model="addSupplyForm" :rules="rules" ref="addSupplyForm" label-width="125px" label-position="left">
+					<ts-form-item label="花型图片：" prop="productPicUrl">
+						<ts-image width="200" height="200" :src="addSupplyForm.productPicUrl" v-show='Pic.show' type="local"></ts-image>
+						<label class="add-upload-button" for="addPic">{{Pic.text}}</label>
+						<aliUpload fileType="4" id="addPic" @doUpload="uploadImg"></aliUpload>
+						</label>
+					</ts-form-item>
 					<ts-form-item label="花型分类：" prop="supplyType">
 						<ts-radio-group bordered v-model="addSupplyForm.supplyType">
 							<ts-radio @change.native="handleSelect" :label="item.dicValue" v-for="item in dicTree.PRODUCT_TYPE" :key="item.dicValue">{{item.name}}</ts-radio>
@@ -21,12 +27,6 @@
 					<ts-form-item label="供应数量：" prop="supplyNum">
 						<ts-input :maxlength='9' v-model="addSupplyForm.supplyNum" style="width:320px"></ts-input>
 						<ts-select style="width:12%" data-key-name="name" data-val-name="dicValue" :options='CopyDICTUnit' v-model="addSupplyForm.supplyUnit"></ts-select>
-					</ts-form-item>
-					<ts-form-item label="花型图片：" prop="productPicUrl">
-						<ts-image width="200" height="200" :src="addSupplyForm.productPicUrl" v-show='Pic.show' type="local"></ts-image>
-						<label class="add-upload-button" for="addPic">{{Pic.text}}</label>
-						<aliUpload fileType="4" id="addPic" @doUpload="uploadImg"></aliUpload>
-						</label>
 					</ts-form-item>
 					<ts-form-item label="供应说明：" prop="supplyDesc">
 						<ts-input type="textarea" :rows="4" :maxlength='50' v-model="addSupplyForm.supplyDesc" placeholder="请输入供应说明"></ts-input>

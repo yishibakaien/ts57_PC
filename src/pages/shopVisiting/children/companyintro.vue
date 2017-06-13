@@ -227,27 +227,14 @@ export default {
       } catch (e) {}
     }
   },
-  async created() {
-    // 省市的数据过滤成中文
-    // ==========
-    if (this.companyInfo.province) {
-      this.Area.province = (await getAreabyLevel(0)).data.data;
-    }
-    if (this.companyInfo.city) {
-      this.Area.city = (await getAreabyParent({
-        areaCode: this.companyInfo.province
-      })).data.data;
-    }
-    // ===========
+  created() {
+    this.index();
   },
   watch: {
     // companyExtendBO的数据要深拷贝获取
     companyInfo: {
-      async handler(val) {
-        this.Area.city = (await getAreabyParent({
-          areaCode: val.city
-        })).data.data;
-        this.companyExtendBO = JSON.parse(JSON.stringify(val.companyExtendBO));
+      handler(val) {
+        this.index();
         this.map.mapCenter = ((val.lng + val.lat).length === 0) ? this.map.mapCenter : [Number(val.lng), Number(val.lat)];
         this.map.markers.push(this.map.mapCenter);
       },
@@ -262,6 +249,20 @@ export default {
     }
   },
   methods: {
+    // 进来加载数据
+    async index() {
+      if (this.companyInfo.province) {
+        this.Area.province = (await getAreabyLevel(0)).data.data;
+      }
+      if (this.companyInfo.city) {
+        this.Area.city = (await getAreabyParent({
+          areaCode: this.companyInfo.province
+        })).data.data;
+      }
+      if (this.companyInfo.companyExtendBO) {
+        this.companyExtendBO = JSON.parse(JSON.stringify(this.companyInfo.companyExtendBO));
+      }
+    },
     // 收藏店铺
     async handleCollectStore() {
       let res = (await favoriteBus({

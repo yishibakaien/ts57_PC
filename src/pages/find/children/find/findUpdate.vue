@@ -7,7 +7,7 @@
       </router-link>
     </div>
     <div class="update-container" v-for="item in NewProductList.list">
-      <factory-update @viewProduct="handleViewProduct" @viewStore="handleViewStore" :data="item">
+      <factory-update @viewProduct="handleViewProduct" @viewStore="handleViewStore" :data="item" :products="item.productList">
         <template slot="header">
           <p>新增&nbsp;<span>{{item.newCount}}</span>&nbsp;款／共&nbsp;<span>{{item.totalCount}}</span>&nbsp;款</p>
           <p>{{ item.publishDate | customTime }}</p>

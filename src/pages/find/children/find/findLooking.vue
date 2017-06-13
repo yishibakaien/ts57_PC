@@ -114,6 +114,7 @@ export default {
       font-size: 16px;
       margin-top: 10px;
       text-align: left;
+      max-width: 200px;
       @utils-ellipsis;
     }
   }

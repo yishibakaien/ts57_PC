@@ -14,11 +14,11 @@
   </div>
 
   <div class="homePage-box">
-    <div class="list" v-if="">
+    <div class="list" v-if="userInfo.userType!==1">
       <!-- 求购列表 -->
       <purchase-list :supply-list-obj="supplyListObj"></purchase-list>
     </div>
-    <div class="list">
+    <div class="list" v-if="userInfo.userType!==2">
       <!-- 供应列表 -->
       <supply-list :purchase-list-obj="purchaseListObj"></supply-list>
     </div>
@@ -45,7 +45,9 @@ import {
   entryList,
   qualityCompanyList
 } from '@/components';
-// api 请求
+import {
+  mapGetters
+} from 'vuex';
 import {
   listHomeBanners,
   listProductBuys,
@@ -66,6 +68,9 @@ export default {
       companys: [] // 优质厂家
     };
   },
+  computed: {
+    ...mapGetters(['userInfo'])
+  },
   components: {
     'vHeader': header,
     'vNav': nav,
@@ -76,59 +81,72 @@ export default {
     entryList,
     qualityCompanyList
   },
+  watch: {
+    userInfo: {
+      handler(val) {
+        this.index();
+      },
+      deep: true
+    }
+  },
+  methods: {
+    index() {
+      // 优质厂家
+      qualityCompanyList1().then((res) => {
+        this.companys = res.data.data.list;
+        let count = 9 - this.companys.length;
+        for (let i = 0; i <= count; i++) {
+          this.companys = this.companys.concat(this.companys);
+        }
+        this.companys = this.companys.splice(0, 9);
+      }).catch((res) => {});
+      // =====
+      // banner
+      listHomeBanners().then(res => {
+        let bannerArr = res.data.data;
+        bannerArr.forEach(function(item) {
+          item.src = item.picUrl;
+          // 接口中暂时未提供轮播图的 跳转地址，先用百度代替
+          item.href = 'https://www.baidu.com';
+        });
+        this.bannerImgs = bannerArr;
+      }).catch(res => {});
+      // ===
+      // 获取求购列表
+      listProductBuys({
+        buyStatus: 0,
+        pageNo: 1,
+        pageSize: 4
+      }).then(res => {
+        let data = {
+          type: 'buy',
+          data: res.data.data.list
+        };
+        this.purchaseListObj = data;
+      }).catch(res => {});
+      // 获取供应列表
+      listCompanySupplys({
+        supplyStatus: 1, // 供应状态 1--供应中 2--已关闭
+        pageNo: 1,
+        pageSize: 4
+      }).then(res => {
+        // 这里需要格式化 type 以便于后面 baseItem 逐渐分辨到底是 supply 还是 buy
+        let data = {
+          type: 'supply',
+          data: res.data.data.list
+        };
+        this.supplyListObj = data;
+      }).catch(res => {});
+      // 获取厂家入驻列表
+      findNewCompanyByIndex({
+        companyType: 1 // 1工厂 2 档口
+      }).then(res => {
+        this.newCompanyList = res.data.data;
+      }).catch(res => {});
+    }
+  },
   created() {
-    // 优质厂家
-    qualityCompanyList1().then((res) => {
-      this.companys = res.data.data.list;
-      let count = 9 - this.companys.length;
-      for (let i = 0; i <= count; i++) {
-        this.companys = this.companys.concat(this.companys);
-      }
-      this.companys = this.companys.splice(0, 9);
-    }).catch((res) => {});
-    // =====
-    // banner
-    listHomeBanners().then(res => {
-      let bannerArr = res.data.data;
-      bannerArr.forEach(function(item) {
-        item.src = item.picUrl;
-        // 接口中暂时未提供轮播图的 跳转地址，先用百度代替
-        item.href = 'https://www.baidu.com';
-      });
-      this.bannerImgs = bannerArr;
-    }).catch(res => {});
-    // ===
-    // 获取求购列表
-    listProductBuys({
-      buyStatus: 0,
-      pageNo: 1,
-      pageSize: 4
-    }).then(res => {
-      let data = {
-        type: 'buy',
-        data: res.data.data.list
-      };
-      this.purchaseListObj = data;
-    }).catch(res => {});
-    // 获取供应列表
-    listCompanySupplys({
-      supplyStatus: 1, // 供应状态 1--供应中 2--已关闭
-      pageNo: 1,
-      pageSize: 4
-    }).then(res => {
-      // 这里需要格式化 type 以便于后面 baseItem 逐渐分辨到底是 supply 还是 buy
-      let data = {
-        type: 'supply',
-        data: res.data.data.list
-      };
-      this.supplyListObj = data;
-    }).catch(res => {});
-    // 获取厂家入驻列表
-    findNewCompanyByIndex({
-      companyType: 1 // 1工厂 2 档口
-    }).then(res => {
-      this.newCompanyList = res.data.data;
-    }).catch(res => {});
+    this.index();
   }
 };
 </script>

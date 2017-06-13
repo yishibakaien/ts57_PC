@@ -15,8 +15,8 @@
 			<i class="icon-huaxin"></i>&nbsp;查找结果
 		</ts-title-block>
     <div class="lookingResult-result">
-      <ts-grid :data="Search.list">
-        <ts-grid-item style="width:240px" v-for="product in Search.list" :key="product" @click="handleViewProduct(product.id)">
+      <ts-grid :data="Search">
+        <ts-grid-item style="width:240px" v-for="product in Search" :key="product" @click="handleViewProduct(product.id)">
           <ts-image
            width="170"
            height="170"
@@ -32,7 +32,7 @@
          </ts-grid-item>
       </ts-grid>
     </div>
-    <ts-pagination type="page" :total="Search.totalNum" :current="Search.pageNO" :pageSize="Search.pageSize" class="lookingResult-pagination" @change="handleChangePage"></ts-pagination>
+    <ts-button class="lookingResult-pagination" @click="handleChangePage" type="plain">查找更多{{searchSingle.category | filterDict(dicTree.PRODUCT_TYPE,'name')}}</ts-button>
   </div>
 </template>
 
@@ -52,7 +52,7 @@ export default {
         user: {}
       },
       // 搜索记录列表
-      Search: {},
+      Search: [],
       Param: {
         id: '',
         pageNo: 1,
@@ -65,7 +65,7 @@ export default {
   },
   methods: {
     handleChangePage(number) {
-      this.Params.pageNo = number;
+      this.Param.pageNo++;
     },
     handleViewProduct(id) {
       this.goto(`/product/${id}`);
@@ -74,7 +74,8 @@ export default {
   watch: {
     Param: {
       async handler(val) {
-        this.Search = (await searchGetResult(val)).data.data;
+        let lists = (await searchGetResult(val)).data.data.list;
+        this.Search = this.Search.concat(lists);
       },
       deep: true
     }
@@ -97,6 +98,7 @@ export default {
       font-size: 16px;
       margin-top: 10px;
       text-align: left;
+      max-width: 200px;
       @utils-ellipsis;
     }
   }

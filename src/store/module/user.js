@@ -7,6 +7,9 @@ const state = {
 const mutations = {
   GET_USERINFO(state, userInfo) {
     state.userInfo = userInfo;
+  },
+  CLEAR_USERINFO(state, userInfo) {
+    state.userInfo = {};
   }
 };
 const actions = {

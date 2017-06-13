@@ -141,6 +141,7 @@ export default {
     @modifier number{
       font-size: 16px;
       margin-top: 10px;
+      max-width: 200px;
       text-align: left;
       @utils-ellipsis;
     }

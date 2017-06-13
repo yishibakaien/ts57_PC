@@ -1,6 +1,13 @@
 <template lang="html">
   <ts-section :pageTitle="title">
     <ts-form :model="addPatternForm" :rules="rules"  ref="addPatternForm" label-width="125px" label-position="left" >
+      <ts-form-item label="花型图片：" prop="defaultPicUrl">
+        <ts-image width="200" height="200" :src="addPatternForm.defaultPicUrl" type="local" v-show="Pic.show"></ts-image>
+          <label class="add-upload-button">
+            {{Pic.text}}
+            <ts-aliupload fileType="3" id="addPic" @doUpload="uploadImg"></ts-aliupload>
+          </label>
+      </ts-form-item>
       <ts-form-item label="花型编号：" prop="productNo">
         <ts-input v-model="addPatternForm.productNo" style="width:320px" placeholder="请输入花型编号"></ts-input>
         <!-- TODO：雨嘉说隐藏 -->
@@ -57,13 +64,6 @@
         <ts-radio-group bordered v-model="addPatternForm.publishStatus">
           <ts-radio :label="item.dicValue" :key="item.dicValue" v-for="item in DICT.PublishStatus">{{item.label}}</ts-radio>
         </ts-radio-group>
-      </ts-form-item>
-      <ts-form-item label="花型图片：" prop="defaultPicUrl">
-        <ts-image width="200" height="200" :src="addPatternForm.defaultPicUrl" type="local" v-show="Pic.show"></ts-image>
-          <label class="add-upload-button">
-            {{Pic.text}}
-            <ts-aliupload fileType="3" id="addPic" @doUpload="uploadImg"></ts-aliupload>
-          </label>
       </ts-form-item>
     <p class="add-list-title">选填内容</p>
     <ts-form-item label="价格：" prop="price">

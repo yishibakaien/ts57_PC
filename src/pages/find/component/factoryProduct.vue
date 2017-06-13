@@ -18,8 +18,8 @@
         <div class="factory-list-block onepx">
           <slot name="header"></slot>
         </div>
-        <ts-grid :data="data.productList">
-          <ts-grid-item v-for="product in data.productList" :key="product" @click="handleViewProduct(product.id)" :style="{'width':width}">
+        <ts-grid :data="products">
+          <ts-grid-item v-for="product in products" :key="product" @click="handleViewProduct(product.id)" :style="{'width':width}">
             <ts-image
              width="170"
              height="170"
@@ -30,7 +30,7 @@
              <p class="factory-product--number">{{product.productNo}}</p>
              <template slot="footer">
                {{product.category | filterDict(dicTree.PRODUCT_TYPE,'name')}}
-               <ts-tag>{{product.publishStatus | filterDict(DICT.PublishStatus,'label')}}</ts-tag>
+               <ts-tag>{{product.isStock | filterDict(DICT.isStock,'label')}}</ts-tag>
              </template>
            </ts-grid-item>
         </ts-grid>
@@ -50,12 +50,13 @@ export default {
     return {
       // 数据字典
       DICT: {
-        PublishStatus: DICT.PublishStatus
+        isStock: DICT.isStock
       }
     };
   },
   props: {
     data: [Array, Object],
+    products: [Array],
     width: {
       type: String,
       default: '200px'
@@ -117,6 +118,7 @@ export default {
       display: table-cell;
       vertical-align: middle;
       width: 100%;
+      background: #fff;
     }
   }
   @component company{
@@ -142,6 +144,7 @@ export default {
       font-size: 16px;
       margin-top: 10px;
       text-align: left;
+      max-width: 200px;
       @utils-ellipsis;
     }
   }

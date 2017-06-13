@@ -86,7 +86,9 @@ export default {
   },
   watch: {
     companyInfo(val) {
-      this.companyBusiness = val.companyExtendBO.companyBusiness;
+      if (val.companyExtendBO) {
+        this.companyBusiness = val.companyExtendBO.companyBusiness;
+      }
     }
   },
   computed: {

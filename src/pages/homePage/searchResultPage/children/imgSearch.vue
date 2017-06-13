@@ -137,7 +137,7 @@ export default {
     CropperDialog
   },
   beforeDestroy() {
-    this.$store.commit('SET_PROGRESS', 10);
+    this.$store.commit('SET_PROGRESS', 1);
     this.$store.commit('SET_HANDLE_STATUS', false);
     this.$store.commit('CLEAR_INTERVAL');
     this.$store.commit('SET_SEARCH_EMPTY');

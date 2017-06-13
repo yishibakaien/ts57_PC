@@ -21,7 +21,7 @@
   <div class="personal-flower-wrap clearfix" v-show='!defaultShow'>
     <div v tag="div" class="personal-goods-item" v-for="item in items" @click="handleGotoDetail(item)">
       <div class="personal-goods-item-img">
-        <img v-lazy="item.defaultPicUrl" alt="求购" />
+        <img v-lazy="item.defaultPicUrl"/>
         <span class="states green" v-if="item.isStock === 1">有库存</span>
         <span class="states gray" v-else>需要开机</span>
         <p class="p3">

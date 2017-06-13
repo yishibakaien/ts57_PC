@@ -97,6 +97,7 @@ export default {
     // 退出
     handleLogout() {
       this.$store.commit('LOGIN_OUT');
+      this.$store.commit('CLEAR_USERINFO');
       this.$router.push({
         path: '/homePage'
       });

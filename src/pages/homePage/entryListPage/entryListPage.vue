@@ -4,7 +4,7 @@
     <search></search>
   </v-header>
   <v-nav></v-nav>
-  <div class="entry-container">
+  <div class="entry-wrapper">
 		<entry-list></entry-list>
   </div>
 </div>

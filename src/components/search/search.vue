@@ -106,7 +106,7 @@ export default {
     }
   },
   beforeDestroy() {
-    this.$store.commit('SET_PROGRESS', 10);
+    this.$store.commit('SET_PROGRESS', 1);
     clearInterval(this.Progress.interval);
   },
   watch: {
@@ -171,7 +171,7 @@ export default {
       };
       sessionStorage.setItem('find-pic', JSON.stringify(data));
       this.Cropper.show = false;
-      this.$store.commit('SET_PROGRESS', 10);
+      this.$store.commit('SET_PROGRESS', 1);
       this.$store.commit('SET_HANDLE_STATUS', true);
       if (this.search.handleStatus) {
         this.Progress.interval = setInterval(() => {
@@ -179,7 +179,7 @@ export default {
             this.$store.commit('SET_PROGRESS', 95);
             clearInterval(this.Progress.interval);
           } else {
-            this.$store.commit('SET_PROGRESS', ++this.search.progress);
+            this.$store.commit('SET_PROGRESS', (Math.random() * (this.search.progress += 3) + (this.search.progress++)).toFixed(2));
           }
         }, 1000);
       }

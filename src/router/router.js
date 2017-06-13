@@ -30,12 +30,12 @@ const clause = r => require.ensure([], () => r(require('@/pages/clause/')), 'cla
 const threeDDress = r => require.ensure([], () => r(require('@/pages/3DDress/')), 'threeDDress');
 // 店铺访问
 const shopVisiting = r => require.ensure([], () => r(require('@/pages/shopVisiting/')), 'shopVisiting');
-const shopAllMeterials = r => require.ensure([], () => r(require('@/pages/shopVisiting/children/allmeterial')), 'shopVisiting');
-const shopCompanyIntro = r => require.ensure([], () => r(require('@/pages/shopVisiting/children/companyintro')), 'shopVisiting');
-const shopModels = r => require.ensure([], () => r(require('@/pages/shopVisiting/children/models')), 'shopVisiting');
-const shopProductIndex = r => require.ensure([], () => r(require('@/pages/shopVisiting/children/productindex')), 'shopVisiting');
-const shopSupplies = r => require.ensure([], () => r(require('@/pages/shopVisiting/children/supplies')), 'shopVisiting');
-const shopCatagoryProduct = r => require.ensure([], () => r(require('@/pages/shopVisiting/children/catagoryProduct')), 'shopVisiting');
+const shopAllMeterials = r => require.ensure([], () => r(require('@/pages/shopVisiting/children/allmeterial')), 'shopAllMeterials');
+const shopCompanyIntro = r => require.ensure([], () => r(require('@/pages/shopVisiting/children/companyintro')), 'shopCompanyIntro');
+const shopModels = r => require.ensure([], () => r(require('@/pages/shopVisiting/children/models')), 'shopModels');
+const shopProductIndex = r => require.ensure([], () => r(require('@/pages/shopVisiting/children/productindex')), 'shopProductIndex');
+const shopSupplies = r => require.ensure([], () => r(require('@/pages/shopVisiting/children/supplies')), 'shopSupplies');
+const shopCatagoryProduct = r => require.ensure([], () => r(require('@/pages/shopVisiting/children/catagoryProduct')), 'shopCatagoryProduct');
 // =============
 // 发现模块
 const find = r => require.ensure([], () => r(require('@/pages/find/')), 'find');

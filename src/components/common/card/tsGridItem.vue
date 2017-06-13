@@ -22,6 +22,7 @@ export default {
   @component grid{
     position: relative;
     padding: 4px;
+    cursor: pointer;
     box-sizing: border-box;
     word-wrap: 0;
     text-align: center;

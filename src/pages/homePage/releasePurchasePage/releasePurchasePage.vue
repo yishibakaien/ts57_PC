@@ -8,6 +8,11 @@
 			<h4 class="title">{{title}}</h4>
 			<div class="ts-form-box">
 				<ts-form :model="addBuyForm" :rules="rules" ref="addBuyForm" label-width="140px" label-position="left">
+					<ts-form-item label="花型图片：" prop="buyPicUrl">
+						<ts-image width="200" height="200" :src="addBuyForm.buyPicUrl" v-show='Pic.show' type="local"></ts-image>
+						<label class="add-upload-button" for="addPic">{{Pic.text}}</label>
+						<aliUpload fileType="4" id="addPic" @doUpload="uploadImg"></aliUpload>
+					</ts-form-item>
 					<ts-form-item label="花型分类：" prop="buyType">
 						<ts-radio-group bordered v-model="addBuyForm.buyType">
 							<ts-radio @change.native="handleSelect" origin :label="item.dicValue" v-for="item in dicTree.PRODUCT_TYPE" :key="item.dicValue">{{item.name}}</ts-radio>
@@ -26,11 +31,6 @@
 					<ts-form-item label="求购数量：" prop="buyNum">
 						<ts-input :maxlength='9' v-model="addBuyForm.buyNum" style="width:320px"></ts-input>
 						<ts-select style="width:12%" data-key-name="name" data-val-name="dicValue" :options='CopyDICTUnit' v-model="addBuyForm.buyUnit"></ts-select>
-					</ts-form-item>
-					<ts-form-item label="花型图片：" prop="buyPicUrl">
-						<ts-image width="200" height="200" :src="addBuyForm.buyPicUrl" v-show='Pic.show' type="local"></ts-image>
-						<label class="add-upload-button" for="addPic">{{Pic.text}}</label>
-						<aliUpload fileType="4" id="addPic" @doUpload="uploadImg"></aliUpload>
 					</ts-form-item>
 					<ts-form-item label="求购说明：" prop="buyDesc">
 						<ts-input type="textarea" :rows="4" :maxlength='200' v-model="addBuyForm.buyDesc" placeholder="请输入求购说明"></ts-input>

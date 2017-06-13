@@ -122,7 +122,10 @@ export default {
   },
   watch: {
     searchValue(val) {
-      this.Params.keywords = val;
+      this.Params = Object.assign({}, this.Params, {
+        keywords: val,
+        pageNo: 1
+      });
     },
     async selected(val) {
       if (val === '2') {
@@ -179,6 +182,7 @@ export default {
       font-size: 16px;
       margin-top: 10px;
       text-align: left;
+			max-width: 200px;
       @utils-ellipsis;
     }
   }

@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="productIndex">
-    <div v-for="(item,index) in CompanyProducts">
+    <div v-for="(item,index) in CompanyProducts" v-if="!!item.list.length">
       <ts-title-block :bodyStyle="{'font-size':'20px'}">
         <i class="icon-huaxin"></i>&nbsp;{{item.className}}
         <a slot="menu" v-if="!!item.list.length&&item.classId!==getHotSearch" @click="handleGoto(item)">
@@ -132,6 +132,7 @@ export default {
     @modifier number{
       font-size: 16px;
       margin-top: 10px;
+      max-width: 200px;
       text-align: left;
       @utils-ellipsis;
     }
