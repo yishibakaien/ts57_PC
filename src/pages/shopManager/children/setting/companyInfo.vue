@@ -123,24 +123,24 @@ export default {
       // 验证规则
       rules: {
         companyName: [{
-          min: 4,
+          min: 2,
           max: 15,
-          message: '公司名称的长度在 5 到 15 个字符'
+          message: '公司名称的长度在 2 到 15 个字符'
         }],
         companyBusiness: [{
           min: 2,
           max: 50,
-          message: '公司主营的长度在2到50位个字符'
+          message: '公司主营的长度在 2 到 15 个字符'
         }],
         companyProfile: [{
           min: 2,
           max: 50,
-          message: '公司简介的长度在2到50位个字符'
+          message: '公司简介的长度在 2 到 15 个字符'
         }],
         companyAbbreviation: [{
           min: 2,
           max: 8,
-          message: '公司简称的长度在2到8位个字符'
+          message: '公司简称的长度在 2 到 15 个字符'
         }],
         contactTel: [{
           message: '请输入正确的座机号码',

@@ -77,6 +77,7 @@
   </ts-dialog>
   <!-- 编辑分类 -->
   <ts-dialog v-model="Classification.editDialog" class="classification-edit-dialog" title="编辑分类" @cancel="closeEdit" @close="closeEdit" @confirm="handleEdit" :width="getColumnCount*30+'%'">
+    <ts-button type="plain" size="large" @click="handleAddNew" v-if="getUserCategoryLength">新增分类</ts-button>
     <div class="classification-edit-dialog--column" :style="{'column-count':getColumnCount}">
       <div class="classification-edit-dialog--item onepx-b" v-for="(item,index) in Classification.userCategory">
         <ts-input style="width:230px" :value="item.className" @input="handleInput(item,$event)"></ts-input>
@@ -196,6 +197,10 @@ export default {
     getColumnCount() {
       return this.Classification.userCategory.length > 8 ? 2 : 1;
     },
+    // 用户自定义分类是否为空
+    getUserCategoryLength() {
+      return this.Classification.userCategory.length <= 0;
+    },
     // 产品所有分类
     ProductCategory() {
       return [...this.Classification.systemCategory, ...this.Classification.userCategory];
@@ -217,6 +222,13 @@ export default {
     // =========
     async handleChangeCurrent(current) {
       this.Params.pageNo = current;
+    },
+    // 如果没有分类可以编辑的时候=>新增分类打开
+    handleAddNew() {
+      this.closeDialog('editDialog');
+      setTimeout(() => {
+        this.Classification.newDialog = true;
+      }, 400);
     },
     async handleChangePageSize(size) {
       this.Params.pageSize = size;

@@ -81,16 +81,16 @@
 		</div>
 		<!-- 右侧 -->
 		<div class="productIntro-wrapper-right onepx center">
-				<ts-image :src="companyInfo.companyBanner" width="326" height="163" :canView="false"
+				<ts-image :src="CompanySimpleInfo.companyBanner" width="326" height="163" :canView="false"
 				disabledHover class="productIntro-company-cover">
 				</ts-image>
-				<p class="productIntro-company-name">{{companyInfo.companyName}}</p>
+				<p class="productIntro-company-name">{{CompanySimpleInfo.companyName}}</p>
 				<div class="productIntro-company--type">
-					<span>{{companyInfo.companyType | filterDict(DICT.userType)}}</span>
+					<span>{{CompanySimpleInfo.companyType | filterDict(DICT.userType)}}</span>
 				</div>
 				<p class="productIntro-company-business">公司主营</p>
 				<div class="productIntro-company--span">
-					{{companyExtendBO.companyBusiness}}
+					{{CompanySimpleInfo.companyBusiness}}
 				</div>
 				<router-link :to="{path:`/shop/${productDetail.companyId}`}">
 					<ts-button type="primary"  class="productIntro-company--button">进入店铺</ts-button>
@@ -133,6 +133,7 @@ import {
 } from 'vuex';
 import DICT from '@/common/dict/';
 import {
+  getCompanySimpleInfo,
   sampleAskFor,
   enquiryAskPrice,
   favoriteIsFavorite,
@@ -142,6 +143,7 @@ export default {
   data() {
     return {
       companyExtendBO: {},
+      CompanySimpleInfo: {},
       DICT: {
         purchaseType: DICT.purchaseType,
         isStock: DICT.isStock,
@@ -246,7 +248,7 @@ export default {
     }
   },
   async created() {
-		// 是否收藏
+    // 是否收藏
     let res = (await favoriteIsFavorite({
       businessId: this.$route.params.id,
       businessType: 1
@@ -255,6 +257,14 @@ export default {
     this.$store.dispatch('getCompanyInfo', this.userInfo.companyId);
   },
   watch: {
+    productDetail: {
+      async handler(val) {
+        this.CompanySimpleInfo = (await getCompanySimpleInfo({
+          id: val.companyId
+        })).data.data;
+      },
+      deep: true
+    },
     companyInfo: {
       async handler(val) {
         this.companyExtendBO = val.companyExtendBO;

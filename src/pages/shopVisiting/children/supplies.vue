@@ -8,7 +8,7 @@
       </ts-radio-group>
     </ts-filter>
     <ts-filter title="供应布样">
-      <ts-radio-group v-model="Params.supplyShapes" @change="handleFilterSupplyShapes">
+      <ts-radio-group v-model="Params.supplyShape" @change="handleFilterSupplyShapes">
         <ts-radio :label="null">全部</ts-radio>
         <ts-radio :label="item.dicValue" v-for="item in dicTree.PRODUCT_SHAPE" :key="item.dicValue">{{item.name}}</ts-radio>
       </ts-radio-group>
@@ -54,7 +54,7 @@ export default {
         pageNo: 1,
         companyId: '',
         supplyType: null,
-        supplyShapes: null
+        supplyShape: null
       },
       CategoryList: [],
       ProductList: {}
@@ -92,7 +92,7 @@ export default {
     },
     handleFilterSupplyShapes(e) {
       this.Params = Object.assign({}, this.Params, {
-        supplyShapes: e,
+        supplyShape: e,
         pageNo: 1
       });
     },

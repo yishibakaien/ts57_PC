@@ -26,7 +26,7 @@ const mutations = {
   },
   // 进度条控制
   SET_PROGRESS(state, progress) {
-    state.search.progress = progress;
+    state.search.progress = Number(progress);
   },
   CLEAR_INTERVAL(state) {
     clearInterval(state.search.setInterval);

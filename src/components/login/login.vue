@@ -23,7 +23,7 @@
           <div class="input-password" :class="{warn: passwordTip}">
             <div class="tip" v-if="passwordTip">{{passwordTip}}</div>
             <i class="text iconfont icon-mima"></i>
-            <input class="input" autocomplete="off" type="password" maxlength="16" placeholder="请输入密码" v-model="userData.userPWD" @input="userPWDIpt" @blur="checkPWD">
+            <input class="input" autocomplete="off" type="password" maxlength="16" placeholder="请输入密码" v-model="userData.userPWD" @input="userPWDIpt" @blur="checkPWD" @keyup.enter="loginMethod">
           </div>
 
           <div class="input-imgCode" v-if="showPicCode">
@@ -94,6 +94,11 @@ export default {
       return APP_LINK.app;
     }
   },
+  created() {
+    if (localStorage['user-account']) {
+      this.userData.userMobile = JSON.parse(localStorage['user-account']).userMobile;
+    }
+  },
   methods: {
     checkTel() {
       if (!reg.testMobile(this.userData.userMobile)) {
@@ -134,8 +139,11 @@ export default {
           }
           this.$store.commit('GET_USERINFO', res.data.data);
           this.$store.commit('LOGIN', res.headers['x-token']);
-          this.$store.commit(types.LOGIN_MASK, false);
+          localStorage['user-account'] = JSON.stringify({
+            userMobile: this.userData.userMobile
+          });
           this.$store.dispatch('getDicTree');
+          this.$store.commit(types.LOGIN_MASK, false);
         } else if (res.data.code === 2000004) {
           this.showPicCode = true;
           this.getVerifyCodeMethod();
@@ -233,11 +241,11 @@ export default {
                 .input-imgCode {
                     position: relative;
                     img {
-                      position: absolute;
-                      width: 76px;
-                      height: 34px;
-                      top: 4px;
-                      right: 4px;
+                        position: absolute;
+                        width: 76px;
+                        height: 34px;
+                        top: 4px;
+                        right: 4px;
                     }
                 }
             }

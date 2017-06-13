@@ -38,6 +38,7 @@
     </div>
   </div>
   <div class="search-editPic onepx" v-show="search.handleStatus&&!Pic.isUploaded">
+    <ts-button type="cancel" size="small" class="upload-tip--button button" @click="handleCanceSearch">取消搜索</ts-button>
     <p class="upload-tip">正在处理中，请稍候...</p>
     <ts-progress :percentage="search.progress"></ts-progress>
   </div>
@@ -89,11 +90,11 @@ export default {
     this.Search.val = this.$route.query.search;
     if (localStorage.getItem('historyItems')) {
       this.Search.picList = localStorage.getItem('historyItems').split('|');
+      // 监听localStorage.historyItem的变化
+      window.addEventListener('storage', () => {
+        this.Search.picList = localStorage.getItem('historyItems').split('|');
+      }, false);
     }
-    // 监听localStorage.historyItem的变化
-    window.addEventListener('storage', () => {
-      this.Search.picList = localStorage.getItem('historyItems').split('|');
-    }, false);
   },
   props: {
     globalLook: {
@@ -163,6 +164,12 @@ export default {
     // 获取裁剪的图片base64
     handleGetDestImg(pic) {
       this.Pic.destImg = pic;
+    },
+    handleCanceSearch() {
+      this.$store.commit('SET_HANDLE_STATUS', false);
+      this.$store.commit('SET_PROGRESS', 1);
+      this.$store.commit('CLEAR_INTERVAL');
+      clearInterval(this.Progress.interval);
     },
     // 选择分类的时候
     async handleLookProduct(e) {
@@ -380,6 +387,10 @@ export default {
 
 .upload-tip {
   line-height: 50px;
+}
+
+.upload-tip--button.button {
+  position: absolute * 10px * *;
 }
 </style>
 <style lang="scss">

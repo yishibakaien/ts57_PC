@@ -48,6 +48,9 @@ export const filterDate = (value, type = 'dateTime') => {
 };
 // 自定义时间
 export const customTime = item => {
+  if (!item) {
+    return '';
+  }
   // =======now
   let nowTime = new Date().getTime();
   let minuteTime = 60 * 1000;
@@ -88,114 +91,114 @@ export const customTime = item => {
 
 // 单位转换
 export const unit = item => {
-	let unitStr;
-	if (item === 400010) {
-		unitStr = '码';
-	}
-	if (item === 400011) {
-		unitStr = '公斤';
-	}
-	if (item === 400012) {
-		unitStr = '条';
-	}
-	return unitStr;
+  let unitStr;
+  if (item === 400010) {
+    unitStr = '码';
+  }
+  if (item === 400011) {
+    unitStr = '公斤';
+  }
+  if (item === 400012) {
+    unitStr = '条';
+  }
+  return unitStr;
 };
 
 // 类型转换
 export const type = item => {
-	let typeStr;
-	if (item === 100010) {
-		typeStr = '面料';
-	}
-	if (item === 100011) {
-		typeStr = '大边';
-	}
-	if (item === 100012) {
-		typeStr = '小边';
-	}
-	if (item === 100013) {
-		typeStr = '睫毛';
-	}
-	return typeStr;
+  let typeStr;
+  if (item === 100010) {
+    typeStr = '面料';
+  }
+  if (item === 100011) {
+    typeStr = '大边';
+  }
+  if (item === 100012) {
+    typeStr = '小边';
+  }
+  if (item === 100013) {
+    typeStr = '睫毛';
+  }
+  return typeStr;
 };
 
 // 是否接受开机
 export const isStartUp = item => {
-	let isStartUpStr;
-	if (item === 1) {
-		isStartUpStr = '接收开机';
-	}
-	if (item === 0) {
-		isStartUpStr = '不接收开机';
-	}
-	return isStartUpStr;
+  let isStartUpStr;
+  if (item === 1) {
+    isStartUpStr = '接收开机';
+  }
+  if (item === 0) {
+    isStartUpStr = '不接收开机';
+  }
+  return isStartUpStr;
 };
 
 // 求购状态
 export const buyStatus = item => {
-	let buyStatusStr;
-	if (item === 0) {
-		buyStatusStr = '已删除';
-	}
-	if (item === 1) {
-		buyStatusStr = '求购中';
-	}
-	if (item === 2) {
-		buyStatusStr = '已完成';
-	}
-	if (item === 3) {
-		buyStatusStr = '已关闭';
-	}
-	return buyStatusStr;
+  let buyStatusStr;
+  if (item === 0) {
+    buyStatusStr = '已删除';
+  }
+  if (item === 1) {
+    buyStatusStr = '求购中';
+  }
+  if (item === 2) {
+    buyStatusStr = '已完成';
+  }
+  if (item === 3) {
+    buyStatusStr = '已关闭';
+  }
+  return buyStatusStr;
 };
 
 // 供应状态
 export const supplyStatus = item => {
-	let supplyStatusStr;
-	if (item === 0) {
-		supplyStatusStr = '已删除';
-	}
-	if (item === 1) {
-		supplyStatusStr = '供应中';
-	}
-	if (item === 2) {
-		supplyStatusStr = '已关闭';
-	}
-	return supplyStatusStr;
+  let supplyStatusStr;
+  if (item === 0) {
+    supplyStatusStr = '已删除';
+  }
+  if (item === 1) {
+    supplyStatusStr = '供应中';
+  }
+  if (item === 2) {
+    supplyStatusStr = '已关闭';
+  }
+  return supplyStatusStr;
 };
 
 // 现货或做货
 export const productStatus = item => {
-	let productStatusStr;
-	if (item === 200012) {
-		productStatusStr = '现货';
-	}
-	if (item === 200013) {
-		productStatusStr = '做货';
-	}
-	return productStatusStr;
+  let productStatusStr;
+  if (item === 200012) {
+    productStatusStr = '现货';
+  }
+  if (item === 200013) {
+    productStatusStr = '做货';
+  }
+  return productStatusStr;
 };
 
 // 是否有库存
 export const isStock = item => {
-	let isStockStr;
-	if (item === 1) {
-		isStockStr = '有库存';
-	}
-	if (item === 0) {
-		isStockStr = '需要开机';
-	}
-	return isStockStr;
+  let isStockStr;
+  if (item === 1) {
+    isStockStr = '有库存';
+  }
+  if (item === 0) {
+    isStockStr = '需要开机';
+  }
+  return isStockStr;
 };
 
 // 大伙类型
 export const buyShape = item => {
-	let buyShapeStr;
-	if (item === 200010) {
-		buyShapeStr = '胚布';
-	}
-	if (item === 200011) {
-		buyShapeStr = '成品';
-	}
-	return buyShapeStr;
+  let buyShapeStr;
+  if (item === 200010) {
+    buyShapeStr = '胚布';
+  }
+  if (item === 200011) {
+    buyShapeStr = '成品';
+  }
+  return buyShapeStr;
 };

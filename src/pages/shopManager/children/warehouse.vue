@@ -71,6 +71,7 @@
     </div>
     <div slot="footer" class="warehouse-footer">
       <div v-if="Filter.publishStatuss!==''">
+        <ts-checkbox v-if="!!Filter.publishStatuss" @change='handleChooseAll'>全选</ts-checkbox>
         <ts-button type="primary" :disabled="chooseItem.length<=0" v-if="Filter.publishStatuss!==2&&getIsStore" @click="handleShelveProduct({goal:2,ids:chooseItem,isUp:true})">上架平台</ts-button>
         <ts-button type="primary" :disabled="chooseItem.length<=0" v-if="Filter.publishStatuss!==1" @click="handleShelveProduct({goal:1,ids:chooseItem,isUp:true})">上架店铺</ts-button>
         <ts-button type="cancel" :disabled="chooseItem.length<=0" v-if="Filter.publishStatuss!==0" @click="handleShelveProduct({goal:0,ids:chooseItem})">下架</ts-button>
@@ -268,6 +269,9 @@ export default {
         publishStatuss: ''
       };
       this.productList = (await getProductList(this.Params)).data.data;
+    },
+    handleChooseAll(event) {
+      this.chooseItem = this.productList.list.map(item => item.id);
     },
     // 打开花型询价记录
     async handleCollect(item) {

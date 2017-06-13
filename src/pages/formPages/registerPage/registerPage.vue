@@ -113,6 +113,7 @@ import {
 import {
   getRegSMSCode,
   reg,
+  login,
   checkPhone
 } from '@/common/api/api';
 import Toast from '@/components/common/toast/toast';
@@ -274,8 +275,9 @@ export default {
           console.error('获取短信请求错误', res);
         });
     },
+    // 提交注册
     register() {
-      let _this = this;
+      // let _this = this;
       let data = this.registerData;
       for (let key in data) {
         if (!data.hasOwnProperty(key)) {
@@ -352,16 +354,21 @@ export default {
               type: 'success',
               message: '注册成功'
             });
-            _this.$router.push({
-              path: '/loginPage'
+            login({
+              userMobile: this.registerData.userMobile,
+              userPWD: this.registerData.userPWD
+            }).then(res => {
+              if (!res.data.code) {
+                this.$store.commit('GET_USERINFO', res.data.data);
+                localStorage['user-account'] = JSON.stringify({
+                  userMobile: this.registerData.userMobile
+                });
+                this.$store.commit('LOGIN', res.headers['x-token']);
+                this.$store.dispatch('getDicTree');
+                this.$router.push(`/homePage`);
+              }
             });
           }
-        })
-        .catch(res => {
-          Toast({
-            type: 'error',
-            message: '注册失败，请重试'
-          });
         });
     }
   }

@@ -72,7 +72,7 @@
 		</div>
     <cropper-dialog :dialog="Cropper" :imageUrl="Pic.encoded" @change="handleGetDestImg">
 			<div class="imgSearch-editPic--menu">
-	      <ts-button type="primary" v-for="item in dicTree.PRODUCT_TYPE" :key="item.dicValue" @click="handleLookProduct(item.dicValue)">搜{{item.name}}</ts-button>
+	      <ts-button type="primary" v-for="item in DICT.productType" :key="item.dicValue" @click="handleLookProduct(item.dicValue)">搜{{item.name}}</ts-button>
 	    </div>
     </cropper-dialog>
 	</div>
@@ -82,6 +82,7 @@
 import {
   getCompanyBestList
 } from '@/common/api/api';
+import DICT from '@/common/dict';
 import {
   mapGetters
 } from 'vuex';
@@ -101,6 +102,9 @@ export default {
         naturalWidth: 0,
         encoded: '',
         canCropper: true
+      },
+      DICT: {
+        productType: DICT.SupplyType
       },
       Params: {
         id: '',
@@ -143,7 +147,7 @@ export default {
     this.$store.commit('SET_SEARCH_EMPTY');
   },
   computed: {
-    ...mapGetters(['search', 'dicTree', 'userInfo']),
+    ...mapGetters(['search', 'userInfo']),
     isShopRoute() {
       return this.$route.path.indexOf('/shop/') >= 0;
     },
