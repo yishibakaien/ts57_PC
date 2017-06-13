@@ -246,6 +246,7 @@ export default {
     }
   },
   async created() {
+		// 是否收藏
     let res = (await favoriteIsFavorite({
       businessId: this.$route.params.id,
       businessType: 1
