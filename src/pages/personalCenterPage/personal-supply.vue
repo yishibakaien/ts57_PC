@@ -100,19 +100,23 @@
 					_.pageMax = res.data.data.totalPage;
 				}
 			}).catch();
-			countSupply().then((res) => {
-				if (res.data.code === 0) {
-					_.classes.totalNum = res.data.data.countSupply;
-					_.classes.mianliao = res.data.data.countML;
-					_.classes.large = res.data.data.countDB;
-					_.classes.small = res.data.data.countXB;
-					_.classes.eyelash = res.data.data.countJM;
-					_.classes.statusPeibu = res.data.data.countPB;
-					_.classes.statusChengpin = res.data.data.countCP;
-				}
-			}).catch();
+			this.countSupplyMethod();
 		},
 		methods: {
+			countSupplyMethod() {
+				let _ = this;
+				countSupply().then((res) => {
+					if (res.data.code === 0) {
+						_.classes.totalNum = res.data.data.countSupply;
+						_.classes.mianliao = res.data.data.countML;
+						_.classes.large = res.data.data.countDB;
+						_.classes.small = res.data.data.countXB;
+						_.classes.eyelash = res.data.data.countJM;
+						_.classes.statusPeibu = res.data.data.countPB;
+						_.classes.statusChengpin = res.data.data.countCP;
+					}
+				}).catch();
+			},
 			listSupplyMethod() {
 				let _ = this;
 				listSupply(_.param).then((res) => {
@@ -151,6 +155,7 @@
 							message: '已成功删除该收藏'
 						});
 						_.listSupplyMethod();
+						_.countSupplyMethod();
 					}
 				}).catch();
 			},
@@ -212,7 +217,6 @@
 </script>
 
 <style lang="scss" scoped="scoped">
-
 	.default-page {
 		width: 100%;
 		height: 300px;
@@ -262,6 +266,7 @@
 		opacity: .4;
 		display: none;
 	}
+	
 	.icon-shanchu_hui::before {
 		color: #fff;
 	}
