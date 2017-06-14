@@ -102,7 +102,8 @@ export default {
     this.albumPicsList = (await getAlbumPicsList(this.Params)).data.data;
     // 默认创建一个cookie
     !this.cookie.get(this.Cookie.key) ? this.cookie.set(this.Cookie.key, this.Cookie.value, {
-      end: this.Cookie.day
+      end: this.Cookie.day,
+      path: '/'
     }) : '';
   },
   methods: {
@@ -138,13 +139,15 @@ export default {
     handleCancelDelMaterial() {
       this.ConfirmDialog.show = false;
       this.cookie.set(this.Cookie.key, this.Cookie.value, {
-        end: this.Cookie.day
+        end: this.Cookie.day,
+        path: '/'
       });
     },
     // 设置cookie
     handleNoShowDialog(e) {
       this.cookie.set(this.Cookie.key, e.target.value, {
-        end: this.Cookie.day
+        end: this.Cookie.day,
+        path: '/'
       });
     },
     async uploadImg(e) {

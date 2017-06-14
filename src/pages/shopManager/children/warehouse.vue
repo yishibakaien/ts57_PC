@@ -267,7 +267,8 @@ export default {
     this.productList = (await getProductList(this.Params)).data.data;
     // 默认创建一个cookie
     !this.cookie.get(this.Cookie.key) ? this.cookie.set(this.Cookie.key, this.Cookie.value, {
-      end: this.Cookie.day
+      end: this.Cookie.day,
+      path: '/'
     }) : '';
   },
   beforeDestroy() {
@@ -416,7 +417,8 @@ export default {
     handleCancelDelProduct() {
       this.ConfirmDialog.show = false;
       this.cookie.set(this.Cookie.key, this.Cookie.value, {
-        end: this.Cookie.day
+        end: this.Cookie.day,
+        path: '/'
       });
     },
     // 删除花型
@@ -431,7 +433,8 @@ export default {
     // 设置cookie
     handleNoShowDialog(e) {
       this.cookie.set(this.Cookie.key, e.target.value, {
-        end: this.Cookie.day
+        end: this.Cookie.day,
+        path: '/'
       });
     }
   }

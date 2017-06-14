@@ -9,7 +9,7 @@
     <div class="hotSearch-list">
       <ts-grid layOut="column" :data="BurstHotSearch">
         <ts-grid-item v-for="(product,index) in BurstHotSearch" :key="product" @click="handleViewProduct(product,index)">
-          <span class="ranking hotSearch-rank" :class="'ranking_'+index" v-if="index<3"></span>
+          <span class="ranking hotSearch-rank" :class="`ranking_${index+1}`" v-if="index<3"></span>
           <ts-image
            width="220"
            height="220"

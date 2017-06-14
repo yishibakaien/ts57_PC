@@ -135,7 +135,7 @@ export default {
         companyProfile: [{
           min: 2,
           max: 50,
-          message: '公司简介的长度在 2 到 15 个字符'
+          message: '公司简介的长度在 2 到 50 个字符'
         }],
         companyAbbreviation: [{
           min: 2,
@@ -238,6 +238,7 @@ export default {
       text-align: center;
       font-size: 14px;
       cursor: pointer;
+      line-height: 1;
       background: var(--add-radio-close-bg);
       color: var(--add-radio-close-color);
       size: var(--add-radio-close-size) var(--add-radio-close-size);

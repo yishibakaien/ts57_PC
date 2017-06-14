@@ -63,7 +63,7 @@
               收藏次数：<span class="supply-table--collect" @click.self="handleCollect(item)">{{item.favoriteCount}}</span>
             </ts-menu-table-item>
             <ts-menu-table-item>
-              <a class="supply-table--link" @click="handleShowDialog(item.id)">关闭</a>
+              <a class="supply-table--link" v-if="item.supplyStatus===1" @click="handleShowDialog(item.id)">关闭</a>
             </ts-menu-table-item>
           </ts-menu-table>
         </ts-checkbox-group>
@@ -181,7 +181,8 @@ export default {
     this.companySupplyList = (await getCompanySupplylist(this.Params)).data.data;
     // 默认创建一个cookie
     !this.cookie.get(this.Cookie.key) ? this.cookie.set(this.Cookie.key, this.Cookie.value, {
-      end: this.Cookie.day
+      end: this.Cookie.day,
+      path: '/'
     }) : '';
   },
   computed: {
@@ -277,7 +278,8 @@ export default {
     handleCancelDelSupply() {
       this.ConfirmDialog.show = false;
       this.cookie.set(this.Cookie.key, this.Cookie.value, {
-        end: this.Cookie.day
+        end: this.Cookie.day,
+        path: '/'
       });
     },
     // 关闭供应
@@ -292,7 +294,8 @@ export default {
     // 设置cookie
     handleNoShowDialog(e) {
       this.cookie.set(this.Cookie.key, e.target.value, {
-        end: this.Cookie.day
+        end: this.Cookie.day,
+        path: '/'
       });
     }
   }

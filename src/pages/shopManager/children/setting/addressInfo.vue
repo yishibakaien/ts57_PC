@@ -77,7 +77,6 @@ export default {
       addressInfoForm: {
         province: '',
         city: '',
-        lat: '',
         address: '',
         fax: ''
       },
@@ -133,7 +132,14 @@ export default {
     async handleEditAddress() {
       this.Text.show = !this.Text.show;
       if (this.Text.show) {
-        updateCompany(this.addressInfoForm);
+        updateCompany({
+          lng: this.addressInfoForm.lng,
+          lat: this.addressInfoForm.lat,
+          id: this.addressInfoForm.id,
+          address: this.addressInfoForm.address,
+          city: this.addressInfoForm.city,
+          province: this.addressInfoForm.province
+        });
       }
     },
     // 当选择了省

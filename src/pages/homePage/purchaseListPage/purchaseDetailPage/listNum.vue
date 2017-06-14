@@ -124,7 +124,6 @@
 	}
 
 	.active {
-		border: 1px solid #4C93FD;
 	}
 
 	.title {

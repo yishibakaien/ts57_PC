@@ -111,7 +111,8 @@ export default {
   async created() {
     // 设置cookie
     !this.cookie.get(this.Cookie.key) ? this.cookie.set(this.Cookie.key, this.Cookie.value, {
-      end: this.Cookie.day
+      end: this.Cookie.day,
+      path: '/'
     }) : '';
     // 获取花型列表
     this.Cooperation = (await getCollaborateCompanysList(this.Params)).data.data;
@@ -140,7 +141,12 @@ export default {
     handleEditCompanyInfo(formName) {
       this.$refs[formName].validate(async(valid) => {
         if (valid) {
-          let res = this.Dialog.isAddtype ? await addCollaborateCompany(this.companyInfoForm) : await updateCollaborateCompany(this.companyInfoForm);
+          let res = this.Dialog.isAddtype ? await addCollaborateCompany(this.companyInfoForm) : await updateCollaborateCompany({
+            collCompanyName: this.companyInfoForm.collCompanyName,
+            contactTel: this.companyInfoForm.contactTel,
+            id: this.companyInfoForm.id,
+            productNum: this.companyInfoForm.productNum
+          });
           if (!res.data.code) {
             this.Dialog.edit = false;
           }
@@ -181,7 +187,8 @@ export default {
     handleCancelDelCoor() {
       this.ConfirmDialog.show = false;
       this.cookie.set(this.Cookie.key, this.Cookie.value, {
-        end: this.Cookie.day
+        end: this.Cookie.day,
+        path: '/'
       });
     },
     // 删除合作厂家
@@ -195,7 +202,8 @@ export default {
     // 设置cookie
     handleNoShowDialog(e) {
       this.cookie.set(this.Cookie.key, e.target.value, {
-        end: this.Cookie.day
+        end: this.Cookie.day,
+        path: '/'
       });
     }
   }

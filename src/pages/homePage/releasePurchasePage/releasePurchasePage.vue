@@ -93,7 +93,6 @@ export default {
           message: '请选择花边分类'
         }],
         buyNum: [{
-          required: true,
           pattern: /^[0-9]*$/,
           message: '请输入正确的求购数量'
         }],

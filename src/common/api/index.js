@@ -8,7 +8,7 @@ axios.defaults.headers['x-client'] = 1;
 // http://192.168.2.11:8080
 
 axios.defaults.baseURL = process.env.NODE_ENV === 'production'
-  ? 'http://api.tswq.wang'
+  ? 'https://api.ts57.cn'
   : 'http://192.168.2.11:8080';
 // x-token
 axios.defaults.headers['x-token'] = cookie.get('x-token') || '';

@@ -163,9 +163,6 @@ export default {
   .homePage
     background #f2f2f2
     .swiper
-      position absolute
-      z-index 1
-      left 0
       width 100%
       height 350px
       text-align center
@@ -174,7 +171,6 @@ export default {
     .homePage-box
       width 1200px
       margin 0 auto
-      margin-top 300px
       padding 16px 0
       background #f2f2f2
       .list
