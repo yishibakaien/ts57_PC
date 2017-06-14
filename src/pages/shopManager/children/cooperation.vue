@@ -143,7 +143,7 @@ export default {
           let res = this.Dialog.isAddtype ? await addCollaborateCompany(this.companyInfoForm) : await updateCollaborateCompany({
             collCompanyName: this.companyInfoForm.collCompanyName,
             contactTel: this.companyInfoForm.contactTel,
-            id: this.companyInfoForm.id,
+            id: this.companyInfoForm.companyId,
             productNum: this.companyInfoForm.productNum
           });
           if (!res.data.code) {
