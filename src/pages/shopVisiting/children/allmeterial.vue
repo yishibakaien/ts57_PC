@@ -5,10 +5,8 @@
       <ts-radio-group v-model="Filter.classId" @change="handleFilterCategorys">
         <ts-radio :label="null">全部</ts-radio>
         <ts-radio :label="item.id" v-for="item in CategoryList.system" :key="item.id">{{item.className}}</ts-radio>
-        <ts-radio :label="item.dicValue" v-for="item in dicTree.PRODUCT_TYPE" :key="item.dicValue">{{item.name}}</ts-radio>
-        <div>
+        <!-- <ts-radio :label="item.dicValue" v-for="item in dicTree.PRODUCT_TYPE" :key="item.dicValue">{{item.name}}</ts-radio> -->
           <ts-radio :label="item.id" v-for="item in CategoryList.user" :key="item.id">{{item.className}}</ts-radio>
-        </div>
       </ts-radio-group>
     </ts-filter>
   </div>

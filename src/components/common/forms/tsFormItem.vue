@@ -202,11 +202,11 @@ export default {
   margin-bottom: 22px;
   @utils-clearfix;
   @modifier label{
-    text-align: left;
+        text-align: right;
     vertical-align: middle;
     float: left;
     line-height: 1;
-    padding: 10px;
+    padding: 11px 12px 11px 0;
     box-sizing: border-box;
   }
   @modifier content{

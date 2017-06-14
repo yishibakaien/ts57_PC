@@ -35,7 +35,7 @@ export default {
   data() {
     return {
       titleText: {
-        title: '最新求购',
+        title: '最新贸易商求购',
         extend: '更多求购',
         type: 'purchase'
       },

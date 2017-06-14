@@ -35,8 +35,10 @@
 				<div class="tipsModel" v-show="item.tipShow">
 					<div>
 						<p>从供应收藏中删除？</p>
-						<button class="button-yes" @click="deleSupply(index)">确认</button>
-						<button class="button-no" @click="closeModel">取消</button>
+						<div class="menu-button">
+							<ts-button type="primary" @click="deleSupply(index)">确认</ts-button>
+							<ts-button type="cancel" @click="closeModel">取消</ts-button>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -211,8 +213,7 @@
 	};
 </script>
 
-<style lang="scss" scoped="scoped">
-
+<style lang="scss" scoped>
 	.default-page {
 		width: 100%;
 		height: 300px;
@@ -220,7 +221,6 @@
 		line-height: 200px;
 		text-align: center;
 	}
-	
 	.personal-flower {
 		margin-top: 25px;
 		padding: 0 15px;
@@ -228,7 +228,6 @@
 			margin-top: 20px;
 		}
 	}
-	
 	.p3 {
 		bottom: 0;
 		padding: 0 15px;
@@ -244,11 +243,9 @@
 			text-align: right;
 		}
 	}
-	
 	.personal-flower-item {
 		position: relative;
 	}
-	
 	.dele {
 		position: absolute;
 		top: 10px;
@@ -265,11 +262,9 @@
 	.icon-shanchu_hui::before {
 		color: #fff;
 	}
-	
 	.personal-flower-item:hover .dele {
 		display: block;
 	}
-	
 	.company {
 		border-top: 1px solid #d1d1d1;
 		img {
@@ -289,7 +284,6 @@
 			line-height: 30px;
 		}
 	}
-	
 	.tipsModel {
 		width: 100%;
 		height: 100%;
@@ -305,24 +299,13 @@
 			font-size: 16px;
 			text-align: center;
 		}
-		.button-yes,
-		.button-no {
-			margin-top: 70px;
-			display: inline-block;
-			width: 80px;
-			height: 32px;
-			line-height: 32px;
-			border: 0;
-			font-size: 14px;
-			color: #FFF;
-			text-align: center;
-		}
-		.button-yes {
-			margin: 0 14px;
-			background: #4c93fd;
-		}
-		.button-no {
-			background: #d1d1d1;
-		}
+	}
+	.menu-button{
+		position: absolute;
+		bottom: 20px;
+		left: 0;
+		right: 0;
+		display: flex;
+		justify-content: space-around;
 	}
 </style>

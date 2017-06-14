@@ -37,7 +37,7 @@
 		  </ts-grid>
       <br/>
 			<div class="imgSearch-tip imgSearch-wrapper">
-        <p><ts-button type="plain" @click="handleLoadMore">查看更多花型</ts-button></p>
+        <p v-if="Pic.canCropper"><ts-button type="plain" @click="handleLoadMore">查看更多花型</ts-button></p>
 				没找到合适的？赶紧
         <router-link tag="a" to="/releasePurchasePage" v-if="userInfo.userType===2">
           <a>发布求购</a>
@@ -94,7 +94,7 @@ export default {
       Cropper: {
         show: false
       },
-			// XXX:仓库管理搜图=>搜图暂时可以跳去编辑页面
+      // XXX:仓库管理搜图=>搜图暂时可以跳去编辑页面
       Type: {
         edit: false
       },
@@ -176,15 +176,15 @@ export default {
       this.Pic.url = this.Pic.encoded;
       this.Cropper.show = true;
     },
-		// 寻找花型(最终一步)
-		async handleLookProduct(item) {
+    // 寻找花型(最终一步)
+    async handleLookProduct(item) {
       await this.$store.dispatch('getSearchEncoded', {
         category: item.category,
         encoded: item.encoded,
         searchType: 300
       });
     },
-		// 裁剪---开始搜索结果
+    // 裁剪---开始搜索结果
     handleGetResult(val) {
       this.$router.push({
         path: '/search/image',
@@ -193,7 +193,7 @@ export default {
         }
       });
     },
-		// XXX:仓库管理搜图=>搜图暂时可以跳去编辑页面
+    // XXX:仓库管理搜图=>搜图暂时可以跳去编辑页面
     handleViewProduct(id) {
       if (this.Type.edit) {
         this.$router.push({
@@ -219,6 +219,7 @@ export default {
         pageNo: 1,
         pageSize: 3
       })).data.data;
+      this.Pic.canCropper = this.search.list.length > 0;
     }
   }
 };

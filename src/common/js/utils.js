@@ -68,19 +68,8 @@ export const cookie = (() => {
       return true;
     },
     // 获取cookie
-    get: (key) => {
-      var data = document.cookie;
-      var startIndex = data.indexOf(key + '=');
-      if (startIndex > -1) {
-        startIndex = startIndex + key.length + 1;
-        var endIndex = data.indexOf(';', startIndex);
-        endIndex = endIndex < 0
-          ? data.length
-          : endIndex;
-        return decodeURIComponent(data.substring(startIndex, endIndex));
-      } else {
-        return '';
-      }
+    get: function(sKey) {
+      return decodeURIComponent(document.cookie.replace(new RegExp('(?:(?:^|.*;)\\s*' + encodeURIComponent(sKey).replace(/[\\-\\.\\+\\*]/g, '\\$&') + '\\s*\\=\\s*([^;]*).*$)|^.*$'), '$1')) || null;
     }
   };
 })();

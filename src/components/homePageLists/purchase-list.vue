@@ -36,7 +36,7 @@ export default {
     return {
       titleText: {
         color: '#4c93fd',
-        title: '最新供应',
+        title: '最新厂家供应',
         extend: '更多供应',
         type: 'supply'
       },

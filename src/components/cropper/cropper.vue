@@ -98,11 +98,11 @@ export default {
       };
     }
   },
-  // watch: {
-  //   value(val) {
-  //     this.setImageURL(val);
-  //   }
-  // },
+  watch: {
+    value(val) {
+      this.setImageURL(val);
+    }
+  },
   created() {
     this.setImageURL(this.value);
   },

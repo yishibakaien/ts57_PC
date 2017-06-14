@@ -63,7 +63,7 @@
               收藏次数：<span class="supply-table--collect" @click.self="handleCollect(item)">{{item.favoriteCount}}</span>
             </ts-menu-table-item>
             <ts-menu-table-item>
-              <a class="supply-table--link" @click="handleShowDialog(item.id)">关闭</a>
+              <a class="supply-table--link" v-if="item.supplyStatus===1" @click="handleShowDialog(item.id)">关闭</a>
             </ts-menu-table-item>
           </ts-menu-table>
         </ts-checkbox-group>
@@ -83,7 +83,7 @@
         <ts-image width='72' :canView="false" height="72" :src="Collect.productItem.productPicUrl" style="vertical-align:bottom"></ts-image>
         {{Collect.productItem.productNo}} {{Collect.productItem.category | filterDict(dicTree.PRODUCT_TYPE,'name')}}
       </div>
-      <ts-button type="cancel" @click="Collect.show=!Collect.show">关闭</ts-button>
+      <ts-button type="cancel" @click="Collect.show=!Collect.show" >关闭</ts-button>
     </div>
     <ts-table :data="Collect.data.list">
       <ts-column slot data-key="userMobile" align="center" name="收藏人账号"></ts-column>

@@ -140,7 +140,12 @@ export default {
     handleEditCompanyInfo(formName) {
       this.$refs[formName].validate(async(valid) => {
         if (valid) {
-          let res = this.Dialog.isAddtype ? await addCollaborateCompany(this.companyInfoForm) : await updateCollaborateCompany(this.companyInfoForm);
+          let res = this.Dialog.isAddtype ? await addCollaborateCompany(this.companyInfoForm) : await updateCollaborateCompany({
+            collCompanyName: this.companyInfoForm.collCompanyName,
+            contactTel: this.companyInfoForm.contactTel,
+            id: this.companyInfoForm.id,
+            productNum: this.companyInfoForm.productNum
+          });
           if (!res.data.code) {
             this.Dialog.edit = false;
           }

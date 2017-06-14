@@ -4,8 +4,8 @@
     <span class="ranking update-result-tip-ranking" :class="`ranking_${$route.params.id}`" v-if="$route.params.id<3"></span> 周搜索量
     <span class="update-result-tip--count">{{$route.query.searchs}}</span>／共<span class="update-result-tip--count">{{$route.query.sameCount}}</span>款，排行<span class="update-result-tip--ranking">{{$route.params.id}}</span>位
   </p>
-  <ts-grid :data="Search.list" class="update-result-data">
-    <ts-grid-item style="width:240px" v-for="product in Search.list" :key="product" @click="handleGotoProduct(product.id)">
+  <ts-grid :data="Search" class="update-result-data">
+    <ts-grid-item style="width:240px" v-for="product in Search" :key="product" @click="handleGotoProduct(product.id)">
       <ts-image width="170" height="170" :canView="false" disabledHover :src="product.defaultPicUrl">
       </ts-image>
       <p class="update-result-product--number">{{product.productNo}}</p>
@@ -42,7 +42,8 @@ export default {
   watch: {
     Params: {
       async handler(val) {
-        this.Search = (await searchGetHot(val)).data.data;
+        let lists = (await searchGetHot(val)).data.data.list;
+        this.Search = this.Search.concat(lists);
       },
       deep: true
     }

@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="productIndex">
-    <p class="productIndex-empty" v-if="getProductsLength">该店铺暂未上架花型</p>
+    <p class="productIndex-empty onepx" v-if="getProductsLength">该店铺暂未上架花型</p>
     <div v-for="(item,index) in CompanyProducts" v-if="!!item.list.length">
       <ts-title-block :bodyStyle="{'font-size':'20px'}">
         <i class="icon-huaxin"></i>&nbsp;{{item.className}}
@@ -80,8 +80,8 @@ export default {
       }
     },
     // 未上架任何花型时，需显示——该店铺暂未上架花型
-    getProductsLength() {
-      return this.CompanyProducts.length <= 0;
+    async getProductsLength() {
+      return (await getVistitCompanyProductsList(this.Params)).data.data.list.length <= 0;
     }
   },
   async created() {
@@ -135,10 +135,12 @@ export default {
   }
   @component empty{
     display: table;
-text-align: center;
-margin: 10px auto;
-font-size: 18px;
-color: #666;
+    width: 100%;
+    line-height: 40px;
+    text-align: center;
+    margin: 10px auto;
+    font-size: 16px;
+    color: #666;
   }
   @component product{
     @modifier number{
