@@ -449,7 +449,7 @@ export const deleteProductCategory = param => axios.post(API.productCategory.del
 // 获取合作厂家详情
 export const getCollaborateCompany = id => axios.get(`${API.collaborateCompany.getCollaborateCompany}/${id}`);
 // 修改合作厂家
-export const updateCollaborateCompany = param => axios.post(API.collaborateCompany.updateCollaborateCompany, {params: param});
+export const updateCollaborateCompany = param => axios.post(API.collaborateCompany.updateCollaborateCompany, param);
 // 新增合作厂家
 export const addCollaborateCompany = param => axios.post(API.collaborateCompany.addCollaborateCompany, param);
 // 获取合作厂家列表

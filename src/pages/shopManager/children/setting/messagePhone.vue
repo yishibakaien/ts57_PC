@@ -11,7 +11,6 @@
       </router-link>
     </div>
     <ts-form :model="PhoneForm" :rules="rules" ref="PhoneForm" label-width="200px" label-position="left">
-      <pre>{{phoneList}}</pre>
       <ts-form-item :label="`短信接收号码_${index+1}`" :key="index" prop="phone" v-for="(item,index) in phoneList">
         <ts-input :maxlength="11" :value="item" style="width:200px" @input="handleInput" placeholder="请输入手机号码"></ts-input>
         <ts-button type="plain" @click="handleEditPhone(item,index)">修改</ts-button>
@@ -75,7 +74,7 @@ export default {
         return callback(new Error('请输入密码'));
       }
       let res = await checkPasswd({
-        userPasswd: value
+        userPasswd: this.Encrypt(value)
       });
       if (!res.data.data) {
         return callback(new Error('密码不正确！请输入正确的密码'));
@@ -132,7 +131,7 @@ export default {
       this.$messagebox.confirm(`确认终止${item}接收平台相关业务短信？`).then(async(action) => {
         this.phoneList.splice(index, 1);
         let res = await updateCompany({
-          noticeList: this.phoneList
+          noticeList: this.phoneList.toString()
         });
         !res.data.code ? await this.$store.dispatch('getCompanyInfo') : '';
       });

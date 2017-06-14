@@ -83,7 +83,7 @@
         <ts-image width='72' :canView="false" height="72" :src="Collect.productItem.productPicUrl" style="vertical-align:bottom"></ts-image>
         {{Collect.productItem.productNo}} {{Collect.productItem.category | filterDict(dicTree.PRODUCT_TYPE,'name')}}
       </div>
-      <ts-button type="cancel" @click="Collect.show=!Collect.show" >关闭</ts-button>
+      <ts-button type="cancel" @click="Collect.show=!Collect.show">关闭</ts-button>
     </div>
     <ts-table :data="Collect.data.list">
       <ts-column slot data-key="userMobile" align="center" name="收藏人账号"></ts-column>
@@ -181,7 +181,8 @@ export default {
     this.companySupplyList = (await getCompanySupplylist(this.Params)).data.data;
     // 默认创建一个cookie
     !this.cookie.get(this.Cookie.key) ? this.cookie.set(this.Cookie.key, this.Cookie.value, {
-      end: this.Cookie.day
+      end: this.Cookie.day,
+      path: '/'
     }) : '';
   },
   computed: {
@@ -277,7 +278,8 @@ export default {
     handleCancelDelSupply() {
       this.ConfirmDialog.show = false;
       this.cookie.set(this.Cookie.key, this.Cookie.value, {
-        end: this.Cookie.day
+        end: this.Cookie.day,
+        path: '/'
       });
     },
     // 关闭供应
@@ -292,7 +294,8 @@ export default {
     // 设置cookie
     handleNoShowDialog(e) {
       this.cookie.set(this.Cookie.key, e.target.value, {
-        end: this.Cookie.day
+        end: this.Cookie.day,
+        path: '/'
       });
     }
   }
