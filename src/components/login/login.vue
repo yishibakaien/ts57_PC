@@ -49,7 +49,7 @@
         </div>
       </div>
       <div class="download-main" v-if="!showLogin">
-        <qrcode-vue :value="getWebLink" size="150" level="H"></qrcode-vue>
+        <qrcode-vue :value="getAppLink" size="150"></qrcode-vue>
       </div>
     </div>
   </div>
@@ -59,7 +59,7 @@
 <script>
 import * as reg from '@/common/js/regExp';
 import * as types from '@/store/types';
-import QrcodeVue from 'qrcode.vue';
+import qrcodeVue from '@/components/qrcode/qrcode';
 import {
   mapGetters
 } from 'vuex';
@@ -86,7 +86,7 @@ export default {
     };
   },
   components: {
-    QrcodeVue
+    qrcodeVue
   },
   computed: {
     ...mapGetters(['token']),

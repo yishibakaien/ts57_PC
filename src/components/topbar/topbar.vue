@@ -22,7 +22,7 @@
         <div class="qrcode-content">
           <div class="qrcode clearfix">
             <div class="img-wrapper">
-              <qrcode-vue :value="getAppLink" size="50" level="M"></qrcode-vue>
+              <qrcode-vue size="50" :value="getAppLink"></qrcode-vue>
             </div>
             <div class="desc">
               <p class="title">坐视布管APP</p>
@@ -45,7 +45,7 @@
         <div class="qrcode-content">
           <div class="qrcode clearfix">
             <div class="img-wrapper">
-              <qrcode-vue :value="getWebLink" size="50" level="H"></qrcode-vue>
+              <qrcode-vue size="50" :value="getWebLink"></qrcode-vue>
             </div>
             <div class="desc">
               <p class="title">关注微信公众号</p>
@@ -73,7 +73,7 @@ import {
 import {
   loginOut
 } from '@/common/api/api';
-import QrcodeVue from 'qrcode.vue';
+import qrcodeVue from '@/components/qrcode/qrcode';
 export default {
   computed: {
     ...mapGetters(['userInfo', 'token']),
@@ -88,7 +88,7 @@ export default {
     }
   },
   components: {
-    QrcodeVue
+    qrcodeVue
   },
   methods: {
     // 个人中心
