@@ -8,7 +8,7 @@
         <ts-image shape="round" :canView="false" disabledHover width="50" height="50" :src="companyInfo.companyHeadIcon"></ts-image>
         <p class="introPic-company-title">{{companyInfo.companyName}}</p>
         <span class="introPic-storeType" :style="{'background':getIsStore?'#13ce66':'#50BFFF'}">
-            {{getIsStore?'档':'厂'}}
+            {{getIsStore?'贸':'厂'}}
           </span>
       </div>
       <!-- 三个菜单：电话联系，收藏，店铺 -->

@@ -43,6 +43,7 @@ const findIndex = r => require.ensure([], () => r(require('@/pages/find/children
 const findEveryLooking = r => require.ensure([], () => r(require('@/pages/find/children/everyLooking')), 'find');
 const findFactoryUpdate = r => require.ensure([], () => r(require('@/pages/find/children/factoryUpdate')), 'find');
 const findTopSearch = r => require.ensure([], () => r(require('@/pages/find/children/topSearch')), 'find');
+const findUpdateResult = r => require.ensure([], () => r(require('@/pages/find/children/updateResult')), 'find');
 const findLookingResult = r => require.ensure([], () => r(require('@/pages/find/children/lookingResult')), 'find');
 // =========
 // 店铺管理
@@ -130,6 +131,13 @@ const routes = [
           needAuth: true
         },
         name: '厂家上新'
+      }, {
+        path: 'rank/:id',
+        component: findUpdateResult,
+        meta: {
+          needAuth: true
+        },
+        name: 'updateResult'
       }, {
         path: 'topSearch',
         component: findTopSearch,

@@ -37,6 +37,7 @@ export default {
   display flex
   box-sizing border-box
   width 100%
+  background #fff
   .left-brand
     flex 0 0 300px
     width 300px

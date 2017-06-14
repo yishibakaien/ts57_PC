@@ -56,7 +56,7 @@
         </div>
       </div>
       <a href="http://www.57lace.com/" class="link" target="_blank">
-        <img src="static/images/leisikong.png" width="10" class="leisikong"> 蕾丝控
+        <img src="/static/images/leisikong.png" width="10" class="leisikong"> 蕾丝控
       </a>
     </div>
   </div>
@@ -70,6 +70,9 @@ import {
 import {
   APP_LINK
 } from '@/common/dict/const';
+import {
+  loginOut
+} from '@/common/api/api';
 import QrcodeVue from 'qrcode.vue';
 export default {
   computed: {
@@ -95,10 +98,11 @@ export default {
       });
     },
     // 退出
-    handleLogout() {
-      this.$store.commit('LOGIN_OUT');
-      this.$store.commit('CLEAR_USERINFO');
-      this.$router.push({
+    async handleLogout() {
+      await loginOut();
+      await this.$store.commit('LOGIN_OUT');
+      await this.$store.commit('CLEAR_USERINFO');
+      await this.$router.push({
         path: '/homePage'
       });
     }

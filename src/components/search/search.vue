@@ -6,7 +6,7 @@
     <ts-tag shape="square" type="transparent" closable v-if="Pic.show" @close="handleDelPic">
       <div class="search-mask">
         <img :src="Pic.url" width="20" height="20">
-        <p><i class="icon-bianji"></i></p>
+        <p @click="handleSearchFromEdit(Pic.url)"><i class="icon-bianji"></i></p>
       </div>
     </ts-tag>
     <input type="text" class="search-input" :placeholder="inputPlaceHolder" v-model="Search.val" @keyup.enter.native="handleSearch" @focus="handleDelPic" :disabled="search.handleStatus">
@@ -24,7 +24,7 @@
           本地上传
         </a>
       </label>
-      <input ref="input" type="file" accept="image/png,image/jpeg,image/gif" @change="uploadImg" v-show="false">
+      <input ref="input" type="file" accept="image/png,image/jpeg" @change="uploadImg" v-show="false">
     </p>
     <ts-grid :data="Search.picList" emptyText="暂无搜索记录">
       <ts-grid-item style="width:115px" v-for="product in showPics" :key="product" @click="handleChoosePic(product)">
@@ -88,6 +88,10 @@ export default {
       type: Boolean,
       default: true
     },
+    globalSearch: {
+      type: Boolean,
+      default: true
+    },
     inputPlaceHolder: {
       type: String,
       default: '可输入厂名或编号查找'
@@ -120,20 +124,25 @@ export default {
     CropperDialog
   },
   methods: {
+    handleSearchFromEdit(url) {
+      this.handleChoosePic(url);
+    },
     // 取消搜索
     handleCanceSearch() {
       this.$store.commit('SET_HANDLE_STATUS', false);
       this.$store.commit('SET_PROGRESS', 1);
       this.$store.commit('CLEAR_INTERVAL');
     },
-    // 选择分类的时候
+    // 裁剪---选择分类的时候
     async handleLookProduct(item) {
-      if (this.globalLook) {
+      if (this.globalLook && this.globalSearch) {
         await this.$store.dispatch('getSearchEncoded', {
           category: item.category,
           encoded: item.encoded,
           searchType: 300
         });
+      } else {
+        this.$emit('check', item);
       }
     },
     // 隐藏上传file控件
@@ -148,7 +157,6 @@ export default {
         reader.onload = () => {
           var url = reader.result;
           this.handleChoosePic(url);
-          this.Pic.url = url;
         };
         reader.readAsDataURL(file);
       } else {
@@ -175,12 +183,16 @@ export default {
       this.historyItems.clear();
     },
     handleGetResult(val) {
-      this.$router.push({
+      if (this.globalLook && this.globalSearch) {
+        this.$router.push({
           path: '/search/image',
           query: {
             imgId: val
           }
         });
+      } else {
+        this.$emit('change', val);
+      }
     },
     // 搜索
     handleSearch() {
@@ -195,6 +207,8 @@ export default {
               searchType: 2
             }
           });
+        } else {
+          this.$emit('search-text', value);
         }
       }
     }

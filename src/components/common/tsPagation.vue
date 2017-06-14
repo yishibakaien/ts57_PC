@@ -1,11 +1,11 @@
 <template>
-  <!-- simple -->
+<!-- simple -->
 <ul class="ts-pagination" :class="{'is-simple':type==='simple'}" v-if="type==='simple'">
-  <a @click="goto(1)" :class="{'is-disabled':currentPage<1}">首页</a>
-  <a v-show="currentPage != 1" :class="{'is-disabled':currentPage<1}" @click="currentPage-- && goto(currentPage--)">上一页</a>
-  <strong><i>{{currentPage}}</i>/{{total}}</strong>
-  <a v-show="total != currentPage && total != 0 " @click="currentPage++ && goto(currentPage++)" :class="{'is-disabled':currentPage<1}">下一页</a>
-  <a @click="goto(total)" :class="{'is-disabled':currentPage===total||currentPage<1}" class="ts-pagination--end">尾页</a>
+  <a @click="goto(1)" v-if="detail" :class="{'is-disabled':currentPage<1}">首页</a>
+  <a v-show="currentPage != 1||!detail" :class="{'is-disabled':currentPage<1}" @click="currentPage-- && goto(currentPage--)">上一页</a>
+  <strong v-if="detail"><i>{{currentPage}}</i>/{{total}}</strong>
+  <a v-show="(total != currentPage && total != 0 )||!detail" @click="currentPage++ && goto(currentPage++)" :class="{'is-disabled':currentPage<1}">下一页</a>
+  <a v-if="detail" @click="goto(total)" :class="{'is-disabled':currentPage===total||currentPage<1}" class="ts-pagination--end">尾页</a>
   <span :class="{'is-disabled':total<=0}">
     每页显示
       <ts-select :disabled="total<=0" style="width:70px" :options='showItems' v-model="item" @change="handleChangeItem(item)" class="ts-pagination--select"></ts-select>
@@ -61,6 +61,10 @@ export default {
     current: {
       type: Number,
       default: 1
+    },
+    detail: {
+      type: Boolean,
+      default: true
     },
     type: {
       type: String,

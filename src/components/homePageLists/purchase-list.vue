@@ -80,6 +80,8 @@ basecolor = #4c93fd
   display flex
   box-sizing border-box
   width 100%
+  background #fff
+  min-height 318px
   .left-brand
     flex 0 0 267px
     width 267px

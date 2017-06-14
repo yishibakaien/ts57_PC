@@ -44,11 +44,12 @@ export default {
     factoryUpdate
   },
   methods: {
-    handleViewProduct(id) {
-      this.goto(`/product/${id}`);
+    handleViewProduct(item) {
+      this.goto(`/product/${item.id}`);
     },
-    handleViewStore(id) {
-      this.goto(`/shop/${id}`);
+    // 进去店铺
+    handleViewStore(item) {
+      this.goto(`/shop/${item.companyId}`);
     },
     handleChangePage(number) {
       this.Params.pageNo = number;

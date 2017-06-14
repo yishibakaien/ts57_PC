@@ -5,12 +5,11 @@
   </v-header>
   <v-nav></v-nav>
   <div class="swiper">
-    <!-- <banner :items="bannerImgs" :width="1200" :height="300" :pagination="true" :auto-play="true" :speed="3000" :sync="false"></banner> -->
-    <ts-carousel v-model="value2" arrow="never" autoplay :autoplay-speed="3000" easing='linear'>
-      <ts-carousel-item v-for="item in bannerImgs">
-        <ts-image :src="item.src" height="300" class="home-image" :canView="false" disabledHover></ts-image>
-      </ts-carousel-item>
-    </ts-carousel>
+    <!-- <ts-carousel v-model="value2" arrow="never" autoplay :autoplay-speed="3000" easing='linear'> -->
+    <!-- <ts-carousel-item v-for="item in bannerImgs"> -->
+    <ts-image :src="banner" height="350" class="home-image" :canView="false" disabledHover></ts-image>
+    <!-- </ts-carousel-item> -->
+    <!-- </ts-carousel> -->
   </div>
 
   <div class="homePage-box">
@@ -39,7 +38,6 @@ import {
   header,
   nav,
   search,
-  banner,
   purchaseList,
   supplyList,
   entryList,
@@ -69,13 +67,16 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['userInfo'])
+    ...mapGetters(['userInfo']),
+    banner() {
+      let width = document.body.clientWidth || document.documentElement.clientWidth;
+      return `http://zsbgdev.oss-cn-shenzhen.aliyuncs.com/banner/indexBanner.jpg?x-oss-process=image/resize,w_${width},h_350,m_fill`;
+    }
   },
   components: {
     'vHeader': header,
     'vNav': nav,
     search,
-    banner,
     purchaseList,
     supplyList,
     entryList,
@@ -89,6 +90,7 @@ export default {
       deep: true
     }
   },
+
   methods: {
     index() {
       // 优质厂家
@@ -165,7 +167,7 @@ export default {
       z-index 1
       left 0
       width 100%
-      height 300px
+      height 350px
       text-align center
       background #d8d8d8
 

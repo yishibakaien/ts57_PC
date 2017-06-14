@@ -190,7 +190,9 @@ export default {
   },
   created() {
     this.index();
-    !this.getCookie(this.Cookie.key) ? this.setCookie(this.Cookie.key, this.Cookie.value, this.Cookie.day) : '';
+    !this.cookie.get(this.Cookie.key) ? this.cookie.set(this.Cookie.key, this.Cookie.value, {
+      end: this.Cookie.day
+    }) : '';
   },
   computed: {
     ...mapGetters(['dicTree']),
@@ -331,7 +333,7 @@ export default {
     // 点击“加入”=>判断cookie是否显示
     handleShowDialog(item) {
       this.ConfirmDialog.id = item;
-      if (this.getCookie(this.Cookie.key) === '1') {
+      if (this.cookie.get(this.Cookie.key) === '1') {
         this.ConfirmDialog.show = true;
       } else {
         this.handleBind();
@@ -340,7 +342,9 @@ export default {
     // 取消绑定
     handleCancelBind() {
       this.ConfirmDialog.show = false;
-      this.setCookie(this.Cookie.key, this.Cookie.value, this.Cookie.day);
+      this.cookie.set(this.Cookie.key, this.Cookie.value, {
+        end: this.Cookie.day
+      });
     },
     // 分类与花型绑定
     async handleBind() {
@@ -356,7 +360,9 @@ export default {
     },
     // 设置cookie
     handleNoShowDialog(e) {
-      this.setCookie(this.Cookie.key, e.target.value, this.Cookie.day);
+      this.cookie.set(this.Cookie.key, e.target.value, {
+        end: this.Cookie.day
+      });
     }
   }
 };

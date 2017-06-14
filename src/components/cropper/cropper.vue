@@ -98,19 +98,24 @@ export default {
       };
     }
   },
-  watch: {
-    value(val) {
-      this.setImageURL(val);
-    }
-  },
+  // watch: {
+  //   value(val) {
+  //     this.setImageURL(val);
+  //   }
+  // },
   created() {
     this.setImageURL(this.value);
   },
   methods: {
     setImageURL(url) {
-      this.image.crossOrigin = 'anonymous';
+      this.image.crossOrigin = '*';
       this.image.onload = () => {
         this.draw();
+      };
+      this.image.onerror = () => {
+        this.imgSrc = url;
+        this.image.src = url;
+        this.$emit('error', url);
       };
       this.imgSrc = url;
       this.image.src = url;

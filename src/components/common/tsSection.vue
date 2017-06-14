@@ -61,6 +61,7 @@ export default {
     /*内容*/
     @descendent content{
         padding-top:20px;
+        min-height: 100px;
     }
     /*尾部*/
     @descendent footer{

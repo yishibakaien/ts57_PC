@@ -40,12 +40,12 @@ export default {
   },
   methods: {
     // 进去某个商品
-    handleViewProduct(id) {
-      this.goto(`/product/${id}`);
+    handleViewProduct(item) {
+      this.goto(`/product/${item.id}`);
     },
     // 进去店铺
-    handleViewStore(id) {
-      this.goto(`/shop/${id}`);
+    handleViewStore(item) {
+      this.goto(`/shop/${item.companyId}`);
     }
   }
 };

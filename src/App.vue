@@ -23,7 +23,7 @@ import {
 } from '@/components';
 export default {
   created() {
-    if (localStorage.getItem('x-token')) {
+    if (this.cookie.get('x-token')) {
       this.$store.dispatch('getUserInfo');
     }
     // 每切换路由都会置顶

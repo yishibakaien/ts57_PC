@@ -3,6 +3,7 @@ const API = {
   // 用户模块API
   user: {
     reg: '/front/user/reg', // 注册
+    loginOut: '/front/user/loginOut', // 登出
     login: '/front/user/login', // 登录
     checkPhone: '/front/user/checkPhone', // 检查手机号码是否存在
     changeMobile: '/user/changeMobile', // 修改手机号码
@@ -31,6 +32,7 @@ const API = {
     polling: '/search/polling', // 搜索结果检查
     companySearch: '/company/search', // 文本搜索--公司搜索
     getResult: '/search/getResult', // 文本搜索
+    getHot: '/search/getHot', // 爆款热搜排名详情
     history: '/search/history' // 搜索记录列表(大家都在找)
   },
   // 索样
@@ -164,13 +166,19 @@ const API = {
   },
   oss: {
     token: '/file/token' // OSS_token
+  },
+  file: {
+    getPicBase64: '/file/getPicBase64'
   }
 };
+export const getPicBase64 = param => axios.get(API.file.getPicBase64, {params: param});
+
 /**
  * 用户部分
  */
 // 登录
 export const login = param => axios.post(API.user.login, param);
+export const loginOut = () => axios.post(API.user.loginOut);
 
 // 注册
 export const reg = param => axios.post(API.user.reg, param);
@@ -384,6 +392,8 @@ export const deleteProduct = param => axios.post(API.product.deleteProduct, para
 export const getCompanyNewProductList = param => axios.get(API.product.getCompanyNewProductlist, {params: param});
 // 爆款热搜列表
 export const burstHotSearch = param => axios.get(API.product.burstHotSearch, {params: param});
+// 爆款热搜排名的详细列表
+export const searchGetHot = param => axios.get(API.search.getHot, {params: param});
 // 获取成分列表
 export const getIngredientsList = param => axios.get(API.ingredient.listIngredients, {params: param});
 // 自定义成分

@@ -10,7 +10,7 @@
          class="factory-company--cover"
          :src="data.companyHeadIcon"></ts-image>
         <p class="factory-company--title">{{data.companyName}}</p>
-          <ts-button type="plain" size="large" class="factory-company--button button" @click="handleViewStore(data.companyId)">
+          <ts-button type="plain" size="large" class="factory-company--button button" @click="handleViewStore(data)">
             访问店铺
           </ts-button>
       </div>
@@ -19,7 +19,7 @@
           <slot name="header"></slot>
         </div>
         <ts-grid :data="products">
-          <ts-grid-item v-for="product in products" :key="product" @click="handleViewProduct(product.id)" :style="{'width':width}">
+          <ts-grid-item v-for="product in products" :key="product" @click="handleViewProduct(product)" :style="{'width':width}">
             <ts-image
              width="170"
              height="170"

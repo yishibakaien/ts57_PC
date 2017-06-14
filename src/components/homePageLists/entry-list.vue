@@ -92,6 +92,8 @@ basecolor = #4c93fd
   display flex
   box-sizing border-box
   width 100%
+  min-height 318px
+  background #fff
   .addProduct--button.button
     height 48px
     margin-top 24px
@@ -104,8 +106,8 @@ basecolor = #4c93fd
   .left-brand
     flex 0 0 267px 164 +322
     width 267px
-    height: 453px;
-    background: #fff;
+    height: 454px
+    background: #fff
     .brand-header
       height 86px
       padding 12px

@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="shopVisiting all">
     <v-header>
-    	<search :globalLook='false' @check="handleLookProduct" @change="handleGetResult">
+    	<search inputPlaceHolder='可输入编号查找' :globalLook='false' @check="handleLookProduct" @change="handleGetResult" @search-text="handleSearchText">
         <ts-select slot="select" class="shopVisiting-select" data-key-name="label" data-val-name="dicValue" :options='DICT.SearchType' v-model="searchSelect"  :disabled="search.handleStatus"></ts-select>
     	</search>
     </v-header>
@@ -50,13 +50,41 @@ export default {
         searchType: this.searchSelect === 1 ? Number(`${this.companyInfo.companyType}00`) : 300
       });
     },
+    handleSearchText(val) {
+      if (this.searchSelect === 1) {
+        this.$router.push({
+          path: `searchtext`,
+          query: {
+            search: val,
+            searchType: 1
+          }
+        });
+      } else {
+        this.$router.push({
+          path: '/search/text',
+          query: {
+            search: val,
+            searchType: 2
+          }
+        });
+      }
+    },
     handleGetResult(val) {
-      this.$router.push({
-        path: `searchimage`,
-        query: {
-          imgId: val
-        }
-      });
+      if (this.searchSelect === 1) {
+        this.$router.push({
+          path: `searchimage`,
+          query: {
+            imgId: val
+          }
+        });
+      } else {
+        this.$router.push({
+          path: '/search/image',
+          query: {
+            imgId: val
+          }
+        });
+      }
     }
   },
   computed: {

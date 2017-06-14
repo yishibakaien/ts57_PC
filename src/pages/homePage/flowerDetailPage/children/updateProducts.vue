@@ -21,7 +21,7 @@
 						</ts-image>
 						<template slot="footer" class="everyLooking-footer">
 							<p>{{product.category | filterDict(dicTree.PRODUCT_TYPE,'name')}}</p>
-							<p class="everyLooking-footer--time">{{product.createDate | customTime}}</p>
+							<p class="everyLooking-footer--time">{{product.publishDate | customTime}}</p>
 						</template>
 					</ts-grid-item>
 			</ts-grid>

@@ -84,7 +84,9 @@ export default {
         if (!val.classId) {
           this.ProductList = (await getVistitCompanyProductsList(this.Params)).data.data;
         } else {
-          let data = Object.assign({}, this.Params, this.Filter);
+          let data = Object.assign({}, this.Params, this.Filter, {
+            category: null
+          });
           this.ProductList = (await getCompanyBindingProductList(data)).data.data;
         }
       },

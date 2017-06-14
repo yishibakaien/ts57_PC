@@ -22,8 +22,6 @@ import models from './models/models';
 
 import pageBar from './pageBar/pageBar';
 
-import banner from './banner/banner';
-
 import baseItem from './baseItem/baseItem';
 
 import purchaseList from './homePageLists/purchase-list';
@@ -60,7 +58,6 @@ export {
     fixedTopbar,
     models,
     pageBar,
-    banner,
     baseItem,
     purchaseList,
     supplyList,

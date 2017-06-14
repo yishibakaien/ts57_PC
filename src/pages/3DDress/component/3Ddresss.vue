@@ -49,6 +49,9 @@
 import {
   MODELS
 } from '@/common/dict/const';
+import {
+  getPicBase64
+} from '@/common/api/api';
 import html2canvas from 'html2canvas';
 const MODEL_THUMBNAIL_DOMAIN = '/static/images/modles_prototype/';
 const MODEL_ORIGIN_DOMAIN = '/static/images/modles/';
@@ -60,6 +63,7 @@ export default {
       MODELS: MODELS,
       MODEL_THUMBNAIL_DOMAIN: MODEL_THUMBNAIL_DOMAIN,
       MODEL_ORIGIN_DOMAIN: MODEL_ORIGIN_DOMAIN,
+      url: '',
       ratio: 100,
       Pic: {
         // 缩略图
@@ -74,12 +78,20 @@ export default {
     };
   },
   props: ['chooseItem'],
+  created() {
+    this.url = sessionStorage['flowerUrl'];
+  },
   mounted() {
     this.Pic.activeIndex = 0;
-    if (sessionStorage['flowerUrl']) {
-      this.$nextTick(() => {
-        this.convertImgToBase64(sessionStorage['flowerUrl'], (base64Img) => {
-          this.Pic.uploadPic = base64Img;
+    if (this.url) {
+      this.convertImgToBase64(this.url, base64Img => {
+        this.Pic.uploadPic = base64Img;
+      }, async img => {
+        let res = (await getPicBase64({
+          picUrl: img
+        })).data.data;
+        this.$nextTick(() => {
+          this.Pic.uploadPic = res;
         });
       });
     }

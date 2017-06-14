@@ -1,6 +1,7 @@
 export const ALI_DOMAIN = `http://zsbgdev.oss-cn-shenzhen.aliyuncs.com/`;
 export const ECB_KEY = `zuoshibuguanzsbg`;
 export const GAODE_MAP_KEY = `6d31eef168eeb05a84f0b1eeabb0de75`;
+export const COOKIE_DOMAIN = `.tswq.wang`;
 export const APP_LINK = {
   web: 'http://www.baidu.com',
   app: 'http://a.app.qq.com/o/simple.jsp?pkgname=cn.ts57.app'

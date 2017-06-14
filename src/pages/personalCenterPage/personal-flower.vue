@@ -36,10 +36,7 @@
     暂无数据
   </div>
   <pageBar v-if="classes.totalNum > 1" :pageNum="pageNum" :pageMax="pageMax" :number="pageSize" v-on:upPage="upPage" v-on:downPage="downPage" v-on:selectFirstPage="selectFirstPage" v-on:selectLastPage="selectLastPage" v-on:selectNumber="selectNumber"></pageBar>
-  <cropper-dialog :dialog="Cropper" :imageUrl="Pic.encoded" @change="handleGetDestImg">
-    <div class="imgSearch-editPic--menu">
-      <ts-button type="primary" v-for="item in DICT.productType" :key="item.dicValue" @click="handleLookProduct(item.dicValue)">搜{{item.name}}</ts-button>
-    </div>
+  <cropper-dialog :dialog="Cropper" :imageUrl="Pic.url" @check="handleLookProduct" @change="handleGetResult">
   </cropper-dialog>
 </div>
 </template>
@@ -83,7 +80,7 @@ export default {
         statusNo: 0
       },
       Pic: {
-        destImg: ''
+        url: ''
       },
       defaultShow: false
     };
@@ -127,11 +124,15 @@ export default {
         console.log(res.data);
       });
     },
-    handleGetDestImg(pic) {
-      this.Pic.destImg = pic;
+    // 裁剪---选择分类的时候
+    async handleLookProduct(item) {
+      await this.$store.dispatch('getSearchEncoded', {
+        category: item.category,
+        encoded: item.encoded,
+        searchType: 300
+      });
     },
     hanleFilterFabric(e) {
-      console.log(e);
       let _ = this;
       _.param.isStock = parseInt(e);
       _.pageMax = '';
@@ -139,20 +140,30 @@ export default {
       _.listProductMethod();
     },
     hanleFilterSort(e) {
-      console.log(e);
       let _ = this;
       _.param.category = parseInt(e);
       _.pageMax = '';
       _.param.pageNo = 1;
       _.listProductMethod();
     },
+    // 去花型详情
     handleGotoDetail(item) {
       this.goto(`/product/${item.id}`);
     },
-    // TODO:连接到相似页面
-    handleGotoFind() {
-      alert('找相似');
+    // 找相似
+    handleGotoFind(item) {
+      this.Pic.url = item.defaultPicUrl;
+      this.Cropper.show = true;
     },
+    handleGetResult(val) {
+      this.$router.push({
+        path: '/search/image',
+        query: {
+          imgId: val
+        }
+      });
+    },
+    // 去3D试衣
     handleGoto3DDress(item) {
       sessionStorage['flowerUrl'] = item.defaultPicUrl;
       this.$router.push({

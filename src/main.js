@@ -24,6 +24,7 @@ Vue.use(VueLazyload, {
   attempt: 1
 });
 Vue.config.productionTip = false;
+Vue.config.silent = true;
 // 注册过滤器
 Object.keys(filters).forEach(k => Vue.filter(k, filters[k]));
 Object.keys(directive).forEach(k => Vue.directive(k, directive[k]));

@@ -1,15 +1,15 @@
 <template lang="html">
     <div class="hotSearch-content" ref="hotSearch">
       <ts-title-block>爆款热搜</ts-title-block>
-      <ts-grid>
-        <ts-grid-item width="200px" v-for="(product,index) in BurstHotSearch" :key="product" @click="handleViewProduct(product.id)">
-          <span class="ranking hotSearch-rank" :class="'ranking_'+index" v-if="index<3"></span>
+      <ts-grid :data="BurstHotSearch">
+        <ts-grid-item width="200px" v-for="(product,index) in BurstHotSearch" :key="product" @click="handleViewProduct(product,index)">
+          <span class="ranking hotSearch-rank" :class="`ranking_+${index+1}`" v-if="index<4"></span>
           <ts-image
            width="170"
            height="170"
            :canView="false"
            disabledHover
-           :src="product.defaultPicUrl">
+           :src="product.pics[0]">
            </ts-image>
            <template slot="footer" class="hotSearch-footer">
              <p>搜索量&nbsp;<span class="hotSearch-footer--searchNum">{{product.searchs}}</span></p>
@@ -44,8 +44,17 @@ export default {
       this.BurstHotSearch = this.BurstHotSearch.concat(data);
     },
     // 进去某个商品
-    handleViewProduct(id) {
-      this.goto(`/product/${id}`);
+    handleViewProduct(item, id) {
+      this.$router.push({
+        name: 'updateResult',
+        params: {
+          id: id + 1
+        },
+        query: {
+          sameCount: item.sameCount,
+          searchs: item.searchs
+        }
+      });
     }
   },
   async created() {
@@ -58,7 +67,7 @@ export default {
 @component-namespace hotSearch{
   @component rank{
     position: absolute;
-    z-index: 2;
+    z-index: 1;
   }
   @component content{
     text-align: center;

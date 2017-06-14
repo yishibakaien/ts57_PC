@@ -5,6 +5,12 @@
       <ts-input style="width:30%" placeholder="输入花型编号搜索" v-model="Params.productNo">
         <ts-button slot="append" size="small" @click="handleSearch"><i class="icon-sousuo"></i></ts-button>
       </ts-input>
+      <label style="position:relative">
+        <ts-button size="small" type="warning" @click="handleUpload">
+          <i class="icon-xiangji"></i>
+        </ts-button>
+      </label>
+      <input ref="input" type="file" accept="image/png,image/jpeg" @change="uploadImg" v-show="false">
       <router-link to="addwarehouse" exact>
         <ts-button type="primary">新增花型</ts-button>
       </router-link>
@@ -79,6 +85,7 @@
         <ts-button type="cancel" :disabled="chooseItem.length<=0" v-if="Filter.publishStatuss===0" @click="handleShowDialog(chooseItem)">删除</ts-button>
       </div>
       <ts-pagination
+      :detail="false"
       class="warehouse-footer--pagation"
       @change="handleChangeCurrent"
       @page-size-change="handleChangePageSize"
@@ -123,6 +130,8 @@
     <p class="warehouse-dialog--title">确认将选中花型删除？</p>
     <p><ts-radio @change.native="handleNoShowDialog"  type="origin" v-model="ConfirmDialog.noShowDialog" label="0"><span class="warehouse-dialog--tip">不再提示<i>(花型相关数据删除后无法恢复)</i></span></ts-radio></p>
   </ts-dialog>
+  <cropper-dialog :dialog="Cropper" :imageUrl="Pic.url" @check="handleLookProduct" @change="handleGetResult">
+  </cropper-dialog>
   </div>
 </template>
 
@@ -131,6 +140,7 @@ import DICT from '@/common/dict';
 import {
   mapGetters
 } from 'vuex';
+import CropperDialog from '@/components/search/searchImgDialog.vue';
 import {
   shelveProduct,
   deleteProduct,
@@ -141,6 +151,13 @@ export default {
   data() {
     return {
       productList: {},
+      // 双向绑定 => 与searchImgDialog中 dialog.show对应
+      Cropper: {
+        show: false
+      },
+      Pic: {
+        url: ''
+      },
       // 数据字典
       DICT: {
         PriceUnits: DICT.PriceUnits,
@@ -165,9 +182,14 @@ export default {
         pageNo: 1,
         categorys: null
       },
+      ParamsSearchImg: {
+        pageNo: 1,
+        pageSize: 10,
+        id: ''
+      },
       ParamsAskList: {
-        pageNo: '1',
-        pageSize: '10',
+        pageNo: 1,
+        pageSize: 10,
         productId: ''
       },
       // =========
@@ -199,7 +221,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['dicTree', 'userInfo']),
+    ...mapGetters(['dicTree', 'userInfo', 'search']),
     // 判断是否档口
     getIsStore() {
       return this.userInfo.userType !== 2;
@@ -233,6 +255,9 @@ export default {
       deep: true
     }
   },
+  components: {
+    CropperDialog
+  },
   async created() {
     if (sessionStorage.getItem('warehouse-filter')) {
       this.Filter = JSON.parse(sessionStorage.getItem('warehouse-filter'));
@@ -241,12 +266,15 @@ export default {
     // 获取花型列表
     this.productList = (await getProductList(this.Params)).data.data;
     // 默认创建一个cookie
-    !this.getCookie(this.Cookie.key) ? this.setCookie(this.Cookie.key, this.Cookie.value, this.Cookie.day) : '';
+    !this.cookie.get(this.Cookie.key) ? this.cookie.set(this.Cookie.key, this.Cookie.value, {
+      end: this.Cookie.day
+    }) : '';
   },
   beforeDestroy() {
     sessionStorage.setItem('warehouse-filter', JSON.stringify(this.Filter));
   },
   methods: {
+    // =======
     // 分页处理
     // =========
     async handleChangeCurrent(current) {
@@ -266,7 +294,8 @@ export default {
       this.Collect.data = (await getProductList(this.ParamsAskList)).data.data;
     },
     // ========
-    // 搜索
+    // 文本搜索
+    // =======
     async handleSearch() {
       this.Params = Object.assign({}, this.Params, {
         categorys: null,
@@ -280,11 +309,54 @@ export default {
       };
       this.productList = (await getProductList(this.Params)).data.data;
     },
+    // ===========
+    // 裁剪
+    // ===========
+    // // 隐藏上传file控件
+    handleUpload() {
+      this.$refs.input.click();
+    },
+    uploadImg(e) {
+      var file = this.$refs.input.files[0];
+      if (file) {
+        var reader = new FileReader();
+        reader.onload = () => {
+          var url = reader.result;
+          this.Cropper.show = true;
+          this.Pic.url = url;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        this.$toast('出错');
+      }
+    },
+    // 裁剪---选择分类的时候
+    async handleLookProduct(item) {
+      await this.$store.dispatch('getSearchEncoded', {
+        companyId: this.userInfo.companyId,
+        category: item.category,
+        encoded: item.encoded,
+        searchType: Number(`${this.userInfo.userType}10`)
+      });
+    },
+    // 裁剪---开始搜索结果
+    handleGetResult(val) {
+      this.ParamsSearchImg.id = val;
+      this.$router.push({
+        path: '/search/image',
+        query: {
+          imgId: val,
+          type: 'edit'
+        }
+      });
+    },
     // 全选
     handleChooseAll(event) {
       this.chooseItem = event.target.checked ? this.productList.list.map(item => item.id) : [];
     },
+    // =============
     // 打开花型询价记录
+    // ==============
     async handleCollect(item) {
       this.Collect.show = !this.Collect.show;
       if (this.Collect.show) {
@@ -296,6 +368,9 @@ export default {
         })).data.data;
       }
     },
+    // ================
+    // 条件搜索
+    // ================
     // 添加“分类”条件搜索
     async handleFilterPublishStatus(e) {
       this.Params = Object.assign({}, this.Params, {
@@ -331,7 +406,7 @@ export default {
     // 点击“删除”=>判断cookie是否显示
     handleShowDialog(item) {
       this.ConfirmDialog.id = item;
-      if (this.getCookie(this.Cookie.key) === '1') {
+      if (this.cookie.get(this.Cookie.key) === '1') {
         this.ConfirmDialog.show = true;
       } else {
         this.handleDelProduct();
@@ -340,7 +415,9 @@ export default {
     // 取消删除
     handleCancelDelProduct() {
       this.ConfirmDialog.show = false;
-      this.setCookie(this.Cookie.key, this.Cookie.value, this.Cookie.day);
+      this.cookie.set(this.Cookie.key, this.Cookie.value, {
+        end: this.Cookie.day
+      });
     },
     // 删除花型
     async handleDelProduct() {
@@ -353,7 +430,9 @@ export default {
     },
     // 设置cookie
     handleNoShowDialog(e) {
-      this.setCookie(this.Cookie.key, e.target.value, this.Cookie.day);
+      this.cookie.set(this.Cookie.key, e.target.value, {
+        end: this.Cookie.day
+      });
     }
   }
 };

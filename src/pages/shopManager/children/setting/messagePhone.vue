@@ -11,8 +11,9 @@
       </router-link>
     </div>
     <ts-form :model="PhoneForm" :rules="rules" ref="PhoneForm" label-width="200px" label-position="left">
+      <pre>{{phoneList}}</pre>
       <ts-form-item :label="`短信接收号码_${index+1}`" :key="index" prop="phone" v-for="(item,index) in phoneList">
-        <ts-input :value="item" style="width:200px" @input="handleInput" placeholder="请输入手机号码"></ts-input>
+        <ts-input :maxlength="11" :value="item" style="width:200px" @input="handleInput" placeholder="请输入手机号码"></ts-input>
         <ts-button type="plain" @click="handleEditPhone(item,index)">修改</ts-button>
         <ts-button type="plain" v-if="phoneList.length>1" @click="handleDELPhone(item,index)">删除</ts-button>
       </ts-form-item>
@@ -98,6 +99,11 @@ export default {
         mobile: {
           required: true,
           validator: valiMobile,
+          trigger: 'blur'
+        },
+        phone: {
+          message: '请输入正确的手机号码',
+          pattern: /^1[34578]\d{9}$/,
           trigger: 'blur'
         },
         password: {

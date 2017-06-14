@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="shop">
     <v-header>
-    	<search></search>
+    	<search :globalSearch="false"></search>
     </v-header>
     <v-nav></v-nav>
     <section class="shopManager-container">

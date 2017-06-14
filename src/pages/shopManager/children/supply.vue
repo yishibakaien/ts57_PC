@@ -180,7 +180,9 @@ export default {
     this.count = (await companySupplyCountByStatus()).data.data;
     this.companySupplyList = (await getCompanySupplylist(this.Params)).data.data;
     // 默认创建一个cookie
-    !this.getCookie(this.Cookie.key) ? this.setCookie(this.Cookie.key, this.Cookie.value, this.Cookie.day) : '';
+    !this.cookie.get(this.Cookie.key) ? this.cookie.set(this.Cookie.key, this.Cookie.value, {
+      end: this.Cookie.day
+    }) : '';
   },
   computed: {
     ...mapGetters(['dicTree']),
@@ -265,7 +267,7 @@ export default {
     // 点击“删除”=>判断cookie是否显示
     async handleShowDialog(item) {
       this.ConfirmDialog.id = item;
-      if (this.getCookie(this.Cookie.key) === '1') {
+      if (this.cookie.get(this.Cookie.key) === '1') {
         this.ConfirmDialog.show = true;
       } else {
         this.handleCloseSupply();
@@ -274,7 +276,9 @@ export default {
     // 取消删除
     handleCancelDelSupply() {
       this.ConfirmDialog.show = false;
-      this.setCookie(this.Cookie.key, this.Cookie.value, this.Cookie.day);
+      this.cookie.set(this.Cookie.key, this.Cookie.value, {
+        end: this.Cookie.day
+      });
     },
     // 关闭供应
     async handleCloseSupply() {
@@ -287,7 +291,9 @@ export default {
     },
     // 设置cookie
     handleNoShowDialog(e) {
-      this.setCookie(this.Cookie.key, e.target.value, this.Cookie.day);
+      this.cookie.set(this.Cookie.key, e.target.value, {
+        end: this.Cookie.day
+      });
     }
   }
 };

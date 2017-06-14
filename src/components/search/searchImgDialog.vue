@@ -1,7 +1,7 @@
 <template lang="html">
   <!-- @close="handleClose"  -->
   <ts-dialog :close-on-press-escape='false' v-model="dialog.show" width="60%" title="请框选图中要识别的区域">
-    <cropper v-model="imageUrl" @getImage="handleGetImg"></cropper>
+    <cropper @error="handleErorImg" v-model="Pic.url" @getImage="handleGetImg"></cropper>
       <div class="search-editPic--menu">
         <ts-button type="primary" v-for="item in DICT.productType" :key="item.dicValue" @click="handleLookProduct(item.dicValue)">搜{{item.label}}</ts-button>
       </div>
@@ -14,6 +14,9 @@
 import {
   mapGetters
 } from 'vuex';
+import {
+  getPicBase64
+} from '@/common/api/api';
 import DICT from '@/common/dict';
 import Cropper from '@/components/cropper/cropper.vue';
 export default {
@@ -51,7 +54,7 @@ export default {
   },
   watch: {
     imageUrl(val) {
-      this.image = val;
+      this.Pic.url = val;
     },
     'search.id' (val) {
       this.$store.commit('SET_PROGRESS', 100);
@@ -62,6 +65,14 @@ export default {
     }
   },
   methods: {
+    async handleErorImg(val) {
+      let res = (await getPicBase64({
+        picUrl: val
+      })).data.data;
+      this.$nextTick(() => {
+        this.Pic.url = res;
+      });
+    },
     handleLookProduct(e) {
       let data = {
         encoded: this.Pic.destImg,
@@ -76,11 +87,11 @@ export default {
       this.$store.commit('SET_HANDLE_STATUS', true);
       if (this.search.handleStatus) {
         this.Progress.interval = setInterval(() => {
-          if (this.search.progress > 95) {
+          if (this.search.progress > 60) {
             this.$store.commit('SET_PROGRESS', 95);
             clearInterval(this.Progress.interval);
           } else {
-            this.$store.commit('SET_PROGRESS', (Math.random() * (this.search.progress += 1) + (this.search.progress++)).toFixed(2));
+            this.$store.commit('SET_PROGRESS', (Math.random() + (this.search.progress += 1) + (this.search.progress += 0.5)).toFixed(2));
           }
         }, 1500);
       }

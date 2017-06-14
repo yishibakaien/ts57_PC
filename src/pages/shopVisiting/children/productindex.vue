@@ -1,5 +1,6 @@
 <template lang="html">
   <div class="productIndex">
+    <p class="productIndex-empty" v-if="getProductsLength">该店铺暂未上架花型</p>
     <div v-for="(item,index) in CompanyProducts" v-if="!!item.list.length">
       <ts-title-block :bodyStyle="{'font-size':'20px'}">
         <i class="icon-huaxin"></i>&nbsp;{{item.className}}
@@ -19,7 +20,7 @@
            </ts-image>
            <p class="productIndex-product--number">{{product.productNo}}</p>
            <template slot="footer">
-             <span v-if="product.price>0&&!!product.price">¥{{product.price}}/{{product.priceUnit | filterDict(DICT.PriceUnits) }}</span>
+             <span v-if="product.price>0&&!!product.price">¥{{product.price/100}}/{{product.priceUnit | filterDict(DICT.PriceUnits) }}</span>
              <span v-else>价格面议</span>
            </template>
          </ts-grid-item>
@@ -77,6 +78,10 @@ export default {
       if (this.CategoryList.some(item => item.className === '爆款')) {
         return this.CategoryList.filter(item => item.className === '爆款')[0].id;
       }
+    },
+    // 未上架任何花型时，需显示——该店铺暂未上架花型
+    getProductsLength() {
+      return this.CompanyProducts.length <= 0;
     }
   },
   async created() {
@@ -127,6 +132,13 @@ export default {
     position: absolute;
     z-index: 2;
     left:16px;
+  }
+  @component empty{
+    display: table;
+text-align: center;
+margin: 10px auto;
+font-size: 18px;
+color: #666;
   }
   @component product{
     @modifier number{

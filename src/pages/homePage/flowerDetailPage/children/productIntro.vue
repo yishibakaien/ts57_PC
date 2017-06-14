@@ -36,7 +36,8 @@
 					<span class="">{{productDetail.ingredient}}</span>
 				</p><p>
 					<span class="grey">库&nbsp;&nbsp;&nbsp;存：</span>
-					<span class="">{{productDetail.isStock | filterDict(DICT.isStock,'label2')}}</span>
+					<span v-if="productDetail.isStock===0">{{productDetail.isStock | filterDict(DICT.isStock,'label2')}}</span>
+					<span v-else>{{productDetail.stock}}{{productDetail.stockUnit | filterDict(dicTree.PRODUCT_UNIT,'name')}}</span>
 				</p><p>
 					<span class="grey">货&nbsp;&nbsp;&nbsp;型：</span>
 					<span class="">{{productDetail.productShape | filterDict(dicTree.PRODUCT_SHAPE,'name')}}</span>
@@ -184,8 +185,8 @@ export default {
     // 去3D试衣
     handleGoto3Ddress() {
       sessionStorage.setItem('flowerUrl', this.productDetail.defaultPicUrl);
-      this.$router.push({
-        path: '/threeDDressPage'
+			this.$router.push({
+        path: `/threeDDressPage`
       });
     },
     handleLogin() {

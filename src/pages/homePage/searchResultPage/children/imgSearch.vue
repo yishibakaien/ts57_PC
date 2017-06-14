@@ -28,7 +28,10 @@
 		       <p>{{product.companyName}}</p>
 		       <template slot="footer">
              <span>{{product.productNo}}</span>
-		         <span>{{product.publishDate}}</span>
+		         <span v-if="!Type.edit">{{product.publishDate}}</span>
+						 <ts-tag class="imgSearch-tag" v-else>
+						 	<a>编辑</a>
+						 </ts-tag>
 		       </template>
 		     </ts-grid-item>
 		  </ts-grid>
@@ -70,11 +73,8 @@
 			<p>免费热线</p>
 			<p>400-801-3357</p>
 		</div>
-    <cropper-dialog :dialog="Cropper" :imageUrl="Pic.encoded" @change="handleGetDestImg">
-			<div class="imgSearch-editPic--menu">
-	      <ts-button type="primary" v-for="item in DICT.productType" :key="item.dicValue" @click="handleLookProduct(item.dicValue)">搜{{item.name}}</ts-button>
-	    </div>
-    </cropper-dialog>
+		<cropper-dialog :dialog="Cropper" :imageUrl="Pic.encoded" @check="handleLookProduct" @change="handleGetResult">
+		</cropper-dialog>
 	</div>
 </template>
 
@@ -93,6 +93,10 @@ export default {
       // 双向绑定 => 与searchImgDialog中 dialog.show对应
       Cropper: {
         show: false
+      },
+			// XXX:仓库管理搜图=>搜图暂时可以跳去编辑页面
+      Type: {
+        edit: false
       },
       companyBestList: {},
       Pic: {
@@ -172,38 +176,42 @@ export default {
       this.Pic.url = this.Pic.encoded;
       this.Cropper.show = true;
     },
-    // change--获取裁剪的图片base64
-    handleGetDestImg(pic) {
-      this.Pic.destImg = pic;
-    },
-    // 寻找花型(最终一步)
-    async handleLookProduct(e) {
-      sessionStorage.setItem('find-pic', JSON.stringify({
-        encoded: this.Pic.destImg
-      }));
-      this.$store.commit('SET_HANDLE_STATUS', true);
-      this.$store.commit('SET_PROGRESS', 1);
-      this.Cropper.show = false;
-      this.historyItems.set(this.Pic.destImg);
+		// 寻找花型(最终一步)
+		async handleLookProduct(item) {
       await this.$store.dispatch('getSearchEncoded', {
-        category: e,
-        encoded: this.Pic.destImg,
+        category: item.category,
+        encoded: item.encoded,
         searchType: 300
       });
-      if (this.$store.getters.search.id) {
-        await this.$router.push({
-          path: this.isShopRoute ? `/shop/${this.$route.params.id}/s/image` : '/search/image',
+    },
+		// 裁剪---开始搜索结果
+    handleGetResult(val) {
+      this.$router.push({
+        path: '/search/image',
+        query: {
+          imgId: val
+        }
+      });
+    },
+		// XXX:仓库管理搜图=>搜图暂时可以跳去编辑页面
+    handleViewProduct(id) {
+      if (this.Type.edit) {
+        this.$router.push({
+          path: `/shopManagePage/addwarehouse`,
           query: {
-            imgId: this.$store.getters.search.id
+            id: id
           }
         });
+      } else {
+        this.goto(`/product/${id}`);
       }
-    },
-    handleViewProduct(id) {
-      this.goto(`/product/${id}`);
     }
   },
   async created() {
+    // XXX:从仓库管理跳过来，暂时给他跳去编辑页面
+    if (this.$route.query.type) {
+      this.Type.edit = true;
+    }
     if (this.$route.query.imgId) {
       this.Params.id = this.$route.query.imgId;
       this.$store.dispatch('searchGetResult', this.Params);
@@ -313,7 +321,14 @@ export default {
 			}
 		}
 	}
-
+	@component tag{
+		a{
+			color:#fff;
+			&:hover{
+				color:#FF8400;
+			}
+		}
+	}
 	@component wrapper{
 		text-align: center;
 	}

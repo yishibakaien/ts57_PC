@@ -26,7 +26,7 @@
            </ts-image>
            <p class="lookingResult-product--number">{{product.productNo}}</p>
            <template slot="footer">
-             <span v-if="product.price>0&&!!product.price">¥{{product.price/100}}/{{product.priceUnit | filterDict(dicTree.PRODUCT_UNIT) }}</span>
+             <span v-if="product.price>0&&!!product.price">¥{{product.price/100}}/{{product.priceUnit | filterDict(dicTree.PRODUCT_UNIT,'name') }}</span>
              <span v-else>价格面议</span>
            </template>
          </ts-grid-item>
@@ -47,6 +47,9 @@ import {
 export default {
   data() {
     return {
+      DICT: {
+
+      },
       // 单条搜索记录
       searchSingle: {
         user: {}

@@ -1,37 +1,5 @@
 import {ECB_KEY} from '@/common/dict/const';
 import CryptoJS from 'crypto-js';
-/**
- * @param  {date} Date 类型
- * @param  {fmt} 格式化格式 如 'yyyy-MM-dd hh:mm' -> 2017-04-20 13:47
- *                              'yyyy/MM/dd hh:mm' -> 2017/04/20 13:47
- *                              'yyyy年MM月dd' -> 2017年04月20日
- * @return {String} 返回格式化的 时间字符串
- */
-export const formatDate = (date, fmt) => {
-  if (/(y+)/.test(fmt)) {
-    fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
-  }
-  let o = {
-    'M+': date.getMonth() + 1,
-    'd+': date.getDate(),
-    'h+': date.getHours(),
-    'm+': date.getMinutes(),
-    's+': date.getSeconds()
-  };
-  for (let k in o) {
-    if (new RegExp('(' + k + ')').test(fmt)) {
-      let str = o[k] + '';
-      fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1)
-        ? str
-        : _padLeftZero(str));
-    }
-  }
-  return fmt;
-
-  function _padLeftZero(str) {
-    return ('00' + str).substr(str.length);
-  }
-};
 // 对象字符串转成对象
 export const parseText = (str) => {
   if (str.startsWith('{') || str.startsWith('[')) {
@@ -55,65 +23,67 @@ export const parseText = (str) => {
 export const isObject = (arg) => {
   return typeof arg === 'object' && arg !== null;
 };
-// 根据key值获取对应的cookie
-export const getCookie = (key) => {
-  var data = document.cookie;
-  var startIndex = data.indexOf(key + '=');
-  if (startIndex > -1) {
-    startIndex = startIndex + key.length + 1;
-    var endIndex = data.indexOf(';', startIndex);
-    endIndex = endIndex < 0
-      ? data.length
-      : endIndex;
-    return decodeURIComponent(data.substring(startIndex, endIndex));
-  } else {
-    return '';
-  }
-};
-// 设置保存cookie
-export const setCookie = (key, value, time) => {
-  var times = time;
-  var cur = new Date();
-  cur.setTime(cur.getTime() + time * 24 * 3600 * 1000);
-  document.cookie = key + '=' + encodeURIComponent(value) + ';expires=' + (times === undefined
-    ? ''
-    : cur.toGMTString());
-};
-//  删除Cookie
-export const delCookie = (key) => {
-  var data = this.get(key);
-  if (data !== false) {
-    this.set(key, data, -1);
-  }
-};
-//
-/**
-    * 主要用来合并两个数组，然后拼接成一个对象：各种字典的具体数量&字典合并
-    * @param  {[type]} params 传对象
-    {
-        countObj: num, //获取数量的对象
-        countReplace: "count", //countObj需要替换的字符
-        dictArr: arr, //字典的json
-        dictReplace: "PT"  //dictArr需要替换的字符
+// COOKIE
+export const cookie = (() => {
+  return {
+    // 设置cookie
+    set: (sKey, sValue, vEnd, sPath, sDomain, bSecure) => {
+      if (!sKey || /^(?:expires|max\/-age|path|domain|secure)$/i.test(sKey)) {
+        return false;
+      }
+      var sExpires = '';
+      if (vEnd) {
+        switch (vEnd.constructor) {
+          case Number:
+            sExpires = vEnd === Infinity
+              ? '; expires=Fri, 31 Dec 9999 23:59:59 GMT'
+              : '; max-age=' + vEnd;
+            break;
+          case String:
+            sExpires = '; expires=' + vEnd;
+            break;
+          case Date:
+            sExpires = '; expires=' + vEnd.toUTCString();
+            break;
+        }
+      }
+      document.cookie = encodeURIComponent(sKey) + '=' + encodeURIComponent(sValue) + sExpires + (sDomain
+        ? '; domain=' + sDomain
+        : '') + (sPath
+        ? '; path=' + sPath
+        : '') + (bSecure
+        ? '; secure'
+        : '');
+      return true;
+    },
+    del: (sKey, sPath, sDomain) => {
+      if (!sKey) {
+        return false;
+      }
+      document.cookie = encodeURIComponent(sKey) + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT' + (sDomain
+        ? '; domain=' + sDomain
+        : '') + (sPath
+        ? '; path=' + sPath
+        : '');
+      return true;
+    },
+    // 获取cookie
+    get: (key) => {
+      var data = document.cookie;
+      var startIndex = data.indexOf(key + '=');
+      if (startIndex > -1) {
+        startIndex = startIndex + key.length + 1;
+        var endIndex = data.indexOf(';', startIndex);
+        endIndex = endIndex < 0
+          ? data.length
+          : endIndex;
+        return decodeURIComponent(data.substring(startIndex, endIndex));
+      } else {
+        return '';
+      }
     }
-    * @return {[type]}        [{label:'面料',value:'1'}]
-    */
-export const getDictNum = (params) => {
-  // Object对象转Map
-  function obj2Map(obj) {
-    let _map = new Map();
-    for (let key of Object.keys(obj)) {
-      _map.set(key.replace(params.countReplace, ''), obj[key]);
-    }
-    return _map;
-  }
-  return params.dictArr.map(item => {
-    return {
-      label: item.name,
-      value: obj2Map(params.countObj).get(item.code.replace(params.dictReplace, ''))
-    };
-  });
-};
+  };
+})();
 // =============
 // 交换数组元素
 export const swapItems = (arr, index1, index2) => {
@@ -133,9 +103,6 @@ export const downMove = (arr, $index) => {
     return;
   }
   return swapItems(arr, $index, $index + 1);
-};
-export default {
-  formatDate
 };
 // =============
 // 按钮状态
@@ -203,18 +170,21 @@ export const historyItems = (() => {
   };
 })();
 // 图片转成base64
-export const convertImgToBase64 = (url, callback, outputFormat) => {
+export const convertImgToBase64 = (url, callback, error, outputFormat) => {
   var canvas = document.createElement('canvas');
   var ctx = canvas.getContext('2d');
   var img = new Image();
   img.crossOrigin = 'Anonymous';
-  img.onload = function() {
+  img.onload = () => {
     canvas.height = img.height;
     canvas.width = img.width;
     ctx.drawImage(img, 0, 0);
     var dataURL = canvas.toDataURL(outputFormat || 'image/png');
     callback.call(this, dataURL);
     canvas = null;
+  };
+  img.onerror = () => {
+    error.call(this, url);
   };
   img.src = url;
 };

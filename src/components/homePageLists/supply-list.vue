@@ -88,6 +88,8 @@ basecolor = #4c93fd
   display flex
   box-sizing border-box
   width 100%
+  min-height 318px
+  background #fff
   .left-brand
     flex 0 0 267px
     width 267px
@@ -144,7 +146,7 @@ basecolor = #4c93fd
         font-size 16px
         color rgba(255, 255, 255, 0.6)
     .brand-body
-      height 175px
+      height 176px
       padding 16px
       background #fff
       .input
