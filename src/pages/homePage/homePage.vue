@@ -31,7 +31,7 @@
             <ts-carousel height="546px" autoplay-speed="6000" dots="none" autoplay @change="handleChangeCompany" arrow="always" easing='linear'>
               <ts-carousel-item v-for="company in companys">
                 <ts-grid>
-                  <ts-grid-item style="width:300px;height:183px" v-for="item in company" @click="handleViewProduct(item.id)">
+                  <ts-grid-item style="width:300px;height:183px" v-for="item in company" @click="handleViewProduct(item.companyId)">
                     <ts-image width="268" height="150" :canView="false" disabledHover :src="item.pic">
                     </ts-image>
                   </ts-grid-item>
@@ -52,9 +52,7 @@ import {
   nav,
   search,
   purchaseList,
-  supplyList,
-  entryList,
-  qualityCompanyList
+  supplyList
 } from '@/components';
 import {
   mapGetters
@@ -92,9 +90,7 @@ export default {
     'vNav': nav,
     search,
     purchaseList,
-    supplyList,
-    entryList,
-    qualityCompanyList
+    supplyList
   },
   watch: {
     userInfo: {

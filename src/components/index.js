@@ -28,10 +28,6 @@ import purchaseList from './homePageLists/purchase-list';
 
 import supplyList from './homePageLists/supply-list';
 
-import entryList from './homePageLists/entry-list';
-
-import qualityCompanyList from './homePageLists/quality-company-list';
-
 import aliUpload from './aliUpload/aliUpload';
 
 // 检索结果筛选
@@ -47,26 +43,24 @@ import tipsModel from './tipsModel/tipsModel';
 import customModel from './customModel/customModel';
 
 export {
-    topbar,
-    header,
-    footer,
-    nav,
-    login,
-    loginMask,
-    search,
-    picUpload,
-    fixedTopbar,
-    models,
-    pageBar,
-    baseItem,
-    purchaseList,
-    supplyList,
-    entryList,
-    qualityCompanyList,
-    aliUpload,
-    filter,
-    pagination,
-    collection,
-    tipsModel,
-    customModel
+  topbar,
+  header,
+  footer,
+  nav,
+  login,
+  loginMask,
+  search,
+  picUpload,
+  fixedTopbar,
+  models,
+  pageBar,
+  baseItem,
+  purchaseList,
+  supplyList,
+  aliUpload,
+  filter,
+  pagination,
+  collection,
+  tipsModel,
+  customModel
 };
