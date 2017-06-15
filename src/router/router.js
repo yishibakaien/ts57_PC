@@ -391,6 +391,10 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.needAuth)) { // 判断该路由是否需要登录权限
     if (store.state.token.token) {
+      if (to.path.indexOf('/shop/undefined') >= 0) {
+        next(`/shop/${store.state.user.userInfo.companyId}`);
+        return;
+      }
       next();
     } else {
       next({
@@ -401,7 +405,9 @@ router.beforeEach((to, from, next) => {
       });
     }
   } else {
-    next();
+    store.state.token.token && to.path === '/loginPage'
+      ? next('/')
+      : next();
   }
 });
 export default router;

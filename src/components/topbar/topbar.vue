@@ -91,18 +91,14 @@ export default {
   },
   methods: {
     handleGotoPerson() {
-      this.$router.push({
-        path: this.isLogin && this.userInfo.companyId ? `/shop/${this.userInfo.companyId}` : '/loginPage'
-      });
+      this.$router.push(`/shop/${this.userInfo.companyId}`);
     },
     // 退出
     async handleLogout() {
       await loginOut();
       await this.$store.commit('LOGIN_OUT');
       await this.$store.commit('CLEAR_USERINFO');
-      await this.$router.push({
-        path: '/homePage'
-      });
+      await this.$router.push('/');
     }
   }
 };
