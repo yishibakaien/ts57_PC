@@ -14,6 +14,7 @@ export default {
       left: 0
     };
   },
+  props: ['key'],
   computed: {
     styles() {
       return {
@@ -31,15 +32,15 @@ export default {
   }
 };
 </script>
-<style media="screen">
-  @component-namespace ts{
-    @component carousel{
-      @descendent item{
-        float: left;
-        height: 100%;
-        min-height: 1px;
-        display: block;
-      }
+<style scoped>
+@component-namespace ts {
+  @component carousel {
+    @descendent item {
+      float: left;
+      height: 100%;
+      min-height: 1px;
+      display: block;
     }
   }
+}
 </style>

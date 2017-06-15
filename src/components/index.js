@@ -21,7 +21,7 @@ import fixedTopbar from './fixedTopbar/fixedTopbar';
 import models from './models/models';
 
 import pageBar from './pageBar/pageBar';
-
+import entryList from './homePageLists/entry-list';
 import baseItem from './baseItem/baseItem';
 
 import purchaseList from './homePageLists/purchase-list';
@@ -54,6 +54,7 @@ export {
   fixedTopbar,
   models,
   pageBar,
+  entryList,
   baseItem,
   purchaseList,
   supplyList,

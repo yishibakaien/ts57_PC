@@ -6,6 +6,7 @@ export const APP_LINK = {
   web: 'http://www.baidu.com',
   app: 'http://a.app.qq.com/o/simple.jsp?pkgname=cn.ts57.app'
 };
+export const BANNER = ['http://zsbgdev.oss-cn-shenzhen.aliyuncs.com/banner/indexBanner.jpg', 'http://zsbgdev.oss-cn-shenzhen.aliyuncs.com/banner/timg.jpg'];
 export const MODELS = [
   'modle1_all.png',
   'modle1_back.png',

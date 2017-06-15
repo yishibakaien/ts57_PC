@@ -89,7 +89,7 @@ export default {
     qrcodeVue
   },
   computed: {
-    ...mapGetters(['token']),
+    ...mapGetters(['token', 'userInfo']),
     getAppLink() {
       return APP_LINK.app;
     }
@@ -125,34 +125,31 @@ export default {
         this.imgCode = 'data:image/jpeg;base64,' + res.data.data;
       }).catch();
     },
-    loginMethod() {
+    async loginMethod() {
       if (!reg.testMobile(this.userData.userMobile) || !reg.testPWD(this.userData.userPWD)) {
         return;
       }
       this.userData.userPWD = this.Encrypt(this.userData.userPWD);
-      login(this.userData).then((res) => {
-        if (res.data.code === 0) {
-          if (this.$route.query.redirect !== undefined) {
-            this.$router.push(this.$route.query.redirect);
-          } else {
-            this.$router.push('/');
-          }
-          this.$store.commit('GET_USERINFO', res.data.data);
-          this.$store.commit('LOGIN', res.headers['x-token']);
-          localStorage['user-account'] = JSON.stringify({
-            userMobile: this.userData.userMobile
-          });
-          this.$store.dispatch('getDicTree');
-          this.$store.commit(types.LOGIN_MASK, false);
-        } else if (res.data.code === 2000004) {
-          this.showPicCode = true;
-          this.getVerifyCodeMethod();
-        } else {
-          this.getVerifyCodeMethod();
-        }
-      }, (res) => {
+      let res = await login(this.userData);
+      if (res.data.code === 0) {
+        localStorage['user-account'] = JSON.stringify({
+          userMobile: this.userData.userMobile
+        });
+        await this.$store.commit('LOGIN', res.headers['x-token']);
+        await this.$store.commit('GET_USERINFO', res.data.data);
+        await this.$store.dispatch('getDicTree');
+        await this.$store.commit(types.LOGIN_MASK, false);
+        await this.$router.push({
+          path: this.$route.query.redirect || '/'
+        });
+        return;
+      }
+      if (res.data.code === 2000004) {
+        this.showPicCode = true;
         this.getVerifyCodeMethod();
-      });
+        return;
+      }
+      this.getVerifyCodeMethod();
     },
     showLoginfunc() {
       this.showLogin = true;

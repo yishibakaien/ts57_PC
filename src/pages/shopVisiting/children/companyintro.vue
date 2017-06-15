@@ -8,7 +8,7 @@
       </div>
       <div class="grid-col-9 companyIntro-companyName">
       {{companyInfo.companyName}}&nbsp;&nbsp;&nbsp;
-        <ts-button type="primary" class="companyIntro-companyName--button" @click="handleCollectStore">
+        <ts-button type="plain" style="border-radius: 4px;" class="companyIntro-companyName--button" @click="handleCollectStore">
           <i :class="getIsCollect?'icon-yishoucang':'icon-shoucang'"></i> &nbsp;
           {{getIsCollect?'已收藏店铺':'收藏店铺'}}
         </ts-button>
@@ -80,14 +80,14 @@
           </div>
       </div>
     </div>
-    <div class="grid-row-table">
+    <!-- <div class="grid-row-table">
       <div class="grid-col-tab-1 is-title">
         经营地址
       </div>
       <div class="grid-col-tab-11 is-content">
         {{companyInfo.address}}
       </div>
-    </div>
+    </div> -->
   </ts-section>
   <!-- 经营信息 -->
   <ts-section pageTitle="经营信息" class="companyIntro-section">
@@ -155,12 +155,12 @@
       <div class="grid-col-9">
         {{companyInfo.province | filterArea(Area.province)}} - {{companyInfo.city | filterArea(Area.city)}}&nbsp;
       </div>
-      <div class="grid-col-3">
+      <!-- <div class="grid-col-3">
         详细地址：
       </div>
       <div class="grid-col-9">
         {{companyInfo.address}}&nbsp;
-      </div>
+      </div> -->
       <div class="grid-col-3">
         地图坐标：
       </div>
@@ -320,13 +320,13 @@ export default {
   div[class*='col-tab'],.grid-col-12{
     text-align: center;
    &.is-title{
-      background: #4c93fd;
+      background: #b0b0b0;
       color: #fff;
       padding: 10px;
       border: 1px solid #fff;
     }
     &.is-content{
-      background: #c6d9f6;
+      background: #eaeaea;
       border: 1px solid #fff;
     }
   }

@@ -101,10 +101,7 @@ export default {
     this.Params.albumId = (await getAlbum()).data.data.id;
     this.albumPicsList = (await getAlbumPicsList(this.Params)).data.data;
     // 默认创建一个cookie
-    !this.cookie.get(this.Cookie.key) ? this.cookie.set(this.Cookie.key, this.Cookie.value, {
-      end: this.Cookie.day,
-      path: '/'
-    }) : '';
+    !this.cookie.get(this.Cookie.key) ? this.cookie.set(this.Cookie.key, this.Cookie.value, this.Cookie.day, '/') : '';
   },
   methods: {
     // 分页处理
@@ -138,17 +135,11 @@ export default {
     // 取消删除
     handleCancelDelMaterial() {
       this.ConfirmDialog.show = false;
-      this.cookie.set(this.Cookie.key, this.Cookie.value, {
-        end: this.Cookie.day,
-        path: '/'
-      });
+      this.cookie.set(this.Cookie.key, this.Cookie.value, this.Cookie.day, '/');
     },
     // 设置cookie
     handleNoShowDialog(e) {
-      this.cookie.set(this.Cookie.key, e.target.value, {
-        end: this.Cookie.day,
-        path: '/'
-      });
+      this.cookie.set(this.Cookie.key, this.Cookie.value, this.Cookie.day, '/');
     },
     async uploadImg(e) {
       await addAlbumPic({

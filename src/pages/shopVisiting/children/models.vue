@@ -66,21 +66,6 @@ import {
   favoriteBus,
   favoriteIsFavorite
 } from '@/common/api/api';
-const convertImgToBase64 = (url, callback, outputFormat) => {
-  var canvas = document.createElement('CANVAS');
-  var ctx = canvas.getContext('2d');
-  var img = new Image();
-  img.crossOrigin = '';
-  img.onload = function() {
-    canvas.height = img.height;
-    canvas.width = img.width;
-    ctx.drawImage(img, 0, 0);
-    var dataURL = canvas.toDataURL(outputFormat || 'image/png');
-    callback.call(this, dataURL);
-    canvas = null;
-  };
-  img.src = url;
-};
 export default {
   data() {
     return {
@@ -165,7 +150,8 @@ export default {
     // ==>判断是否收藏过花型
     handleChooseProduct() {
       this.Dialog.show = false;
-      convertImgToBase64(this.Choose.item.defaultPicUrl, async(base64Img) => {
+      let img = this.Choose.item.defaultPicUrl.indexOf('?') >= 0 ? this.Choose.item.defaultPicUrl.split('?')[0] : this.Choose.item.defaultPicUrl;
+      this.convertImgToBase64(img, async(base64Img) => {
         this.Choose.confirm = base64Img;
         let res = (await favoriteIsFavorite({
           businessId: this.Choose.item.id,

@@ -13,7 +13,7 @@
       </span>
     </div>
     <div class="right">
-      <a @click="handleGotoPerson" class="link">我的网店</a>
+      <a @click="handleGotoPerson" v-if="!isLogin" class="link">我的网店</a>
       <div class="app-qrcode">
         <!-- 坐视不管 -->
         <i class="iconfont icon-shouji"></i>
@@ -91,13 +91,13 @@ export default {
   },
   methods: {
     handleGotoPerson() {
-      this.$router.push(`/shop/${this.userInfo.companyId}`);
+      this.goto(`/shop/${this.userInfo.companyId}`);
     },
     // 退出
     async handleLogout() {
-      await loginOut();
       await this.$store.commit('LOGIN_OUT');
       await this.$store.commit('CLEAR_USERINFO');
+      await loginOut();
       await this.$router.push('/');
     }
   }
