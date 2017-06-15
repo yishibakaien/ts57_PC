@@ -5,13 +5,8 @@
   </v-header>
   <v-nav></v-nav>
   <div class="swiper">
-    <!-- <ts-carousel v-model="value2" arrow="never" autoplay :autoplay-speed="3000" easing='linear'> -->
-    <!-- <ts-carousel-item v-for="item in bannerImgs"> -->
     <ts-image :src="banner" height="350" class="home-image" :canView="false" disabledHover></ts-image>
-    <!-- </ts-carousel-item> -->
-    <!-- </ts-carousel> -->
   </div>
-
   <div class="homePage-box">
     <div class="list" v-if="userInfo.userType!==1">
       <!-- 求购列表 -->
@@ -27,7 +22,25 @@
     </div>
     <div class="list">
       <!-- 优质厂家 -->
-      <quality-company-list></quality-company-list>
+      <div class="quality-company-list">
+        <div class="left-brand onepx-r">
+          <img class="quality-company-pic" src="/static/images/youzhichangjia.png">
+        </div>
+        <div class="right-list">
+          <div class="item-wrapper">
+            <ts-carousel height="546px" autoplay-speed="6000" autoplay @change="handleChangeCompany" arrow="always" easing='linear'>
+              <ts-carousel-item v-for="company in companys">
+                <ts-grid>
+                  <ts-grid-item style="width:300px;height:183px" v-for="item in company" @click="handleViewProduct(item.id)">
+                    <ts-image width="268" height="150" :canView="false" disabledHover :src="item.pic">
+                    </ts-image>
+                  </ts-grid-item>
+                </ts-grid>
+              </ts-carousel-item>
+            </ts-carousel>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -47,18 +60,21 @@ import {
   mapGetters
 } from 'vuex';
 import {
-  listHomeBanners,
+  // listHomeBanners,
   listProductBuys,
+  qualityCompanyList1,
   listCompanySupplys,
   findNewCompanyByIndex
 } from '@/common/api/api';
 export default {
   data() {
     return {
-      value: 0,
-      value2: 0,
-      imgs: [], // 轮播图假数据
-      bannerImgs: [], // 真正的轮播图
+      CompanyListParam: {
+        pageNo: 1,
+        pageSize: 50
+      },
+      companys: [],
+      total: 1,
       purchaseListObj: {}, // 求购列表
       supplyListObj: {}, // 供应列表
       newCompanyList: [] // 最新入驻
@@ -88,52 +104,55 @@ export default {
       deep: true
     }
   },
-
   methods: {
-    index() {
+    handleChangeCompany() {
+      // this.CompanyListParam.pageNo++;
+    },
+    handleViewProduct(id) {
+      this.goto(`/shop/${id}`);
+    },
+    async index() {
+      let data = (await qualityCompanyList1(this.CompanyListParam)).data.data.list;
+      let result = [];
+      for (var i = 0, len = data.length; i < len; i += 9) {
+        result.push(data.slice(i, i + 9));
+      }
+      this.companys = result;
       // =====
       // banner
-      listHomeBanners().then(res => {
-        let bannerArr = res.data.data;
-        bannerArr.forEach(function(item) {
-          item.src = item.picUrl;
-          // 接口中暂时未提供轮播图的 跳转地址，先用百度代替
-          item.href = 'https://www.baidu.com';
-        });
-        this.bannerImgs = bannerArr;
-      }).catch(res => {});
-      // ===
+      // ====
+      // listHomeBanners().then(res => {
+      //   let bannerArr = res.data.data;
+      //   this.bannerImgs = bannerArr;
+      // }).catch(res => {});
+      // ====
       // 获取求购列表
-      listProductBuys({
-        buyStatus: 0,
-        pageNo: 1,
-        pageSize: 4
-      }).then(res => {
-        let data = {
-          type: 'buy',
-          data: res.data.data.list
-        };
-        this.purchaseListObj = data;
-      }).catch(res => {});
+      // ====
+      this.purchaseListObj = {
+        type: 'buy',
+        data: (await listProductBuys({
+          buyStatus: 0,
+          pageNo: 1,
+          pageSize: 4
+        })).data.data.list
+      };
+      // ======
       // 获取供应列表
-      listCompanySupplys({
-        supplyStatus: 1, // 供应状态 1--供应中 2--已关闭
-        pageNo: 1,
-        pageSize: 4
-      }).then(res => {
-        // 这里需要格式化 type 以便于后面 baseItem 逐渐分辨到底是 supply 还是 buy
-        let data = {
-          type: 'supply',
-          data: res.data.data.list
-        };
-        this.supplyListObj = data;
-      }).catch(res => {});
+      // =======
+      this.supplyListObj = {
+        type: 'supply',
+        data: (await listCompanySupplys({
+          supplyStatus: 1, // 供应状态 1--供应中 2--已关闭
+          pageNo: 1,
+          pageSize: 4
+        })).data.data.list
+      };
+      // ========
       // 获取厂家入驻列表
-      findNewCompanyByIndex({
+      // ========
+      this.newCompanyList = (await findNewCompanyByIndex({
         companyType: 1 // 1工厂 2 档口
-      }).then(res => {
-        this.newCompanyList = res.data.data;
-      }).catch(res => {});
+      })).data.data;
     }
   },
   created() {
@@ -167,4 +186,12 @@ export default {
       .button
         width 20%
         margin-top 20px
+    .quality-company-list
+      width 100%
+      height 546px
+      background #fff
+      .left-brand
+        float left
+      .right-list
+        padding-left 300px
 </style>

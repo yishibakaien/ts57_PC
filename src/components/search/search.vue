@@ -9,11 +9,11 @@
         <p @click="handleSearchFromEdit(Pic.url)"><i class="icon-bianji"></i></p>
       </div>
     </ts-tag>
-    <input type="text" class="search-input" :placeholder="inputPlaceHolder" v-model="Search.val" @keyup.enter.native="handleSearch" @focus="handleDelPic" :disabled="search.handleStatus">
-    <i class="icon-sousuo add-upload-button" v-show="!Pic.isUploaded" @click="Pic.isUploaded=true,Search.val=''" v-if="!search.handleStatus"></i>
+    <input type="text" class="search-input" :placeholder="inputPlaceHolder" v-model="Search.val"  @focus="handleDelPic" :disabled="search.handleStatus" @keyup.enter="handleSearchText">
+    <i class="icon-sousuo search-upload--icon" v-show="!Pic.isUploaded" @click="handleSearchText"  v-if="!search.handleStatus"></i>
     <span class="search-close" v-show="Pic.isUploaded" @click="Pic.isUploaded=false">&times;</span>
-    <ts-button type="primary" class="search-button" @click="handleSearch" v-show="!Pic.isUploaded" :disabled="search.handleStatus">
-      <i class="icon-xiangji"></i> 拍照搜花
+    <ts-button type="primary" @click="Pic.isUploaded=true,Search.val=''" class="search-button"  v-show="!Pic.isUploaded" :disabled="search.handleStatus">
+      <i class="icon-xiangji"></i>传图搜花
     </ts-button>
   </div>
   <!-- 上传花型  -->
@@ -197,7 +197,7 @@ export default {
       }
     },
     // 搜索
-    handleSearch() {
+    handleSearchText() {
       if (this.Search.val) {
         let value = this.Search.val.trim();
         this.$emit('search', value);
@@ -239,11 +239,15 @@ export default {
     font-size: 16px;
   }
   @component close {
-    font-size: 16px;
     font-weight: 400;
-    padding: 4px;
+    padding-right: 9px;
+    transform: scale(1.5);
+    line-height: 1;
     cursor: pointer;
     color: #4c93fd;
+    &:hover {
+      color: #1c76fa;
+    }
   }
   @component editPic {
     padding: 10px;
@@ -303,7 +307,6 @@ export default {
     }
   }
   @component button {
-    width: 120px;
     height: 34px;
     font-size: 18px;
     word-spacing: 14px;
@@ -314,17 +317,25 @@ export default {
 }
 
 .icon-xiangji {
+  font-size: 15px;
+  padding: 0 8px;
+  /*border-left: 1px solid #eaeaea;*/
+  &:before {
+    color: #fff;
+    transition: .8s;
+  }
+}
+.icon-sousuo{
   font-size: 18px;
-  line-height: 32px;
+  font-weight: 600;
   padding: 0 8px;
   cursor: pointer;
-  border-left: 1px solid #eaeaea;
   &:before {
     color: #4c93fd;
     transition: .8s;
   }
   &:hover:before {
-    color: #2371e5;
+    color: #1c76fa;
   }
 }
 

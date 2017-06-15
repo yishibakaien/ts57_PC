@@ -511,4 +511,9 @@ export default {
     }
   }
 }
+.icon-xiangji{
+  &:before{
+    color:#fff;
+  }
+}
 </style>

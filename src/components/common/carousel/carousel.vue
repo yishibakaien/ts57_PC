@@ -24,6 +24,9 @@
 </template>
 
 <script>
+import {
+  getStyle
+} from '@/common/js/dom';
 export default {
   data() {
     return {
@@ -90,11 +93,12 @@ export default {
         this.slideInstances = [];
         this.updateSlides(true, true);
         this.updatePos();
+        this.handleResize();
         this.updateOffset();
       });
     },
     handleResize() {
-      this.listWidth = parseInt(this.$el.clientWidth);
+      this.listWidth = parseInt(getStyle(this.$el, 'width'));
       this.updatePos();
       this.updateOffset();
     },
@@ -139,7 +143,7 @@ export default {
       this.setAutoplay();
     },
     currentIndex(val, oldVal) {
-      this.$emit('on-change', oldVal, val);
+      this.$emit('change', oldVal, val);
       this.updateOffset();
     },
     height() {

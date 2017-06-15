@@ -99,7 +99,7 @@ export default {
         this.Area.city = (await getAreabyParent({
           areaCode: this.addressInfoForm.province
         })).data.data;
-        if (!val.province || !val.city) {
+        if (val.province || val.city) {
           this.addressInfoForm.province = this.Area.province[0].areaCode;
           this.addressInfoForm.city = this.Area.city[0].areaCode;
         }

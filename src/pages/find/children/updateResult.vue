@@ -27,7 +27,7 @@ import {
 export default {
   data() {
     return {
-      Search: {},
+      Search: [],
       // 数据字典
       DICT: {
         PriceUnits: DICT.PriceUnits
