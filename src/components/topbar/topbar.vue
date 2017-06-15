@@ -63,6 +63,7 @@
 </template>
 
 <script>
+import {goto} from '@/common/js/utils.js';
 import {
   mapGetters
 } from 'vuex';
@@ -91,7 +92,9 @@ export default {
   },
   methods: {
     handleGotoPerson() {
-      this.$router.push(`/shop/${this.userInfo.companyId}`);
+			if (this.userInfo.companyId) {
+				goto(`/shop/${this.userInfo.companyId}`);
+			}
     },
     // 退出
     async handleLogout() {

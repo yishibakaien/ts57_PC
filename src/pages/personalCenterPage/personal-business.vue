@@ -23,7 +23,8 @@
           <img v-lazy="hotSellItem.defaultPicUrl" alt="hotSell" />
           <p class="goodsName">#{{hotSellItem.id}}</p>
           <p>
-            <span class="red">¥{{hotSellItem.priceUnit?hotSellItem.priceUnit:0}}/码</span>
+            <span class="red" v-if="hotSellItem.price">¥{{hotSellItem.price/100}}/{{hotSellItem.priceUnit | unit}}</span>
+            <span class="red" v-else>价格面议</span>
             <span class="gray" v-if="hotSellItem.isStock === 0">需要开机</span>
             <span class="green" v-if="hotSellItem.isStock === 1">有库存</span>
           </p>

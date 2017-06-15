@@ -11,6 +11,8 @@ import personalFlower from './personal-flower';
 import personalBusiness from './personal-business';
 import personalSupply from './personal-supply';
 
+import releaseSupply from './releaseSupply';
+import releaseBuy from './releaseBuy';
 export {
 	personalAccount,
 	personalMobile,
@@ -20,5 +22,7 @@ export {
 	personalList,
 	personalFlower,
 	personalBusiness,
-	personalSupply
+	personalSupply,
+	releaseSupply,
+	releaseBuy
 };

@@ -19,8 +19,8 @@
 			<div class="personal-item">
 				<div class="title clearfix">
 					<h2>{{ title }}</h2>
-					<router-link class="fr" to="releasePurchasePage" v-if="currentView === 'personalBuy'">发布求购</router-link>
-					<router-link class="fr" to="releaseSupplyPage" v-if="currentView === 'personalList'">发布供应</router-link>
+					<a href="javascript:;" class="fr" v-if="currentView === 'personalBuy'" @click="releaseBuyMethod">发布求购</a>
+					<a href="javascript:;" class="fr" v-if="currentView === 'personalList'" @click="releaseSupplyMethod">发布供应</a>
 				</div>
 				<div class="personal-item-box">
 					<component :is="currentView"></component>
@@ -51,7 +51,9 @@
 		personalList,
 		personalFlower,
 		personalBusiness,
-		personalSupply
+		personalSupply,
+		releaseSupply,
+		releaseBuy
 	} from './';
 
 	export default {
@@ -107,6 +109,9 @@
 						itemName: 'personalSupply',
 						isShow: false,
 						isActive: false
+					},
+					{
+						itemName: 'releaseBuy'
 					}
 				],
 				currentView: ''
@@ -124,7 +129,9 @@
 			personalList,
 			personalFlower,
 			personalBusiness,
-			personalSupply
+			personalSupply,
+			releaseSupply,
+			releaseBuy
 		},
 		created() {
 			getUserInfo().then((res) => {
@@ -153,6 +160,7 @@
 			if (this.$route.query.subPath) {
 				let index = parseInt(this.$route.query.subPath);
 				this.currentView = this.navItems[index].itemName;
+				this.title = this.navItems[index].context;
 				this.navItems.forEach((item) => {
 					item.isActive = false;
 				});
@@ -162,6 +170,7 @@
 			let index = this.$store.state.currentPerson;
 			if (index) {
 				this.currentView = this.navItems[index].itemName;
+				this.title = this.navItems[index].context;
 				this.navItems.forEach((item) => {
 					item.isActive = false;
 				});
@@ -180,6 +189,14 @@
 					item.isActive = false;
 				});
 				_.navItems[index].isActive = true;
+			},
+			releaseSupplyMethod() {
+				this.currentView = 'releaseSupply';
+				this.title = '发布供应';
+			},
+			releaseBuyMethod() {
+				this.currentView = 'releaseBuy';
+				this.title = '发布求购';
 			}
 		}
 	};
