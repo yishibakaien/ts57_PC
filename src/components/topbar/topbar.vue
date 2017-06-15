@@ -44,7 +44,7 @@
 					<div class="qrcode-content">
 						<div class="qrcode clearfix">
 							<div class="img-wrapper">
-								<qrcode-vue :value="getWebLink" size="50" level="H"></qrcode-vue>
+								<qrcode-vue :value="getWebLink" size="50"></qrcode-vue>
 							</div>
 							<div class="desc">
 								<p class="title">关注微信公众号</p>
@@ -72,7 +72,7 @@
 	import {
 		loginOut
 	} from '@/common/api/api';
-	import QrcodeVue from 'qrcode.vue';
+	import QrcodeVue from '@/components/qrcode/qrcode.vue';
 	export default {
 		computed: {
 			...mapGetters(['userInfo', 'token']),

@@ -60,7 +60,6 @@ import {
   favoriteBus,
   getCompanyQRcode
 } from '@/common/api/api';
-import QrcodeVue from 'qrcode.vue';
 export default {
   data() {
     return {
@@ -101,9 +100,6 @@ export default {
     getIsCollect() {
       return this.companyInfo.favoriteSatus === 1;
     }
-  },
-  components: {
-    QrcodeVue
   }
 };
 </script>
