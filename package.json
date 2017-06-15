@@ -19,7 +19,6 @@
     "lodash.debounce": "^4.0.8",
     "popper.js": "^1.9.9",
     "qr.js": "0.0.0",
-    "qrcode.vue": "^1.2.0",
     "vue": "^2.2.2",
     "vue-amap": "^0.2.4",
     "vue-lazyload": "^1.0.3",
