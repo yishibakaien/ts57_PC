@@ -5,7 +5,11 @@
   </v-header>
   <v-nav></v-nav>
   <div class="swiper">
-    <ts-image :src="banner" height="350" class="home-image" :canView="false" disabledHover></ts-image>
+    <ts-carousel v-model="value" arrow="never" autoplay :autoplay-speed="5000" easing='linear'>
+      <ts-carousel-item v-for="item in banners">
+        <ts-image :src="item+banner" height="350" class="home-image" :canView="false" disabledHover></ts-image>
+      </ts-carousel-item>
+    </ts-carousel>
   </div>
   <div class="homePage-box">
     <div class="list" v-if="userInfo.userType!==1">
@@ -29,7 +33,7 @@
         <div class="right-list">
           <div class="item-wrapper">
             <ts-carousel height="546px" autoplay-speed="6000" dots="none" autoplay @change="handleChangeCompany" arrow="always" easing='linear'>
-              <ts-carousel-item v-for="company in companys">
+              <ts-carousel-item v-for="(company,index) in companys" :key="index">
                 <ts-grid>
                   <ts-grid-item style="width:300px;height:183px" v-for="item in company" @click="handleViewProduct(item.companyId)">
                     <ts-image width="268" height="150" :canView="false" disabledHover :src="item.pic">
@@ -52,6 +56,7 @@ import {
   nav,
   search,
   purchaseList,
+  entryList,
   supplyList
 } from '@/components';
 import {
@@ -64,6 +69,9 @@ import {
   listCompanySupplys,
   findNewCompanyByIndex
 } from '@/common/api/api';
+import {
+  BANNER
+} from '@/common/dict/const';
 export default {
   data() {
     return {
@@ -71,7 +79,9 @@ export default {
         pageNo: 1,
         pageSize: 50
       },
+      banners: BANNER,
       companys: [],
+      value: 1,
       total: 1,
       purchaseListObj: {}, // 求购列表
       supplyListObj: {}, // 供应列表
@@ -82,7 +92,7 @@ export default {
     ...mapGetters(['userInfo']),
     banner() {
       let width = document.body.clientWidth || document.documentElement.clientWidth;
-      return `http://zsbgdev.oss-cn-shenzhen.aliyuncs.com/banner/indexBanner.jpg?x-oss-process=image/resize,w_${width},h_350,m_fill`;
+      return `?x-oss-process=image/resize,w_${width},h_350,m_fill`;
     }
   },
   components: {
@@ -90,7 +100,8 @@ export default {
     'vNav': nav,
     search,
     purchaseList,
-    supplyList
+    supplyList,
+    entryList
   },
   watch: {
     userInfo: {

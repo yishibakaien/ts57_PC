@@ -1,6 +1,6 @@
 <template>
 <div class="introPic-wrapper">
-  <img v-lazy="companyInfo.companyBanner" width="500" height="250" class="introPic-wrapper-left">
+  <img v-lazy="companyInfo.companyBanner" width="670" height="250" class="introPic-wrapper-left">
   <div class="introPic-wrapper-right">
     <div class="introPic-company-header">
       <!-- 公司名称 -->
@@ -117,8 +117,9 @@ export default {
   @component company{
     max-width: 500px;
     margin-top: 15px;
-    font-size: 15px;
+    font-size: 14px;
     line-height: 140%;
+    padding-left: 17px;
     @utils-ellipsis 2;
     @descendent title{
       font-size: 24px;
@@ -132,6 +133,10 @@ export default {
     @descendent header{
       padding: 16px;
       border: 1px solid rgba(155,155,155,.1);
+      border-right: none;
+      background: #fff;
+      margin-top: 16px;
+      flex:1;
       @modifier title{
         display: flex;
         align-items: center;
@@ -183,19 +188,20 @@ export default {
     height: 250px;
     display: flex;
     justify-content: flex-start;
-    background-color: #fff;
+    background-color: #F0F2F4;
     @descendent left{
-      max-width: 500px;
+      max-width: 670px;
       flex: 1;
     }
     @descendent right{
       margin-left: 16px;
+      flex:1;
     }
     li{
       display: inline-block;
       cursor: pointer;
-      font-size: 18px;
-      padding-right: 20px;
+      font-size: 14px;
+      padding-right: 50px;
       i{
         vertical-align: baseline;
         display: inline-block;

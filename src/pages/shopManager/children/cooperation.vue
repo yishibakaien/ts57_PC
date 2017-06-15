@@ -110,10 +110,7 @@ export default {
   },
   async created() {
     // 设置cookie
-    !this.cookie.get(this.Cookie.key) ? this.cookie.set(this.Cookie.key, this.Cookie.value, {
-      end: this.Cookie.day,
-      path: '/'
-    }) : '';
+    !this.cookie.get(this.Cookie.key) ? this.cookie.set(this.Cookie.key, this.Cookie.value, this.Cookie.day, '/') : '';
     // 获取花型列表
     this.Cooperation = (await getCollaborateCompanysList(this.Params)).data.data;
   },
@@ -186,10 +183,7 @@ export default {
     // 取消删除合作厂家
     handleCancelDelCoor() {
       this.ConfirmDialog.show = false;
-      this.cookie.set(this.Cookie.key, this.Cookie.value, {
-        end: this.Cookie.day,
-        path: '/'
-      });
+      this.cookie.set(this.Cookie.key, this.Cookie.value, this.Cookie.day, '/');
     },
     // 删除合作厂家
     async handleDelCoor() {
@@ -201,10 +195,7 @@ export default {
     },
     // 设置cookie
     handleNoShowDialog(e) {
-      this.cookie.set(this.Cookie.key, e.target.value, {
-        end: this.Cookie.day,
-        path: '/'
-      });
+      this.cookie.set(this.Cookie.key, this.Cookie.value, this.Cookie.day, '/');
     }
   }
 };

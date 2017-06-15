@@ -32,7 +32,7 @@
     <ts-dialog v-model="showPersonInfo" :titleNeedCenter="false" title="询价人信息" confirmText="访问店铺" @confirm="hanleVisitStore">
         <div class="enquiry-dialog-row">
           <div class="left">账户号码：</div>
-          <div class="right">{{enquiryEskUser.phone}}</div>
+          <div class="right">{{enquiryEskUser.userMobile}}</div>
           <div class="left">姓名：</div>
           <div class="right">{{enquiryEskUser.userName}}</div>
           <div class="left">公司名称：</div>

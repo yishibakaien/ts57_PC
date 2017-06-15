@@ -80,9 +80,9 @@ export default {
             this.$store.commit('SET_PROGRESS', 95);
             clearInterval(this.Progress.interval);
           } else {
-            this.$store.commit('SET_PROGRESS', (Math.random() + (this.search.progress += 1) + (this.search.progress += 0.5)).toFixed(2));
+            this.$store.commit('SET_PROGRESS', (Math.random() + (this.search.progress++) + (this.search.progress += 0.1)).toFixed(2));
           }
-        }, 1500);
+        }, 1000);
       }
     },
     handleGetImg(destImg) {

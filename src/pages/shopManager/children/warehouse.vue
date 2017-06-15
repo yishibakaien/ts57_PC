@@ -266,10 +266,7 @@ export default {
     // 获取花型列表
     this.productList = (await getProductList(this.Params)).data.data;
     // 默认创建一个cookie
-    !this.cookie.get(this.Cookie.key) ? this.cookie.set(this.Cookie.key, this.Cookie.value, {
-      end: this.Cookie.day,
-      path: '/'
-    }) : '';
+    !this.cookie.get(this.Cookie.key) ? this.cookie.set(this.Cookie.key, this.Cookie.value, this.Cookie.day, '/') : '';
   },
   beforeDestroy() {
     sessionStorage.setItem('warehouse-filter', JSON.stringify(this.Filter));
@@ -416,10 +413,7 @@ export default {
     // 取消删除
     handleCancelDelProduct() {
       this.ConfirmDialog.show = false;
-      this.cookie.set(this.Cookie.key, this.Cookie.value, {
-        end: this.Cookie.day,
-        path: '/'
-      });
+      this.cookie.set(this.Cookie.key, this.Cookie.value, this.Cookie.day, '/');
     },
     // 删除花型
     async handleDelProduct() {
@@ -432,10 +426,7 @@ export default {
     },
     // 设置cookie
     handleNoShowDialog(e) {
-      this.cookie.set(this.Cookie.key, e.target.value, {
-        end: this.Cookie.day,
-        path: '/'
-      });
+      this.cookie.set(this.Cookie.key, this.Cookie.value, this.Cookie.day, '/');
     }
   }
 };

@@ -97,6 +97,12 @@ export default {
     ...mapGetters(['companyInfo', 'search'])
   },
   async created() {
+    this.navItem.forEach(item => {
+      item.show = true;
+      if (this.userInfo.userType === 2 && item.path === 'supplies') {
+        item.show = false;
+      }
+    });
     // 默认选择第一个 店内
     this.searchSelect = 1;
     document.querySelector('.main-wrapper').style.backgroundColor = '#fff';

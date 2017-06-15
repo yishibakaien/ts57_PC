@@ -10,15 +10,11 @@ let cookieDomain = process.env.NODE_ENV === 'production'
 const mutations = {
   LOGIN_OUT(state) {
     state.token = '';
-    cookie.del('x-token', {domain: cookieDomain});
+    cookie.del('x-token', '/', cookieDomain);
   },
   LOGIN(state, data) {
     state.token = data;
-    cookie.set('x-token', data, {
-      path: '/',
-      end: 7,
-      domain: cookieDomain
-    });
+    cookie.set('x-token', data, 7, '/');
   }
 };
 const getters = {
