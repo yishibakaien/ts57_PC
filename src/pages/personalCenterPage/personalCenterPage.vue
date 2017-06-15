@@ -17,7 +17,11 @@
 				</ul>
 			</div>
 			<div class="personal-item">
-				<h2>{{ title }}</h2>
+				<div class="title clearfix">
+					<h2>{{ title }}</h2>
+					<router-link class="fr" to="releasePurchasePage" v-if="currentView === 'personalBuy'">发布求购</router-link>
+					<router-link class="fr" to="releaseSupplyPage" v-if="currentView === 'personalList'">发布供应</router-link>
+				</div>
 				<div class="personal-item-box">
 					<component :is="currentView"></component>
 				</div>
@@ -264,19 +268,28 @@
 		width: 944px;
 		min-height: 728px;
 		background: #fff;
-		h2 {
-			padding: 0 15px;
-			margin-top: 50px;
-			font-size: 24px;
-			font-weight: 400;
-			color: #333;
-			&::after {
-				content: '';
-				display: block;
-				margin: 15px auto 0;
-				width: 100%;
-				height: 1px;
-				background: #eaeaea;
+		.title {
+			margin-bottom: 30px;
+			border-bottom: 1px solid #eaeaea;
+			h2 {
+				display: inline-block;
+				padding: 0 15px;
+				margin-top: 50px;
+				margin-bottom: 15px;
+				width: 200px;
+				font-size: 24px;
+				font-weight: 400;
+				color: #333;
+			}
+			a {
+				margin: 50px 50px 0 0;
+				padding: 5px 16px;
+				color: #fff;
+				border: 1px solid #4C93FD;
+				background: rgba(76,147,253,.9);
+				&:hover {
+					background: rgba(76,147,253,1);
+				}	
 			}
 		}
 	}

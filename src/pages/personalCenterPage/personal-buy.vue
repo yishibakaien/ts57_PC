@@ -24,7 +24,7 @@
 				<div class="personal-goods-item-img">
 					<img v-lazy="item.buyPicUrl" alt="求购" @click="goDetail(index)" />
 					<span class="states green" v-if="item.buyStatus == 1">求购中</span>
-					<span class="states yellow" v-if="item.buyStatus == 2">已成交</span>
+					<span class="states yellow" v-if="item.buyStatus == 2">已完成</span>
 					<span class="states gray" v-if="item.buyStatus == 3">已关闭</span>
 					<p class="gray" v-if="item.buyStatus == 1" @click.stop="openModel(index)">关闭求购</p>
 					<p class="blue" v-if="item.buyStatus == 2" @click.stop="releaseBuyAgain(index)">重新发布</p>
