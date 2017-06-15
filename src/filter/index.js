@@ -129,7 +129,7 @@ export const isStartUp = item => {
     isStartUpStr = '接收开机';
   }
   if (item === 0) {
-    isStartUpStr = '不接收开机';
+    isStartUpStr = '不接受开机';
   }
   return isStartUpStr;
 };
