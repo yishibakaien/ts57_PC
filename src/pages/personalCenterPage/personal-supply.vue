@@ -218,11 +218,7 @@
 	};
 </script>
 
-<<<<<<< HEAD
-<style lang="scss" scoped="scoped">
-=======
 <style lang="scss" scoped>
->>>>>>> 1ed7c2395a520df89fec51c464886f345abe98f5
 	.default-page {
 		width: 100%;
 		height: 300px;

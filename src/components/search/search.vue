@@ -10,7 +10,7 @@
       </div>
     </ts-tag>
     <input type="text" class="search-input" :placeholder="inputPlaceHolder" v-model="Search.val" @keyup.enter.native="handleSearch" @focus="handleDelPic" :disabled="search.handleStatus">
-    <i class="icon-xiangji add-upload-button" v-show="!Pic.isUploaded" @click="Pic.isUploaded=true,Search.val=''" v-if="!search.handleStatus"></i>
+    <i class="icon-sousuo add-upload-button" v-show="!Pic.isUploaded" @click="Pic.isUploaded=true,Search.val=''" v-if="!search.handleStatus"></i>
     <span class="search-close" v-show="Pic.isUploaded" @click="Pic.isUploaded=false">&times;</span>
     <ts-button type="primary" class="search-button" @click="handleSearch" v-show="!Pic.isUploaded" :disabled="search.handleStatus">
       <i class="icon-xiangji"></i> 拍照搜花

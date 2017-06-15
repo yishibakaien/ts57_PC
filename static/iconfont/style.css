@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('/static/fonts/icomoon.eot?rufbwc');
-  src:  url('/static/fonts/icomoon.eot?rufbwc#iefix') format('embedded-opentype'),
-    url('/static/fonts/icomoon.ttf?rufbwc') format('truetype'),
-    url('/static/fonts/icomoon.woff?rufbwc') format('woff'),
-    url('/static/fonts/icomoon.svg?rufbwc#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?mx1tro');
+  src:  url('fonts/icomoon.eot?mx1tro#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?mx1tro') format('truetype'),
+    url('fonts/icomoon.woff?mx1tro') format('woff'),
+    url('fonts/icomoon.svg?mx1tro#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -47,7 +47,7 @@
   color: #fff;
 }
 .icon-bianji:before {
-  content: "\e925";
+  content: "\e926";
   color: #fff;
 }
 .icon-chenggong:before {
@@ -113,10 +113,6 @@
 .icon-huaxin:before {
   content: "\e912";
   color: #666;
-}
-.icon-jiantou:before {
-  content: "\e913";
-  color: #fff;
 }
 .icon-kefu:before {
   content: "\e914";
@@ -186,35 +182,16 @@
   content: "\e924";
   color: #5bd971;
 }
-.icon-xiangji_cheng:before {
-  content: "\e932";
-  color: #ff8400;
-}
-.icon-xiangshang_hui:before {
-  content: "\e926";
-  color: #999;
-}
-.icon-xiangxia_hui:before {
-  content: "\e933";
-  color: #999;
+.icon-xiangji:before {
+  content: "\e925";
+  color: #4c93fd;
 }
 .icon-xiayi:before {
   content: "\e927";
   color: #999;
 }
-.icon-xuankuang:before {
-  content: "\e928";
-  color: #999;
-}
-.icon-xuanze:before {
-  content: "\e929";
-}
 .icon-xuanzhong-copy-2:before {
   content: "\e92a";
-  color: #4c93fd;
-}
-.icon-xuanzhong:before {
-  content: "\e92b";
   color: #4c93fd;
 }
 .icon-xunjia:before {
