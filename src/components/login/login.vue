@@ -49,7 +49,7 @@
         </div>
       </div>
       <div class="download-main" v-if="!showLogin">
-        <qrcode-vue :value="getAppLink" size="150"></qrcode-vue>
+        <qrcode-vue :value="getAppLink" size="300"></qrcode-vue>
       </div>
     </div>
   </div>

@@ -44,7 +44,7 @@
 					<div class="qrcode-content">
 						<div class="qrcode clearfix">
 							<div class="img-wrapper">
-								<qrcode-vue :value="getWebLink" size="50"></qrcode-vue>
+								<qrcode-vue :value="getWebLink" size="100"></qrcode-vue>
 							</div>
 							<div class="desc">
 								<p class="title">关注微信公众号</p>
