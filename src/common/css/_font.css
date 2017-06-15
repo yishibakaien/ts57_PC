@@ -1,10 +1,14 @@
 @font-face {
   font-family: 'icomoon';
-  src: url('/static/fonts/icomoon.eot?u0uasr');
-  src: url('/static/fonts/icomoon.eot?u0uasr#iefix') format('embedded-opentype'), url('/static/fonts/icomoon.ttf?u0uasr') format('truetype'), url('/static/fonts/icomoon.woff?u0uasr') format('woff'), url('/static/fonts/icomoon.svg?u0uasr#icomoon') format('svg');
+  src:  url('/static/fonts/icomoon.eot?rufbwc');
+  src:  url('/static/fonts/icomoon.eot?rufbwc#iefix') format('embedded-opentype'),
+    url('/static/fonts/icomoon.ttf?rufbwc') format('truetype'),
+    url('/static/fonts/icomoon.woff?rufbwc') format('woff'),
+    url('/static/fonts/icomoon.svg?rufbwc#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
+
 [class^="icon-"], [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
@@ -14,10 +18,12 @@
   font-variant: normal;
   text-transform: none;
   line-height: 1;
+
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 .icon-weixin:before {
   content: "\e900";
   color: #00d00d;
@@ -33,15 +39,15 @@
   color: #ff8609;
 }
 .icon-baocun:before {
-  content: "\e901";
+  content: "\e902";
   color: #4c93fd;
 }
 .icon-baokuanresou:before {
-  content: "\e902";
+  content: "\e903";
   color: #fff;
 }
 .icon-bianji:before {
-  content: "\e903";
+  content: "\e925";
   color: #fff;
 }
 .icon-chenggong:before {
@@ -54,7 +60,7 @@
 }
 .icon-dangkou:before {
   content: "\e906";
-  color: #fff;
+  color: #666;
 }
 .icon-dianhua:before {
   content: "\e907";
@@ -66,7 +72,7 @@
 }
 .icon-erweima:before {
   content: "\e909";
-  color: #666;
+  color: #fff;
 }
 .icon-fangda:before {
   content: "\e90a";
@@ -87,6 +93,10 @@
 .icon-gongying:before {
   content: "\e90e";
   color: #fff;
+}
+.icon-guanbi:before {
+  content: "\e931";
+  color: #999;
 }
 .icon-guanbi1:before {
   content: "\e90f";
@@ -130,7 +140,7 @@
 }
 .icon-shanchu_hui:before {
   content: "\e919";
-  color: #666;
+  color: #fff;
 }
 .icon-shangchuan:before {
   content: "\e91a";
@@ -150,7 +160,7 @@
 }
 .icon-shoucang:before {
   content: "\e91e";
-  color: #666;
+  color: #fff;
 }
 .icon-shouji:before {
   content: "\e91f";
@@ -176,12 +186,16 @@
   content: "\e924";
   color: #5bd971;
 }
-.icon-xiangji:before {
+.icon-xiangji_cheng:before {
   content: "\e932";
-  color: #fff;
+  color: #ff8400;
 }
 .icon-xiangshang_hui:before {
   content: "\e926";
+  color: #999;
+}
+.icon-xiangxia_hui:before {
+  content: "\e933";
   color: #999;
 }
 .icon-xiayi:before {
