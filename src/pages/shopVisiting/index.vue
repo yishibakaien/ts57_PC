@@ -94,15 +94,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['companyInfo', 'search'])
+    ...mapGetters(['companyInfo', 'search', 'userInfo'])
   },
   async created() {
-    this.navItem.forEach(item => {
-      item.show = true;
-      if (this.userInfo.userType === 2 && item.path === 'supplies') {
-        item.show = false;
-      }
-    });
+    if (this.userInfo.userType === 1) {
+      this.navItem = this.navItem.filter(item => item.path !== 'supplies');
+    }
     // 默认选择第一个 店内
     this.searchSelect = 1;
     document.querySelector('.main-wrapper').style.backgroundColor = '#fff';
