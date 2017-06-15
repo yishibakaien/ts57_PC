@@ -389,11 +389,16 @@ const router = new Router({
 
 // 路由钩子，判断进入的页面是否需要登录 (needAuth)
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.needAuth)) {
-    if (store.getters.token) {
+  if (to.matched.some(record => record.meta.needAuth)) { // 判断该路由是否需要登录权限
+    if (store.state.token.token) {
       next();
     } else {
-      next('/loginPage');
+      next({
+        path: '/loginPage',
+        query: {
+          redirect: to.fullPath
+        } // 将跳转的路由path作为参数，登录成功后跳转到该路由
+      });
     }
   } else {
     next();

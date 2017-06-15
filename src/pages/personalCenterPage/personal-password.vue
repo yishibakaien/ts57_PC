@@ -21,7 +21,6 @@
 	import { restPasswd } from '@/common/api/api';
 	import * as reg from '@/common/js/regExp';
 	import Toast from '@/components/common/toast/toast';
-	import * as types from '@/store/types';
 	import {tipsModel} from '@/components';
 	export default {
 		data() {
@@ -45,14 +44,14 @@
 				this.tips.isShow = true;
 				setTimeout(() => {
 					this.closeModel();
-					this.$store.commit(types.LOGOUT);
+					this.$store.commit('LOGIN_OUT');
 					this.$router.push({
 						path: '/loginPage'
 					});
 				}, 3000);
 			},
 			closeModel() {
-				this.$store.commit(types.LOGOUT);
+				this.$store.commit('LOGIN_OUT');
 				this.$router.push({
 					path: '/loginPage'
 				});

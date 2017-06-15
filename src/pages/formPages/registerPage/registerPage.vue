@@ -91,7 +91,7 @@
 
       <div class="agreenment-wrapper">
         <ts-checkbox type="origin" v-model="isAgree">点击注册即代表同意</ts-checkbox>
-        <router-link tag="span" to="/clause" class="agreenment">《坐视布管用户协议》</router-link>
+          <span class="agreenment" @click="handleGotoAgreement">《坐视布管用户协议》</span>
       </div>
 
     </div>
@@ -162,6 +162,9 @@ export default {
     }
   },
   methods: {
+    handleGotoAgreement() {
+      this.goto(`/clause`);
+    },
     chooseFactory() {
       this.$refs.factory.className += ' active';
       this.$refs.stalls.className = 'type-item';
@@ -179,7 +182,6 @@ export default {
       } else {
         this.tip.userMobileTip = '';
       }
-      console.log(this.registerData.userMobile);
       checkPhone({
         mobile: this.registerData.userMobile
       }).then(res => {
