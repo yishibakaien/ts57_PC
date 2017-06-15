@@ -76,8 +76,8 @@ export default {
       deep: true
     },
     Filter: {
-      // 如果选择全部 => 获取店铺花型列表
-      // 如果有值 => 店铺分类绑定的花型列表
+      // 如果选择全部 => 获取网店花型列表
+      // 如果有值 => 网店分类绑定的花型列表
       async handler(val) {
         if (!val.classId) {
           this.ProductList = (await getVistitCompanyProductsList(this.Params)).data.data;

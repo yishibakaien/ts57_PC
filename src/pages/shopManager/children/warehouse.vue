@@ -64,7 +64,7 @@
         </ts-menu-table-item>
         <ts-menu-table-item>
           <a class="warehouse-table--link" v-if="item.publishStatus!==2&&getIsStore" @click="handleShelveProduct({goal:2,ids:item.id,isUp:true})">上架平台</a>
-          <a class="warehouse-table--link" v-if="item.publishStatus!==1" @click="handleShelveProduct({goal:1,ids:item.id,isUp:true})">上架店铺</a>
+          <a class="warehouse-table--link" v-if="item.publishStatus!==1" @click="handleShelveProduct({goal:1,ids:item.id,isUp:true})">上架网店</a>
           <a class="warehouse-table--link" v-if="item.publishStatus!==0" @click="handleShelveProduct({goal:0,ids:item.id})">下架</a>
           <router-link tag="a" class="warehouse-table--link" :to="{path:'addwarehouse',query:{id:item.id}}">
             编辑
@@ -80,7 +80,7 @@
         <ts-checkbox v-if="Filter.publishStatuss!==null" @change='handleChooseAll' v-model="checkAll">全选</ts-checkbox>
         &nbsp;
         <ts-button type="primary" :disabled="chooseItem.length<=0" v-if="Filter.publishStatuss!==2&&getIsStore" @click="handleShelveProduct({goal:2,ids:chooseItem,isUp:true})">上架平台</ts-button>
-        <ts-button type="primary" :disabled="chooseItem.length<=0" v-if="Filter.publishStatuss!==1" @click="handleShelveProduct({goal:1,ids:chooseItem,isUp:true})">上架店铺</ts-button>
+        <ts-button type="primary" :disabled="chooseItem.length<=0" v-if="Filter.publishStatuss!==1" @click="handleShelveProduct({goal:1,ids:chooseItem,isUp:true})">上架网店</ts-button>
         <ts-button type="cancel" :disabled="chooseItem.length<=0" v-if="Filter.publishStatuss!==0" @click="handleShelveProduct({goal:0,ids:chooseItem})">下架</ts-button>
         <ts-button type="cancel" :disabled="chooseItem.length<=0" v-if="Filter.publishStatuss===0" @click="handleShowDialog(chooseItem)">删除</ts-button>
       </div>
@@ -390,7 +390,7 @@ export default {
     },
     // 处理接口处理
     // type=shelve : 花型上下架
-    // goal	上下架到哪	number	上架：1--店铺 2--平台 下架：0--仓库 1--店铺
+    // goal	上下架到哪	number	上架：1--网店 2--平台 下架：0--仓库 1--网店
     // ids	id串	string	逗号隔开
     // isUp	上架类型	boolean	true--上架 false--下架（默认）
     async handleShelveProduct(params) {

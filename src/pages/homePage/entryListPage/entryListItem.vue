@@ -7,8 +7,8 @@
 		</div>
 		<div class="entryList-item-box clearfix">
 			<div class="dianpu-content fl">
-				<img :src="obj.companyHeadIcon" v-errorLogo alt="店铺LOGO"/>
-				<span @click="goStore">访问店铺</span>
+				<img :src="obj.companyHeadIcon" v-errorLogo alt="网店LOGO"/>
+				<span @click="goStore">访问网店</span>
 			</div>
 			<div v-for="item in obj.products" class="dianpuList-item fl">
 				<img v-lazy="item.defaultPicUrl" alt="花型展示图片"/>

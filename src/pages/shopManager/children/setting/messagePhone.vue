@@ -25,10 +25,10 @@
   <ts-dialog v-model="Phone.showNoticeDialog" title="短信接收设置说明" type="alert" alertText="我知道了" @confirm="Phone.showNoticeDialog=false">
     <article class="message-phone-dialog">
     系统在以下几种情况会发送业务短信给您
-    <p>1、<i>花型询价</i>：有买家对您店铺的某款花型发起询价时会发送短信；</p>
-    <p>2、<i>花型索样</i>：有买家对您店铺的某款花型发起寄样请求时会发送短信；</p>
+    <p>1、<i>花型询价</i>：有买家对您网店的某款花型发起询价时会发送短信；</p>
+    <p>2、<i>花型索样</i>：有买家对您网店的某款花型发起寄样请求时会发送短信；</p>
     <p>3、<i>求购接单</i>：有厂家对您发布的求购接单时会发送短信；</p>
-    <p>4、<i>搜花查看花型</i>：有买家快照找花查看您店铺的某款花型时会发送短信；</p>
+    <p>4、<i>搜花查看花型</i>：有买家快照找花查看您网店的某款花型时会发送短信；</p>
     <p class="message-phone-dialog--tip">
       您最多可以设置两个接收短信号码
     </p>

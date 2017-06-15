@@ -49,9 +49,9 @@
 import {
   MODELS
 } from '@/common/dict/const';
-import {
-  getPicBase64
-} from '@/common/api/api';
+// import {
+//   getPicBase64
+// } from '@/common/api/api';
 import html2canvas from 'html2canvas';
 const MODEL_THUMBNAIL_DOMAIN = '/static/images/modles_prototype/';
 const MODEL_ORIGIN_DOMAIN = '/static/images/modles/';
@@ -84,15 +84,9 @@ export default {
   mounted() {
     this.Pic.activeIndex = 0;
     if (this.url) {
-      this.convertImgToBase64(this.url, base64Img => {
+      let img = this.url.indexOf('?') >= 0 ? this.url.split('?')[0] : this.url;
+      this.convertImgToBase64(img, base64Img => {
         this.Pic.uploadPic = base64Img;
-      }, async img => {
-        let res = (await getPicBase64({
-          picUrl: img
-        })).data.data;
-        this.$nextTick(() => {
-          this.Pic.uploadPic = res;
-        });
       });
     }
   },

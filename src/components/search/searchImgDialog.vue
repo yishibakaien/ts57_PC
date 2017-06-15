@@ -1,7 +1,7 @@
 <template lang="html">
   <!-- @close="handleClose"  -->
   <ts-dialog :close-on-press-escape='false' v-model="dialog.show" width="60%" title="请框选图中要识别的区域">
-    <cropper @error="handleErorImg" v-model="Pic.url" @getImage="handleGetImg"></cropper>
+    <cropper v-model="Pic.url" @getImage="handleGetImg"></cropper>
       <div class="search-editPic--menu">
         <ts-button type="primary" v-for="item in DICT.productType" :key="item.dicValue" @click="handleLookProduct(item.dicValue)">搜{{item.label}}</ts-button>
       </div>
@@ -14,9 +14,6 @@
 import {
   mapGetters
 } from 'vuex';
-import {
-  getPicBase64
-} from '@/common/api/api';
 import DICT from '@/common/dict';
 import Cropper from '@/components/cropper/cropper.vue';
 export default {
@@ -54,7 +51,7 @@ export default {
   },
   watch: {
     imageUrl(val) {
-      this.Pic.url = val;
+      this.Pic.url = val.indexOf('?') >= 0 ? val.split('?')[0] : val;
     },
     'search.id' (val) {
       this.$store.commit('SET_PROGRESS', 100);
@@ -65,14 +62,6 @@ export default {
     }
   },
   methods: {
-    async handleErorImg(val) {
-      let res = (await getPicBase64({
-        picUrl: val
-      })).data.data;
-      this.$nextTick(() => {
-        this.Pic.url = res;
-      });
-    },
     handleLookProduct(e) {
       let data = {
         encoded: this.Pic.destImg,
@@ -98,10 +87,6 @@ export default {
     },
     handleGetImg(destImg) {
       this.Pic.destImg = destImg;
-    },
-    handleCropper() {
-      this.$emit('change', this.$refs.canvas.toDataURL());
-      this.dialog.show = false;
     }
   },
   computed: {

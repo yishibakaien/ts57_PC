@@ -29,11 +29,11 @@ export default {
     };
   },
   methods: {
-    // 查看更多---浏览店铺的全部花型
+    // 查看更多---浏览网店的全部花型
     handleGotoMore(item) {
       this.goto(`/shop/${item.id}/allProducts`);
     },
-    // 查看店铺的首页
+    // 查看网店的首页
     handleGotoShop(item) {
       this.goto(`/shop/${item.id}`);
     },

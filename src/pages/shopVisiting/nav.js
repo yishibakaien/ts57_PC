@@ -1,7 +1,7 @@
 module.exports = [
   {
     path: 'index',
-    name: '店铺首页'
+    name: '网店首页'
   }, {
     path: 'allProducts',
     name: '全部花型'

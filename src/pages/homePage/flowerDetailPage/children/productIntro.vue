@@ -94,7 +94,7 @@
 					{{CompanySimpleInfo.companyBusiness}}
 				</div>
 				<router-link :to="{path:`/shop/${productDetail.companyId}`}">
-					<ts-button type="primary"  class="productIntro-company--button">进入店铺</ts-button>
+					<ts-button type="primary"  class="productIntro-company--button">进入网店</ts-button>
 				</router-link>
 		</div>
 		<!-- 对话框---寄样  -->
@@ -388,6 +388,7 @@ export default {
 				cursor: pointer;
 				padding: 15px 30px;
     		width: 123px;
+				white-space: nowrap;
 				&:hover{
 					box-shadow:none;
 					background-color: #eaeaea;

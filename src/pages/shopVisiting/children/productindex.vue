@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="productIndex">
-    <p class="productIndex-empty onepx" v-if="getProductsLength">该店铺暂未上架花型</p>
+    <p class="productIndex-empty onepx" v-if="length<=0">该网店暂未上架花型</p>
     <div v-for="(item,index) in CompanyProducts" v-if="!!item.list.length">
       <ts-title-block :bodyStyle="{'font-size':'20px'}">
         <i class="icon-huaxin"></i>&nbsp;{{item.className}}
@@ -45,6 +45,7 @@ export default {
         PublishStatus: DICT.PublishStatus,
         PriceUnits: DICT.PriceUnits
       },
+      length: 0,
       CategoryList: [],
       CompanyProducts: [],
       Params: {
@@ -59,6 +60,8 @@ export default {
     handleViewProduct(id) {
       this.goto(`/product/${id}`);
     },
+    // 未上架任何花型时，需显示——该网店暂未上架花型
+
     handleGoto(item) {
       if (item.className === '全部花型') {
         this.goto(`/shop/${this.Params.companyId}/allProducts`);
@@ -78,16 +81,13 @@ export default {
       if (this.CategoryList.some(item => item.className === '爆款')) {
         return this.CategoryList.filter(item => item.className === '爆款')[0].id;
       }
-    },
-    // 未上架任何花型时，需显示——该店铺暂未上架花型
-    async getProductsLength() {
-      return (await getVistitCompanyProductsList(this.Params)).data.data.list.length <= 0;
     }
   },
   async created() {
     // ========
     // 绑定公司ID
     this.Params.companyId = this.$route.params.id;
+    this.length = (await getVistitCompanyProductsList(this.Params)).data.data.list.length;
     // ========
     // 获取所有分类  => 做循环加载使用
     let UserCategories = (await getVisitUserProductCategoryList({

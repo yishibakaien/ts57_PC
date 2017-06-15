@@ -68,7 +68,7 @@ export default {
         stockType: _formateStockType(this.stockActiveItem),
         keywords: localStorage.searchText,
         pageSize: 15,  // 每页数量 默认10
-        searchType: 2  // 搜索类型 1:店铺搜索 2:全局搜索
+        searchType: 2  // 搜索类型 1:网店搜索 2:全局搜索
       }).then(res => {
         console.log(res);
         var _data = res.data;
@@ -88,7 +88,7 @@ export default {
         stockType: _formateStockType(this.stockActiveItem),
         keywords: localStorage.searchText,
         pageSize: 15,  // 每页数量 默认10
-        searchType: 2  // 搜索类型 1:店铺搜索 2:全局搜索
+        searchType: 2  // 搜索类型 1:网店搜索 2:全局搜索
       }).then(res => {
         console.log(res);
         var _data = res.data;

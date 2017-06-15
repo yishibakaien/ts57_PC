@@ -132,11 +132,7 @@ export default {
       this.userData.userPWD = this.Encrypt(this.userData.userPWD);
       login(this.userData).then((res) => {
         if (res.data.code === 0) {
-          if (this.token) {
-            this.$router.go(-1);
-          } else {
-            this.$router.push('/homePage');
-          }
+          this.token ? this.$router.go(-1) : this.$router.push('/homePage');
           this.$store.commit('GET_USERINFO', res.data.data);
           this.$store.commit('LOGIN', res.headers['x-token']);
           localStorage['user-account'] = JSON.stringify({

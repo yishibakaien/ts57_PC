@@ -36,7 +36,7 @@ var box = {
   h: 400,
   w: 400
 };
-var baseWidth = 100;
+var baseWidth = 200;
 export default {
   props: ['limit', 'value'],
   data() {
@@ -113,9 +113,8 @@ export default {
         this.draw();
       };
       this.image.onerror = () => {
-        this.imgSrc = url;
-        this.image.src = url;
-        this.$emit('error', url);
+        var timeStamp = +new Date();
+        this.setImageURL(`${url}?${timeStamp}`);
       };
       this.imgSrc = url;
       this.image.src = url;
@@ -391,7 +390,7 @@ $height: 400px;
         float: left;
         margin-right: 10px;
         position: relative;
-
+        text-align: center;
         // 原图背景变暗
         &:before {
             position: absolute;

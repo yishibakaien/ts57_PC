@@ -18,7 +18,7 @@
           <p v-if="Text.show" class="companyInfo-formItem-text">{{companyInfoForm.companyExtendBO.companyBusiness}}</p>
           <ts-input v-else :maxlength="50" v-model="companyInfoForm.companyExtendBO.companyBusiness" style="width:250px"></ts-input>
         </ts-form-item>
-        <ts-form-item label="店铺头像：" prop="companyHeadIcon">
+        <ts-form-item label="网店头像：" prop="companyHeadIcon">
           <ts-image width="90" height="90" :src="companyInfoForm.companyHeadIcon"></ts-image>
             <label class="companyInfo-upload-button" v-if="!Text.show">
               {{Pic.avatar.text}}

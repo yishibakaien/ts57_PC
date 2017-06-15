@@ -2,10 +2,10 @@
 	<div class="personal-message">
 		<div class="personal-message-info personal-info">
 			<p>系统在以下几种情况会发送业务短信给您：</p>
-			<p>1、<span>花价查询</span>：有买家对您店铺的某款花型发起询价时回发送短信；</p>
-			<p>2、<span>花型索样</span>：有买家对您店铺的某款花型发起寄样请求时会发送短信；</p>
+			<p>1、<span>花价查询</span>：有买家对您网店的某款花型发起询价时回发送短信；</p>
+			<p>2、<span>花型索样</span>：有买家对您网店的某款花型发起寄样请求时会发送短信；</p>
 			<p>3、<span>求购接单</span>：有厂家对您发布的求购接单时会发送短信；</p>
-			<p>4、<span>搜花查看花型</span>：有买家快照找花查看您店铺的某款花型时会发送短信；</p>
+			<p>4、<span>搜花查看花型</span>：有买家快照找花查看您网店的某款花型时会发送短信；</p>
 			<p>您可以对应设置是否接受以上几类短信</p>
 		</div>
 		<div class="personal-message-conten">

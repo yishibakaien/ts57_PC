@@ -24,7 +24,7 @@ export default {
           name: '3D试衣'
         }, {
           path: '/shopManagePage',
-          name: '店铺管理'
+          name: '网店管理'
         }, {
           path: '/personalCenterPage',
           name: '个人中心'

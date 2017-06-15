@@ -162,20 +162,36 @@ export const historyItems = (() => {
 export const convertImgToBase64 = (url, callback, error, outputFormat) => {
   var canvas = document.createElement('canvas');
   var ctx = canvas.getContext('2d');
-  var img = new Image();
-  img.crossOrigin = 'Anonymous';
-  img.onload = () => {
-    canvas.height = img.height;
-    canvas.width = img.width;
-    ctx.drawImage(img, 0, 0);
+  function requestImg(src) {
+    var img = new Image();
+    img.crossOrigin = 'Anonymous';
+    img.src = src;
+    img.onerror = () => {
+      var timeStamp = +new Date();
+      console.log('======跨域请求====');
+      requestImg(src + '?' + timeStamp);
+    };
+    return img;
+  };
+  var imgObj = requestImg(url);
+  // var img = new Image();
+  // img.crossOrigin = 'Anonymous';
+  imgObj.onload = () => {
+    canvas.height = imgObj.height;
+    canvas.width = imgObj.width;
+    ctx.drawImage(imgObj, 0, 0);
     var dataURL = canvas.toDataURL(outputFormat || 'image/png');
     callback.call(this, dataURL);
     canvas = null;
   };
-  img.onerror = () => {
-    error.call(this, url);
-  };
-  img.src = url;
+  // img.src = url;
+  // img.onerror = () => {
+  //   var timeStamp = new Date();
+  //   console.log('======跨域请求====');
+  //   this.convertImgToBase64(`${url}?${timeStamp}`, (url) => {
+  //     img.src = url;
+  //   });
+  // };
 };
 export const Encrypt = (word) => {
   var key = CryptoJS.enc.Utf8.parse(ECB_KEY);

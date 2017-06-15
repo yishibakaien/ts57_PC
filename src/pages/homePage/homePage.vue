@@ -27,7 +27,7 @@
     </div>
     <div class="list">
       <!-- 优质厂家 -->
-      <quality-company-list :message="companys"></quality-company-list>
+      <quality-company-list></quality-company-list>
     </div>
   </div>
 </div>
@@ -50,8 +50,7 @@ import {
   listHomeBanners,
   listProductBuys,
   listCompanySupplys,
-  findNewCompanyByIndex,
-  qualityCompanyList1
+  findNewCompanyByIndex
 } from '@/common/api/api';
 export default {
   data() {
@@ -62,8 +61,7 @@ export default {
       bannerImgs: [], // 真正的轮播图
       purchaseListObj: {}, // 求购列表
       supplyListObj: {}, // 供应列表
-      newCompanyList: [], // 最新入驻
-      companys: [] // 优质厂家
+      newCompanyList: [] // 最新入驻
     };
   },
   computed: {
@@ -93,15 +91,6 @@ export default {
 
   methods: {
     index() {
-      // 优质厂家
-      qualityCompanyList1().then((res) => {
-        this.companys = res.data.data.list;
-        let count = 9 - this.companys.length;
-        for (let i = 0; i <= count; i++) {
-          this.companys = this.companys.concat(this.companys);
-        }
-        this.companys = this.companys.splice(0, 9);
-      }).catch((res) => {});
       // =====
       // banner
       listHomeBanners().then(res => {

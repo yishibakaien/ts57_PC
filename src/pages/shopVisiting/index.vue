@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="shopVisiting all">
     <v-header>
-    	<search inputPlaceHolder='可输入编号查找' :globalLook='false' @check="handleLookProduct" @change="handleGetResult" @search-text="handleSearchText">
+    	<search :inputPlaceHolder='inputPlaceHolder' :globalLook='false' @check="handleLookProduct" @change="handleGetResult" @search-text="handleSearchText">
         <ts-select slot="select" class="shopVisiting-select" data-key-name="label" data-val-name="dicValue" :options='DICT.SearchType' v-model="searchSelect"  :disabled="search.handleStatus"></ts-select>
     	</search>
     </v-header>
@@ -35,9 +35,15 @@ export default {
       DICT: {
         SearchType: DICT.SearchType
       },
-      searchSelect: '1',
+      inputPlaceHolder: '可输入编号查找',
+      searchSelect: 1,
       navItem: navItem
     };
+  },
+  watch: {
+    searchSelect(val) {
+      this.inputPlaceHolder = val === 1 ? '可输入编号查找' : '可输入花型编号或者厂家进行搜索';
+    }
   },
   methods: {
     ...mapActions(['getCompanyInfo']),
@@ -94,7 +100,7 @@ export default {
     // 默认选择第一个 店内
     this.searchSelect = 1;
     document.querySelector('.main-wrapper').style.backgroundColor = '#fff';
-    // 获取店铺信息
+    // 获取网店信息
     await this.getCompanyInfo({
       companyId: this.$route.params.id
     });
