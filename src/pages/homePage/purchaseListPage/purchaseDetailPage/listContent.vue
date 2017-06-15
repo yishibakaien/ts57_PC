@@ -146,6 +146,71 @@
 				}
 			}
 		},
+		created() {
+			//			if (localStorage.getItem('userType') === '1') {
+			//				this.userType = 1;
+			//				let yesOrNo = false;
+			//				// 判断当前用户是否接单
+			//				this.item.buyTaskList.forEach(item => {
+			//					if (item.userId === this.$store.state.user.userInfo.id) {
+			//						yesOrNo = true;
+			//					}
+			//				});
+			//				// 显示取消接单按钮
+			//				if (this.item.buyStatus === 1 && yesOrNo) {
+			//					for (let i = 0; i < this.item.buyTaskList.length; i++) {
+			//						if (this.item.buyTaskList[i].userId === this.$store.state.user.userInfo.id) {
+			//							if (this.item.buyTaskList[i].status === 1) {
+			//								this.listState = '已接单';
+			//								this.quxiao = true;
+			//							}
+			//						}
+			//					}
+			//				}
+			//				// 显示我要接单按钮
+			//				if (this.item.buyStatus === 1 && !yesOrNo) {
+			//					this.listState = '求购中';
+			//					this.jiedan = true;
+			//				}
+			//				// 显示接单成功提示
+			//				for (let i = 0; i < this.item.buyTaskList.length; i++) {
+			//					if (this.item.buyTaskList[i].userId === this.$store.state.user.userInfo.id) {
+			//						if (this.item.buyStatus === 2 && this.item.buyTaskList[i].status === 2) {
+			//							this.listState = '已成交';
+			//							this.chenggong = true;
+			//						}
+			//					}
+			//				}
+			//				// 显示工厂用户删除按钮
+			//				// 我接单但求购人和其他工厂成交
+			//				for (let i = 0; i < this.item.buyTaskList.length; i++) {
+			//					if (this.item.buyTaskList[i].userId === this.$store.state.user.userInfo.id) {
+			//						if (this.item.buyTaskList[i].status === 3) {
+			//							this.listState = '已关闭';
+			//							this.shanchu1 = true;
+			//						}
+			//					}
+			//				}
+			//			};
+			//
+			//			// 显示档口用户删除按钮
+			//			// 求购单状态为已关闭
+			//			if (localStorage.getItem('userType') === '2') {
+			//				this.userType = 2;
+			//				// 判断是否是当前用户的求购单
+			//				if (this.item.userId === this.$store.state.user.userInfo.id) {
+			//					if (this.item.buyStatus === 1) {
+			//						this.qiugou = true;
+			//					}
+			//					if (this.item.buyStatus === 2) {
+			//						this.wancheng = true;
+			//					}
+			//					if (this.item.buyStatus === 3) {
+			//						this.guanbi = true;
+			//					}
+			//				}
+			//			}
+		},
 		methods: {
 			goPromptDown() {
 				this.$router.push({
@@ -178,7 +243,7 @@
 			// 完成求购
 			finishBuy() {
 				this.paramFinishBuy.buyTaskId = '';
-				this.paramFinishBuy.id = '';
+				this.paramFinishBuy.id = this.item.id;
 				finishProductBuy(this.paramFinishBuy).then((res) => {
 					if (res.data.code === 0) {
 						console.log(res);
@@ -248,15 +313,30 @@
 			},
 			// bus 实现与listNum之间的通信
 			doSomethimg(event) {
-//				console.log(this.item.buyTaskList.length < 1);
-				if (this.item.buyTaskList.length < 1) {
-					Toast({
-						type: 'error',
-						message: '暂无人接单'
+				//				if (this.item.buyTaskList.length < 1) {
+				//					Toast({
+				//						type: 'error',
+				//						message: '暂无人接单'
+				//					});
+				//					return;
+				//				}
+				if (this.item.buyTaskList.length === 0) {
+					this.$messagebox.confirm('确认完成求购？').then(action => {
+						this.finishBuy();
+						this.$router.push({
+							path: '/personalCenterPage',
+							query: {
+								subPath: 4
+							}
+						});
 					});
 					return;
 				}
-				event.target.innerText = '取消选择';
+				if (event.target.innerText === '取消选择') {
+					event.target.innerText = '完成求购';
+				} else {
+					event.target.innerText = '取消选择';
+				}
 				Bus.$emit('clickDo', event.target);
 			}
 		}

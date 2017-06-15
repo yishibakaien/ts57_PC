@@ -77,7 +77,12 @@
 		},
 		created() {
 			Bus.$on('clickDo', target => {
-				this.showBtn = true;
+				console.log(target.innerText);
+				if (target.innerText === '取消选择') {
+					this.showBtn = true;
+				} else {
+					this.showBtn = false;
+				}
 			});
 		},
 		props: {

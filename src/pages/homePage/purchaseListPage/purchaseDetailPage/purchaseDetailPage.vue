@@ -12,7 +12,7 @@
 					<span>求购详情</span>
 				</div>
 				<div class="purchase-detail-left fl">
-					<listContent :item="itemObj" v-on:cancelList="getProductBuyMethod"></listContent>
+					<listContent :item="itemObj" @cancelList="getProductBuyMethod"></listContent>
 					<listNum :item="itemObj" style="margin-bottom: 35px"></listNum>
 					<listInfo :item="itemObj"></listInfo>
 				</div>
