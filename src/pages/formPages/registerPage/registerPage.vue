@@ -91,7 +91,7 @@
 
       <div class="agreenment-wrapper">
         <ts-checkbox type="origin" v-model="isAgree">点击注册即代表同意</ts-checkbox>
-          <span class="agreenment" @click="handleGotoAgreement">《坐视布管用户协议》</span>
+        <span class="agreenment" @click="handleGotoAgreement">《坐视布管用户协议》</span>
       </div>
 
     </div>
@@ -346,6 +346,7 @@ export default {
       reg(this.registerData)
         .then(res => {
           if (res.data.code !== 0) {
+            this.registerData.userPWD = this.confirmPWD = '';
             Toast({
               type: 'error',
               message: res.data.message
@@ -355,6 +356,7 @@ export default {
               type: 'success',
               message: '注册成功'
             });
+            // 注册成功之后=>自动登陆
             login({
               userMobile: this.registerData.userMobile,
               userPWD: this.registerData.userPWD

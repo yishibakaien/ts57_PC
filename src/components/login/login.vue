@@ -49,8 +49,7 @@
         </div>
       </div>
       <div class="download-main" v-if="!showLogin">
-        <ts-image src="/static/images/qrcode/qrcode_app.png" width="300" height="300" :canView="false"
-        disabledHover></ts-image>
+        <ts-image src="/static/images/qrcode/qrcode_app.png" width="300" height="300" :canView="false" disabledHover></ts-image>
       </div>
     </div>
   </div>
@@ -122,6 +121,7 @@ export default {
       }
       this.userData.userPWD = this.Encrypt(this.userData.userPWD);
       let res = await login(this.userData);
+      // 登陆成功
       if (res.data.code === 0) {
         localStorage['user-account'] = JSON.stringify({
           userMobile: this.userData.userMobile
@@ -135,6 +135,8 @@ export default {
         });
         return;
       }
+      this.userData.userPWD = '';
+      // 登陆失败
       if (res.data.code === 2000004) {
         this.showPicCode = true;
         this.getVerifyCodeMethod();
