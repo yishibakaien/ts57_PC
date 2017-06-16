@@ -23,6 +23,9 @@ Vue.use(VueLazyload, {
   error: '/static/images/assets/defaultFlower.svg',
   attempt: 1
 });
+if (utils.cookie.get('x-token')) {
+  store.dispatch('getUserInfo');
+}
 Vue.config.productionTip = false;
 Vue.config.silent = true;
 // 注册过滤器

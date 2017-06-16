@@ -21,7 +21,8 @@
         <div class="qrcode-content">
           <div class="qrcode clearfix">
             <div class="img-wrapper">
-              <qrcode-vue :value="getAppLink" size="100"></qrcode-vue>
+              <ts-image src="/static/images/qrcode/qrcode_app.png" width="100" height="100" :canView="false"
+              disabledHover></ts-image>
             </div>
             <div class="desc">
               <p class="title">坐视布管APP</p>
@@ -44,7 +45,8 @@
         <div class="qrcode-content">
           <div class="qrcode clearfix">
             <div class="img-wrapper">
-              <qrcode-vue :value="getWebLink" size="100"></qrcode-vue>
+              <ts-image src="/static/images/qrcode/qrcode_gzh.jpg" width="100" height="100" :canView="false"
+              disabledHover></ts-image>
             </div>
             <div class="desc">
               <p class="title">关注微信公众号</p>
@@ -68,27 +70,14 @@ import {
   mapGetters
 } from 'vuex';
 import {
-  APP_LINK
-} from '@/common/dict/const';
-import {
   loginOut
 } from '@/common/api/api';
-import QrcodeVue from '@/components/qrcode/qrcode.vue';
 export default {
   computed: {
     ...mapGetters(['userInfo', 'token']),
     isLogin() {
       return !this.token;
-    },
-    getAppLink() {
-      return APP_LINK.app;
-    },
-    getWebLink() {
-      return APP_LINK.web;
     }
-  },
-  components: {
-    QrcodeVue
   },
   methods: {
     handleGotoPerson() {

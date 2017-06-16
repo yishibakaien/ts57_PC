@@ -393,7 +393,6 @@ router.beforeEach((to, from, next) => {
     if (store.state.token.token) {
       next();
     } else {
-      console.log('to.fullPath', to.fullPath);
       next({
         path: '/loginPage',
         query: {

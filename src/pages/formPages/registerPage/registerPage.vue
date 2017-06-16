@@ -343,7 +343,6 @@ export default {
         return;
       }
       this.registerData.userPWD = this.Encrypt(this.registerData.userPWD);
-      this.registerData.confirmPWD = this.Encrypt(this.registerData.confirmPWD);
       reg(this.registerData)
         .then(res => {
           if (res.data.code !== 0) {

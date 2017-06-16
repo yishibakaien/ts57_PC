@@ -116,6 +116,11 @@
 			},
 			findPassWdMethod() {
 				let _ = this;
+				this.param.userPWD = this.Encrypt(this.param.userPWD);
+				this.userPWD1 = this.Encrypt(this.userPWD1);
+				localStorage['user-account'] = JSON.stringify({
+					userMobile: _.param.userMobile
+				});
 				findPassWd(_.param).then((res) => {
 					if (res.data.code === 0) {
 						_.$router.push({

@@ -5,6 +5,7 @@
 		</v-header>
 		<v-nav></v-nav>
 		<div class="purchase-list-page-box">
+			<ts-title-block>最新贸易商求购</ts-title-block>
 			<!-- 筛选器 -->
 			<div style="background:#fff">
 				<ts-filter title="求购分类">

@@ -17,6 +17,7 @@ const API = {
     getRegSMSCode: '/front/user/getRegSMSCode', // 获取注册短信
     getUserInfo: '/user/getUserInfo', // 获取用户最新信息
     getMsgSetting: '/msg/getMsgSetting', // 获取短信设置
+    findPassWd: '/front/user/findPassWd',
     setMsg: '/msg/setMsg' // 设置短信开关
   },
   // 首页

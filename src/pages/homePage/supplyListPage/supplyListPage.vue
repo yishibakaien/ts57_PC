@@ -5,6 +5,7 @@
 		</v-header>
 		<v-nav></v-nav>
 		<div class="supply-list-page-box">
+			<ts-title-block>最新厂家供应</ts-title-block>
 			<div style="background:#fff">
 				<ts-filter title="供应分类">
 					<ts-radio-group v-model="Filter.sort" @change="hanleFilterSort">

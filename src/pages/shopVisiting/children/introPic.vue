@@ -84,10 +84,16 @@ export default {
     }
   },
   watch: {
-    companyInfo(val) {
-      if (val.companyExtendBO) {
-        this.companyBusiness = val.companyExtendBO.companyBusiness;
-      }
+    companyInfo: {
+      handler(val) {
+        if (val.companyExtendBO) {
+          this.companyBusiness = val.companyExtendBO.companyBusiness;
+        }
+        if (val.address.indexOf('/.') >= 0) {
+          val.address = val.address.split('/.')[0];
+        }
+      },
+      deep: true
     }
   },
   computed: {

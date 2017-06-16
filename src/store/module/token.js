@@ -14,7 +14,7 @@ const mutations = {
   },
   LOGIN(state, data) {
     state.token = data;
-    cookie.set('x-token', data, 7, '/');
+    cookie.set('x-token', data, 7, '/', cookieDomain);
   }
 };
 const getters = {

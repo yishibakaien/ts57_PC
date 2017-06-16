@@ -5,6 +5,19 @@
 </template>
 
 <script>
+var createLoginLayer = ((imgUrl) => {
+  var div;
+  return (imgUrl) => {
+    if (!div) {
+      console.log(imgUrl);
+      div = document.createElement('div');
+      div.style.display = 'none';
+      document.body.appendChild(div);
+    }
+    div.innerHTML = `<img src=${imgUrl} class="ts-image--popup">`;
+    return div;
+  };
+})();
 import emitter from '@/common/js/mixins/emitter';
 import Popup from '@/common/js/utils/popup/';
 // import {
@@ -72,6 +85,8 @@ export default {
       this.$el.style.zIndex = 0;
       this.value = false;
       this._closing = true;
+      var loginLayer = createLoginLayer(this.src);
+      loginLayer.style.display = 'none';
       this.onClose && this.onClose();
       setTimeout(() => {
         if (this.modal && this.bodyOverflow !== 'hidden') {
@@ -91,7 +106,9 @@ export default {
       this.$emit('handleImg');
       if (this.canView) {
         this.open();
-        this.showOriginPic = true;
+        this.$el.style.zIndex = 0;
+        var loginLayer = createLoginLayer(this.src);
+        loginLayer.style.display = 'block';
       }
     }
   }
@@ -100,24 +117,12 @@ export default {
 
 <style lang="css" scoped>
 @import '../../common/css/_var.css';
-@keyframes dialogfade {
-  0% {
-    opacity: 0;
-    transform: translate3d(-50%, -50%, 0) scale(0.3);
-  }
-  100% {
-    opacity: 1;
-    transform: translate3d(-50%, -50%, 0) scale(0.5);
-  }
-}
 @keyframes imgfade {
   0% {
     opacity: 0;
-    transform:scale(0.98);
   }
   100% {
     opacity: 1;
-    transform:scale(1);
   }
 }
 @component-namespace ts{
@@ -148,18 +153,19 @@ export default {
           transform:none;
         }
       }
-      @when view{
-        transition:transform .8s;
-        transform:translate(-50%, -50%) scale(0.5);
-        position: fixed 50% 0 0 50%;
-        animation: dialogfade .5s;
-        perspective: 1000;
-        backface-visibility: hidden;
-        -webkit-user-select: none;
-        backface-visibility: hidden;
-        background: #fff;
-      }
     }
   }
+}
+</style>
+<style media="screen">
+.ts-image--popup{
+  position: fixed;
+  z-index: 99999;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  animation: imgfade .4s;
+  max-height: 70%;
+  max-width: 70%;
 }
 </style>

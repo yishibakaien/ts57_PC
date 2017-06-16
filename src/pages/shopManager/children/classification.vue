@@ -164,7 +164,7 @@ export default {
     };
   },
   beforeDestroy() {
-    sessionStorage.setItem('classification-filter', JSON.stringify(this.Params.classId));
+    sessionStorage.removeItem('classification-filter', JSON.stringify(this.Params.classId));
   },
   watch: {
     // 每当Params发生变化都会请求数据
@@ -189,8 +189,8 @@ export default {
     }
   },
   created() {
-    this.index();
     !this.cookie.get(this.Cookie.key) ? this.cookie.set(this.Cookie.key, this.Cookie.value, this.Cookie.day, '/') : '';
+    this.index();
   },
   computed: {
     ...mapGetters(['dicTree']),
@@ -356,7 +356,7 @@ export default {
     },
     // 设置cookie
     handleNoShowDialog(e) {
-      this.cookie.set(this.Cookie.key, this.Cookie.value, this.Cookie.day, '/');
+      this.cookie.set(this.Cookie.key, e, this.Cookie.day, '/');
     }
   }
 };
@@ -416,7 +416,7 @@ export default {
       column-gap: 10px;
     }
     @modifier item{
-      padding:14px 0;
+      line-height: 54px;
       i{
         margin-left:8px;
         cursor: pointer;

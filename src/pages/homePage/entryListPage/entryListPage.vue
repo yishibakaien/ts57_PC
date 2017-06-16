@@ -5,6 +5,7 @@
   </v-header>
   <v-nav></v-nav>
   <div class="entry-wrapper">
+    <ts-title-block>最新入驻</ts-title-block>
 		<entry-list></entry-list>
   </div>
 </div>

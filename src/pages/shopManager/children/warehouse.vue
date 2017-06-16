@@ -426,7 +426,7 @@ export default {
     },
     // 设置cookie
     handleNoShowDialog(e) {
-      this.cookie.set(this.Cookie.key, this.Cookie.value, this.Cookie.day, '/');
+      this.cookie.set(this.Cookie.key, e, this.Cookie.day, '/');
     }
   }
 };

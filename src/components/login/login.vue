@@ -49,7 +49,8 @@
         </div>
       </div>
       <div class="download-main" v-if="!showLogin">
-        <qrcode-vue :value="getAppLink" size="300"></qrcode-vue>
+        <ts-image src="/static/images/qrcode/qrcode_app.png" width="300" height="300" :canView="false"
+        disabledHover></ts-image>
       </div>
     </div>
   </div>
@@ -59,7 +60,6 @@
 <script>
 import * as reg from '@/common/js/regExp';
 import * as types from '@/store/types';
-import qrcodeVue from '@/components/qrcode/qrcode';
 import {
   mapGetters
 } from 'vuex';
@@ -67,9 +67,6 @@ import {
   login,
   getVerifyCode
 } from '@/common/api/api';
-import {
-  APP_LINK
-} from '@/common/dict/const';
 export default {
   data() {
     return {
@@ -85,14 +82,8 @@ export default {
       showLogin: true
     };
   },
-  components: {
-    qrcodeVue
-  },
   computed: {
-    ...mapGetters(['token', 'userInfo']),
-    getAppLink() {
-      return APP_LINK.app;
-    }
+    ...mapGetters(['token', 'userInfo'])
   },
   created() {
     if (localStorage['user-account']) {
@@ -140,7 +131,7 @@ export default {
         await this.$store.dispatch('getDicTree');
         await this.$store.commit(types.LOGIN_MASK, false);
         await this.$router.push({
-          path: this.$route.query.redirect || '/'
+          path: decodeURIComponent(this.$route.query.redirect || '/')
         });
         return;
       }

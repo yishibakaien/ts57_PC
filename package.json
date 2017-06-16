@@ -84,6 +84,6 @@
     "npm": ">= 3.0.0"
   },
   "browserslist": [
-    "last 20 versions"
+    "last 40 version", "> 10%", "> 5% in US", "ie 8", "ie 7", "Firefox >= 20"
   ]
 }

@@ -254,7 +254,7 @@ export default {
         padding: 0;
     }
     @descendent dots{
-      z-index: 10;
+      z-index: 1;
       display: none;
       position: relative;
       list-style: none;

@@ -94,6 +94,7 @@ export default {
       CompanySearchParams: {
         pageSize: 10,
         companyname: '',
+        companyType: 1,
         pageNo: 1
       }
     };

@@ -27,6 +27,7 @@ export const isObject = (arg) => {
 export const cookie = (() => {
   return {
     // 设置cookie
+    //   cookie.set('x-token', data, 7, '/');
     set: (sKey, sValue, vEnd, sPath, sDomain, bSecure) => {
       if (!sKey || /^(?:expires|max\/-age|path|domain|secure)$/i.test(sKey)) {
         return false;

@@ -57,6 +57,7 @@ export default {
         _.dir = res.data.data.dir;
         const client = new OSS.Wrapper({
           region: _.region,
+          secure: true,
           accessKeyId: res.data.data.accessKeyId,
           accessKeySecret: res.data.data.accessKeySecret,
           stsToken: res.data.data.securityToken,

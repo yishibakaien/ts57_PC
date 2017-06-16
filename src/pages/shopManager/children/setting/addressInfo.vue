@@ -5,7 +5,8 @@
     </div>
     <ts-form :model="addressInfoForm" label-width="125px">
       <ts-form-item label="城市：">
-        <p v-if="Text.show" class="addressinfo-formItem-text">{{companyInfo.province | filterArea(Area.province)}} - {{companyInfo.city | filterArea(Area.city)}}</p>
+
+        <p v-if="Text.show" class="addressinfo-formItem-text">{{companyInfo.province| filterArea(Area.province)}} - {{companyInfo.city | filterArea(Area.city)}}</p>
         <div v-else>
           <ts-select style="width:20%" data-key-name="areaName" data-val-name="areaCode" placeholder="选择省份" :options='Area.province' v-model="addressInfoForm.province" @change='handleChooseProvince'></ts-select>
           <ts-select style="width:20%" data-key-name="areaName" data-val-name="areaCode" placeholder="选择城市"
@@ -99,7 +100,7 @@ export default {
         this.Area.city = (await getAreabyParent({
           areaCode: this.addressInfoForm.province
         })).data.data;
-        if (val.province || val.city) {
+        if (!val.province || !val.city) {
           this.addressInfoForm.province = this.Area.province[0].areaCode;
           this.addressInfoForm.city = this.Area.city[0].areaCode;
         }
@@ -148,6 +149,7 @@ export default {
         areaCode: val.id
       })).data.data;
       this.addressInfoForm.city = this.Area.city[0].areaCode;
+      console.log('val', val);
     },
     // 地图---添加地图坐标
     addMarker() {
