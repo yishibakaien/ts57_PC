@@ -59,7 +59,6 @@
 			this.buyDetailparam.id = this.$route.query.purchaseId;
 			getProductBuy(this.buyDetailparam.id).then((res) => {
 				if (res.data.code === 0) {
-					debugger;
 					this.itemObj = res.data.data;
 //					this.paramId = this.itemObj.id;
 //					this.listBuyTaskUserByBuyIdMethod();

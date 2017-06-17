@@ -1,6 +1,6 @@
 <template lang="html">
   <div @mouseover="isSHow=true" @mouseout="isSHow=false" class="ts-image" :style="{width:width+'px',height:height+'px'}" @click="handleImg" :class="{'is-overhidden':showOriginPic,'is-round':shape==='round'}">
-    <img class="ts-image-img" v-lazy="src" :class="{'is-view':showOriginPic,'is-disabledHover':disabledHover}">
+    <img class="ts-image-img" v-lazy="src" :class="{'is-view':showOriginPic,'is-disabledHover':disabledHover,'is-round':shape==='round'}">
   </div>
 </template>
 
@@ -148,6 +148,9 @@ export default {
       &:hover{
         transform:scale(1.05);
       }
+      @when round{
+        border-radius: 50%;
+      }
       @when disabledHover{
         &:hover{
           transform:none;
@@ -158,7 +161,7 @@ export default {
 }
 </style>
 <style media="screen">
-.ts-image--popup{
+.ts-image--popup {
   position: fixed;
   z-index: 99999;
   top: 50%;

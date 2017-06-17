@@ -60,7 +60,7 @@
 				<ts-grid :data="companyBestList.list" class="imgSearch-data">
 			    <ts-grid-item style="width:400px" v-for="product in companyBestList.list" :key="product" @click="handleGotoShop(product)">
 			      <ts-image
-			       width="3711"
+			       width="371"
 			       height="260"
 			       :canView="false"
 			       disabledHover

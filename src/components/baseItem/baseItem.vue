@@ -10,7 +10,7 @@
       <span class="time" v-if="time">{{time}}</span>
     </div>
     <p class="onepx-t footer">
-      {{userName}}
+      <ts-image shape="round" :src="userHeadIcon" width="30" height="30" :canView="false" disabledHover></ts-image>&nbsp;&nbsp;{{userName}}
     </p>
 
   </div>
@@ -68,6 +68,7 @@ export default {
           this.desc = this.item.supplyDesc;
           this.picUrl = this.item.productPicUrl;
           this.userName = this.item.userName;
+          this.userHeadIcon = this.item.userHeadIcon;
         }
         if (this.type === 'purchase') {
           unit = this.item.buyUnit;
@@ -75,6 +76,7 @@ export default {
           this.desc = this.item.buyDesc;
           this.picUrl = this.item.buyPicUrl;
           this.userName = this.item.userName;
+          this.userHeadIcon = this.item.userHeadIcon;
         }
         if (this.type === 'searchText') {
           this.picUrl = this.item.defaultPicUrl;
@@ -111,7 +113,7 @@ export default {
 
 <style lang="stylus" scoped>
 .footer
-  line-height 30px
+  line-height 40px
   text-overflow ellipsis
   white-space nowrap
   font-size 14px
@@ -119,7 +121,7 @@ export default {
 .base-item
   box-sizing border-box
   width 233px
-  height 286px
+  height 294px
   padding 16px
   background #fff
   border-left 1px solid #eaeaea

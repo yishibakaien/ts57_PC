@@ -81,7 +81,7 @@ basecolor = #4c93fd
   box-sizing border-box
   width 100%
   background #fff
-  min-height 336px
+  min-height 334px
   .left-brand
     flex 0 0 267px
     width 267px

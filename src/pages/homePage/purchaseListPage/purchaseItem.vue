@@ -4,7 +4,7 @@
     <div class="purchase-item-image-wrapper">
       <ts-image width="200" height="200" :canView="false" :src="item.buyPicUrl" disabledHover></ts-image>
       <p class="info">
-        <span class="number">{{item.buyNum}}码</span>
+        <span class="number">{{item.buyNum>0?`${item.buyNum} 码`:'大量现货'}}</span>
         <span class="status" v-if="item.buyStatus === 1">
         	<em v-if="item.buyTaskFlag === 1">我已接单</em>
         	<em v-else-if="item.buyTaskCount > 0">{{item.buyTaskCount}}人接单</em>

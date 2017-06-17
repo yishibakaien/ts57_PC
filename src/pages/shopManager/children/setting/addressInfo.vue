@@ -92,7 +92,10 @@ export default {
     // companyExtendBO的数据要深拷贝获取
     companyInfo: {
       async handler(val) {
-        this.addressInfoForm = val;
+        // 地址
+        if (val.address.indexOf('/.') >= 0) {
+          val.address = val.address.split('/.')[0];
+        }
         this.map.mapCenter = ((val.lng + val.lat).length === 0) ? this.map.mapCenter : [Number(val.lng), Number(val.lat)];
         this.map.markers.push(this.map.mapCenter);
         // 省
@@ -104,6 +107,7 @@ export default {
           this.addressInfoForm.province = this.Area.province[0].areaCode;
           this.addressInfoForm.city = this.Area.city[0].areaCode;
         }
+        this.addressInfoForm = val;
       },
       deep: true
     }
@@ -149,7 +153,6 @@ export default {
         areaCode: val.id
       })).data.data;
       this.addressInfoForm.city = this.Area.city[0].areaCode;
-      console.log('val', val);
     },
     // 地图---添加地图坐标
     addMarker() {

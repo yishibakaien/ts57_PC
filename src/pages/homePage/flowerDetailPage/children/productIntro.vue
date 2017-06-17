@@ -56,7 +56,7 @@
 					<ts-popover trigger="click" :options="{placement: 'bottom'}" >
 							<div class="popper productIntro-popper-phone">
 		            <p class="productIntro-popper-phone-user">
-		              <strong>{{companyInfo.phone}}</strong>
+		              <strong>{{CompanySimpleInfo.phone}}</strong>
 		            </p>
 		            <div class="productIntro-popper-phone-tip">老板，拨打电话时，记得说明
 		              <br> 是坐视布管的客户哦～
@@ -134,7 +134,7 @@ import {
 } from 'vuex';
 import DICT from '@/common/dict/';
 import {
-  getCompanySimpleInfo,
+  getCompanyInfoByUserId,
   sampleAskFor,
   enquiryAskPrice,
   favoriteIsFavorite,
@@ -260,7 +260,7 @@ export default {
   watch: {
     productDetail: {
       async handler(val) {
-        this.CompanySimpleInfo = (await getCompanySimpleInfo({
+        this.CompanySimpleInfo = (await getCompanyInfoByUserId({
           id: val.companyId
         })).data.data;
       },
