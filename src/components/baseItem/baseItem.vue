@@ -2,13 +2,17 @@
 <div class="base-item-wrapper">
   <div class="base-item" :itemId="item.id" @click="itemClick(item.id)">
     <div class="img-container">
-      <img class="item-image" v-lazy="picUrl">
+      <ts-image :src="picUrl" width="200" height="200" :canView="false" disabledHover></ts-image>
     </div>
     <div class="item-desc">
       <h2 class="desc-title" v-show="false"><span>{{productNo}}{{typeComputed}} </span>{{num}}{{unit}}</h2>
       <h2 class="desc-title">{{desc}}</h2>
       <span class="time" v-if="time">{{time}}</span>
     </div>
+    <p class="onepx-t footer">
+      {{userName}}
+    </p>
+
   </div>
 </div>
 </template>
@@ -28,7 +32,8 @@ export default {
     return {
       num: '',
       desc: '',
-      picUrl: ''
+      picUrl: '',
+      userName: ''
     };
   },
   computed: {
@@ -62,12 +67,14 @@ export default {
           this.num = this.item.supplyNum;
           this.desc = this.item.supplyDesc;
           this.picUrl = this.item.productPicUrl;
+          this.userName = this.item.userName;
         }
         if (this.type === 'purchase') {
           unit = this.item.buyUnit;
           this.num = this.item.buyNum;
           this.desc = this.item.buyDesc;
           this.picUrl = this.item.buyPicUrl;
+          this.userName = this.item.userName;
         }
         if (this.type === 'searchText') {
           this.picUrl = this.item.defaultPicUrl;
@@ -103,10 +110,16 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.footer
+  line-height 30px
+  text-overflow ellipsis
+  white-space nowrap
+  font-size 14px
+  color #999
 .base-item
   box-sizing border-box
   width 233px
-  height 264px
+  height 286px
   padding 16px
   background #fff
   border-left 1px solid #eaeaea
@@ -131,7 +144,7 @@ export default {
       font-weight 200
       height 30px
       line-height 30px
-      margin-top 8px
+      margin 4px 0
       color #333
       overflow hidden
       text-overflow ellipsis

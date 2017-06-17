@@ -133,6 +133,10 @@ export default {
         this.CompanySearchParams.companyname = this.$route.query.search;
       }
     },
+    $route(to) {
+      this.CompanySearchParams.pageNo = this.Params.pageNo = 1;
+      this.CompanySearchParams.companyname = to.query.search;
+    },
     Params: {
       async handler(val) {
         this.Search = (await searchMtd(val)).data.data;

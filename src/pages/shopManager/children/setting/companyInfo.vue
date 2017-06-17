@@ -46,13 +46,11 @@
             </label>
         </ts-form-item>
       </div>
-      <div style="width:90%">
         <ts-form-item label="公司简介：" prop="companyProfile">
           <p v-if="Text.show" class="companyInfo-formItem-text">{{companyInfoForm.companyProfile}}</p>
           <ts-input v-else type="textarea" :rows="2" :maxlength='50' v-model="companyInfoForm.companyProfile" placeholder="请输入公司简介（最多50个字）"></ts-input>
         </ts-form-item>
-      </div>
-      <ts-form-item label="厂家风采：" prop="productPicUrl" style="width:100%">
+      <ts-form-item label="厂家风采：" prop="productPicUrl">
         <div class="companyInfo-views-container" v-for="(item,index) in companyInfoForm.presence" :key="item">
           <ts-image width="120" height="120" class="companyInfo-views-img" :src="item.picUrl"></ts-image>
           <i class="companyInfo-views-close" @click.self="handleDelViews(item,index)" v-if="!Text.show">&times</i>
@@ -262,10 +260,10 @@ export default {
     }
   }
   @component container{
-    display: flex;
-    flex-wrap: wrap;
     @descendent col{
-      flex:1;
+      display: inline-block;
+      width: 48%;
+      white-space: nowrap;
     }
   }
   @component upload {

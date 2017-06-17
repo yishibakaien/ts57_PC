@@ -1,4 +1,5 @@
 @import './_1px.css';
 @import './_var.css';
 @import 'static/iconfont/style.css';
-@import './_shape.css'
+@import './_shape.css';
+/*@import './_transition.css'*/

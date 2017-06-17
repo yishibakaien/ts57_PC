@@ -5,7 +5,9 @@
         <div slot="menu">
           <ts-button type="primary" @click="handleSavePic" :disabled="!Pic.uploadPic">保存图片</ts-button>
         </div>
+        <transition name="fade">
           <img :src="Pic.origin" crossOrigin="anonymous" ref="picOrigin" class="transition" :style="{'background-image':`url(${Pic.uploadPic})`,'background-size':`${ratio/4}%`}">
+        </transition>
       </ts-section>
     </div>
     <div class="dress-wrapper-right">

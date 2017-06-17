@@ -15,7 +15,7 @@
         </ts-button>
     </div>
   </threed-dress>
-  <ts-dialog v-model="Dialog.show" width="90%" @confirm="handleChooseProduct" @cancel="handleCancelChoose">
+  <ts-dialog v-model="Dialog.show" width="90%" title="上传店铺花型" @confirm="handleChooseProduct" @cancel="handleCancelChoose">
     <ts-navbar v-model="selected">
       <ts-tab-item id="1">店铺上架花型</ts-tab-item>
       <ts-tab-item id="2">厂家供应花型</ts-tab-item>

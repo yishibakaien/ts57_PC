@@ -1,6 +1,6 @@
 <template>
 <div class="introPic-wrapper">
-  <img v-lazy="companyInfo.companyBanner" width="670" height="250" class="introPic-wrapper-left">
+  <img v-lazy="companyPro" width="670" height="250" class="introPic-wrapper-left">
   <div class="introPic-wrapper-right">
     <div class="introPic-company-header">
       <!-- 公司名称 -->
@@ -65,6 +65,11 @@ export default {
     return {
       // 二维码
       Qrcode: '',
+      companyPro: {
+        src: '',
+        error: '/static/images/default.jpg',
+        loading: ''
+      },
       companyBusiness: ''
     };
   },
@@ -89,6 +94,8 @@ export default {
         if (val.companyExtendBO) {
           this.companyBusiness = val.companyExtendBO.companyBusiness;
         }
+
+        this.companyPro.src = val.companyBanner;
         if (val.address.indexOf('/.') >= 0) {
           val.address = val.address.split('/.')[0];
         }
@@ -196,7 +203,7 @@ export default {
     justify-content: flex-start;
     background-color: #F0F2F4;
     @descendent left{
-      max-width: 670px;
+      min-width: 670px;
       flex: 1;
     }
     @descendent right{

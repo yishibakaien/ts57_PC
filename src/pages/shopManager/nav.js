@@ -2,12 +2,10 @@ module.exports = [
   {
     path: 'warehouse',
     name: '仓库管理'
-  },
-  //  {
-  //   path: 'material',
-  //   name: '素材库'
-  // },
-   {
+  }, {
+    path: 'material',
+    name: '素材库'
+  }, {
     path: 'supply',
     name: '厂家供应'
   }, {

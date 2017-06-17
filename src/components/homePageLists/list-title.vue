@@ -30,7 +30,7 @@ export default {
 <style lang="stylus" scoped>
 .list-title
   width 100%
-  padding 14px 0
+  padding 12px 0
   background #fff
   .title-name
     display inline-block

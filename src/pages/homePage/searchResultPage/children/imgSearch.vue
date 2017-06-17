@@ -6,7 +6,7 @@
         <span class="imgSearch-image-box-tip" v-if="Pic.canCropper" @click="handleChoosePic">手动框图</span>
       </div>
       <div class="imgSearch-image-box-text">
-        <p>对该图片的最佳猜测：{{firstProductNo}}</p>
+        <!-- <p>对该图片的最佳猜测：{{firstProductNo}}</p> -->
         <p>对结果不满意？重新框图试试</p>
         <p>白色的花型更能被查找到哦！所以请尽量添加白色无干扰的花型样板。</p>
       </div>
@@ -16,15 +16,22 @@
 		</ts-title-block>
 		<!-- 图片列表 -->
 		<div class="">
-			<ts-grid :data="search.list" class="textSearch-data">
-		    <ts-grid-item style="width:240px" v-for="product in search.list" :key="product" @click="handleViewProduct(product.id)">
-		      <ts-image
-		       width="170"
-		       height="170"
-		       :canView="false"
-		       disabledHover
-		       :src="product.defaultPicUrl">
-		       </ts-image>
+			<ts-grid :data="search.list" class="imgSearch-data">
+		    <ts-grid-item class="imgSearch-data-item" v-for="product in search.list" :key="product" @click="handleViewProduct(product.id)">
+						<div class="imgSearch-image-box-img">
+						<ts-image
+			       width="170"
+			       height="170"
+			       :canView="false"
+			       disabledHover
+			       :src="product.defaultPicUrl">
+			       </ts-image>
+						 <div class="imgSearch-image-box-menu">
+							 <p @click.stop="handleGotoDress(product)"><i class="icon-shiyihui"></i>&nbsp;试衣</p>
+  						 <p @click.stop="handleChoosePic(product.defaultPicUrl)"><i class="icon-sousuo"></i>&nbsp;再找</p>
+						 </div>
+						 <img src="/static/images/tuijian.jpg" v-if="product.isBest===1"  class="imgSearch-image-box-watermask" alt="">
+						 </div>
 		       <p>{{product.companyName}}</p>
 		       <template slot="footer">
              <span>{{product.productNo}}</span>
@@ -53,7 +60,7 @@
 				<ts-grid :data="companyBestList.list" class="imgSearch-data">
 			    <ts-grid-item style="width:400px" v-for="product in companyBestList.list" :key="product" @click="handleGotoShop(product)">
 			      <ts-image
-			       width="300"
+			       width="3711"
 			       height="260"
 			       :canView="false"
 			       disabledHover
@@ -73,7 +80,7 @@
 			<p>免费热线</p>
 			<p>400-801-3357</p>
 		</div>
-		<cropper-dialog :dialog="Cropper" :imageUrl="Pic.encoded" @check="handleLookProduct" @change="handleGetResult">
+		<cropper-dialog :dialog="Cropper" :imageUrl="Pic.encoded" @check="handleLookProduct" @close="handleClose" @change="handleGetResult">
 		</cropper-dialog>
 	</div>
 </template>
@@ -120,6 +127,7 @@ export default {
   watch: {
     $route(to, from) {
       this.Params.pageNo = 1;
+      this.Pic.encoded = JSON.parse(sessionStorage['find-pic']).encoded;
       this.Params.id = to.query.imgId;
       this.$store.commit('SET_SEARCH_EMPTY');
       this.$store.dispatch('searchGetResult', this.Params);
@@ -127,7 +135,7 @@ export default {
     search: {
       handler(val) {
         if (val.list[0]) {
-          this.Pic.encoded = val.list[0].defaultPicUrl;
+          // this.Pic.encoded = val.list[0].defaultPicUrl;
           let img = new Image();
           img.src = this.Pic.encoded;
           img.onload = () => {
@@ -154,26 +162,35 @@ export default {
     ...mapGetters(['search', 'userInfo']),
     isShopRoute() {
       return this.$route.path.indexOf('/shop/') >= 0;
-    },
-    // 去搜索列表第一个数据
-    firstProductNo() {
-      if (this.search.list[0]) {
-        return this.search.list[0].productNo;
-      }
     }
+    // 去搜索列表第一个数据
+  //   firstProductNo() {
+  //     if (this.search.list[0]) {
+  //       return this.search.list[0].productNo;
+  //     }
+  //   }
   },
   methods: {
     handleLoadMore() {
       this.Params.pageNo++;
       this.$store.dispatch('searchGetResult', this.Params);
     },
+    handleGotoDress(item) {
+      sessionStorage.setItem('flowerUrl', item.defaultPicUrl);
+      this.$router.push({
+        path: `/threeDDressPage`
+      });
+    },
     // 进入商店
     handleGotoShop(item) {
       this.goto(`/shop/${item.companyId}`);
     },
+    handleClose() {
+      this.Pic.encoded = JSON.parse(sessionStorage['find-pic']).encoded;
+    },
     // 选择图片
     handleChoosePic(pic) {
-      this.Pic.url = this.Pic.encoded;
+      this.Pic.encoded = pic;
       this.Cropper.show = true;
     },
     // 寻找花型(最终一步)
@@ -212,6 +229,7 @@ export default {
     if (this.$route.query.type) {
       this.Type.edit = true;
     }
+    // 如果url存在id =》加载数据
     if (this.$route.query.imgId) {
       this.Params.id = this.$route.query.imgId;
       this.$store.dispatch('searchGetResult', this.Params);
@@ -220,6 +238,9 @@ export default {
         pageSize: 3
       })).data.data;
       this.Pic.canCropper = this.search.list.length > 0;
+    }
+    if (sessionStorage['find-pic']) {
+      this.Pic.encoded = JSON.parse(sessionStorage['find-pic']).encoded;
     }
   }
 };
@@ -244,6 +265,14 @@ export default {
 			width: 100%;
 			line-height: 40px;
 		}
+		@descendent item{
+			width: 240px;
+			&:hover{
+				.imgSearch-image-box-menu{
+					display:table;
+				}
+			}
+		}
 	}
   @component editPic{
 		@modifier menu {
@@ -267,6 +296,48 @@ export default {
         display: inline-block;
       }
     }
+		@descendent watermask{
+			position: absolute 0 20px * *;
+		}
+		@descendent img{
+			position: relative;
+		}
+		@descendent menu{
+			position: absolute * 0 0 0;
+			display: none;
+			table-layout: fixed;
+			width: 100%;
+			max-width:170px;
+			margin: 0 auto;
+			i[class*='icon-']{
+				&:before{
+					color:#fff;
+				}
+			}
+			p{
+				background: rgba(0,0,0,0.3);
+				color: #fff;
+				display: table-cell;
+				width: 50%;
+				position: relative;
+				height: 30px;
+				vertical-align: middle;
+				cursor: pointer;
+				transition: .8s;
+				&:hover{
+					background: rgba(0,0,0,0.5);
+				}
+				&:first-child:after{
+					content:'';
+					position:absolute;
+					right: 0;
+					height: 100%;
+					top:0;
+					width: 1px;
+					background: #fff;
+				}
+			}
+		}
     @descendent text{
       margin-left:30px;
       p{

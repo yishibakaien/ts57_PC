@@ -28,7 +28,7 @@
       </label>
       <input ref="input" type="file" accept="image/png,image/jpeg" @change="uploadImg" v-show="false">
     </p>
-    <ts-grid :data="Search.picList" emptyText="暂无搜索记录">
+    <ts-grid :data="showPics" emptyText="暂无搜索记录">
       <ts-grid-item style="width:115px" v-for="product in showPics" :key="product" @click="handleChoosePic(product)">
         <ts-image width="60" height="60" :canView="false" disabledHover :src="product">
         </ts-image>

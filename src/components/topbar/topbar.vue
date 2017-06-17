@@ -87,9 +87,9 @@ export default {
     },
     // 退出
     async handleLogout() {
+      await loginOut();
       await this.$store.commit('LOGIN_OUT');
       await this.$store.commit('CLEAR_USERINFO');
-      await loginOut();
       await this.$router.push('/');
     }
   }

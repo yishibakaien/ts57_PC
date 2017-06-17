@@ -5,7 +5,7 @@
   <span v-if="showOne">···</span>
   <span class="page" :class="[page.pageNO===pageNum?'active':'']" v-for="pageNum in page.pageNumArr" @click="selectedPageNum(pageNum)">{{pageNum}}</span>
   <span v-if="showTwo">···</span>
-  <span class="page" :class="[page.pageNO===page.maxNum?'active':'']" @click="selectedPageNum(page.maxNum)" v-if="page.maxNum !== 1">{{page.maxNum}}</span>
+  <span class="page" :class="[page.pageNO===page.maxNum?'active':'']" @click="selectedPageNum(page.maxNum)" v-if="page.maxNum > 1">{{page.maxNum}}</span>
   <span class="page" @click="downPage">下一页</span>
 </div>
 </template>

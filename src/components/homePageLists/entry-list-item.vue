@@ -3,10 +3,10 @@
   <div class="entry-base-item" :companyId="item.id">
     <div class="img-container">
       <div class="img-wrapper">
-        <img class="item-image" v-lazy="item.productPics[0]">
+        <ts-image :src="item.productPics[0]" width="132" height="132" :canView="false" disabledHover></ts-image>
       </div>
       <div class="img-wrapper">
-        <img class="item-image" v-lazy="item.productPics[1]">
+        <ts-image :src="item.productPics[1]" width="132" height="132" :canView="false" disabledHover></ts-image>
       </div>
     </div>
     <div class="item-desc">
@@ -37,7 +37,7 @@ export default {
 .entry-list-item
   box-sizing border-box
   width 311px
-  height 200px
+  height 202px
   padding 12px 16px
   cursor pointer
   transition 1s

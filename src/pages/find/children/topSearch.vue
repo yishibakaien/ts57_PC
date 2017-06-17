@@ -3,7 +3,7 @@
       <ts-title-block>爆款热搜</ts-title-block>
       <ts-grid :data="BurstHotSearch">
         <ts-grid-item width="200px" v-for="(product,index) in BurstHotSearch" :key="product" @click="handleViewProduct(product,index)">
-          <span class="ranking hotSearch-rank" :class="`ranking_+${index+1}`" v-if="index<4"></span>
+          <span class="ranking hotSearch-rank" :class="`ranking_${index+1}`" v-if="index<3"></span>
           <ts-image
            width="170"
            height="170"

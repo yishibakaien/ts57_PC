@@ -4,7 +4,9 @@
     <models></models>
     <topbar v-if='!isClauseRoute'></topbar>
     <div class="main">
+      <transition name="fade">
       <router-view></router-view>
+    </transition>
     </div>
   </div>
   <div class="footer-wrapper" v-if='!isClauseRoute'>

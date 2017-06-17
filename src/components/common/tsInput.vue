@@ -7,8 +7,7 @@
        <slot name="append"></slot>
      </div>
   <!-- textarea -->
-  <textarea v-if="type === 'textarea'" :class="{'is-validateEvent':validateEvent}" class="ts-textarea--inner" :value="currentValue" @input="handleInput" ref="textarea" :name="name" :placeholder="placeholder" :disabled="disabled" :readonly="readonly" :rows="rows" :autofocus="autofocus"
-    :maxlength="maxlength" :minlength="minlength" @focus="handleFocus" @blur="handleBlur">
+  <textarea v-if="type === 'textarea'" :class="{'is-validateEvent':validateEvent}" class="ts-textarea--inner" :value="currentValue" @input="handleInput" ref="textarea" :name="name" :placeholder="placeholder" :disabled="disabled" :readonly="readonly" :rows="rows" :autofocus="autofocus" :maxlength="maxlength" :minlength="minlength" @focus="handleFocus" @blur="handleBlur">
    </textarea>
  </div>
  </template>
@@ -179,6 +178,8 @@ export default {
         padding: 5px 7px;
         box-sizing: border-box;
         width: 100%;
+        line-height: 1.5;
+        font-size: 12px;
         color: var(--input-color);
         background-color: var(--input-fill);
         background-image: none;

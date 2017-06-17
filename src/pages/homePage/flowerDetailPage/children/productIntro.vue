@@ -82,7 +82,7 @@
 		</div>
 		<!-- 右侧 -->
 		<div class="productIntro-wrapper-right onepx center">
-				<ts-image :src="CompanySimpleInfo.companyBanner" width="326" height="163" :canView="false"
+				<ts-image shape="round" :src="CompanySimpleInfo.companyHeadIcon" width="100" height="100" :canView="false"
 				disabledHover class="productIntro-company-cover">
 				</ts-image>
 				<p class="productIntro-company-name">{{CompanySimpleInfo.companyName}}</p>
@@ -185,7 +185,7 @@ export default {
     // 去3D试衣
     handleGoto3Ddress() {
       sessionStorage.setItem('flowerUrl', this.productDetail.defaultPicUrl);
-			this.$router.push({
+      this.$router.push({
         path: `/threeDDressPage`
       });
     },
@@ -289,6 +289,7 @@ export default {
 			padding: 14px;
 			flex:calc(360/1200);
 			margin-left: 10px;
+			padding-top: 70px;
 		}
 	}
 	@component dialog-sendSample{
@@ -307,6 +308,9 @@ export default {
 			padding: 35px 0 10px 0;
 			font-size: 18px;
 			position: relative;
+		}
+		@descendent cover{
+			 box-shadow: 0px 0px 20px 2px rgba(155,155,155,0.4);
 		}
 		@descendent business{
 			position: relative;
@@ -329,7 +333,7 @@ export default {
 		}
 		@modifier button{
 			position: absolute;
-			bottom:20px;
+			bottom:50px;
 			left:50%;
 			transform: translate(-50%,-50%);
 		}

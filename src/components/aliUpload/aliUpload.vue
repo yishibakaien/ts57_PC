@@ -1,6 +1,6 @@
 <template>
 <div class="oss-file">
-  <input type="file" :id="id" accept="image/png,image/jpeg,image/gif,image/bmp" :multiple="multiple" @change="doUpload($event)" />
+  <input type="file" :id="id" accept="image/png,image/jpeg,image/bmp" :multiple="multiple" @change="doUpload($event)" />
 </div>
 </template>
 <script>
@@ -21,7 +21,7 @@ export default {
     };
   },
   methods: {
-		// UUID
+    // UUID
     uuidMethod() {
       return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         var r = Math.random() * 16 | 0,
@@ -45,10 +45,10 @@ export default {
           return;
         }
         // 图片大小限制1MB以下 2097152
-        if (imgObj.size <= 0 || imgObj.size >= 1048576) {
+        if (imgObj.size <= 0 || imgObj.size >= 2097152*5) {
           this.$toast({
             type: 'error',
-            message: '图片大小请限制在1MB以内'
+            message: '图片大小请限制在5MB以内'
           });
           return;
         }

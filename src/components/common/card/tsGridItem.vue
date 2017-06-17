@@ -1,6 +1,6 @@
 <template>
 <div class="ts-grid" @click="handleClick">
-  <slot></slot>
+    <slot></slot>
   <div class="ts-grid--footer" v-if="$slots.footer">
     <slot name="footer"></slot>
   </div>

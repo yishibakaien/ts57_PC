@@ -1,6 +1,6 @@
 <template lang="html">
   <!-- @close="handleClose"  -->
-  <ts-dialog :close-on-press-escape='false' v-model="dialog.show" width="60%" title="请框选图中要识别的区域">
+  <ts-dialog :close-on-press-escape='false' v-model="dialog.show" width="60%" title="请框选图中要识别的区域" @close="handleClose">
     <cropper v-model="Pic.url" @getImage="handleGetImg"></cropper>
       <div class="search-editPic--menu">
         <ts-button type="primary" v-for="item in DICT.productType" :key="item.dicValue" @click="handleLookProduct(item.dicValue)">搜{{item.label}}</ts-button>
@@ -62,6 +62,9 @@ export default {
     }
   },
   methods: {
+    handleClose() {
+      this.$emit('close');
+    },
     handleLookProduct(e) {
       let data = {
         encoded: this.Pic.destImg,

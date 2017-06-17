@@ -130,6 +130,7 @@ export default {
       left: 50%;
       transform: translate(-50%,-60%);
       content:"+";
+      size:122px 122px;
     }
   }
   @component container{
