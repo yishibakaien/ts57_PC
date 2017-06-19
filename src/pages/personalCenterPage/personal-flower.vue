@@ -173,20 +173,21 @@
 			// 找相似
 			handleGotoFind(item) {
 				this.Pic.url = item.defaultPicUrl;
+				this.Pic.url = this.Pic.url.indexOf('?') >= 0 ? this.Pic.url.split('?')[0] : this.Pic.url;
+//				console.log(this.Pic.url);
+				this.convertImgToBase64(this.Pic.url, (result) => {
+					this.Pic.url = result;
+//					console.log(this.Pic.url);
+				});
 				this.Cropper.show = true;
-//				this.convertImgToBase64(this.Pic.url, base64Img => {
-//					this.Pic.base64 = base64Img;
-//				});
-//				console.log('1111111', this.Pic.url);
 			},
 			handleGetResult(val) {
-				console.log(111);
-//				this.$router.push({
-//					path: '/search/image',
-//					query: {
-//						imgId: val
-//					}
-//				});
+				this.$router.push({
+					path: '/search/image',
+					query: {
+						imgId: val
+					}
+				});
 			},
 			// 去3D试衣
 			handleGoto3DDress(item) {
