@@ -14,7 +14,7 @@ export default {
       if (!res.data.code) {
         await this.$store.commit('LOGIN', res.headers['x-token']);
         await this.$store.commit('GET_USERINFO', res.data.data);
-        await this.$router.push('/');
+        await this.$router.push('/homePage');
       }
     }
   }
