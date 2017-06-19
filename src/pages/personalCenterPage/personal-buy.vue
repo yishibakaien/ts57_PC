@@ -143,7 +143,7 @@
 						_.classes.eyelash = res.data.data.jm;
 						_.classes.statusBuy = res.data.data.buying;
 						_.classes.statusSuccess = res.data.data.finish;
-						_.classes.statusClosed = res.data.data.close;111
+						_.classes.statusClosed = res.data.data.close;
 					}
 				}).catch();
 			},
