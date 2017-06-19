@@ -144,6 +144,7 @@ table {
 tr {
   border-bottom: 1px solid #eaeaea;
   transition: .5s;
+  background: #fff;
   &:hover {
     background: #F8F8F8;
   }
@@ -183,6 +184,7 @@ th {
     text-align: center;
     border: 1px solid #eaeaea;
     border-top: none;
+    background: #fff;
     & span {
       color: #333;
       position: absolute 50% * * 50%;

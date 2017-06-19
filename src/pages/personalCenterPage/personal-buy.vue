@@ -136,6 +136,14 @@
 						_.pageNum = res.data.data.pageNO;
 						_.pageSize = res.data.data.pageSize;
 						_.pageMax = res.data.data.totalPage;
+						_.classes.totalNum = res.data.data.totalNum;
+						_.classes.mianliao = res.data.data.ml;
+						_.classes.large = res.data.data.db;
+						_.classes.small = res.data.data.xb;
+						_.classes.eyelash = res.data.data.jm;
+						_.classes.statusBuy = res.data.data.buying;
+						_.classes.statusSuccess = res.data.data.finish;
+						_.classes.statusClosed = res.data.data.close;111
 					}
 				}).catch();
 			},
@@ -264,7 +272,7 @@
 		line-height: 200px;
 		text-align: center;
 	}
-	
+
 	.personal-buy {
 		margin-top: 25px;
 		padding: 0 15px;
@@ -272,21 +280,21 @@
 			margin-top: 20px;
 		}
 	}
-	
+
 	.p3 {
 		opacity: .7;
 	}
-	
+
 	.p3 span {
 		display: inline-block;
 		width: 50%;
 		height: 100%;
 	}
-	
+
 	.personal-goods-item {
 		position: relative;
 	}
-	
+
 	.tipsModel {
 		width: 100%;
 		height: 100%;

@@ -66,6 +66,9 @@ import {
   favoriteBus,
   favoriteIsFavorite
 } from '@/common/api/api';
+// import {
+//   mapGetters
+// } from 'vuex';
 export default {
   data() {
     return {
@@ -92,6 +95,9 @@ export default {
       selected: ''
     };
   },
+  // computed:{
+  //   ...mapGetters(['userInfo'])
+  // },
   components: {
     threedDress
   },
