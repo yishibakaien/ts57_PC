@@ -183,7 +183,7 @@ export const login = param => axios.post(API.user.login, param);
 // 登出
 export const loginOut = () => axios.post(API.user.loginOut);
 // 一键登录
-export const checkOauth = () => axios.post(API.user.checkOauth);
+export const checkOauth = param => axios.get(API.user.checkOauth, {params: param});
 // 注册
 export const reg = param => axios.post(API.user.reg, param);
 
