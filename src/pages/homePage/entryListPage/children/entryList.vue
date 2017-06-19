@@ -17,32 +17,42 @@
       </factory-list>
     </div>
   </div>
-  <div v-else>
-    <ts-grid :data="Search.list" class="textSearch-data">
-      <ts-grid-item style="width:240px" v-for="product in Search.list" :key="product" @click="handleGotoShop(product)">
-        <ts-image width="170" height="170" :canView="false" disabledHover :src="product.companyHeadIcon">
+  <ts-grid :data="Entry" class="entryList-company">
+    <ts-grid-item class="entryList-company-item item" v-for="product in Entry" :key="product" @click="handleGotoShop(product)">
+      <ts-image width="260" height="150" :canView="false" disabledHover :src="product.pic">
+      </ts-image>
+      <div class="entryList-company-item--right">
+        <ts-image width="90" height="90" :canView="false" disabledHover :src="product.pic">
         </ts-image>
-        <p class="allmeterial-product--number">{{product.companyName}}</p>
-      </ts-grid-item>
-    </ts-grid>
-    <ts-pagination type="page" :total="Search.totalNum" class="entryList-pagination page" :current="Search.pageNO" @change="handleChangeCompanyNum" :pageSize="Search.pageSize"></ts-pagination>
-  </div>
+        <ts-button type="plain" class="entryList-company-item--button">进入官网</ts-button>
+      </div>
+    </ts-grid-item>
+  </ts-grid>
 </div>
 </template>
 
 <script>
 import {
-  findNewCompanys,
-  searchCompany
+  // findNewCompanys,
+  searchCompany,
+  qualityCompanyList1
 } from '@/common/api/api';
+import DICT from '@/common/dict/';
 import debounce from 'lodash.debounce';
 // 属于发现--厂家上新模块
 import factoryList from '../../../find/component/factoryProduct.vue';
 export default {
   data() {
     return {
+      DICT: {
+        userType: DICT.userType
+      },
+      // Param: {
+      //   companyType: 1
+      // },
       Param: {
-        companyType: 1
+        pageNo: 1,
+        pageSize: 999
       },
       searchParam: {
         companyName: '',
@@ -53,6 +63,18 @@ export default {
       Entry: [],
       Search: {}
     };
+  },
+  watch: {
+    Search: {
+      handler(val) {
+        if (val.list) {
+          val.list.forEach(item => {
+            item.USERATYPE = this.filterDict(item.companyType, DICT.userType);
+          });
+        }
+      },
+      deep: true
+    }
   },
   methods: {
     // 搜索
@@ -83,7 +105,9 @@ export default {
     }
   },
   async created() {
-    this.Entry = (await findNewCompanys(this.Param)).data.data;
+    // this.Entry = (await findNewCompanys(this.Param)).data.data;
+    // 最新入驻改为优质厂家
+    this.Entry = (await qualityCompanyList1(this.Param)).data.data.list;
   },
   components: {
     factoryList
@@ -97,9 +121,31 @@ export default {
     margin: 10px 0;
   }
   @component pagination{
-    &.page{
-      display: table;
-      margin: 7px auto;
+      text-align: right;
+      margin: 10px 0;
+  }
+  @component table{
+      min-height: 630px;
+  }
+  @component company{
+    @descendent item{
+      background: #fff;
+      margin: 4px;
+      &.item{
+        width: 392px;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      @modifier right{
+        text-align: right;
+        display: flex;
+        align-items: stretch;
+        flex-direction: column;
+        height: 150px;
+        justify-content: space-between;
+      }
     }
   }
   @component more{
@@ -112,4 +158,28 @@ export default {
     }
   }
 }
+</style>
+<style>
+  .entryList-table{
+    .handleAction{
+      display: inline-block;
+      padding: 0 12px;
+      color: #fff;
+      border: none;
+      background-color: #4C93FD;
+      line-height: 150%;
+      outline: 0;
+      overflow: hidden;
+      position: relative;
+      text-align: center;
+      min-width: 80px;
+      cursor: pointer;
+      margin: 6px 0;
+      vertical-align: middle;
+      &:hover{
+        color:#fff!important;
+        background-color: #2475ef;
+      }
+    }
+  }
 </style>

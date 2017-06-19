@@ -3,6 +3,7 @@ const API = {
   // 用户模块API
   user: {
     reg: '/front/user/reg', // 注册
+    checkOauth: '/front/user/checkOauth', // 一键登陆
     loginOut: '/front/user/loginOut', // 登出
     login: '/front/user/login', // 登录
     checkPhone: '/front/user/checkPhone', // 检查手机号码是否存在
@@ -179,8 +180,10 @@ export const getPicBase64 = param => axios.get(API.file.getPicBase64, {params: p
  */
 // 登录
 export const login = param => axios.post(API.user.login, param);
+// 登出
 export const loginOut = () => axios.post(API.user.loginOut);
-
+// 一键登录
+export const checkOauth = () => axios.post(API.user.checkOauth);
 // 注册
 export const reg = param => axios.post(API.user.reg, param);
 

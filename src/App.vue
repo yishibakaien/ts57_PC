@@ -5,8 +5,8 @@
     <topbar v-if='!isClauseRoute'></topbar>
     <div class="main">
       <transition name="fade">
-      <router-view></router-view>
-    </transition>
+        <router-view></router-view>
+      </transition>
     </div>
   </div>
   <div class="footer-wrapper" v-if='!isClauseRoute'>
@@ -33,7 +33,7 @@ export default {
   },
   computed: {
     isClauseRoute() {
-      return this.$route.path === '/clause';
+      return ['/clause', '/autologin'].indexOf(this.$route.path) >= 0;
     }
   },
   components: {

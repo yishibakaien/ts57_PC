@@ -97,7 +97,7 @@ export default {
     ...mapGetters(['companyInfo', 'search', 'userInfo'])
   },
   async created() {
-    if (this.userInfo.userType === 1) {
+    if (this.userInfo.userType === 2) {
       this.navItem = this.navItem.filter(item => item.path !== 'supplies');
     }
     // 默认选择第一个 店内

@@ -61,7 +61,9 @@ export const customTime = item => {
   // =======history
   let publish = new Date(item);
   let publishTime = publish.getTime();
-  let date = publish.getDate();
+  let date = publish.getDate() < 9
+    ? `0${publish.getDate() + 1}`
+    : publish.getDate() + 1;
   let year = publish.getFullYear();
   let month = publish.getMonth() < 9
     ? `0${publish.getMonth() + 1}`

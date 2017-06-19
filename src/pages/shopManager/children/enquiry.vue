@@ -119,9 +119,13 @@ export default {
     // 显示询价人信息
     async showenquiryInfo(item) {
       this.showPersonInfo = true;
-      this.enquiryEskUser = (await enquiryEskUser({
+      let data = (await enquiryEskUser({
         id: item.id
       })).data.data;
+      if (data.address.indexOf('/.') >= 0) {
+        data.address = data.address.split('/.')[0];
+      }
+      this.enquiryEskUser = data;
     },
     // 查看花型
     hanleVisitProduct(item) {

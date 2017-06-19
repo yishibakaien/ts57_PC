@@ -26,7 +26,7 @@
             <i class="icon-dianhua"></i>电话联系
           </li>
         </ts-popover>
-        <li @click="handleCollectStore">
+        <li @click="handleCollectStore" v-if="userInfo.companyId!==$route.params.id">
           <i :class="getIsCollect?'icon-yishoucang':'icon-shoucang'"></i> {{getIsCollect?'已收藏店铺':'收藏店铺'}}
         </li>
         <ts-popover trigger="hover" :options="{placement: 'right'}">
@@ -104,7 +104,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['companyInfo']),
+    ...mapGetters(['companyInfo', 'userInfo']),
     // 是否档口
     getIsStore() {
       return this.companyInfo.companyType === 2;
