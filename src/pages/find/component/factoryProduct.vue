@@ -10,8 +10,9 @@
          class="factory-company--cover"
          :src="data.companyHeadIcon"></ts-image>
          <p class="factory-company--title">{{data.companyName}}</p>
-        <p><i class="icon-dianhua"></i>&nbsp;{{data.phone}}</p>
-          <p><i class="icon-dangkou">&nbsp;{{data.address}}</i></p>
+         <br>
+         <p class="factory-address"><i class="icon-dianhua"></i>&nbsp;{{data.phone}}</p>
+          <p class="factory-address"><i class="icon-dangkou">&nbsp;{{data.address}}</i></p>
           <ts-button type="plain" size="large" class="factory-company--button button" @click="handleViewStore(data)">
             访问店铺
           </ts-button>
@@ -93,6 +94,17 @@ export default {
 @import '../../../common/css/_var.css';
 @import '../../../common/css/mixin/setOnepx.css';
 @component-namespace factory{
+  @component address{
+     @utils-ellipsis 2;
+     width: 80%;
+     margin: 0 auto;
+     color: #666;
+     font-size: 13px;
+     margin-bottom: 3px;
+     &.title{
+       margin-top: 4px;
+     }
+  }
   @component row{
     display: table;
     width: 100%;

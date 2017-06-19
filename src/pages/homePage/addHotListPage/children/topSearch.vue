@@ -1,6 +1,6 @@
 <template lang="html">
 	<div class="hotSearch-content" ref="hotSearch">
-		<ts-grid :data="BurstHotSearch">
+		<ts-grid :data="BurstHotSearch" class="hotSearch-content">
 			<ts-grid-item width="200px" v-for="(product,index) in BurstHotSearch" :key="product" @click="handleViewProduct(product,index)">
 				<span class="ranking hotSearch-rank" :class="`ranking_${index+1}`" v-if="index<3"></span>
 				<ts-image width="170" height="170" :canView="false" disabledHover :src="product.pics[0]">
@@ -65,6 +65,7 @@
 		}
 		@component content {
 			text-align: center;
+			background: #fff;
 		}
 		@component footer {
 			@modifier searchNum {
