@@ -174,19 +174,14 @@
 			handleGotoFind(item) {
 				this.Pic.url = item.defaultPicUrl;
 				this.Cropper.show = true;
-//				this.convertImgToBase64(this.Pic.url, base64Img => {
-//					this.Pic.base64 = base64Img;
-//				});
-//				console.log('1111111', this.Pic.url);
 			},
 			handleGetResult(val) {
-				console.log(111);
-//				this.$router.push({
-//					path: '/search/image',
-//					query: {
-//						imgId: val
-//					}
-//				});
+				this.$router.push({
+					path: '/search/image',
+					query: {
+						imgId: val
+					}
+				});
 			},
 			// 去3D试衣
 			handleGoto3DDress(item) {
