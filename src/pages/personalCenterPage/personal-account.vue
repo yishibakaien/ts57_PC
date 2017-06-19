@@ -109,7 +109,7 @@ export default {
       }
     },
     checkEmail() {
-      if (!reg.testQQ(this.param.email)) {
+      if (!reg.testEmail(this.param.email)) {
         this.check.p3 = false;
       } else {
         this.check.p3 = true;
