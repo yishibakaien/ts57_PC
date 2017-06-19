@@ -173,6 +173,12 @@
 			// 找相似
 			handleGotoFind(item) {
 				this.Pic.url = item.defaultPicUrl;
+				this.Pic.url = this.Pic.url.indexOf('?') >= 0 ? this.Pic.url.split('?')[0] : this.Pic.url;
+//				console.log(this.Pic.url);
+				this.convertImgToBase64(this.Pic.url, (result) => {
+					this.Pic.url = result;
+//					console.log(this.Pic.url);
+				});
 				this.Cropper.show = true;
 			},
 			handleGetResult(val) {
