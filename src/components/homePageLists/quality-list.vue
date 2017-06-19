@@ -1,11 +1,15 @@
 <template lang="html">
-  <!-- 优质厂家 -->
-  <div class="quality-company-list">
-    <div class="left-brand onepx-r">
-      <img class="quality-company-pic" src="/static/images/youzhichangjia.png">
-    </div>
-    <div class="right-list">
-      <div class="item-wrapper">
+	<!-- 优质厂家 -->
+	<div class="quality-company-list">
+		<div class="left-brand onepx-r">
+			<img src="../../../static/images/pc蕾丝.jpg">
+		</div>
+		<div class="right-list">
+			<list-tile :title-text="titleText"></list-tile>
+			<div class="entry-flexbox">
+				<entry-list-item :item="item" v-for="item in newCompanyList"></entry-list-item>
+			</div>
+			<!--<div class="item-wrapper">
         <ts-carousel height="546px" autoplay-speed="6000" dots="none" autoplay arrow="always" easing='linear'>
           <ts-carousel-item v-for="(company,index) in companys" :key="index">
             <ts-grid>
@@ -16,48 +20,55 @@
             </ts-grid>
           </ts-carousel-item>
         </ts-carousel>
-      </div>
-    </div>
-  </div>
+      </div>-->
+		</div>
+	</div>
 </template>
 
 <script>
-import {
-  qualityCompanyList1
-} from '@/common/api/api';
-export default {
-  data() {
-    return {
-      CompanyListParam: {
-        pageNo: 1,
-        pageSize: 50
-      },
-      companys: []
-    };
-  },
-  methods: {
-    handleViewProduct(id) {
-      this.goto(`/shop/${id}`);
-    }
-  },
-  async created() {
-    let data = (await qualityCompanyList1(this.CompanyListParam)).data.data.list;
-    let result = [];
-    for (var i = 0, len = data.length; i < len; i += 9) {
-      result.push(data.slice(i, i + 9));
-    };
-    this.companys = result;
-  }
-};
+	import entryListItem from './entry-list-item';
+	import listTile from './list-title';
+	export default {
+		data() {
+			return {
+				titleText: {
+					title: '新增花型',
+					extend: '更多新花',
+					type: 'entry'
+				}
+			};
+		},
+		methods: {
+			handleGotoAddProduct() {
+				this.$router.push({
+					path: '/product/add'
+				});
+			}
+		},
+		components: {
+			listTile,
+			entryListItem
+		},
+		props: {
+			newCompanyList: {
+				type: Array
+			}
+		}
+	};
 </script>
-
 <style lang="stylus" scoped>
 .quality-company-list
   width 100%
-  height 546px
+  height 480px
   background #fff
   .left-brand
     float left
+    img
+    	box-sizing border-box
+    	border 1px soild #f2f2f2
   .right-list
-    padding-left 300px
+    padding-left 267px
+   .entry-flexbox
+   	display flex
+   	flex-wrap wrap
 </style>

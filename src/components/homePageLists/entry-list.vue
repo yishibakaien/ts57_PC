@@ -1,22 +1,22 @@
 <template>
-<div class="entry-list">
-  <div class="left-brand">
-    <div class="brand-header">
-      <div class="brand-name">
-        <i class="arrow"></i>
-        <i class="arrow-bg"></i>
-        <div class="left">
-          <p class="brand-title">商家入驻</p>
-          <p class="brand-desc">布容错过 坐视布管</p>
-        </div>
-        <div class="right">
-          <i class="iconfont icon-ruzhu"></i>
-        </div>
-      </div>
-    </div>
-    <div class="brand-body">
-      <!-- <textarea class="input" maxlength="60" placeholder="请填写需求购买花型的详细描述，如花高，宽幅等信息"></textarea> -->
-      <div class="entry-nav-box clearfix">
+	<div class="entry-list">
+		<div class="left-brand">
+			<div class="brand-header">
+				<div class="brand-name">
+					<i class="arrow"></i>
+					<i class="arrow-bg"></i>
+					<div class="left">
+						<p class="brand-title">入驻企业</p>
+						<p class="brand-desc">布容错过 坐视布管</p>
+					</div>
+					<div class="right">
+						<i class="iconfont icon-ruzhu"></i>
+					</div>
+				</div>
+			</div>
+			<div class="brand-body">
+				<!-- <textarea class="input" maxlength="60" placeholder="请填写需求购买花型的详细描述，如花高，宽幅等信息"></textarea> -->
+				<!--<div class="entry-nav-box clearfix">
         <div class="entry-nav-item">
           <i class="iconfont entry-nav-icon icon-huaxin"></i>
           <p class="entry-nav-text">卖花型</p>
@@ -36,55 +36,100 @@
       </div>
       <div class="entry-button-box">
         <ts-button type="plain" size="large" class="addProduct--button button" @click="handleGotoAddProduct">新增花型</ts-button>
-      </div>
-    </div>
-  </div>
-  <div class="right-list">
-    <list-tile :title-text="titleText"></list-tile>
-    <div class="entry-flexbox">
+      </div>-->
+				<p>平台线下配套服务</p>
+				<div>
+					<img src="/static/images/wuqigongyi.png" alt="物齐工艺" />
+				</div>
+				<div>
+					<img src="/static/images/wuqikuaidi.png" alt="物齐快递" />
+				</div>
+			</div>
+		</div>
+		<div class="right-list">
+			<!--<div class="entry-flexbox">
       <entry-list-item :item="item" v-for="item in newCompanyList"></entry-list-item>
-    </div>
-  </div>
-</div>
+    </div>-->
+			<list-tile :title-text="titleText"></list-tile>
+			<div class="item-wrapper clearfix">
+				<ts-carousel height="546px" autoplay-speed="6000" dots="none" autoplay arrow="always" easing='linear'>
+					<ts-carousel-item v-for="(company,index) in companys" :key="index">
+						<ts-grid>
+							<ts-grid-item style="width:311px;height:183px" v-for="item in company" @click="handleViewProduct(item.companyId)">
+								<ts-image width="268" height="150" :canView="false" disabledHover :src="item.pic">
+								</ts-image>
+							</ts-grid-item>
+						</ts-grid>
+					</ts-carousel-item>
+				</ts-carousel>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>
-import listTile from './list-title';
-import entryListItem from './entry-list-item';
-export default {
-  data() {
-    return {
-      titleText: {
-        title: '最新入驻',
-        extend: '更多商家',
-        type: 'entry'
-      }
-    };
-  },
-  methods: {
-    handleGotoAddProduct() {
-      this.$router.push({
-        path: '/product/add'
-      });
-    }
-  },
-  components: {
-    listTile,
-    entryListItem
-  },
-  props: {
-    newCompanyList: {
-      type: Array
-    }
-  }
-};
+	import listTile from './list-title';
+	import entryListItem from './entry-list-item';
+	import {
+		qualityCompanyList1
+	} from '@/common/api/api';
+	export default {
+		data() {
+			return {
+				titleText: {
+					title: '新增热搜',
+					extend: '更多惊喜',
+					type: 'entry'
+				},
+				CompanyListParam: {
+					pageNo: 1,
+					pageSize: 50
+				},
+				companys: []
+			};
+		},
+		async created() {
+			let data = (await qualityCompanyList1(this.CompanyListParam)).data.data.list;
+			let result = [];
+			for (var i = 0, len = data.length; i < len; i += 9) {
+				result.push(data.slice(i, i + 9));
+			};
+			this.companys = result;
+		},
+		methods: {
+			handleViewProduct(id) {
+				this.goto(`/shop/${id}`);
+			}
+		},
+		components: {
+			listTile,
+			entryListItem
+		},
+		props: {
+			newCompanyList: {
+				type: Array
+			}
+		}
+	};
 </script>
 <style lang="scss" scoped>
-.entry-flexbox {
-    display: flex;
-    flex-wrap: wrap;
-    background-color: #fff;
-}
+	.entry-flexbox {
+		display: flex;
+		flex-wrap: wrap;
+		background-color: #fff;
+	}
+	
+	.brand-body {
+		text-align: center;
+		p {
+			font-size: 16px;
+			line-height: 85px;
+		}
+		img {
+			margin-bottom: 40px;
+			width: 235px;
+		}
+	}
 </style>
 <style lang="stylus" scoped>
 basecolor = #4c93fd
@@ -94,6 +139,7 @@ basecolor = #4c93fd
   width 100%
   min-height 318px
   background #fff
+  /*overflow hidden*/
   .addProduct--button.button
     height 48px
     margin-top 24px
@@ -106,7 +152,7 @@ basecolor = #4c93fd
   .left-brand
     flex 0 0 267px 164 +322
     width 267px
-    height: 454px
+    /*height: 454px*/
     background: #fff
     .brand-header
       height 86px
@@ -114,6 +160,7 @@ basecolor = #4c93fd
       color #fff
       font-family 'Microsoft YaHei'
       background basecolor
+      width 243px
       .brand-name
         display flex
         position relative
@@ -160,30 +207,7 @@ basecolor = #4c93fd
         line-height 40px
         font-size 16px
         color rgba(255, 255, 255, 0.6)
-    .brand-body
-      .entry-nav-box
-        color #666
-        .entry-nav-item
-          box-sizing border-box
-          padding 16px
-          width 50%
-          height 120px
-          float left
-          border 1px solid #f7f7f7
-          text-align center
-          .entry-nav-icon
-            display inline-block
-            font-size 36px
-            line-height 60px
-          .entry-nav-text
-            font-size 16px
-            line-height 30px
-          .icon-dangkou::before
-          	color #666
-      .entry-button-box
-        padding 14px
-        .button
-          width 100%
   .right-list
     flex 1
+    max-width 933px
 </style>
