@@ -29,11 +29,11 @@
     </div>
     <div class="list">
       <!-- 入驻厂家 -->
-      <entry-list :new-company-list="newCompanyList"></entry-list>
+      <entry-list></entry-list>
     </div>
     <!-- 优质厂家 -->
     <div class="list" id="bestCompany">
-      <quality-list></quality-list>
+      <quality-list :new-company-list="newCompanyList"></quality-list>
     </div>
   </div>
 </div>

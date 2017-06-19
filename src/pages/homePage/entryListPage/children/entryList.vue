@@ -1,10 +1,10 @@
 <template>
 <div class="entryList">
-  <div class="entryList-search">
+  <!--<div class="entryList-search">
     <ts-input style="width:30%" @input="handleInput" placeholder="输入公司名称搜索" v-model="searchParam.companyName">
       <ts-button slot="append" size="small" @click="handleSearch"><i class="icon-sousuo"></i></ts-button>
     </ts-input>
-  </div>
+  </div>-->
   <div v-if="!showSearchItem">
     <div class="entryList-container" v-for="item in Entry">
       <factory-list @viewProduct="handleViewProduct" @viewStore="handleGotoShop" :data="item" :products="item.products">
