@@ -12,7 +12,7 @@
       <ts-column slot data-key="USERATYPE" width="100px" align="center" name="公司类型"></ts-column>
       <ts-column slot data-key="phone" align="center" name="联系电话" width="130px"></ts-column>
       <ts-column slot data-key="DATE" align="center" name="地址"></ts-column>
-      <ts-column slot align="center" name="操作" action="{'text':'进入官网','func':'handleGotoShop'}"></ts-column>
+      <ts-column slot align="center" name="操作" action="{'text':'进入官网','func':'handleGotoShopTable'}"></ts-column>
     </ts-table>
     <div class="entryList-pagination page">
       <ts-pagination type="page" :total="Search.totalNum" :current="Search.pageNO" @change="handleChangeCompanyNum" :pageSize="Search.pageSize"></ts-pagination>
@@ -30,7 +30,7 @@
           <ts-image width="260" height="150" :canView="false" disabledHover :src="product.pic">
           </ts-image>
           <div class="entryList-company-item--right">
-            <qrcode :size="90" :val="`${getOrigin}/shop/${product.companyId}`"></qrcode>
+            <qrcode :size="90" :val="`http://${product.indexName}.ts57.cn`"></qrcode>
             <ts-button type="plain" class="entryList-company-item--button">进入官网</ts-button>
           </div>
         </ts-grid-item>
@@ -109,6 +109,7 @@ export default {
     // 搜索
     async handleSearch() {
       this.showSearchItem = true;
+      this.searchParam.pageNo = 1;
       this.Search = (await searchCompany(this.searchParam)).data.data;
     },
     async handleChangeCompanyNum(e) {
@@ -128,6 +129,9 @@ export default {
     // 查看网店的首页
     handleGotoShop(item) {
       this.goto(`/shop/${item.companyId}`);
+    },
+    handleGotoShopTable(item) {
+      this.goto(`/shop/${item.id}`);
     },
     handleViewProduct(item) {
       this.goto(`/product/${item.id}`);
@@ -155,9 +159,6 @@ export default {
   @component pagination{
       text-align: right;
       margin: 10px 0;
-  }
-  @component table{
-      min-height: 630px;
   }
   @component company{
     @descendent item{

@@ -13,6 +13,7 @@ export default {
         token: this.$route.query.token
       });
       if (!res.data.code) {
+        console.log(res.data.data);
         await this.$store.commit('LOGIN', this.$route.query.token);
         await this.$store.commit('GET_USERINFO', res.data.data);
         await this.$router.push('/homePage');
