@@ -1,7 +1,10 @@
 export const ALI_DOMAIN = `http://zsbg.oss-cn-shenzhen.aliyuncs.com/`;
 export const ECB_KEY = `zuoshibuguanzsbg`;
 export const GAODE_MAP_KEY = `6d31eef168eeb05a84f0b1eeabb0de75`;
-export const COOKIE_DOMAIN = `.ts57.cn`;
+
+export let COOKIE_DOMAIN = window.location.hostname.indexOf('www') >= 0
+  ? window.location.hostname.replace('www', '')
+  : window.location.hostname;
 
 export const BANNER = {
   // 静态=>纯banner

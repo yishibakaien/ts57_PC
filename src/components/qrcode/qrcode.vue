@@ -1,75 +1,79 @@
 <template>
   <div>
-    <img :src="dataUrl">
-    <canvas ref="canvas"></canvas>
+    <!-- todo: ':val' is set as workaround for update not being fired on props change.. -->
+    <canvas
+      :style="{height: size + 'px', width: size + 'px'}"
+      :height="size"
+      :width="size"
+      ref="qr"
+      :val="val"
+    ></canvas>
   </div>
 </template>
+
 
 <script>
 /* eslint-disable */
 import qr from 'qr.js'
+const update = function() {
+  this.update();
+}
 export default {
-  data () {
-    return {
-      dataUrl: ''
-    }
-  },
   props: {
-    size: {
-      type: Number
+    val: {
+      type: String,
+      required: true
     },
+    size: {
+      type: Number,
+      default: 100
+    },
+    // 'L', 'M', 'Q', 'H'
+    level: String,
     bgColor: {
       type: String,
-      default: '#fff'
+      default: '#FFFFFF'
     },
     fgColor: {
       type: String,
-      default: '#000'
-    },
-    value: {
-      type: String
-    },
-    logo: {
-      type: String
+      default: '#000000'
     }
   },
+  beforeUpdate: update,
+  mounted: update,
   methods: {
-    update () {
-      const qrcode = qr(this.value)
-      const canvas = this.$refs.canvas
-      const ctx = canvas.getContext('2d')
-      const size = this.size / qrcode.moduleCount
-      const scale = window.devicePixelRatio / this.getPixelRatio(ctx)
-      canvas.height = canvas.width = this.size * scale
+    update() {
+      var size = this.size
+      var bgColor = this.bgColor
+      var fgColor = this.fgColor
+      var $qr = this.$refs.qr
+      var qrcode = qr(this.val)
+      var ctx = $qr.getContext('2d')
+      var cells = qrcode.modules
+      var tileW = size / cells.length
+      var tileH = size / cells.length
+      var scale = (window.devicePixelRatio || 1) / getBackingStorePixelRatio(ctx)
+      $qr.height = $qr.width = size * scale
       ctx.scale(scale, scale)
-      qrcode.modules.forEach((row, rdx) => {
-        row.forEach((cell, cdx) => {
-          ctx.fillStyle = cell ? this.fgColor : this.bgColor
-          var w = (Math.ceil((cdx + 1) * size) - Math.floor(cdx * size))
-          ctx.fillRect(Math.round(cdx * size), Math.round(rdx * size), w, w)
+      cells.forEach( (row, rdx) => {
+        row.forEach( (cell, cdx) => {
+          ctx.fillStyle = cell ? fgColor : bgColor
+          var w = (Math.ceil((cdx + 1) * tileW) - Math.floor(cdx * tileW))
+          var h = (Math.ceil((rdx + 1) * tileH) - Math.floor(rdx * tileH))
+          ctx.fillRect(Math.round(cdx * tileW), Math.round(rdx * tileH), w, h)
         })
       })
-      if (this.logo) {
-        var image = document.createElement('img')
-        image.src = this.logo
-        image.onload = () => {
-          var dwidth = this.size * 0.2
-          var dx = (this.size - dwidth) / 2
-          var dheight = image.height / image.width * dwidth
-          var dy = (this.size - dheight) / 2
-          image.width = dwidth
-          image.height = dheight
-          ctx.drawImage(image, dx, dy, dwidth, dheight)
-          this.dataUrl = canvas.toDataURL()
-        }
-      }
-    },
-    getPixelRatio (ctx) {
-      return ctx.webkitBackingStorePixelRatio || ctx.backingStorePixelRatio || 1
     }
-  },
-  mounted () {
-    this.update()
   }
+}
+function getBackingStorePixelRatio(ctx) {
+  return (
+    ctx.webkitBackingStorePixelRatio ||
+    ctx.mozBackingStorePixelRatio ||
+    ctx.msBackingStorePixelRatio ||
+    ctx.oBackingStorePixelRatio ||
+    ctx.backingStorePixelRatio ||
+    1
+  )
 }
 </script>

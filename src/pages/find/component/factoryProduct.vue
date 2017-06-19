@@ -9,7 +9,9 @@
          disabledHover
          class="factory-company--cover"
          :src="data.companyHeadIcon"></ts-image>
-        <p class="factory-company--title">{{data.companyName}}</p>
+         <p class="factory-company--title">{{data.companyName}}</p>
+        <p><i class="icon-dianhua"></i>&nbsp;{{data.phone}}</p>
+          <p><i class="icon-dangkou">&nbsp;{{data.address}}</i></p>
           <ts-button type="plain" size="large" class="factory-company--button button" @click="handleViewStore(data)">
             访问店铺
           </ts-button>
@@ -125,11 +127,11 @@ export default {
     @modifier title{
       font-size: 17px;
       line-height: 30px;
-      margin-top:16px;
+      margin-top:10px;
       @utils-ellipsis 2;
     }
     @modifier cover{
-      margin-top: 38px;
+      margin-top: 16px;
     }
     @modifier button{
       &.button{

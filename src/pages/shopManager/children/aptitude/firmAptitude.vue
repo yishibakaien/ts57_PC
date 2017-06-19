@@ -11,7 +11,7 @@
     <div class="aptitude-container" v-if="!aptitudeFirm.aptitudeUrl.length&&!Close.isShow">
       暂无资质图片
     </div>
-    <label class="aptitude-plus-img" v-if="Close.isShow">
+    <label class="aptitude-plus-img" v-if="Close.isShow" v-show="aptitudeFirm.aptitudeUrl.length<3">
         <ts-aliupload fileType="2" :id="Pic.id" @doUpload="upload"></ts-aliupload>
     </label>
   </div>

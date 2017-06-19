@@ -11,6 +11,7 @@ axios.defaults.baseURL = process.env.NODE_ENV === 'production'
   : 'http://192.168.2.11:8080';
 // x-token
 axios.defaults.headers['x-token'] = cookie.get('x-token') || '';
+console.log(axios.defaults.headers['x-token']);
 store.commit('LOGIN', axios.defaults.headers['x-token'] || '');
 // ==============
 axios.interceptors.request.use(config => {
@@ -28,12 +29,7 @@ axios.interceptors.response.use(response => {
   }
   if (response.status === 200) {
     if (response.data.message && !response.data.code) {
-      Toast({
-        type: !response.data.code
-          ? 'success'
-          : 'error',
-        message: response.data.message
-      });
+      Toast({type: 'success', message: response.data.message});
     }
     return response;
   } else {

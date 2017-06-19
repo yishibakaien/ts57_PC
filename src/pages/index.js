@@ -14,9 +14,9 @@ import supplyListPage from './homePage/supplyListPage/supplyListPage';
 import supplyDetailPage from './homePage/supplyListPage/supplyDetailPage/supplyDetailPage';
 
 // 更多优质厂家
-import entryListPage from './homePage/entryListPage/entryListPage';
+import entryListPage from './homePage/entryListPage/entryListPage.vue';
 // 新增热搜
-import hotListpage from './homePage/addHotListpage/hotListpage';
+import hotListpage from './homePage/addHotListpage/hotListpage.vue';
 
 // 注册、登录、修改密码等表单页面
 import loginPage from './formPages/loginPage/loginPage';

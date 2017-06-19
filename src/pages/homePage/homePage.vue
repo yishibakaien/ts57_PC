@@ -27,12 +27,12 @@
       <!-- 供应列表 -->
       <supply-list :purchase-list-obj="purchaseListObj"></supply-list>
     </div>
-    <div class="list">
+    <div class="list" id="bestCompany">
       <!-- 入驻厂家 -->
       <entry-list></entry-list>
     </div>
     <!-- 优质厂家 -->
-    <div class="list" id="bestCompany">
+    <div class="list">
       <quality-list :new-company-list="newCompanyList"></quality-list>
     </div>
   </div>

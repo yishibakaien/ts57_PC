@@ -59,7 +59,6 @@
 <style lang="stylus" scoped>
 .quality-company-list
   width 100%
-  height 450px
   background #fff
   .left-brand
     float left

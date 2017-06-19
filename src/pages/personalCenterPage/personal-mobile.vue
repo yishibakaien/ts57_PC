@@ -82,6 +82,7 @@ export default {
       }, 3000);
     },
     closeModel() {
+      this.$store.commit('LOGIN_OUT');
       this.$router.push({
         path: '/loginPage'
       });
