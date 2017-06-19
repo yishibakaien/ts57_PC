@@ -5,25 +5,25 @@
           接收短信号码<span class="pot-warning" @click="Phone.showNoticeDialog=!Phone.showNoticeDialog">?</span>
         </div>
     <div slot="menu">
-      <ts-button type="primary" @click="handleNewPhoneDialog" v-if="phoneList.length<2">新增号码</ts-button>
+      <ts-button type="primary" @click="handleNewPhoneDialog" v-if="phoneList<2">新增号码</ts-button>
       <router-link :to="{path:'/personalCenterPage',query:{'subPath':'3'}}">
         <ts-button type="primary">短信设置</ts-button>
       </router-link>
     </div>
     <!-- Form -->
-    <ts-form :model="PhoneForm" :rules="rules" ref="PhoneForm" label-width="200px" label-position="left">
-    <ts-form-item
-      v-for="(phone,index) in PhoneForm.phoneList"
-      :label="`短信接收号码_${index+1}`"
-      :key="phone.value"
-      :prop="'phoneList.' + index + '.value'"
-      :rules="{required: true, pattern: /^1[34578]\d{9}$/ ,message: '请输入正确的手机号码', trigger: 'blur'}">
-    <ts-input :maxlength="11" v-model="phone.value" style="width:200px" placeholder="请输入手机号码"></ts-input>
-    <ts-button type="plain" @click="handleEditPhone(phone.value)">修改</ts-button>
-    <ts-button type="plain" v-if="phoneList.length>1" @click="handleDELPhone(phone.value)">删除</ts-button>
-    </ts-form-item>
-    </ts-form>
-    <div v-if="phoneList.length<=0">
+
+    <ts-form :model="PhoneForm" ref="PhoneForm" label-width="200px" label-position="left">
+      <ts-form-item v-for="(phone,index) in PhoneForm.phoneList" :label="`短信接收号码_${index+1}`">
+        <ts-input
+        :prop="'phoneList.' + index + '.value'"
+        v-model="phone.value"
+        style="width:200px"
+        placeholder="请输入手机号码"></ts-input>
+        <ts-button type="plain" @click="handleEditPhone(phone.value)">修改</ts-button>
+        <ts-button type="plain" v-if="phoneList>1" @click="handleDELPhone(phone.value)">删除</ts-button>
+      </ts-form-item>
+      </ts-form>
+    <div v-if="phoneList<=0">
       暂无短信接收号码
     </div>
   </ts-section>
@@ -44,7 +44,7 @@
   <ts-dialog v-model="Phone.showAddDialog" title="添加接收短信号码" @cancel="cancelAddPhone" @confirm="handleAddPhone('PhoneForm')">
     <ts-form :model="PhoneForm" :rules="rules" ref="PhoneForm" label-width="150px" label-position="left">
       <ts-form-item label="登录密码：" prop="password">
-        <ts-input inputType="password" v-model="PhoneForm.password" placeholder="请输入登录密码"></ts-input>
+        <ts-input inputType="password" v-model="PhoneForm.password" placeholder="请输入登录密码" ></ts-input>
       </ts-form-item>
       <ts-form-item label="手机电话：" prop="mobile">
         <ts-input v-model="PhoneForm.mobile" placeholder="请输入手机电话"></ts-input>
@@ -69,7 +69,7 @@ export default {
       if (!/^1[34578]\d{9}$/.test(value)) {
         return callback(new Error('请输入正确的手机号码'));
       }
-      if (this.phoneList.indexOf(value) > -1) {
+      if (Object.values(this.PhoneForm.phoneList).indexOf(value) > -1) {
         return callback(new Error('不能输入已有短信接收号码'));
       }
       callback();
@@ -98,6 +98,8 @@ export default {
       PhoneForm: {
         phoneList: [{
           value: ''
+        }, {
+          value: ''
         }],
         mobile: '',
         password: ''
@@ -123,11 +125,12 @@ export default {
     };
   },
   methods: {
+    handleBlur(e) {
+      e.target.focus();
+    },
     // 因为循环不能v-model所以单个监听 => 赋值到phone.number
     async handleEditPhone(item, index) {
       // 数组转为字符串
-      // let noticeListArr = this.companyInfo.noticeList.split(',');
-      // noticeListArr.splice(index, 1, this.Phone.number);
       await updateCompany({
         noticeList: this.PhoneForm.phoneList.map(item => item.value).toString()
       });
@@ -135,9 +138,9 @@ export default {
     // 删除绑定的号码
     handleDELPhone(item, index) {
       this.$messagebox.confirm(`确认终止${item}接收平台相关业务短信？`).then(async(action) => {
-        this.phoneList.splice(index, 1);
+        this.PhoneForm.phoneList.splice(index, 1);
         let res = await updateCompany({
-          noticeList: this.phoneList.toString()
+          noticeList: this.PhoneForm.phoneList.map(item => item.value).toString()
         });
         !res.data.code ? await this.$store.dispatch('getCompanyInfo') : '';
       });
@@ -150,8 +153,12 @@ export default {
     handleAddPhone(formName) {
       this.$refs[formName].validate(async(valid) => {
         if (valid) {
+          this.PhoneForm.phoneList.push({
+            value: this.PhoneForm.mobile,
+            key: this.PhoneForm.mobile
+          });
           let res = await updateCompany({
-            noticeList: this.phoneList.concat(this.PhoneForm.mobile).toString()
+            noticeList: this.PhoneForm.phoneList.map(item => item.value).toString()
           });
           if (!res.data.code) {
             this.Phone.showAddDialog = !this.Phone.showAddDialog;
@@ -186,8 +193,7 @@ export default {
     ...mapGetters(['companyInfo']),
     // 电话列表 字符串转为数组
     phoneList() {
-      let noticeList = this.companyInfo.noticeList;
-      return !noticeList ? [] : noticeList.split(',');
+      return this.PhoneForm.phoneList.length;
     }
   }
 };
