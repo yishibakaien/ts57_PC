@@ -15,6 +15,8 @@ import supplyDetailPage from './homePage/supplyListPage/supplyDetailPage/supplyD
 
 // 更多优质厂家
 import entryListPage from './homePage/entryListPage/entryListPage';
+// 新增热搜
+import hotListpage from './homePage/addHotListpage/hotListpage';
 
 // 注册、登录、修改密码等表单页面
 import loginPage from './formPages/loginPage/loginPage';
@@ -35,5 +37,6 @@ export {
   releaseSupplyPage,
   supplyListPage,
   supplyDetailPage,
+  hotListpage,
   promptDown
 };
