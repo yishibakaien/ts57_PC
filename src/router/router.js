@@ -9,6 +9,7 @@ import {
   purchaseListPage,
   purchaseDetailPage,
   supplyListPage,
+  hotListpage,
   supplyDetailPage
 } from '../pages';
 
@@ -198,6 +199,12 @@ const routes = [
   }, {
     path: '/supplyDetailPage', // 供应详情
     component: supplyDetailPage,
+    meta: {
+      needAuth: true
+    }
+  }, {
+    path: '/hotListpage', // 供应详情
+    component: hotListpage,
     meta: {
       needAuth: true
     }

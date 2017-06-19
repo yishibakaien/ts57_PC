@@ -34,7 +34,7 @@
 				titleText: {
 					title: '新增花型',
 					extend: '更多新花',
-					type: 'entry'
+					type: 'hot'
 				}
 			};
 		},
