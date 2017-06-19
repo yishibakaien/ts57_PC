@@ -95,11 +95,9 @@ export default {
   methods: {
     // 添加到Store
     addToStore() {
-      console.log(0);
       // 如果 model 是数组，且不包含 label，就加入label
       if (Array.isArray(this.model) && this.model.indexOf(this.label) === -1) {
         this.model.push(this.label);
-        console.log(this.model);
       } else {
         // 否则 model = true
         this.model = true;

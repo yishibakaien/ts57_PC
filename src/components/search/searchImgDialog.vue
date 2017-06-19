@@ -1,7 +1,19 @@
 <template lang="html">
   <!-- @close="handleClose"  -->
-  <ts-dialog :close-on-press-escape='false' v-model="dialog.show" width="60%" title="请框选图中要识别的区域" @close="handleClose">
-    <cropper v-model="Pic.url" @getImage="handleGetImg"></cropper>
+  <ts-dialog :close-on-press-escape='false' v-model="dialog.show" width="70%" title="请框选图中要识别的区域" @close="handleClose">
+    <div class="wrapper">
+  <vueCropper
+  	ref="cropper"
+  	:img="Pic.url"
+  	:outputSize="example2.size"
+  	:outputType="example2.outputType"
+  	:info="example2.info"
+  	:canScale="example2.canScale"
+  	:autoCrop="example2.autoCrop"
+  	:autoCropWidth="example2.width"
+  	:autoCropHeight="example2.height"
+  ></vueCropper>
+  	</div>
       <div class="search-editPic--menu">
         <ts-button type="primary" v-for="item in DICT.productType" :key="item.dicValue" @click="handleLookProduct(item.dicValue)">搜{{item.label}}</ts-button>
       </div>
@@ -15,10 +27,20 @@ import {
   mapGetters
 } from 'vuex';
 import DICT from '@/common/dict';
-import Cropper from '@/components/cropper/cropper.vue';
+// import Cropper from '@/components/cropper/cropper.vue';
+import VueCropper from 'vue-cropper';
 export default {
   data() {
     return {
+      example2: {
+        img: 'http://ofyaji162.bkt.clouddn.com/bg1.jpg',
+        info: false,
+        size: 1,
+        outputType: 'png',
+        canScale: false,
+        autoCrop: true
+      },
+      // ========
       DICT: {
         productType: DICT.SupplyType
       },
@@ -66,37 +88,41 @@ export default {
       this.$emit('close');
     },
     handleLookProduct(e) {
-      let data = {
-        encoded: this.Pic.destImg,
-        category: e
-      };
-      this.$emit('check', data);
-      sessionStorage.setItem('find-pic', JSON.stringify(data));
-      // 选择图片区域的对话框关闭
-      this.dialog.show = false;
-      // 进度条显示
-      this.$store.commit('SET_PROGRESS', 1);
-      this.$store.commit('SET_HANDLE_STATUS', true);
-      if (this.search.handleStatus) {
-        this.Progress.interval = setInterval(() => {
-          if (this.search.progress > 60) {
-            this.$store.commit('SET_PROGRESS', 95);
-            clearInterval(this.Progress.interval);
-          } else {
-            this.$store.commit('SET_PROGRESS', (Math.random() + (this.search.progress++) + (this.search.progress += 0.1)).toFixed(2));
-          }
-        }, 1000);
-      }
-    },
-    handleGetImg(destImg) {
-      this.Pic.destImg = destImg;
+      this.$refs.cropper.startCrop();
+      this.$refs.cropper.getCropDate((img) => {
+        let data = {
+          encoded: img,
+          category: e
+        };
+        this.$emit('check', data);
+        sessionStorage.setItem('find-pic', JSON.stringify(data));
+        // 选择图片区域的对话框关闭
+        this.dialog.show = false;
+        // 进度条显示
+        this.$store.commit('SET_PROGRESS', 1);
+        this.$store.commit('SET_HANDLE_STATUS', true);
+        if (this.search.handleStatus) {
+          this.Progress.interval = setInterval(() => {
+            if (this.search.progress > 60) {
+              this.$store.commit('SET_PROGRESS', 95);
+              clearInterval(this.Progress.interval);
+            } else {
+              this.$store.commit('SET_PROGRESS', (Math.random() + (this.search.progress++) + (this.search.progress += 0.1)).toFixed(2));
+            }
+          }, 1000);
+        }
+      });
     }
+    // handleGetImg(destImg) {
+    //   this.Pic.destImg = destImg;
+    // }
   },
   computed: {
     ...mapGetters(['search', 'dicTree'])
   },
   components: {
-    Cropper
+    // Cropper,
+    VueCropper
   }
 };
 </script>
@@ -113,5 +139,9 @@ export default {
       }
     }
   }
+}
+.wrapper{
+  width:450px;height: 450px;
+  margin: 0 auto;
 }
 </style>

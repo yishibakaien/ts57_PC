@@ -47,15 +47,11 @@
 						this.buyPrice = val.buyTaskList[i].buyPrice;
 						this.buyUnit = val.buyUnit;
 						this.leaveWord = val.buyTaskList[i].leaveWord;
-						console.log(this.url);
 					} else {
 						this.showOrhide = false;
 					}
 				}
 			}
-		},
-		created() {
-			console.log(this.item);
 		}
 	};
 </script>

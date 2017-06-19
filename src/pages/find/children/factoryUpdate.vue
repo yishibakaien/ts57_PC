@@ -2,7 +2,7 @@
   <div class="update">
     <ts-title-block class="topSearch-title">厂家上新</ts-title-block>
     <div class="update-container">
-      <div v-for="item in NewProductList.list">
+      <div v-for="item in NewProductList">
         <factory-update @viewProduct="handleViewProduct" @viewStore="handleViewStore" :data="item" :products="item.productList">
           <template slot="header">
             <p>新增&nbsp;<span>{{item.newCount}}</span>&nbsp;款／共&nbsp;<span>{{item.totalCount}}</span>&nbsp;款</p>
@@ -11,7 +11,9 @@
         </factory-update>
       </div>
     </div>
-    <ts-pagination type="page" :total="NewProductList.totalNum" :current="NewProductList.pageNO" :pageSize="NewProductList.pageSize" class="topSearch-pagination" @change="handleChangePage"></ts-pagination>
+    <ts-button @click="handleMore" type="plain" class="topSearch-button">
+      加载更多厂家
+    </ts-button>
   </div>
 </template>
 
@@ -27,12 +29,7 @@ export default {
         pageNo: 1,
         pageSize: 10
       },
-      NewProductList: {},
-      pageData: {
-        pageNumArr: [],
-        maxNum: 1,
-        pageNO: 1
-      }
+      NewProductList: []
     };
   },
   computed: {
@@ -47,29 +44,25 @@ export default {
     handleViewProduct(item) {
       this.goto(`/product/${item.id}`);
     },
+    handleMore() {
+      this.Params.pageNo++;
+    },
     // 进去店铺
     handleViewStore(item) {
       this.goto(`/shop/${item.companyId}`);
-    },
-    handleChangePage(number) {
-      this.Params.pageNo = number;
     }
   },
   watch: {
     Params: {
       async handler(val) {
-        this.NewProductList = (await getCompanyNewProductList(this.Params)).data.data;
+        let data = (await getCompanyNewProductList(this.Params)).data.data.list;
+        this.NewProductList = this.NewProductList.concat(data);
       },
       deep: true
     }
   },
   async created() {
-    this.NewProductList = (await getCompanyNewProductList(this.Params)).data.data;
-    this.pageData = {
-      maxNum: this.NewProductList.totalPage,
-      pageNO: this.NewProductList.pageNO,
-      pageNumArr: []
-    };
+    this.NewProductList = (await getCompanyNewProductList(this.Params)).data.data.list;
   }
 };
 </script>
@@ -81,6 +74,10 @@ export default {
   @component pagination{
     margin: 7px auto;
     display: table;
+  }
+  @component button{
+    display: table;
+    margin: 10px auto;
   }
 }
 </style>

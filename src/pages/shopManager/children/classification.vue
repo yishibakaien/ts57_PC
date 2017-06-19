@@ -190,7 +190,9 @@ export default {
   },
   created() {
     !this.cookie.get(this.Cookie.key) ? this.cookie.set(this.Cookie.key, this.Cookie.value, this.Cookie.day, '/') : '';
-    this.index();
+    this.index().then(() => {
+      this.Params.classId = !sessionStorage.getItem('classification-filter') ? this.Classification.systemCategory[0].id : JSON.parse(sessionStorage.getItem('classification-filter'));
+    });
   },
   computed: {
     ...mapGetters(['dicTree']),
@@ -211,7 +213,6 @@ export default {
     async index() {
       // 系统分类
       this.Classification.systemCategory = (await listSystemProductCategory()).data.data;
-      this.Params.classId = !sessionStorage.getItem('classification-filter') ? this.Classification.systemCategory[0].id : JSON.parse(sessionStorage.getItem('classification-filter'));
       // 用户分类
       // XXX:PC端做不了分页 只能传一个很高的数字去获取
       this.Classification.userCategory = (await listUserProductCategory({

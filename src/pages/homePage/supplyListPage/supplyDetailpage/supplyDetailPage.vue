@@ -59,7 +59,6 @@ export default {
       getCompanySupply(this.param.id).then((res) => {
         if (res.data.code === 0) {
           this.resData = res.data.data;
-          console.log(this.resData);
         }
       }).catch();
     }

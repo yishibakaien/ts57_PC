@@ -62,8 +62,9 @@
     </ts-form-item>
       <ts-form-item label="上架至：" prop="publishStatus">
         <ts-radio-group bordered v-model="addPatternForm.publishStatus">
-          <ts-radio :label="item.dicValue" :key="item.dicValue" v-for="item in DICT.PublishStatus">{{item.label}}</ts-radio>
+          <ts-radio :label="item.dicValue" @change.native="handlePublishTitle(item)" :key="item.dicValue" v-for="item in DICT.PublishStatus">{{item.label}}</ts-radio>
         </ts-radio-group>
+        <p style="color: #999;font-size: 12px;">{{Tip}}</p>
       </ts-form-item>
     <p class="add-list-title">选填内容</p>
     <ts-form-item label="价格：" prop="price">
@@ -71,13 +72,13 @@
       <ts-select style="width:12%" data-key-name="name"  data-val-name="dicValue" placeholder="选择单位" :options='CopyDICTUnit' v-model="addPatternForm.priceUnit" :disabled="addPatternForm.isStock===1"></ts-select>
     </ts-form-item>
     <ts-form-item label="幅宽：" prop="width">
-      <ts-input v-model="addPatternForm.width" :maxlength='9' style="width:320px" placeholder="请输入幅宽"></ts-input>
+      <ts-input v-model="addPatternForm.width" :maxlength='10' style="width:320px" placeholder="请输入幅宽"></ts-input>
     </ts-form-item>
     <ts-form-item label="花高：" prop="height">
-      <ts-input v-model="addPatternForm.height" :maxlength='9' style="width:320px" placeholder="请输入花高"></ts-input>
+      <ts-input v-model="addPatternForm.height" :maxlength='10' style="width:320px" placeholder="请输入花高"></ts-input>
     </ts-form-item>
     <ts-form-item label="出码率：" prop="outRate">
-      <ts-input v-model="addPatternForm.outRate" :maxlength='9' style="width:320px" placeholder="请输入出码率"></ts-input>
+      <ts-input v-model="addPatternForm.outRate" :maxlength='10' style="width:320px" placeholder="请输入出码率"></ts-input>
     </ts-form-item>
     </ts-form>
     <ts-button type="primary" class="add-bottom-button" @click="submitForm('addPatternForm')">{{title}}</ts-button>
@@ -144,27 +145,15 @@ export default {
           required: true,
           message: '请至少选择一个大货类型'
         }],
-        width: [{
-          pattern: /^[+]?\d*[.]?\d{0,9}$/,
-          message: '请输入正确的幅宽'
-        }],
         stock: [{
           pattern: /^[0-9]*[1-9][0-9]*$/,
           message: '请输入正确的库存数量',
           required: true
         }],
-        height: [{
-          pattern: /^[+]?\d*[.]?\d{0,9}$/,
-          message: '请输入正确的花高'
-        }],
         defaultPicUrl: [{
           required: true,
           message: '请上传一张花型图片',
           trigger: 'change'
-        }],
-        outRate: [{
-          pattern: /^[+]?\d*[.]?\d{0,9}$/,
-          message: '请输入正确的出码率'
         }]
       },
       Pic: {
@@ -180,6 +169,7 @@ export default {
         newIngredient: '',
         addStatus: false
       },
+      Tip: '',
       // 深拷贝复制一份库存单位
       CopyDICTUnit: [],
       // 表单
@@ -254,7 +244,7 @@ export default {
   computed: {
     ...mapGetters(['dicTree', 'userInfo']),
     title() {
-      return this.$route.query.id ? '修改花型' : '新增花型';
+      return this.$route.query.id ? '修改保存' : '保存';
     },
     // 价格：后台需要分 => 获取的时候处以100，设置的时候乘以100
     prince: {
@@ -270,6 +260,9 @@ export default {
     }
   },
   methods: {
+    handlePublishTitle(item) {
+      this.Tip = item.title;
+    },
     handleSelect() {
       this.$nextTick(() => {
         this.addPatternForm.stockUnit = this.addPatternForm.priceUnit = this.CopyDICTUnit[0].dicValue;

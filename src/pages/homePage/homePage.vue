@@ -5,9 +5,16 @@
   </v-header>
   <v-nav></v-nav>
   <div class="swiper">
-    <ts-carousel v-model="value" arrow="never" autoplay :autoplay-speed="5000" easing='linear'>
-      <ts-carousel-item v-for="item in banners">
+    <!-- autoplay :autoplay-speed="5000" -->
+    <ts-carousel v-model="value" arrow="hover" trigger="hover" autoplay :autoplay-speed="5000" easing='linear'>
+      <ts-carousel-item v-for="(item,index) in banners.static">
         <ts-image :src="item+banner" height="350" class="home-image" :canView="false" disabledHover></ts-image>
+      </ts-carousel-item>
+      <ts-carousel-item style="cursor:pointer">
+        <ts-image :src="`${banners.dynamic[0]}${banner}`" @click.native="handleGotoAnchor('#bestCompany')" height="350" class="home-image" :canView="false" disabledHover></ts-image>
+      </ts-carousel-item>
+      <ts-carousel-item style="cursor:pointer">
+        <ts-image :src="`${banners.dynamic[1]}${banner}`" @click.native="handleGotoMyShop" height="350" class="home-image" :canView="false" disabledHover></ts-image>
       </ts-carousel-item>
     </ts-carousel>
   </div>
@@ -24,27 +31,9 @@
       <!-- 入驻厂家 -->
       <entry-list :new-company-list="newCompanyList"></entry-list>
     </div>
-    <div class="list">
-      <!-- 优质厂家 -->
-      <div class="quality-company-list">
-        <div class="left-brand onepx-r">
-          <img class="quality-company-pic" src="/static/images/youzhichangjia.png">
-        </div>
-        <div class="right-list">
-          <div class="item-wrapper">
-            <ts-carousel height="546px" autoplay-speed="6000" dots="none" autoplay @change="handleChangeCompany" arrow="always" easing='linear'>
-              <ts-carousel-item v-for="(company,index) in companys" :key="index">
-                <ts-grid>
-                  <ts-grid-item style="width:300px;height:183px" v-for="item in company" @click="handleViewProduct(item.companyId)">
-                    <ts-image width="268" height="150" :canView="false" disabledHover :src="item.pic">
-                    </ts-image>
-                  </ts-grid-item>
-                </ts-grid>
-              </ts-carousel-item>
-            </ts-carousel>
-          </div>
-        </div>
-      </div>
+    <!-- 优质厂家 -->
+    <div class="list" id="bestCompany">
+      <quality-list></quality-list>
     </div>
   </div>
 </div>
@@ -57,7 +46,8 @@ import {
   search,
   purchaseList,
   entryList,
-  supplyList
+  supplyList,
+  qualityList
 } from '@/components';
 import {
   mapGetters
@@ -65,7 +55,6 @@ import {
 import {
   // listHomeBanners,
   listProductBuys,
-  qualityCompanyList1,
   listCompanySupplys,
   findNewCompanyByIndex
 } from '@/common/api/api';
@@ -79,9 +68,9 @@ export default {
         pageNo: 1,
         pageSize: 50
       },
+      // banner图
       banners: BANNER,
-      companys: [],
-      value: 1,
+      value: 0,
       total: 1,
       purchaseListObj: {}, // 求购列表
       supplyListObj: {}, // 供应列表
@@ -101,7 +90,8 @@ export default {
     search,
     purchaseList,
     supplyList,
-    entryList
+    entryList,
+    qualityList
   },
   watch: {
     userInfo: {
@@ -112,19 +102,17 @@ export default {
     }
   },
   methods: {
-    handleChangeCompany() {
-      // this.CompanyListParam.pageNo++;
+    handleGotoMyShop() {
+      this.$router.push('/shopManagePage');
+    },
+    handleGotoAnchor(selector) {
+      var anchor = this.$parent.$el.querySelector(selector);
+      document.body.scrollTop = document.documentElement.scrollTop = anchor.offsetTop;
     },
     handleViewProduct(id) {
       this.goto(`/shop/${id}`);
     },
     async index() {
-      let data = (await qualityCompanyList1(this.CompanyListParam)).data.data.list;
-      let result = [];
-      for (var i = 0, len = data.length; i < len; i += 9) {
-        result.push(data.slice(i, i + 9));
-      }
-      this.companys = result;
       // =====
       // banner
       // ====
@@ -193,12 +181,4 @@ export default {
       .button
         width 20%
         margin-top 20px
-    .quality-company-list
-      width 100%
-      height 546px
-      background #fff
-      .left-brand
-        float left
-      .right-list
-        padding-left 300px
 </style>

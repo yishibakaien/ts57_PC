@@ -11,7 +11,8 @@
           <ts-select style="width:20%" data-key-name="areaName" data-val-name="areaCode" placeholder="选择省份" :options='Area.province' v-model="addressInfoForm.province" @change='handleChooseProvince'></ts-select>
           <ts-select style="width:20%" data-key-name="areaName" data-val-name="areaCode" placeholder="选择城市"
             :options='Area.city'
-            v-model="addressInfoForm.city"></ts-select>
+            v-model="addressInfoForm.city">
+          </ts-select>
         </div>
       </ts-form-item>
       <ts-form-item label="详细地址：">
@@ -27,7 +28,7 @@
         <ts-button type="primary" @click="handleMapXY" v-if="!Text.show" class="addressinfo-map--button">修改地图坐标</ts-button>
       </ts-form-item>
     </ts-form>
-    <ts-dialog v-model="map.show" width="70%" @cancel="handleCancelEditMap" @confirm="handleConfirmEditMap" @close="handleCancelEditMap">
+    <ts-dialog v-model="map.show" width="70%" title="请输入公司所在地名" @cancel="handleCancelEditMap" @confirm="handleConfirmEditMap" @close="handleCancelEditMap">
       <div :style="getDocumentSize">
         <el-amap-search-box class="addressinfo-map--search" :on-search-result="onSearchResult" :events="map.events"></el-amap-search-box>
         <el-amap vid="edit-company-map" :center="map.mapCenter" :zoom="map.zoom" :map-manager="map.amapManager" :plugin="map.plugin">
@@ -60,7 +61,7 @@ export default {
       },
       map: {
         mapCenter: [113.275, 23.11],
-        zoom: 15,
+        zoom: 17,
         show: false,
         markers: [],
         plugin: ['ToolBar', {
@@ -89,25 +90,27 @@ export default {
     };
   },
   watch: {
-    // companyExtendBO的数据要深拷贝获取
+    // company获取
     companyInfo: {
       async handler(val) {
+        this.addressInfoForm = val;
         // 地址
         if (val.address.indexOf('/.') >= 0) {
           val.address = val.address.split('/.')[0];
         }
+        // 地图
         this.map.mapCenter = ((val.lng + val.lat).length === 0) ? this.map.mapCenter : [Number(val.lng), Number(val.lat)];
         this.map.markers.push(this.map.mapCenter);
         // 省
         this.Area.province = (await getAreabyLevel(0)).data.data;
+        // 市
         this.Area.city = (await getAreabyParent({
-          areaCode: this.addressInfoForm.province
+          areaCode: val.province
         })).data.data;
         if (!val.province || !val.city) {
           this.addressInfoForm.province = this.Area.province[0].areaCode;
           this.addressInfoForm.city = this.Area.city[0].areaCode;
         }
-        this.addressInfoForm = val;
       },
       deep: true
     }

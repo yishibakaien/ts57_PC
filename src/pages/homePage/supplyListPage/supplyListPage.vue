@@ -89,7 +89,6 @@
 				}).catch();
 			},
 			hanleFilterSort(e) {
-				console.log(e);
 				if (e === 'null') {
 					this.param.supplyTypes = null;
 				} else {
@@ -99,7 +98,6 @@
 				this.listCompanySupplysMethod();
 			},
 			hanleFilterFabric(e) {
-				console.log(e);
 				if (e === 'null') {
 					this.param.supplyShapes = null;
 				} else {

@@ -118,7 +118,6 @@ export default {
       _.paramSMS.mobile = _.param.userMobile;
       btnStatus($event, '已发送');
       getFindSMSCode(_.paramSMS).then((res) => {
-        console.log(res);
       }).catch();
     },
     // 找回密码

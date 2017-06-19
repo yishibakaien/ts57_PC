@@ -9,7 +9,7 @@ axios.defaults.headers['x-client'] = 1;
 
 axios.defaults.baseURL = process.env.NODE_ENV === 'production'
   ? 'https://api.ts57.cn'
-  : 'http://192.168.2.11:8080';
+  : 'https://api.ts57.cn';
 // x-token
 axios.defaults.headers['x-token'] = cookie.get('x-token') || '';
 store.commit('LOGIN', axios.defaults.headers['x-token'] || '');

@@ -1,6 +1,6 @@
 <template lang="html">
   <div @mouseover="isSHow=true" @mouseout="isSHow=false" class="ts-image" :style="{width:width+'px',height:height+'px'}" @click="handleImg" :class="{'is-overhidden':showOriginPic,'is-round':shape==='round'}">
-    <img class="ts-image-img" v-lazy="src" :class="{'is-view':showOriginPic,'is-disabledHover':disabledHover,'is-round':shape==='round'}">
+    <img class="ts-image-img" v-lazy="src" :class="{'is-view':showOriginPic,'is-disabledHover':disabledHover}">
   </div>
 </template>
 
@@ -9,7 +9,6 @@ var createLoginLayer = ((imgUrl) => {
   var div;
   return (imgUrl) => {
     if (!div) {
-      console.log(imgUrl);
       div = document.createElement('div');
       div.style.display = 'none';
       document.body.appendChild(div);

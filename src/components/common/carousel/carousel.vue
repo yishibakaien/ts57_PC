@@ -1,21 +1,24 @@
 <template>
-<div class="ts-carousel">
+<div class="ts-carousel" @mouseover="listEvent" @mouseout="listEvent">
+  <!-- 箭头 - 左 -->
   <button class="ts-carousel-arrow left" :class="['is-'+arrow]" @click="arrowEvent(-1)">
-    <span><</span>
+    <span class="ts-arrow left"></span>
   </button>
+  <!-- 内容区域 -->
   <div class="ts-carousel-list">
     <div class="ts-carousel-track" :style="trackStyles">
       <slot></slot>
     </div>
   </div>
+  <!-- 箭头 - 右 -->
   <button class="ts-carousel-arrow right" :class="['is-'+arrow]" @click="arrowEvent(1)">
-     <span>></span>
+     <span class="ts-arrow right"></span>
   </button>
   <ul :class="['is-'+dots]" class="ts-carousel-dots">
     <template v-for="n in slides.length">
        <li :class="[n - 1 === currentIndex ? 'active' : '']"
-           @click="dotsEvent('click', n - 1)"
-           @mouseover="dotsEvent('hover', n - 1)">
+           @click="dotsEvent('click', n - 1,$event)"
+           @mouseover="dotsEvent('hover', n - 1,$event)">
            <button></button>
        </li>
     </template>
@@ -41,6 +44,7 @@ export default {
     };
   },
   methods: {
+    // 找子组件 => 为了数数
     findChild(cb) {
       const find = function(child) {
         const name = child.$options.componentName;
@@ -65,13 +69,11 @@ export default {
     updateSlides(init) {
       let slides = [];
       let index = 1;
-
       this.findChild((child) => {
         slides.push({
           $el: child.$el
         });
         child.index = index++;
-
         if (init) {
           this.slideInstances.push(child);
         }
@@ -79,6 +81,7 @@ export default {
       this.slides = slides;
       this.updatePos();
     },
+    // 更新位置
     updatePos() {
       this.findChild((child) => {
         child.width = this.listWidth;
@@ -86,7 +89,6 @@ export default {
       });
       this.trackWidth = (this.slides.length || 0) * this.listWidth;
     },
-    // use when slot changed
     slotChange() {
       this.$nextTick(() => {
         this.slides = [];
@@ -110,17 +112,31 @@ export default {
       this.currentIndex = index;
       this.$emit('input', index);
     },
+    // 两边箭头的函数
     arrowEvent(offset) {
       this.setAutoplay();
       this.add(offset);
     },
-    dotsEvent(event, n) {
-      if (event === this.trigger && this.currentIndex !== n) {
-        this.currentIndex = n;
-        this.$emit('input', n);
+    // 小点点的函数
+    dotsEvent(event, n, e) {
+      this.currentIndex = n;
+      this.$emit('input', n);
+      if (event === 'click' && this.currentIndex !== n) {
+        this.setAutoplay();
+      } else {
+        this.listEvent(e);
+      }
+    },
+    // 内容区的事件
+    listEvent(e) {
+      // mouseover时候停止=>滚动
+      if (['mouseover', 'click'].indexOf(e.type) >= 0) {
+        window.clearInterval(this.timer);
+      } else {
         this.setAutoplay();
       }
     },
+    // 自动轮播设置
     setAutoplay() {
       window.clearInterval(this.timer);
       if (this.autoplay) {
@@ -224,7 +240,7 @@ export default {
       return {
         width: `${this.trackWidth}px`,
         transform: `translate3d(-${this.trackOffset}px, 0px, 0px)`,
-        transition: `transform 500ms ${this.easing}`
+        transition: `transform .8s ${this.easing}`
       };
     }
   }
@@ -243,8 +259,10 @@ export default {
     &-track, &-list {
         transform: translate3d(0, 0, 0);
     }
-    &:hover &-arrow-hover {
+    &:hover{
+      .is-hover{
         opacity: 1;
+      }
     }
     @descendent list {
         position: relative;
@@ -267,7 +285,7 @@ export default {
         display: inline-block;
         vertical-align: top;
         text-align: center;
-        margin: 0 2px;
+        margin:0 10px;
         padding: 7px 0;
         cursor: pointer;
         &:hover > button {
@@ -275,27 +293,31 @@ export default {
         }
         &.active > button {
                 opacity: 1;
-                width: 24px;
+                box-shadow: 0 0 0 4px rgba(76, 147, 253, 0.5);
+                background: rgba(76, 147, 253, 1);
+                border-radius: 50%;
+                border: none;
         }
         button {
          border: 0;
-         cursor: pointer;
-         background: #8391a5;
-         opacity: 0.3;
-         display: block;
-         width: 16px;
-         height: 3px;
-         border-radius: 1px;
-         outline: none;
+         padding: 0;
          font-size: 0;
+         cursor: pointer;
+         background: #fff;
+         opacity:  0.8;
+         transition: box-shadow .5s;
+         display: block;
+         width: 8px;
+         height: 8px;
+         border-radius: 50%;
+         outline: none;
          color: transparent;
-         transition: all .5s;
         }
       }
       @when inside{
         display: block;
         position: absolute;
-        bottom:3px;
+        bottom:10px;
       }
       @when outside{
         display: block;
@@ -356,6 +378,31 @@ export default {
         display: block;
         overflow: hidden;
         z-index: 1;
+    }
+  }
+  @component arrow{
+    &.left,&.right{
+      &:after{
+      content: " ";
+      display: inline-block;
+      height: 6px;
+      width: 6px;
+      border-width: 2px 2px 0 0;
+      border-color: #fff;
+      border-style: solid;
+      position: relative;
+      top: -2px;
+      position: absolute;
+      top: 50%;
+      right:40%;
+      margin-top: -4px;
+      }
+    }
+    &.right:after{
+    transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
+    }
+    &.left:after{
+      transform:matrix(-0.71, -0.71, 0.71, -0.71, 0, 0);
     }
   }
 }

@@ -245,9 +245,6 @@
 				this.paramFinishBuy.buyTaskId = '';
 				this.paramFinishBuy.id = this.item.id;
 				finishProductBuy(this.paramFinishBuy).then((res) => {
-					if (res.data.code === 0) {
-						console.log(res);
-					}
 				}).catch();
 			},
 			// 删除接单

@@ -261,7 +261,7 @@ export default {
     productDetail: {
       async handler(val) {
         this.CompanySimpleInfo = (await getCompanyInfoByUserId({
-          id: val.companyId
+          userId: val.userId
         })).data.data;
       },
       deep: true

@@ -107,7 +107,7 @@ export default {
   },
   methods: {
     handleGotoStore(item) {
-      this.goto(`/shop/${item.companyId}`);
+      this.goto(`/shop/${item.productId}`);
     },
     // 搜索
     async handleSearch() {

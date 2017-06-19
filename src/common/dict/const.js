@@ -2,7 +2,15 @@ export const ALI_DOMAIN = `http://zsbg.oss-cn-shenzhen.aliyuncs.com/`;
 export const ECB_KEY = `zuoshibuguanzsbg`;
 export const GAODE_MAP_KEY = `6d31eef168eeb05a84f0b1eeabb0de75`;
 export const COOKIE_DOMAIN = `.ts57.cn`;
-export const BANNER = ['http://zsbgdev.oss-cn-shenzhen.aliyuncs.com/banner/indexBanner.jpg', 'http://zsbgdev.oss-cn-shenzhen.aliyuncs.com/banner/timg.jpg'];
+
+export const BANNER = {
+  // 静态=>纯banner
+  static: [
+    `${ALI_DOMAIN}banner/01.jpg`, `${ALI_DOMAIN}banner/04.jpg`, `${ALI_DOMAIN}banner/05.jpeg`
+  ],
+  // 动态=>banner+跳转地址
+  dynamic: [`${ALI_DOMAIN}banner/03.jpg`, `${ALI_DOMAIN}banner/02.jpg`]
+};
 export const MODELS = [
   'modle1_all.png',
   'modle1_back.png',

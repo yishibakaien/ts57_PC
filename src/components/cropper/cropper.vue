@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="crop-container">
-    <div class="crop-container__source" @mouseup="mouseup" @mousemove="mousemove">
+    <div class="crop-container__source" @mouseup="mouseup" @mousemove="mousemove" @touchstart="mouseup">
       <img class="crop-container__source__image" :src="imgSrc" ref="img"/>
       <div class="crop-box" :style="cropBoxStyle" @mousedown="mousedown" ref="cropbox">
         <span class="crop-line-h"></span>

@@ -13,9 +13,6 @@ import login from './login/login';
 import loginMask from './loginMask/loginMask';
 
 import search from './search/search';
-
-import picUpload from './picUpload/picUpload';
-
 import fixedTopbar from './fixedTopbar/fixedTopbar';
 
 import models from './models/models';
@@ -25,14 +22,9 @@ import entryList from './homePageLists/entry-list';
 import baseItem from './baseItem/baseItem';
 
 import purchaseList from './homePageLists/purchase-list';
-
 import supplyList from './homePageLists/supply-list';
-
+import qualityList from './homePageLists/quality-list';
 import aliUpload from './aliUpload/aliUpload';
-
-// 检索结果筛选
-import filter from './filter/filter';
-
 // 分页器
 import pagination from './pagination/pagination';
 // 收藏
@@ -50,16 +42,15 @@ export {
   login,
   loginMask,
   search,
-  picUpload,
   fixedTopbar,
   models,
   pageBar,
+  qualityList,
   entryList,
   baseItem,
   purchaseList,
   supplyList,
   aliUpload,
-  filter,
   pagination,
   collection,
   tipsModel,

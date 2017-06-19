@@ -21,9 +21,9 @@
         <ts-radio-group v-model="Filter.publishStatuss" @change="handleFilterPublishStatus">
           <ts-radio :label="null">全部({{getToTal}})</ts-radio>
           <ts-radio :label="item.dicValue" :key="item.value" v-for="item in DICT.PublishStatus" v-if="item.dicValue!==2||getIsStore">
-            <span v-if="item.dicValue===2">{{item.label}}({{productList.platform}})</span>
-            <span v-if="item.dicValue===1">{{item.label}}({{productList.shop}})</span>
-            <span v-if="item.dicValue===0">{{item.label}}({{productList.repository}})</span>
+            <span :title="item.title" v-if="item.dicValue===2">{{item.label}}({{productList.platform}})</span>
+            <span :title="item.title" v-if="item.dicValue===1">{{item.label}}({{productList.shop}})</span>
+            <span :title="item.title" v-if="item.dicValue===0">{{item.label}}({{productList.repository}})</span>
           </ts-radio>
         </ts-radio-group>
       </ts-filter>

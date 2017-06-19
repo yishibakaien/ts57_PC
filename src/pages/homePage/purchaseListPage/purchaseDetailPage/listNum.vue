@@ -77,7 +77,6 @@
 		},
 		created() {
 			Bus.$on('clickDo', target => {
-				console.log(target.innerText);
 				if (target.innerText === '取消选择') {
 					this.showBtn = true;
 				} else {
@@ -92,7 +91,6 @@
 		},
 		methods: {
 			showContent(e) {
-				console.log(e);
 				this.item.buyTaskList.forEach(item => {
 					item.isActive = false;
 				});

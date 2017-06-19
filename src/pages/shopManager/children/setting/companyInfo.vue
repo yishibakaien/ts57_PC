@@ -48,7 +48,7 @@
       </div>
         <ts-form-item label="公司简介：" prop="companyProfile">
           <p v-if="Text.show" class="companyInfo-formItem-text">{{companyInfoForm.companyProfile}}</p>
-          <ts-input v-else type="textarea" :rows="2" :maxlength='50' v-model="companyInfoForm.companyProfile" placeholder="请输入公司简介（最多50个字）"></ts-input>
+          <ts-input v-else type="textarea" :rows="9" :maxlength='500' v-model="companyInfoForm.companyProfile" placeholder="请输入公司简介（最多500个字）"></ts-input>
         </ts-form-item>
       <ts-form-item label="厂家风采：" prop="productPicUrl">
         <div class="companyInfo-views-container" v-for="(item,index) in companyInfoForm.presence" :key="item">
@@ -82,7 +82,9 @@ export default {
       companyInfoForm: {
         companyBanner: '',
         fax: '',
-        companyBusiness: '',
+        companyExtendBO: {
+          companyBusiness: ''
+        },
         companyAbbreviation: '',
         phone: '',
         presence: [],
@@ -119,32 +121,38 @@ export default {
       // 验证规则
       rules: {
         companyName: [{
-          min: 2,
+          trigger: 'blur',
           max: 15,
-          message: '公司名称的长度在 2 到 15 个字符'
+          min: 4,
+          message: '公司名称的长度在 4 到 15 个字符'
         }],
         companyBusiness: [{
           min: 2,
           max: 50,
+          trigger: 'blur',
           message: '公司主营的长度在 2 到 15 个字符'
         }],
         companyProfile: [{
           min: 2,
-          max: 50,
-          message: '公司简介的长度在 2 到 50 个字符'
+          max: 500,
+          trigger: 'blur',
+          message: '公司简介的长度在 2 到 500 个字符'
         }],
         companyAbbreviation: [{
           min: 2,
           max: 8,
-          message: '公司简称的长度在 2 到 15 个字符'
+          trigger: 'blur',
+          message: '公司简称的长度在 2 到 8 个字符'
         }],
         contactTel: [{
           message: '请输入正确的座机号码',
-          pattern: /^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$/
+          pattern: /^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$/,
+          trigger: 'blur'
         }],
         fax: [{
           message: '请输入正确的传真号码',
-          pattern: /^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$/
+          pattern: /^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$/,
+          trigger: 'blur'
         }]
       }
     };

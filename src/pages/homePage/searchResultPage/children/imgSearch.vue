@@ -3,7 +3,7 @@
     <div class="imgSearch-result">
       <div class="imgSearch-image-box">
         <img :src="Pic.encoded" width="150" height="150" ref="uploadImg">
-        <span class="imgSearch-image-box-tip" v-if="Pic.canCropper" @click="handleChoosePic">手动框图</span>
+        <span class="imgSearch-image-box-tip" @click="handleChoosePic">手动框图</span>
       </div>
       <div class="imgSearch-image-box-text">
         <!-- <p>对该图片的最佳猜测：{{firstProductNo}}</p> -->

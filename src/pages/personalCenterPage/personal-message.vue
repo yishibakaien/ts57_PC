@@ -58,7 +58,6 @@
 		},
 		created() {
 			this.getMsgSettingMethod();
-			console.log(this.$store.state.user.userInfo.userType);
 			if (this.$store.state.user.userInfo.userType === 1) {
 				this.isShow = false;
 			}
@@ -109,7 +108,7 @@
 			color: #FF494F;
 		}
 	}
-	
+
 	.personal-message-conten {
 		margin-top: 50px;
 		p {

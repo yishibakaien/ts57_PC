@@ -171,12 +171,8 @@ export const convertImgToBase64 = (url, callback, error, outputFormat) => {
   function requestImg(src) {
     var img = new Image();
     img.crossOrigin = 'Anonymous';
-    img.src = src;
-    img.onerror = () => {
-      var timeStamp = +new Date();
-      console.log('======跨域请求====');
-      requestImg(src + '?' + timeStamp);
-    };
+    var timeStamp = +new Date();
+    img.src = `${src}?r=${timeStamp}`;
     return img;
   };
   var imgObj = requestImg(url);

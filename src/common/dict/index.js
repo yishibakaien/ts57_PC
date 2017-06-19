@@ -152,14 +152,17 @@ const DICT = {
     {
       label: '平台',
       label2: '上架平台',
+      title: '花型信息不对外公开，仅限内部管理',
       dicValue: 2
     }, {
       label: '店铺',
       label2: '上架店铺',
+      title: '上架后必须访问店铺才能查看花型',
       dicValue: 1
     }, {
       label: '本地仓库',
       label2: '本地仓库',
+      title: '上家后花型将平台所有用户开放',
       dicValue: 0
     }
   ],

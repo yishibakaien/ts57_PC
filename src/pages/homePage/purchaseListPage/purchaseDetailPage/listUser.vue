@@ -83,7 +83,6 @@
 				this.paramListBuy.userId = this.item.userId;
 				listUserProductBuys(this.paramListBuy).then((res) => {
 					if (res.data.code === 0) {
-						console.log(res.data.data);
 						this.obj = res.data.data;
 						this.pageNum = res.data.data.pageNO;
 						this.pageMax = res.data.data.totalPage;
@@ -204,7 +203,7 @@
 				font-size: 16px;
 				line-height: 150px;
 				text-align: center;
-				background: rgba(0,0,0,.4);			
+				background: rgba(0,0,0,.4);
 			}
 		}
 	}
