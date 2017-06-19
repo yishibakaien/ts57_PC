@@ -38,7 +38,8 @@ import {
 import {
   checkPasswd,
   changeSMSCode,
-  changeMobile
+  changeMobile,
+  loginOut
 } from '@/common/api/api';
 import {
   tipsModel
@@ -132,6 +133,7 @@ export default {
           this.showModel();
           this.phoneNum = this.mobile.mobile;
           localStorage.setItem('userMobile', this.mobile.mobile);
+          this.handleLogout();
         }
       }).catch((res) => {
         console.log('异常');
@@ -150,6 +152,12 @@ export default {
       } else {
         this.check.p2 = true;
       }
+    },
+    async handleLogout() {
+      await loginOut();
+      await this.$store.commit('LOGIN_OUT');
+      await this.$store.commit('CLEAR_USERINFO');
+      await this.$router.push('/loginPage');
     }
   }
 };
