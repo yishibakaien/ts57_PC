@@ -32,7 +32,7 @@
 		data() {
 			return {
 				titleText: {
-					title: '新增花型',
+					title: '新增热搜',
 					extend: '更多新花',
 					type: 'hot'
 				}

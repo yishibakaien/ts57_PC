@@ -145,6 +145,7 @@
 			},
 			// 裁剪---选择分类的时候
 			async handleLookProduct(item) {
+				console.log(111);
 				await this.$store.dispatch('getSearchEncoded', {
 					category: item.category,
 					encoded: item.encoded,
@@ -173,14 +174,19 @@
 			handleGotoFind(item) {
 				this.Pic.url = item.defaultPicUrl;
 				this.Cropper.show = true;
+//				this.convertImgToBase64(this.Pic.url, base64Img => {
+//					this.Pic.base64 = base64Img;
+//				});
+//				console.log('1111111', this.Pic.url);
 			},
 			handleGetResult(val) {
-				this.$router.push({
-					path: '/search/image',
-					query: {
-						imgId: val
-					}
-				});
+				console.log(111);
+//				this.$router.push({
+//					path: '/search/image',
+//					query: {
+//						imgId: val
+//					}
+//				});
 			},
 			// 去3D试衣
 			handleGoto3DDress(item) {
