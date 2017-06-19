@@ -77,7 +77,7 @@
 		data() {
 			return {
 				titleText: {
-					title: '新增热搜',
+					title: '入驻信息',
 					extend: '更多惊喜',
 					type: 'entry'
 				},

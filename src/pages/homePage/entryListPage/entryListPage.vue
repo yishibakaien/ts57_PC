@@ -10,7 +10,7 @@
 				<span :class="{active: isActive}" @click="tabMethod">厂家上新</span>
 				<span :class="{active: !isActive}" @click="tabMethod">爆款热搜</span>
 			</div>
-			<entry-list v-show="isActive"></entry-list>
+			<factory-update v-show="isActive"></factory-update>
 			<top-search v-show="!isActive"></top-search>
 		</div>
 	</div>
@@ -23,7 +23,7 @@
 		nav,
 		search
 	} from '@/components';
-	import EntryList from './children/entryList.vue';
+	import factoryUpdate from './children/factoryUpdate.vue';
 	import topSearch from './children/topSearch.vue';
 	export default {
 		data() {
@@ -35,7 +35,7 @@
 			'vHeader': header,
 			'vNav': nav,
 			search,
-			EntryList,
+			factoryUpdate,
 			topSearch
 		},
 		methods: {
