@@ -95,18 +95,25 @@
 		},
 		created() {
 			let _ = this;
-//			listBuyTask(_.param).then((res) => {
-//				if (res.data.code === 0) {
-//					res.data.data.list.forEach((item) => {
-//						item.tipShow = false;
-//					});
-//					_.items = res.data.data.list;
-//					_.pageNum = res.data.data.pageNO;
-//					_.pageSize = res.data.data.pageSize;
-//					_.pageMax = res.data.data.totalPage;
-//				}
-//			}).catch();
-			_.listBuyTaskMethod();
+			listBuyTask(_.param).then((res) => {
+				if (res.data.code === 0) {
+					res.data.data.list.forEach((item) => {
+						item.tipShow = false;
+					});
+					_.items = res.data.data.list;
+					_.pageNum = res.data.data.pageNO;
+					_.pageSize = res.data.data.pageSize;
+					_.pageMax = res.data.data.totalPage;
+					_.classes.totalNum = res.data.data.totalNum;
+					_.classes.mianliao = res.data.data.ml;
+					_.classes.large = res.data.data.db;
+					_.classes.small = res.data.data.xb;
+					_.classes.eyelash = res.data.data.jm;
+					_.classes.statusBuy = res.data.data.buying;
+					_.classes.statusSuccess = res.data.data.finish;
+					_.classes.statusClosed = res.data.data.close;
+				}
+			}).catch();
 		},
 		methods: {
 			hanleFilterSort(e) {
@@ -139,17 +146,6 @@
 							item.tipShow = false;
 						});
 						_.items = res.data.data.list;
-						_.pageNum = res.data.data.pageNO;
-						_.pageSize = res.data.data.pageSize;
-						_.pageMax = res.data.data.totalPage;
-						_.classes.totalNum = res.data.data.totalNum;
-						_.classes.mianliao = res.data.data.ml;
-						_.classes.large = res.data.data.db;
-						_.classes.small = res.data.data.xb;
-						_.classes.eyelash = res.data.data.jm;
-						_.classes.statusBuy = res.data.data.buying;
-						_.classes.statusSuccess = res.data.data.finish;
-						_.classes.statusClosed = res.data.data.close;
 					}
 				}).catch();
 			},
@@ -209,7 +205,25 @@
 							type: 'success',
 							message: '已成功取消接单'
 						});
-						_.listBuyTaskMethod();
+						listBuyTask(_.param).then((res) => {
+							if (res.data.code === 0) {
+								res.data.data.list.forEach((item) => {
+									item.tipShow = false;
+								});
+								_.items = res.data.data.list;
+								_.pageNum = res.data.data.pageNO;
+								_.pageSize = res.data.data.pageSize;
+								_.pageMax = res.data.data.totalPage;
+								_.classes.totalNum = res.data.data.totalNum;
+								_.classes.mianliao = res.data.data.ml;
+								_.classes.large = res.data.data.db;
+								_.classes.small = res.data.data.xb;
+								_.classes.eyelash = res.data.data.jm;
+								_.classes.statusBuy = res.data.data.buying;
+								_.classes.statusSuccess = res.data.data.finish;
+								_.classes.statusClosed = res.data.data.close;
+							}
+						}).catch();
 					}
 				}).catch();
 			},
@@ -224,7 +238,25 @@
 							type: 'success',
 							message: '已成功删除接单信息'
 						});
-						_.listBuyTaskMethod();
+						listBuyTask(_.param).then((res) => {
+							if (res.data.code === 0) {
+								res.data.data.list.forEach((item) => {
+									item.tipShow = false;
+								});
+								_.items = res.data.data.list;
+								_.pageNum = res.data.data.pageNO;
+								_.pageSize = res.data.data.pageSize;
+								_.pageMax = res.data.data.totalPage;
+								_.classes.totalNum = res.data.data.totalNum;
+								_.classes.mianliao = res.data.data.ml;
+								_.classes.large = res.data.data.db;
+								_.classes.small = res.data.data.xb;
+								_.classes.eyelash = res.data.data.jm;
+								_.classes.statusBuy = res.data.data.buying;
+								_.classes.statusSuccess = res.data.data.finish;
+								_.classes.statusClosed = res.data.data.close;
+							}
+						}).catch();
 					}
 				}).catch();
 			},
