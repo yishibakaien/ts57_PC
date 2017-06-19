@@ -16,6 +16,7 @@ Vue.use(Router);
 // created By HZC
 // =============
 const homePage = r => require.ensure([], () => r(require('@/pages/homePage/homePage.vue')), 'homePage');
+const autoLogin = r => require.ensure([], () => r(require('@/pages/formPages/loginPage/autoLogin.vue')), 'autoLogin');
 // =============
 const personalCenterPage = r => require.ensure([], () => r(require('@/pages/personalCenterPage/personalCenterPage')), 'personalCenterPage');
 // =============
@@ -209,6 +210,9 @@ const routes = [
   }, {
     path: '/loginPage',
     component: loginPage
+  }, {
+    path: '/loginPage',
+    component: autoLogin
   }, {
     path: '/registerPage',
     component: registerPage

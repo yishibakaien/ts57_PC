@@ -9,7 +9,7 @@ axios.defaults.headers['x-client'] = 1;
 
 axios.defaults.baseURL = process.env.NODE_ENV === 'production'
   ? 'https://api.ts57.cn'
-  : 'https://api.ts57.cn';
+  : 'http://192.168.2.11:8080';
 // x-token
 axios.defaults.headers['x-token'] = cookie.get('x-token') || '';
 store.commit('LOGIN', axios.defaults.headers['x-token'] || '');
@@ -26,7 +26,7 @@ axios.interceptors.response.use(response => {
     return;
   }
   if (response.status === 200) {
-    if (response.data.message && response.data.code !== 0) {
+    if (response.data.message && !response.data.code) {
       Toast({
         type: !response.data.code
           ? 'success'

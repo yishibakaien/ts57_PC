@@ -10,12 +10,18 @@
         <ts-button type="primary">短信设置</ts-button>
       </router-link>
     </div>
+    <!-- Form -->
     <ts-form :model="PhoneForm" :rules="rules" ref="PhoneForm" label-width="200px" label-position="left">
-      <ts-form-item :label="`短信接收号码_${index+1}`" :key="index" prop="phone" v-for="(item,index) in phoneList">
-        <ts-input :maxlength="11" :value="item" style="width:200px" @input="handleInput" placeholder="请输入手机号码"></ts-input>
-        <ts-button type="plain" @click="handleEditPhone(item,index)">修改</ts-button>
-        <ts-button type="plain" v-if="phoneList.length>1" @click="handleDELPhone(item,index)">删除</ts-button>
-      </ts-form-item>
+    <ts-form-item
+      v-for="(phone,index) in PhoneForm.phoneList"
+      :label="`短信接收号码_${index+1}`"
+      :key="phone.value"
+      :prop="'phoneList.' + index + '.value'"
+      :rules="{required: true, pattern: /^1[34578]\d{9}$/ ,message: '请输入正确的手机号码', trigger: 'blur'}">
+    <ts-input :maxlength="11" v-model="phone.value" style="width:200px" placeholder="请输入手机号码"></ts-input>
+    <ts-button type="plain" @click="handleEditPhone(phone.value)">修改</ts-button>
+    <ts-button type="plain" v-if="phoneList.length>1" @click="handleDELPhone(phone.value)">删除</ts-button>
+    </ts-form-item>
     </ts-form>
     <div v-if="phoneList.length<=0">
       暂无短信接收号码
@@ -90,6 +96,9 @@ export default {
       },
       // 新增号码表单
       PhoneForm: {
+        phoneList: [{
+          value: ''
+        }],
         mobile: '',
         password: ''
       },
@@ -115,15 +124,12 @@ export default {
   },
   methods: {
     // 因为循环不能v-model所以单个监听 => 赋值到phone.number
-    handleInput(e) {
-      this.Phone.number = e;
-    },
     async handleEditPhone(item, index) {
       // 数组转为字符串
-      let noticeListArr = this.companyInfo.noticeList.split(',');
-      noticeListArr.splice(index, 1, this.Phone.number);
+      // let noticeListArr = this.companyInfo.noticeList.split(',');
+      // noticeListArr.splice(index, 1, this.Phone.number);
       await updateCompany({
-        noticeList: noticeListArr.toString()
+        noticeList: this.PhoneForm.phoneList.map(item => item.value).toString()
       });
     },
     // 删除绑定的号码
@@ -161,6 +167,19 @@ export default {
     // 新增号码的对话框
     async handleNewPhoneDialog() {
       this.Phone.showAddDialog = !this.Phone.showAddDialog;
+    }
+  },
+  watch: {
+    companyInfo: {
+      handler(val) {
+        let noticeList = !val.noticeList ? [] : val.noticeList.split(',');
+        this.PhoneForm.phoneList = noticeList.map(item => {
+          return {
+            value: item
+          };
+        });
+      },
+      deep: true
     }
   },
   computed: {

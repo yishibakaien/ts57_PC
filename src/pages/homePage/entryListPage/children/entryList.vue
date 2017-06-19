@@ -5,44 +5,54 @@
       <ts-button slot="append" size="small" @click="handleSearch"><i class="icon-sousuo"></i></ts-button>
     </ts-input>
   </div>
-  <div v-if="!showSearchItem">
-    <div class="entryList-container" v-for="item in Entry">
-      <factory-list @viewProduct="handleViewProduct" @viewStore="handleGotoShop" :data="item" :products="item.products">
-        <template slot="header">
-        <p></p>
-      <ts-button type="text" class="entryList-more--button button" @click="handleGotoMore(item)">
-        查看更多 <i class="icon-gengduo"></i>
-      </ts-button>
-      </template>
-      </factory-list>
+  <div v-if="showSearchItem" class="entryList-table">
+    <ts-table :data="Search.list" >
+      <ts-column slot data-key="companyName" width="150px" align="center" name="公司名称"></ts-column>
+      <ts-column slot data-key="USERATYPE" width="100px" align="center" name="公司类型"></ts-column>
+      <ts-column slot data-key="phone" align="center" name="联系电话" width="130px"></ts-column>
+      <ts-column slot data-key="DATE" align="center" name="地址"></ts-column>
+      <ts-column slot align="center" name="操作" action="{'text':'进入官网','func':'handleGotoShop'}"></ts-column>
+    </ts-table>
+    <div class="entryList-pagination page">
+      <ts-pagination type="page" :total="Search.totalNum" :current="Search.pageNO" @change="handleChangeCompanyNum" :pageSize="Search.pageSize"></ts-pagination>
     </div>
   </div>
-  <div v-else>
-    <ts-grid :data="Search.list" class="textSearch-data">
-      <ts-grid-item style="width:240px" v-for="product in Search.list" :key="product" @click="handleGotoShop(product)">
-        <ts-image width="170" height="170" :canView="false" disabledHover :src="product.companyHeadIcon">
+  <ts-grid :data="Entry" class="entryList-company">
+    <ts-grid-item class="entryList-company-item item" v-for="product in Entry" :key="product" @click="handleGotoShop(product)">
+      <ts-image width="260" height="150" :canView="false" disabledHover :src="product.pic">
+      </ts-image>
+      <div class="entryList-company-item--right">
+        <ts-image width="90" height="90" :canView="false" disabledHover :src="product.pic">
         </ts-image>
-        <p class="allmeterial-product--number">{{product.companyName}}</p>
-      </ts-grid-item>
-    </ts-grid>
-    <ts-pagination type="page" :total="Search.totalNum" class="entryList-pagination page" :current="Search.pageNO" @change="handleChangeCompanyNum" :pageSize="Search.pageSize"></ts-pagination>
-  </div>
+        <ts-button type="plain" class="entryList-company-item--button">进入官网</ts-button>
+      </div>
+    </ts-grid-item>
+  </ts-grid>
 </div>
 </template>
 
 <script>
 import {
-  findNewCompanys,
-  searchCompany
+  // findNewCompanys,
+  searchCompany,
+  qualityCompanyList1
 } from '@/common/api/api';
+import DICT from '@/common/dict/';
 import debounce from 'lodash.debounce';
 // 属于发现--厂家上新模块
 import factoryList from '../../../find/component/factoryProduct.vue';
 export default {
   data() {
     return {
+      DICT: {
+        userType: DICT.userType
+      },
+      // Param: {
+      //   companyType: 1
+      // },
       Param: {
-        companyType: 1
+        pageNo: 1,
+        pageSize: 999
       },
       searchParam: {
         companyName: '',
@@ -53,6 +63,18 @@ export default {
       Entry: [],
       Search: {}
     };
+  },
+  watch: {
+    Search: {
+      handler(val) {
+        if (val.list) {
+          val.list.forEach(item => {
+            item.USERATYPE = this.filterDict(item.companyType, DICT.userType);
+          });
+        }
+      },
+      deep: true
+    }
   },
   methods: {
     // 搜索
@@ -83,7 +105,9 @@ export default {
     }
   },
   async created() {
-    this.Entry = (await findNewCompanys(this.Param)).data.data;
+    // this.Entry = (await findNewCompanys(this.Param)).data.data;
+    // 最新入驻改为优质厂家
+    this.Entry = (await qualityCompanyList1(this.Param)).data.data.list;
   },
   components: {
     factoryList
@@ -97,9 +121,31 @@ export default {
     margin: 10px 0;
   }
   @component pagination{
-    &.page{
-      display: table;
-      margin: 7px auto;
+      text-align: right;
+      margin: 10px 0;
+  }
+  @component table{
+      min-height: 630px;
+  }
+  @component company{
+    @descendent item{
+      background: #fff;
+      margin: 4px;
+      &.item{
+        width: 392px;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      @modifier right{
+        text-align: right;
+        display: flex;
+        align-items: stretch;
+        flex-direction: column;
+        height: 150px;
+        justify-content: space-between;
+      }
     }
   }
   @component more{
@@ -112,4 +158,28 @@ export default {
     }
   }
 }
+</style>
+<style>
+  .entryList-table{
+    .handleAction{
+      display: inline-block;
+      padding: 0 12px;
+      color: #fff;
+      border: none;
+      background-color: #4C93FD;
+      line-height: 150%;
+      outline: 0;
+      overflow: hidden;
+      position: relative;
+      text-align: center;
+      min-width: 80px;
+      cursor: pointer;
+      margin: 6px 0;
+      vertical-align: middle;
+      &:hover{
+        color:#fff!important;
+        background-color: #2475ef;
+      }
+    }
+  }
 </style>

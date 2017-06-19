@@ -8,7 +8,7 @@
       </div>
       <div class="grid-col-9 companyIntro-companyName">
       {{companyInfo.companyName}}&nbsp;&nbsp;&nbsp;
-        <ts-button type="plain" style="border-radius: 4px;" class="companyIntro-companyName--button" @click="handleCollectStore">
+        <ts-button v-if="userInfo.companyId!==$route.params.id" type="plain" style="border-radius: 4px;" class="companyIntro-companyName--button" @click="handleCollectStore">
           <i :class="getIsCollect?'icon-yishoucang':'icon-shoucang'"></i> &nbsp;
           {{getIsCollect?'已收藏店铺':'收藏店铺'}}
         </ts-button>
@@ -242,7 +242,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['companyInfo']),
+    ...mapGetters(['companyInfo', 'userInfo']),
     // 收藏状态 0未收藏 1已收藏
     getIsCollect() {
       return this.companyInfo.favoriteSatus === 1;
