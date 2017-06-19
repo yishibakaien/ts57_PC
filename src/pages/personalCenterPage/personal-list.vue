@@ -22,7 +22,7 @@
 		<div class="personal-list-wrap clearfix">
 			<div class="personal-goods-item" v-for="(item, index) in items">
 				<div class="personal-goods-item-img">
-					<img v-lazy="item.productBuyBO.buyPicUrl" alt="求购"  @click.stop="goDetail(index)"/>
+					<img v-lazy="item.productBuyBO.buyPicUrl" alt="求购" @click.stop="goDetail(index)" />
 					<span class="states green" v-if="item.status == 1">接单中</span>
 					<span class="states yellow" v-if="item.status == 2">已成交</span>
 					<span class="states gray" v-if="item.status == 3">已关闭</span>
@@ -95,25 +95,18 @@
 		},
 		created() {
 			let _ = this;
-			listBuyTask(_.param).then((res) => {
-				if (res.data.code === 0) {
-					res.data.data.list.forEach((item) => {
-						item.tipShow = false;
-					});
-					_.items = res.data.data.list;
-					_.pageNum = res.data.data.pageNO;
-					_.pageSize = res.data.data.pageSize;
-					_.pageMax = res.data.data.totalPage;
-					_.classes.totalNum = res.data.data.totalNum;
-					_.classes.mianliao = res.data.data.ml;
-					_.classes.large = res.data.data.db;
-					_.classes.small = res.data.data.xb;
-					_.classes.eyelash = res.data.data.jm;
-					_.classes.statusBuy = res.data.data.buying;
-					_.classes.statusSuccess = res.data.data.finish;
-					_.classes.statusClosed = res.data.data.close;
-				}
-			}).catch();
+//			listBuyTask(_.param).then((res) => {
+//				if (res.data.code === 0) {
+//					res.data.data.list.forEach((item) => {
+//						item.tipShow = false;
+//					});
+//					_.items = res.data.data.list;
+//					_.pageNum = res.data.data.pageNO;
+//					_.pageSize = res.data.data.pageSize;
+//					_.pageMax = res.data.data.totalPage;
+//				}
+//			}).catch();
+			_.listBuyTaskMethod();
 		},
 		methods: {
 			hanleFilterSort(e) {
@@ -149,6 +142,14 @@
 						_.pageNum = res.data.data.pageNO;
 						_.pageSize = res.data.data.pageSize;
 						_.pageMax = res.data.data.totalPage;
+						_.classes.totalNum = res.data.data.totalNum;
+						_.classes.mianliao = res.data.data.ml;
+						_.classes.large = res.data.data.db;
+						_.classes.small = res.data.data.xb;
+						_.classes.eyelash = res.data.data.jm;
+						_.classes.statusBuy = res.data.data.buying;
+						_.classes.statusSuccess = res.data.data.finish;
+						_.classes.statusClosed = res.data.data.close;
 					}
 				}).catch();
 			},
