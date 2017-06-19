@@ -211,7 +211,7 @@ const routes = [
     path: '/loginPage',
     component: loginPage
   }, {
-    path: '/loginPage',
+    path: '/autologin',
     component: autoLogin
   }, {
     path: '/registerPage',
