@@ -2,7 +2,7 @@
 	<!-- 优质厂家 -->
 	<div class="quality-company-list">
 		<div class="left-brand onepx-r">
-			<img src="../../../static/images/pc蕾丝.jpg">
+			<img src="/static/images/lace.jpg">
 		</div>
 		<div class="right-list">
 			<list-tile :title-text="titleText"></list-tile>
@@ -59,7 +59,7 @@
 <style lang="stylus" scoped>
 .quality-company-list
   width 100%
-  height 480px
+  height 450px
   background #fff
   .left-brand
     float left

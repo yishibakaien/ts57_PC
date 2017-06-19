@@ -1,22 +1,22 @@
 <template>
 <div class="entryList">
-  <!--<div class="entryList-search">
+  <div class="entryList-search">
     <ts-input style="width:30%" @input="handleInput" placeholder="输入公司名称搜索" v-model="searchParam.companyName">
       <ts-button slot="append" size="small" @click="handleSearch"><i class="icon-sousuo"></i></ts-button>
     </ts-input>
-  </div>-->
-  <div v-if="!showSearchItem">
-    <div class="entryList-container" v-for="item in Entry">
-      <factory-list @viewProduct="handleViewProduct" @viewStore="handleGotoShop" :data="item" :products="item.products">
-        <template slot="header">
-        <p></p>
-      <ts-button type="text" class="entryList-more--button button" @click="handleGotoMore(item)">
-        查看更多 <i class="icon-gengduo"></i>
-      </ts-button>
-      </template>
-      </factory-list>
-    </div>
   </div>
+  <div v-if="showSearchItem" class="entryList-table">
+     <ts-table :data="Search.list" >
+       <ts-column slot data-key="companyName" width="150px" align="center" name="公司名称"></ts-column>
+       <ts-column slot data-key="USERATYPE" width="100px" align="center" name="公司类型"></ts-column>
+       <ts-column slot data-key="phone" align="center" name="联系电话" width="130px"></ts-column>
+       <ts-column slot data-key="DATE" align="center" name="地址"></ts-column>
+       <ts-column slot align="center" name="操作" action="{'text':'进入官网','func':'handleGotoShop'}"></ts-column>
+     </ts-table>
+     <div class="entryList-pagination page">
+       <ts-pagination type="page" :total="Search.totalNum" :current="Search.pageNO" @change="handleChangeCompanyNum" :pageSize="Search.pageSize"></ts-pagination>
+     </div>
+   </div>
   <ts-grid :data="Entry" class="entryList-company">
     <ts-grid-item class="entryList-company-item item" v-for="product in Entry" :key="product" @click="handleGotoShop(product)">
       <ts-image width="260" height="150" :canView="false" disabledHover :src="product.pic">
