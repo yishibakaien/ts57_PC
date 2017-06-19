@@ -13,14 +13,11 @@
     <!-- Form -->
 
     <ts-form :model="PhoneForm" ref="PhoneForm" label-width="200px" label-position="left">
-      <ts-form-item v-for="(phone,index) in PhoneForm.phoneList" :label="`短信接收号码_${index+1}`" :key="phone.value">
+      <ts-form-item v-for="(phone,index) in PhoneForm.phoneList" :label="`短信接收号码_${index+1}`">
         <ts-input
-        key="1"
         :prop="'phoneList.' + index + '.value'"
-        :rules="{required: true, message: '域名不能为空', trigger: 'change'}"
         v-model="phone.value"
         style="width:200px"
-        @blur="handleBlur"
         placeholder="请输入手机号码"></ts-input>
         <ts-button type="plain" @click="handleEditPhone(phone.value)">修改</ts-button>
         <ts-button type="plain" v-if="phoneList>1" @click="handleDELPhone(phone.value)">删除</ts-button>
@@ -129,7 +126,7 @@ export default {
   },
   methods: {
     handleBlur(e) {
-      e.focus();
+      e.target.focus();
     },
     // 因为循环不能v-model所以单个监听 => 赋值到phone.number
     async handleEditPhone(item, index) {
@@ -143,7 +140,7 @@ export default {
       this.$messagebox.confirm(`确认终止${item}接收平台相关业务短信？`).then(async(action) => {
         this.PhoneForm.phoneList.splice(index, 1);
         let res = await updateCompany({
-          noticeList: this.PhoneForm.phoneList.toString()
+          noticeList: this.PhoneForm.phoneList.map(item => item.value).toString()
         });
         !res.data.code ? await this.$store.dispatch('getCompanyInfo') : '';
       });
