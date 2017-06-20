@@ -205,6 +205,10 @@
 							type: 'success',
 							message: '已成功取消接单'
 						});
+						_.param.buyStatus = '';
+						_.param.buyType = '';
+						_.Filter.sort = '';
+						_.Filter.fabricType = '';
 						listBuyTask(_.param).then((res) => {
 							if (res.data.code === 0) {
 								res.data.data.list.forEach((item) => {
