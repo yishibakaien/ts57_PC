@@ -27,8 +27,13 @@ axios.interceptors.response.use(response => {
     return;
   }
   if (response.status === 200) {
-    if (response.data.message && !response.data.code) {
-      Toast({type: 'success', message: response.data.message});
+    if (response.data.message && response.data.code) {
+      Toast({
+        type: response.data.message && !response.data.code
+          ? 'success'
+          : 'error',
+        message: response.data.message
+      });
     }
     return response;
   } else {
