@@ -14,21 +14,26 @@ export default {
       type: [Array, Object],
       default: function() {
         return [{
-          path: '/homePage',
-          name: '首页'
-        }, {
-          path: '/find',
-          name: '发现'
-        }, {
-          path: '/threeDDressPage',
-          name: '3D试衣'
-        }, {
-          path: '/shopManagePage',
-          name: '网店管理'
-        }, {
-          path: '/personalCenterPage',
-          name: '个人中心'
-        }];
+            path: '/homePage',
+            name: '首页'
+          }, {
+            path: '/find',
+            name: '发现'
+          }, {
+            path: '/threeDDressPage',
+            name: '3D试衣'
+          }, {
+            path: '/shopManagePage',
+            name: '网店管理'
+          }, {
+            path: '/personalCenterPage',
+            name: '个人中心'
+          }
+          //  {
+          //   path: '/shopManagePage',
+          //   name: '仓库管理'
+          // }
+        ];
       }
     }
   }

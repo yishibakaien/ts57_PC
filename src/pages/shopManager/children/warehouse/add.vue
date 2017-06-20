@@ -1,5 +1,5 @@
 <template lang="html">
-  <ts-section :pageTitle="title">
+  <ts-section pageTitle="编辑花型">
     <ts-form :model="addPatternForm" :rules="rules"  ref="addPatternForm" label-width="125px" label-position="left" >
       <ts-form-item label="花型图片：" prop="defaultPicUrl">
         <ts-image width="200" height="200" :src="addPatternForm.defaultPicUrl" type="local" v-show="Pic.show"></ts-image>

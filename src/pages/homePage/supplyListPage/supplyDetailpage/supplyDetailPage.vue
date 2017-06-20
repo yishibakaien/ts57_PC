@@ -33,7 +33,9 @@ import supplyList from './supply-list';
 import {
   getCompanySupply
 } from '@/common/api/api';
-
+import {
+  mapGetters
+} from 'vuex';
 export default {
   data() {
     return {
@@ -50,8 +52,15 @@ export default {
     supplyContent,
     supplyList
   },
+  computed: {
+    ...mapGetters(['userInfo'])
+  },
   created() {
-    this.getCompanySupplyMethod();
+    if (this.userInfo.userType === 1) {
+      this.$router.push('/');
+    } else {
+      this.getCompanySupplyMethod();
+    }
   },
   methods: {
     getCompanySupplyMethod() {
