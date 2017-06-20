@@ -25,6 +25,8 @@ import forgotPasswordPage from './formPages/forgotPasswordPage/forgotPasswordPag
 
 // 提示下载页
 import promptDown from './totalPages/promptDown';
+// 关于我们
+import aboutUs from './totalPages/aboutUs';
 
 export {
   loginPage,
@@ -38,5 +40,6 @@ export {
   supplyListPage,
   supplyDetailPage,
   hotListpage,
-  promptDown
+  promptDown,
+  aboutUs
 };

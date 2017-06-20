@@ -14,6 +14,7 @@
     </div>
     <div class="right">
       <!-- <router-link class="link" to="/personalCenterPage">个人中心</router-link> -->
+      <a @click="goAboutUs" class="link" style="margin-right: 10px;">关于我们</a>
       <a @click="handleGotoPerson" v-if="!isLogin" class="link">我的网店</a>
       <div class="app-qrcode">
         <!-- 坐视不管 -->
@@ -85,6 +86,10 @@ export default {
 			if (this.userInfo.companyId) {
 				goto(`/shop/${this.userInfo.companyId}`);
 			}
+    },
+    // 关于我们
+    goAboutUs() {
+    goto(`/aboutUs`);
     },
     // 退出
     async handleLogout() {

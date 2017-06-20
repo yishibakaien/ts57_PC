@@ -66,7 +66,8 @@ const releaseSupplyPage = r => require.ensure([], () => r(require('@/pages/homeP
 const entryListPage = r => require.ensure([], () => r(require('@/pages/homePage/entryListPage/entryListPage')), 'shopManager');
 // ========
 // totalPage
-const promptDown = r => require.ensure([], () => r(require('@/pages/totalPages/promptDown')), 'promptDown');
+const promptDown = r => require.ensure([], () => r(require('@/pages/totalPages/promptDown')), 'totalPages');
+const aboutUs = r => require.ensure([], () => r(require('@/pages/totalPages/aboutUs')), 'totalPages');
 
 const routes = [
   {
@@ -229,6 +230,9 @@ const routes = [
   }, {
     path: '/promptDown',
     component: promptDown
+  }, {
+    path: '/aboutUs',
+    component: aboutUs
   }, {
     path: '/shop/:id',
     name: 'shop',
