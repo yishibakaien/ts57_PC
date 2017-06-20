@@ -1,226 +1,53 @@
-<template lang="html">
-  <ts-section>
-    <div slot="menu">
-      <label>
-          <i class="icon-fangda material-add--icon"></i>
-          <ts-aliupload fileType="2" id="addMaterial" @doUpload="uploadImg"></ts-aliupload>
-      </label>
-      <ts-button :type="Edit.status?'cancel':'primary'" :class="Edit.status?'':'button-blue'" @click="Edit.status=!Edit.status">{{Edit.text}}</ts-button>
+<template>
+<ts-section>
+  <div slot="title">
+    中转仓管理<span class="pot-warning" @click="Material.tip=!Material.tip">!</span>
+  </div>
+  <div>
+    <!-- 顶部tip -->
+    <div class="material-tip">
+      <p class="material-tip-title">中转仓功能简介：</p>
+      <p class="material-tip-content">素材库是平台推出的线上花型素材管理工具，支持本地花型图片批量上传至对应新建或现有花型素材文件夹，文件夹可自定义名称及花型公共属性的添加，它是您的线上花型管理贴心小管家！</p>
     </div>
-    <!-- checkbox-group控制 -->
-    <ts-checkbox-group v-model="chooseImg.list">
-      <div class="material-img" v-for="item in albumPicsList.list">
-        <!-- 多选  -->
-        <ts-checkbox v-show="Edit.status" :label="item.id" class="material-img-checkbox">{{item.text}}</ts-checkbox>
-        <!-- 图片 -->
-        <ts-image type="local" :src="item.photoUrl" width="160" height="160" :key="item.id"></ts-image>
-        <!-- “入仓”提示 -->
-        <router-link :to="{path:'addwarehouse',query:{url:item.photoUrl}}" tag="span" class="material-img-tip" v-show="!Edit.status">
-          <i class="logo icon-dangkou"></i>
-            入仓
-        </router-link>
-      </div>
-    </ts-checkbox-group>
-    <div slot="footer" class="material-footer">
-      <ts-button type="primary" :disabled="chooseImg.status" v-if="Edit.status" @click="handleShowDialog">删除</ts-button>
-      <ts-pagination
-      class="material-footer--pagation"
-      @change="handleChangeCurrent"
-      @page-size-change="handleChangePageSize"
-      :current="albumPicsList.pageNO"
-      :total="albumPicsList.totalPage">
-      </ts-pagination>
-    </div>
-    <!--  对话框 -->
-    <ts-dialog v-model="ConfirmDialog.show" width="30%" title="提示" @confirm="handleDelAlbumPic" @cancel="handleCancelDelMaterial" class="material-dialog">
-      <p class="material-dialog--title">确认将选中花型素材删除？</p>
-      <p><ts-radio @change.native="handleNoShowDialog"  type="origin" v-model="ConfirmDialog.noShowDialog" label="0"><span class="material-dialog--tip">不再提示<i>(素材相关数据删除后无法恢复)</i></span></ts-radio></p>
-    </ts-dialog>
-  </ts-section>
+    <!-- 空 -->
+    <p class="material-empty">
+      您的素材库无文件夹，赶紧新建花型文件夹吧
+      <ts-button type="plain" size="large">+ 新建花型文件夹</ts-button>
+    </p>
+  </div>
+  <!-- 对话框----功能说明  -->
+  <ts-dialog v-model="Material.tip" title="中转仓功能说明" type="alert" alertText="我知道了" @confirm="Material.tip=false">
+    <article class="message-phone-dialog">
+      中转仓是平台推出的线上花型素材管理工具，支持本地花型图片批量上传至对应新建或现有花型素材文件夹，文件夹可自定义名称及花型公共属性的添加，它是您的线上花型管理贴心小管家！
+    </article>
+  </ts-dialog>
+</ts-section>
 </template>
 
 <script>
-import {
-  getAlbumPicsList,
-  deleteAlbumPic,
-  getAlbum,
-  addAlbumPic
-} from '@/common/api/api';
-import {
-  ALI_DOMAIN
-} from '@/common/dict/const';
 export default {
   data() {
     return {
-      albumPicsList: {},
-      // 传的参数
-      Params: {
-        pageNo: '1',
-        pageSize: '10',
-        albumId: ''
-      },
-      // 图片的操作
-      chooseImg: {
-        list: [], // 选中的图片
-        status: true // 能否删除的状态
-      },
-      // 对话框
-      ConfirmDialog: {
-        noShowDialog: false,
-        show: false,
-        id: []
-      },
-      // cookie
-      Cookie: {
-        key: 'showDelMaterialDialog',
-        value: 1,
-        day: 7
-      },
-      // 编辑状态
-      Edit: {
-        text: '编辑',
-        status: false
+      Material: {
+        tip: false
       }
     };
-  },
-  watch: {
-    Edit: {
-      handler(val) {
-        val.text = val.status ? '取消' : '编辑';
-      },
-      deep: true
-    },
-    chooseImg: {
-      handler(val) {
-        val.status = val.list.length <= 0;
-      },
-      deep: true
-    }
-  },
-  async created() {
-    this.Params.albumId = (await getAlbum()).data.data.id;
-    this.albumPicsList = (await getAlbumPicsList(this.Params)).data.data;
-    // 默认创建一个cookie
-    !this.cookie.get(this.Cookie.key) ? this.cookie.set(this.Cookie.key, this.Cookie.value, this.Cookie.day, '/') : '';
-  },
-  methods: {
-    // 分页处理
-    // =========
-    async handleChangeCurrent(current) {
-      this.Params.pageNo = current;
-      this.albumPicsList = (await getAlbumPicsList(this.Params)).data.data;
-    },
-    async handleChangePageSize(size) {
-      this.Params.pageSize = size;
-      this.albumPicsList = (await getAlbumPicsList(this.Params)).data.data;
-    },
-    // ========
-    // 删除所选素材
-    async handleDelAlbumPic() {
-      await deleteAlbumPic({
-        ids: this.chooseImg.list.join(',')
-      });
-      this.chooseImg.list = [];
-      this.ConfirmDialog.show = false;
-      this.albumPicsList = (await getAlbumPicsList(this.Params)).data.data;
-    },
-    // 点击“删除”=>判断cookie是否显示
-    async handleShowDialog() {
-      if (this.cookie.get(this.Cookie.key) === '1') {
-        this.ConfirmDialog.show = true;
-      } else {
-        this.handleDelAlbumPic();
-      }
-    },
-    // 取消删除
-    handleCancelDelMaterial() {
-      this.ConfirmDialog.show = false;
-      this.cookie.set(this.Cookie.key, this.Cookie.value, this.Cookie.day, '/');
-    },
-    // 设置cookie
-    handleNoShowDialog(e) {
-      this.cookie.set(this.Cookie.key, e, this.Cookie.day, '/');
-    },
-    async uploadImg(e) {
-      await addAlbumPic({
-        albumId: this.Params.albumId,
-        picUrls: [ALI_DOMAIN + e.ossUrl[e.ossUrl.length - 1]]
-      });
-      this.albumPicsList = (await getAlbumPicsList(this.Params)).data.data;
-    }
   }
 };
 </script>
 
-<style lang="css" scoped>
-:root{
-  --material-img-tip-height: 28px;
-  --material-img-tip-height: 28px;
-  --material-img-tip-bg: rgba(0,0,0,0.4);
-  --material-img-tip-text-color: #fff;
-  --material-add-icon-hover-color: #4c93fd;
-  --material-img-checkbox-position: 10px;
-}
+<style lang="css">
 @component-namespace material{
-  @component footer{
-    display: flex;
-    align-items: center;
-    @modifier pagation{
-      flex:1;
-      text-align: right;
-    }
+  @component empty{
+    display: table;
+    margin: 20px auto;
+    color: #666;
   }
-  @component add{
-    @modifier icon{
-      font-size: 30px;
-    vertical-align: middle;
-    margin-right: 10px;
-    cursor: pointer;
-    &:hover:before{
-      color:var(--material-add-icon-hover-color);
-    }
-    }
-  }
-  @component dialog{
-    p{
-      text-align: center;
-    }
-    @modifier title{
-      font-size: 18px;
-      font-weight: 500;
-      margin-bottom: 10px;
-    }
-    @modifier tip{
-      font-size: 14px;
-      i{
-        font-size: smaller;
-        color: #3F3F3F;
-      }
-    }
-  }
-  @component img{
-    margin: 0 18px 18px 0;
-    display: inline-block;
-    position: relative;
-    @descendent checkbox{
-      position: absolute var(--material-img-checkbox-position) * * var(--material-img-checkbox-position);
-    }
-    @descendent tip{
-      position: absolute * 0 0 0;
-      display: inline-block;
-      height: var(--material-img-tip-height);
-      line-height: var(--material-img-tip-height);
-      background: var(--material-img-tip-bg);
-      color: var(--material-img-tip-text-color);
-      display: none;
-      cursor: pointer;
-      text-align: center;
-    }
-    &:hover{
-      .material-img-tip{
-        display:block;
-      }
-    }
+  @component tip{
+    background: #FFF7E3;
+    padding: 10px;
+    border: 1px solid #f2d794;
+    border-radius: 4px;
   }
 }
 </style>

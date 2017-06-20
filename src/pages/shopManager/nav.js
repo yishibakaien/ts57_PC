@@ -1,13 +1,12 @@
 module.exports = [
+  // {
+  //   path: 'material',
+  //   name: '中转仓管理'
+  // },
   {
     path: 'warehouse',
     name: '仓库管理'
-  },
-  //  {
-  //   path: 'material',
-  //   name: '素材库'
-  // },
-  {
+  }, {
     path: 'supply',
     name: '厂家供应'
   }, {

@@ -9,10 +9,10 @@
         <p @click="handleSearchFromEdit(Pic.url)"><i class="icon-bianji"></i></p>
       </div>
     </ts-tag>
-    <input type="text" class="search-input" :placeholder="inputPlaceHolder" v-model="Search.val"  @focus="handleDelPic" :disabled="search.handleStatus" @keyup.enter="handleSearchText">
-    <i class="icon-sousuo search-upload--icon" v-show="!Pic.isUploaded" @click="handleSearchText"  v-if="!search.handleStatus"></i>
+    <input type="text" class="search-input" :placeholder="inputPlaceHolder" v-model="Search.val" @focus="handleDelPic" :disabled="search.handleStatus" @keyup.enter="handleSearchText">
+    <i class="icon-sousuo search-upload--icon" v-show="!Pic.isUploaded" @click="handleSearchText" v-if="!search.handleStatus"></i>
     <span class="search-close" v-show="Pic.isUploaded" @click="Pic.isUploaded=false">&times;</span>
-    <ts-button type="primary" @click="Pic.isUploaded=true,Search.val=''" class="search-button"  v-show="!Pic.isUploaded" :disabled="search.handleStatus">
+    <ts-button type="primary" @click="Pic.isUploaded=true,Search.val=''" class="search-button" v-show="!Pic.isUploaded" :disabled="search.handleStatus">
       <i class="icon-xiangji"></i>传图搜花
     </ts-button>
   </div>
@@ -154,7 +154,7 @@ export default {
     // 上传图片
     uploadImg(e) {
       var file = this.$refs.input.files[0];
-      if (file) {
+      if (file && file.size <= 5242880) {
         var reader = new FileReader();
         reader.onload = () => {
           var url = reader.result;
@@ -162,7 +162,7 @@ export default {
         };
         reader.readAsDataURL(file);
       } else {
-        this.$toast('出错');
+        this.$toast('请上传一张小于5MB的图片');
       }
     },
     // 历史记录中选择
@@ -325,7 +325,8 @@ export default {
     transition: .8s;
   }
 }
-.icon-sousuo{
+
+.icon-sousuo {
   font-size: 18px;
   font-weight: 600;
   padding: 0 8px;

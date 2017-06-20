@@ -4,8 +4,8 @@
 			<div class="factory-row--left" :style="{'width':width}">
 				<ts-image width="100" height="100" :canView="false" disabledHover class="factory-company--cover" :src="data.companyHeadIcon"></ts-image>
 				<p class="factory-company--title">{{data.companyName}}</p>
-				<p class="factory-company--title1"><i class="icon-dianhua"></i>：{{data.phone}}</p>
-				<p class="factory-company--title1"><i class="icon-dangkou"></i>：{{data.address.split('/.')[0]}}</p>
+				<p class="factory-company--title1"><i class="icon-dianhua"></i>&nbsp;{{data.phone}}</p>
+				<p class="factory-company--title1"><i class="icon-dangkou"></i>&nbsp;{{data.address.split('/.')[0]}}</p>
 				<ts-button type="plain" size="large" class="factory-company--button button" @click="handleViewStore(data)">
 					访问店铺
 				</ts-button>
@@ -79,7 +79,7 @@
 	:root {
 		--grid-border-color: #eaeaea;
 	}
-	
+
 	@import '../../../../common/css/_var.css';
 	@import '../../../../common/css/mixin/setOnepx.css';
 	@component-namespace factory {

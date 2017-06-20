@@ -13,6 +13,7 @@
       </span>
     </div>
     <div class="right">
+      <!-- <router-link class="link" to="/personalCenterPage">个人中心</router-link> -->
       <a @click="handleGotoPerson" v-if="!isLogin" class="link">我的网店</a>
       <div class="app-qrcode">
         <!-- 坐视不管 -->

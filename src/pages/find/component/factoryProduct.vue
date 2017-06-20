@@ -12,7 +12,7 @@
          <p class="factory-company--title">{{data.companyName}}</p>
          <br>
          <p class="factory-address"><i class="icon-dianhua"></i>&nbsp;{{data.phone}}</p>
-          <p class="factory-address"><i class="icon-dangkou">&nbsp;{{data.address}}</i></p>
+          <p class="factory-address"><i class="icon-dangkou">&nbsp;{{data.address.split('/.')[0]}}</i></p>
           <ts-button type="plain" size="large" class="factory-company--button button" @click="handleViewStore(data)">
             访问店铺
           </ts-button>
