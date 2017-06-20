@@ -5,7 +5,7 @@
 				<ts-image width="100" height="100" :canView="false" disabledHover class="factory-company--cover" :src="data.companyHeadIcon"></ts-image>
 				<p class="factory-company--title">{{data.companyName}}</p>
 				<p class="factory-company--title1"><i class="icon-dianhua"></i>：{{data.phone}}</p>
-				<p class="factory-company--title1"><i class="icon-dangkou"></i>：{{data.address.split('/.')[0]}}</p>
+				<div class="factory-company--title1" :title="data.address.split('/.')[0]"><i class="icon-dangkou"></i>：{{data.address.split('/.')[0]}}</div>
 				<ts-button type="plain" size="large" class="factory-company--button button" @click="handleViewStore(data)">
 					访问店铺
 				</ts-button>
@@ -122,9 +122,14 @@
 				@utils-ellipsis 2;
 			}
 			@modifier title1 {
+				margin: 0 auto;
+				width: 80%;
 				font-size: 14px;
 				color: #666;
-				@utils-ellipsis 2;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				@utils-ellipsis 1;
 			}
 			@modifier cover {
 				margin-top: 38px;
