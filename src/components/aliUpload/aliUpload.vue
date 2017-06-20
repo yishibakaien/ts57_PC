@@ -45,10 +45,10 @@ export default {
           return;
         }
         // 图片大小限制1MB以下 2097152
-        if (imgObj.size <= 0 || imgObj.size >= 2097152*5) {
+        if (imgObj.size <= 0 || imgObj.size >= 2097152*10) {
           this.$toast({
             type: 'error',
-            message: '图片大小请限制在5MB以内'
+            message: '图片大小请限制在10MB以内'
           });
           return;
         }
