@@ -100,31 +100,41 @@
 		},
 		created() {
 			let _ = this;
-			myProductBuys(_.param).then((res) => {
-				if (res.data.code === 0) {
-					if (res.data.data.list.length === 0) {
-						this.defaultShow = true;
-						return;
-					}
-					res.data.data.list.forEach((item) => {
-						item.tipShow = false;
-					});
-					_.items = res.data.data.list;
-					_.pageNum = res.data.data.pageNO;
-					_.pageSize = res.data.data.pageSize;
-					_.pageMax = res.data.data.totalPage;
-					_.classes.totalNum = res.data.data.totalNum;
-					_.classes.mianliao = res.data.data.ml;
-					_.classes.large = res.data.data.db;
-					_.classes.small = res.data.data.xb;
-					_.classes.eyelash = res.data.data.jm;
-					_.classes.statusBuy = res.data.data.buying;
-					_.classes.statusSuccess = res.data.data.finish;
-					_.classes.statusClosed = res.data.data.close;
-				}
-			}).catch();
+			_.myProductBuysMethod1();
 		},
 		methods: {
+			// 重置 请求数据
+			myProductBuysMethod1() {
+				let _ = this;
+				_.param.buyStatus = '';
+				_.param.buyType = '';
+				_.Filter.sort = '';
+				_.Filter.fabricType = '';
+				myProductBuys(_.param).then((res) => {
+					if (res.data.code === 0) {
+						if (res.data.data.list.length === 0) {
+							_.defaultShow = true;
+							return;
+						}
+						res.data.data.list.forEach((item) => {
+							item.tipShow = false;
+						});
+						_.items = res.data.data.list;
+						_.pageNum = res.data.data.pageNO;
+						_.pageSize = res.data.data.pageSize;
+						_.pageMax = res.data.data.totalPage;
+						_.classes.totalNum = res.data.data.totalNum;
+						_.classes.mianliao = res.data.data.ml;
+						_.classes.large = res.data.data.db;
+						_.classes.small = res.data.data.xb;
+						_.classes.eyelash = res.data.data.jm;
+						_.classes.statusBuy = res.data.data.buying;
+						_.classes.statusSuccess = res.data.data.finish;
+						_.classes.statusClosed = res.data.data.close;
+					}
+				}).catch();
+			},
+			// 非重置 请求数据
 			myProductBuysMethod() {
 				let _ = this;
 				myProductBuys(_.param).then((res) => {
@@ -217,33 +227,7 @@
 							type: 'success',
 							message: '该求购单已删除'
 						});
-						_.param.buyStatus = '';
-						_.param.buyType = '';
-						_.Filter.sort = '';
-						_.Filter.fabricType = '';
-						myProductBuys(_.param).then((res) => {
-							if (res.data.code === 0) {
-								if (res.data.data.list.length === 0) {
-									_.defaultShow = true;
-									return;
-								}
-								res.data.data.list.forEach((item) => {
-									item.tipShow = false;
-								});
-								_.items = res.data.data.list;
-								_.pageNum = res.data.data.pageNO;
-								_.pageSize = res.data.data.pageSize;
-								_.pageMax = res.data.data.totalPage;
-								_.classes.totalNum = res.data.data.totalNum;
-								_.classes.mianliao = res.data.data.ml;
-								_.classes.large = res.data.data.db;
-								_.classes.small = res.data.data.xb;
-								_.classes.eyelash = res.data.data.jm;
-								_.classes.statusBuy = res.data.data.buying;
-								_.classes.statusSuccess = res.data.data.finish;
-								_.classes.statusClosed = res.data.data.close;
-							}
-						}).catch();
+						_.myProductBuysMethod1();
 					}
 				}).catch();
 			},
@@ -257,7 +241,7 @@
 							type: 'success',
 							message: '成功关闭该求购'
 						});
-						this.myProductBuysMethod();
+						this.myProductBuysMethod1();
 					}
 				}).catch();
 			},
